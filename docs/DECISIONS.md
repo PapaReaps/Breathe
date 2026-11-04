@@ -105,6 +105,6 @@ Founding promise check: all optional, nothing collected, nothing costs money, no
 - **Signing key in GitHub secrets only**, never in the code. The same key must sign every version.
 - **Google Drive backup switched off** for the app, because the promise is that numbers never leave the device.
 - **Not yet:** Google Play ($25 once) and the App Store ($99 a year). iPhones use the web link.
-- **The opening breath:** one slow breath, under a second, the same on the web and in the app. It respects "reduce motion", follows light and dark, plays only on a fresh start, and uses the placeholder circle (no logo) until branding is agreed.
+- **The opening breath:** one slow breath of about two seconds (lengthened from under a second, so the breath can actually be seen and felt), the same on the web and in the app. It respects "reduce motion", follows light and dark, plays only on a fresh start, and uses the placeholder circle (no logo) until branding is agreed.
 
-Founding promise check: free, nothing collected, no pressure, and the opening never makes anyone wait. Result: **in line with the promise.**
+Founding promise check: free, nothing collected, no pressure, and the opening is short and skipped for anyone who asks for less motion. Result: **in line with the promise.**

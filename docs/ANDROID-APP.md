@@ -31,7 +31,7 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 
 ## The opening breath
 
-Both versions open with one slow breath: a soft circle gently grows and the app fades in, in under a second. In the Android app, Android first shows the same circle, still, the moment you tap the icon, so the hand-over is seamless. Light and dark follow your setting, and with "reduce motion" switched on it's a still circle that fades as soon as the app is ready. It plays only when the app starts fresh, not every time you switch back to it.
+Both versions open with one slow breath: a soft circle slowly breathes in and settles, then the app fades in. It takes about two seconds, long enough to take a breath with it. In the Android app, Android first shows the same circle, still, the moment you tap the icon, so the hand-over is seamless. Light and dark follow your setting, and with "reduce motion" switched on it's a still circle that fades as soon as the app is ready. It plays only when the app starts fresh, not every time you switch back to it.
 
 ## For contributors: how it's built
 

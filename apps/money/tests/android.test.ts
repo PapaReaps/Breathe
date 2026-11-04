@@ -63,7 +63,7 @@ describe("the opening breath", () => {
     expect(html).toContain("prefers-reduced-motion: reduce");
     const breath = Number(html.match(/var breath = calm \? 0 : (\d+);/)?.[1]);
     expect(breath).toBeGreaterThan(0);
-    expect(breath).toBeLessThanOrEqual(1000);
+    expect(breath).toBeLessThanOrEqual(2000);
   });
 
   it("can never get stuck", () => {
