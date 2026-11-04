@@ -2,91 +2,137 @@
 
 > **Breathe will never be about making money. It will always be about helping people.**
 
+<p align="center">
+  <img src="docs/images/hero.png" alt="Breathe Money: How much can I spend until payday? One calm number, after your bills, food, travel and a rainy-day pot. Shown on three phones in light, dark and plum colours" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://papareaps.github.io/Breathe/"><b>Open Breathe Money →</b></a>
+  &nbsp;·&nbsp; Free &nbsp;·&nbsp; No sign-up &nbsp;·&nbsp; Works offline &nbsp;·&nbsp; Add it to your phone's home screen
+</p>
+
 Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
 
 It is a personal project, built by someone who struggles with these things too. There is enough stress in the world already. Breathe apps should reduce stress, never add to it.
 
-## Breathe Money: "How much can I spend until payday?"
-
-The first app is **Breathe Money**. It answers one question, calmly, on one screen:
+## Breathe Money in 15 seconds
 
 <table>
   <tr>
-    <td><img src="docs/images/home-light.png" alt="The main screen in light mode: a large number, Safe to spend until payday, £370.27, with the payday date and a small gold badge for a rainy-day pot of £250.00" width="250"></td>
-    <td><img src="docs/images/home-dark.png" alt="The same screen in dark mode" width="250"></td>
-    <td><img src="docs/images/menu.png" alt="The Menu: a short list with your account, payday, bills, money coming in, food and travel, rainy-day pot and bank holidays" width="250"></td>
-  </tr>
-  <tr>
-    <td align="center">Your number, at a glance</td>
-    <td align="center">Dark mode, if you prefer it</td>
-    <td align="center">Everything else lives in the Menu</td>
+    <td width="300"><img src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode" width="280"></td>
+    <td>
+      <h3>One question, one calm answer</h3>
+      <p><b>"How much can I spend until payday?"</b></p>
+      <p>Type what's in your account. Breathe Money sets aside your bills, food and travel, and a rainy-day pot you choose. Then it shows what's left as one big number.</p>
+      <p>Change anything and the number updates as you type. Dark mode follows your phone's own setting.</p>
+      <p><a href="https://papareaps.github.io/Breathe/">Try it now</a>, with no account and no download.</p>
+    </td>
   </tr>
 </table>
 
 *All numbers in these pictures are made up.*
 
-### What it does
+## What it does
 
-- Shows how much is **safe to spend until payday**, after your bills, food and travel, and a rainy-day pot you choose to keep aside.
-- Counts every pound **once**. Bills already taken from your balance are not taken off twice, and money that might not arrive is never counted.
-- Handles real life: paydays that fall on weekends or bank holidays, bills due on payday, and a balance that is a few days old.
-- Knows the **UK bank holidays** (England and Wales, Scotland or Northern Ireland), built in, so you don't have to type them. Nothing is looked up online.
-- Copes with **paydays and bills that repeat**: paid weekly, every 2 or 4 weeks, or monthly, and bills that come round on the same pattern. Payday rolls forward by itself.
-- Gently says when a payday has gone by since you last updated your balance, and lets you choose **how often it reminds you** (or not at all).
-- Starts with a **gentle step-by-step setup**: one question per screen, and every question can be skipped.
-- Keeps long lists **tidy**: each bill is one short line, and you open one at a time.
-- Lets you choose **light or dark**, an **app colour** and a **rainy-day pot colour**, because what feels calm is different for everyone.
-- Lets you **hide the extra writing** under your number once you know your way around, so the home screen can be as quiet as you like.
+### Your number, and where it comes from
+
+<table>
+  <tr>
+    <td><img src="docs/images/home-light.png" alt="The home screen: Safe to spend until payday, £343.74, with the payday date and a gold rainy-day pot badge of £150.00" width="250"></td>
+    <td><img src="docs/images/menu.png" alt="The Menu: your account, payday, bills, money coming in, food and travel, rainy-day pot and bank holidays, each with a short summary" width="250"></td>
+    <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and the rainy-day pot taken off, line by line" width="250"></td>
+  </tr>
+  <tr>
+    <td align="center">Just the number</td>
+    <td align="center">Everything else lives in the Menu</td>
+    <td align="center">Every pound explained</td>
+  </tr>
+</table>
+
+- Shows how much is **safe to spend until payday**, after your bills, food and travel, and a rainy-day pot.
+- Counts every pound **once**. Bills already taken from your balance aren't taken off twice, and money that might not arrive is never counted.
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
+- Handles real life: paydays on weekends or bank holidays, bills due on payday, and a balance that's a few days old.
+
+### Gentle setup, tidy lists
 
 <table>
   <tr>
-    <td><img src="docs/images/bills-list.png" alt="The setup question: Any bills before then? Three bills shown as short lines, each saying how often it repeats, with a total" width="250"></td>
-    <td><img src="docs/images/settings-colours.png" alt="Settings: choose light or dark, an app colour from five, and a rainy-day pot colour from five" width="250"></td>
-    <td><img src="docs/images/home-plum-rose.png" alt="The main screen with the plum app colour and a rose rainy-day pot badge" width="250"></td>
+    <td><img src="docs/images/welcome.png" alt="The welcome screen: Let's find out how much is safe to spend until payday, with an Add your numbers button" width="250"></td>
+    <td><img src="docs/images/setup-first.png" alt="Setting up, question 1 of 6: What's in your everyday account right now? With Skip this one and Next buttons" width="250"></td>
+    <td><img src="docs/images/bills.png" alt="Bills before payday: four bills, each one short line saying how much and how often, with a total" width="250"></td>
   </tr>
   <tr>
-    <td align="center">Tidy bills</td>
-    <td align="center">Colour choices</td>
-    <td align="center">Make it yours</td>
+    <td align="center">A calm hello</td>
+    <td align="center">One question at a time</td>
+    <td align="center">Bills, one line each</td>
   </tr>
 </table>
+
+- **Step-by-step setup**: one question per screen, and every question can be skipped.
+- **Paydays and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. Payday rolls forward by itself.
+- **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
+- A kind note when a payday has gone by since you last updated your balance, and **reminders as often as you like**, or never.
+
+### Make it yours
 
 <table>
   <tr>
-    <td><img src="docs/images/payday-repeat.png" alt="The setup question: When is your next payday? with a date and a choice for how often you are paid, set to every week" width="250"></td>
-    <td><img src="docs/images/settings-reminder.png" alt="Settings: how often to be reminded to update your balance: every day, every 3 days, once a week, or don't remind me" width="250"></td>
+    <td><img src="docs/images/home-dark.png" alt="The home screen in dark mode, with a teal number and a gold pot badge" width="250"></td>
+    <td><img src="docs/images/home-plum.png" alt="The home screen with a plum number and a rose pot badge" width="250"></td>
+    <td><img src="docs/images/home-blue-dark.png" alt="The home screen in dark mode with a blue number and a lilac pot badge" width="250"></td>
   </tr>
   <tr>
-    <td align="center">Paid weekly or monthly? Say so once</td>
-    <td align="center">Reminders, your way</td>
+    <td align="center">Dark mode</td>
+    <td align="center">Five app colours</td>
+    <td align="center">Five pot colours</td>
   </tr>
 </table>
 
-### Your numbers stay yours
+- **Light or dark**, or follow your device.
+- Pick an **app colour** and a **rainy-day pot colour**, because what feels calm is different for everyone.
+- **Hide the extra writing** under your number once you know your way around, so the home screen can be as quiet as you like.
+
+### Easy to read, private by design
+
+<table>
+  <tr>
+    <td><img src="docs/images/settings-access.png" alt="Settings: text size (Standard, Larger, Largest) and contrast (Match my device, or Higher contrast)" width="250"></td>
+    <td><img src="docs/images/lock.png" alt="The privacy screen: Welcome back, type your PIN to open Breathe Money" width="250"></td>
+    <td><img src="docs/images/backup-protected.png" alt="Save a backup file: protected with a passphrase (recommended), with a reminder that a forgotten passphrase can't be recovered" width="250"></td>
+  </tr>
+  <tr>
+    <td align="center">Bigger text, higher contrast</td>
+    <td align="center">An optional PIN privacy screen</td>
+    <td align="center">Backups protected with a passphrase</td>
+  </tr>
+</table>
+
+- **Text size** and **higher contrast** settings, on top of your device's own. It works with the keyboard alone and is built for screen readers ([accessibility checklist](docs/STAGE-9.md#accessibility-checklist)).
+- An optional **privacy screen**: a PIN when the app opens, and again after a minute away.
+- **Backup files protected with a passphrase**, encrypted with your browser's own built-in tools.
+
+## Your numbers stay yours
 
 - **No accounts, no sign-up, no tracking, no adverts.** There is no Breathe server. Nothing you type is sent anywhere.
 - Your numbers are kept **on your own device, inside your web browser**.
-- **Being honest about the limits:** they are **not encrypted**, so anyone who can open that browser on that device could see them, and your browser can remove them (for example if you clear your browsing data). The app says this in plain words, and offers a **backup file** (also not encrypted, and marked clearly as such). Passphrase-encrypted backups are planned.
+- **Honest about the limits:**
+  - Numbers saved in the browser are **not encrypted**. The PIN privacy screen stops someone glancing at them, but it isn't encryption, and the app says so.
+  - Your browser can remove them, for example if you clear your browsing data. A **backup file** is the safety net. Choose **protected with a passphrase** (recommended) or plain. If you forget the passphrase, nobody, including us, can open the file.
 - You can clear everything from the app at any time.
 
 More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND-BACKUPS.md).
 
 > Breathe Money is an organisation tool. It is **not** financial advice.
 
+## Try it
+
+- **On your phone or computer:** open **[papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/)**. To keep it on your phone: on Android, use the menu and choose **Install app**; on iPhone, tap **Share → Add to Home Screen**. It works offline after the first visit. More in [Stage 10](docs/STAGE-10.md).
+- **Run it on your own computer:** the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
+
 ## Status
 
-**An early test version, still being built, one small stage at a time.** It works and is being tested by hand, but it is not finished and not yet easy to install. Things will change.
-
-You can follow the plan in the [Roadmap](docs/ROADMAP.md). Each stage has a short write-up in [`docs/`](docs/).
-
-### Trying it yourself
-
-For now you run it on your own computer. It takes a few minutes the first time, and the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
-
-**No installing needed:** Breathe Money is also published for free on GitHub Pages, so it can be opened from a link, added to a phone's home screen, and used offline. See [Stage 10](docs/STAGE-10.md) for how it is published and how to add it to your home screen.
-
-**Protected backups and a privacy screen:** backup files can be protected with a passphrase ([Stage 8](docs/STAGE-8.md)), and Settings has an optional PIN privacy screen, text size and contrast choices ([Stage 9](docs/STAGE-9.md)).
+**An early test version, built one small stage at a time.** It works and is tested, but it isn't finished, and things will change. Follow the plan in the [Roadmap](docs/ROADMAP.md). Each stage has a short write-up in [`docs/`](docs/).
 
 ## The Breathe family
 
@@ -109,7 +155,8 @@ Each app works on its own. One day you may be able to combine them in an optiona
 - Breathe is an organisation tool, **not** a financial adviser.
 - Only made-up data in pictures, tests and examples. Never real people's details.
 
-## What is in this folder
+<details>
+<summary><b>What's in this folder</b></summary>
 
 | Folder or file | Purpose |
 |---|---|
@@ -119,6 +166,8 @@ Each app works on its own. One day you may be able to combine them in an optiona
 | `PRIVACY.md` | Exactly where your information lives |
 | `CONTRIBUTING.md` | How others can help, and the rules we all follow |
 
+</details>
+
 ## Read next
 
 - [Founding promise](docs/FOUNDING-PROMISE.md)
@@ -127,7 +176,7 @@ Each app works on its own. One day you may be able to combine them in an optiona
 - [Storage and backups](docs/STORAGE-AND-BACKUPS.md)
 - [Branding (still being explored)](docs/BRANDING.md)
 - [Open decisions](docs/DECISIONS.md)
-- [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md)
+- [Contributing](CONTRIBUTING.md)
 
 ## Licence
 
