@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+# Never commit backup files or anything resembling real data
+*.breathe-backup
+*.breathe-backup.json

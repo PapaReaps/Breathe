@@ -1,0 +1,31 @@
+# Decisions
+
+A short record of what was decided and why, plus what is still open. Every entry notes how it fits the founding promise.
+
+## Decided
+
+| # | Decision | Why | Founding promise |
+|---|---|---|---|
+| 1 | Build as a Progressive Web App (React, TypeScript, Vite) | One free codebase for Windows, Android and iPhone, no app store fees | Free for everyone, no barriers |
+| 2 | Data kept on the device only; no accounts | Privacy, and nothing to sell or lose | Never about money, always about helping |
+| 3 | Money stored as whole pennies | Prevents rounding errors | Accuracy reduces worry |
+| 4 | Calculation rules written before code (`CALCULATION-DESIGN.md`) | Prevents double-counting; easy to test | Trustworthy numbers reduce stress |
+| 5 | Storage limits explained honestly; backups optional and encrypted (`STORAGE-AND-BACKUPS.md`) | No false sense of security | Honesty and safety |
+| 6 | Logo and branding deferred and explored separately | Must suit every future app | Brand serves people, not the other way round |
+| 7 | Stages kept small; first usable version at Stage 3 | Earlier feedback, less wasted work | Helping people sooner |
+
+## Open: needed before the stage shown
+
+| # | Question | Needed by | My suggestion |
+|---|---|---|---|
+| A | **Which open-source licence?** MIT (very permissive) or AGPL (anyone who builds on Breathe must share their changes too) | Before sharing publicly | Decide together. AGPL fits the founding promise better; MIT is simpler for contributors |
+| B | Bills due **on** payday: subtract them? | Stage 2 | Yes, subtract (cautious) |
+| C | Weekend payday: which default option? | Stage 2 | No default; ask in setup, because it depends on the employer |
+| D | After how many days is a balance "out of date"? | Stage 2 | 3 days, and changeable |
+| E | How do we get bank holiday dates without a download? | Stage 2 | Ship a small built-in list of England/Wales dates, updated each year, with a manual override |
+| F | Where do we publish? GitHub Pages shares one storage area per account | Stage 10 | A dedicated repository and address; check storage separation first |
+| G | App lock: "privacy screen" only, or optional device encryption too? | Stage 9 | Privacy screen first; encryption as a later, opt-in extra |
+
+## Founding promise check: Stage 0
+
+Nothing in Stage 0 collects data, costs money, or adds pressure. Result: **in line with the promise.**
