@@ -8,6 +8,8 @@ interface HomeViewProps {
   outcome: Outcome | null;
   fresh: boolean;
   potAmount: string | null;
+  showExplanation: boolean;
+  showPayday: boolean;
   loading: boolean;
   notSaved: boolean;
   readProblem: boolean;
@@ -17,7 +19,18 @@ interface HomeViewProps {
 const home = words.home;
 
 /** The main screen. One question answered, and nothing else. */
-export function HomeView({ built, outcome, fresh, potAmount, loading, notSaved, readProblem, onOpen }: HomeViewProps) {
+export function HomeView({
+  built,
+  outcome,
+  fresh,
+  potAmount,
+  showExplanation,
+  showPayday,
+  loading,
+  notSaved,
+  readProblem,
+  onOpen,
+}: HomeViewProps) {
   return (
     <div className="home">
       <header className="topbar">
@@ -41,7 +54,15 @@ export function HomeView({ built, outcome, fresh, potAmount, loading, notSaved, 
           <p className="home-message">{home.loading}</p>
         ) : (
           <>
-            <HomeContent built={built} outcome={outcome} fresh={fresh} potAmount={potAmount} onOpen={onOpen} />
+            <HomeContent
+              built={built}
+              outcome={outcome}
+              fresh={fresh}
+              potAmount={potAmount}
+              showExplanation={showExplanation}
+              showPayday={showPayday}
+              onOpen={onOpen}
+            />
             {readProblem ? <p className="small">{home.readProblemLine}</p> : null}
             {notSaved ? (
               <p className="small">
@@ -58,9 +79,9 @@ export function HomeView({ built, outcome, fresh, potAmount, loading, notSaved, 
   );
 }
 
-type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "potAmount" | "onOpen">;
+type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "potAmount" | "showExplanation" | "showPayday" | "onOpen">;
 
-function HomeContent({ built, outcome, fresh, potAmount, onOpen }: ContentProps) {
+function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPayday, onOpen }: ContentProps) {
   if (built.status === "needs-more") {
     if (fresh) {
       return (
@@ -110,8 +131,11 @@ function HomeContent({ built, outcome, fresh, potAmount, onOpen }: ContentProps)
     <>
       <h1 className="home-title">{head.title}</h1>
       {head.amount !== null ? <p className="big-number">{head.amount}</p> : null}
-      <p className="home-message">{head.message}</p>
-      {result.safeToSpend !== null ? (
+      {/* The sentence can be hidden, but only when things are comfortable: tight or unusual cases always explain themselves. */}
+      {showExplanation || result.safeToSpend === null || result.safeToSpend <= 0 ? (
+        <p className="home-message">{head.message}</p>
+      ) : null}
+      {showPayday && result.safeToSpend !== null ? (
         <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday)}</p>
       ) : null}
       {potAmount !== null ? <PotBadge amount={potAmount} /> : null}

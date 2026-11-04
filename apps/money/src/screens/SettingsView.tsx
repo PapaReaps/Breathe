@@ -71,6 +71,27 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
         <p className="hint">{text.potPreview}</p>
         <PotBadge amount={text.potPreviewAmount} />
       </fieldset>
+
+      <fieldset className="choice-group settings-group">
+        <legend>{text.homeTitle}</legend>
+        <p className="hint">{text.homeIntro}</p>
+        <label className="choice">
+          <input
+            type="checkbox"
+            checked={current.showExplanation}
+            onChange={(event) => change({ showExplanation: event.target.checked })}
+          />
+          <span>{text.showExplanation}</span>
+        </label>
+        <label className="choice">
+          <input
+            type="checkbox"
+            checked={current.showPayday}
+            onChange={(event) => change({ showPayday: event.target.checked })}
+          />
+          <span>{text.showPayday}</span>
+        </label>
+      </fieldset>
     </>
   );
 }

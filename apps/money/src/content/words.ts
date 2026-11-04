@@ -154,6 +154,11 @@ export const words = {
       blue: "Blue",
       lilac: "Lilac",
     },
+    homeTitle: "Home screen",
+    homeIntro:
+      "Once you know your way around, you can hide the extra writing under your number. Anything important still shows, like when things are tight or your balance needs updating.",
+    showExplanation: "Show the short sentence under my number",
+    showPayday: "Show the payday date",
     potPreview: "Preview",
     potPreviewAmount: "£100.00",
   },

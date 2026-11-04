@@ -11,9 +11,19 @@ export interface Settings {
   appearance: Appearance;
   accent: Accent;
   potColour: PotColour;
+  /** The short sentence under the number, when things are comfortable. */
+  showExplanation: boolean;
+  /** The payday date under the number. */
+  showPayday: boolean;
 }
 
-export const DEFAULT_SETTINGS: Settings = { appearance: "system", accent: "teal", potColour: "gold" };
+export const DEFAULT_SETTINGS: Settings = {
+  appearance: "system",
+  accent: "teal",
+  potColour: "gold",
+  showExplanation: true,
+  showPayday: true,
+};
 
 export const SETTINGS_KEY = "settings";
 
@@ -47,11 +57,20 @@ export function readSettings(raw: unknown): Settings {
     appearance: pick(record.appearance, APPEARANCES, DEFAULT_SETTINGS.appearance),
     accent: pick(record.accent, ACCENTS.map((a) => a.id), DEFAULT_SETTINGS.accent),
     potColour: pick(record.potColour, POT_COLOURS.map((p) => p.id), DEFAULT_SETTINGS.potColour),
+    showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
+    showPayday: typeof record.showPayday === "boolean" ? record.showPayday : DEFAULT_SETTINGS.showPayday,
   };
 }
 
 export function toSavedSettings(settings: Settings): { format: number } & Settings {
-  return { format: 1, appearance: settings.appearance, accent: settings.accent, potColour: settings.potColour };
+  return {
+    format: 1,
+    appearance: settings.appearance,
+    accent: settings.accent,
+    potColour: settings.potColour,
+    showExplanation: settings.showExplanation,
+    showPayday: settings.showPayday,
+  };
 }
 
 /** The defaults remove the attribute, so the styles' own starting colours apply. */

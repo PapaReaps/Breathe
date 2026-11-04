@@ -56,3 +56,16 @@ No move away from "always about helping people". Fewer things on screen at once,
 - Every option name is written out (the coloured circle is never the only clue), and every choice was checked for readable contrast (4.5:1 or better) in light and dark.
 - Saved on this device with the other settings. Clearing numbers does not reset them. A bad or unknown saved value falls back to the default for that one setting; older saves (light/dark only) still load.
 - Tests: `tests/rows.test.ts` (settings reading and defaults) and a browser test covering each choice, reload, dark mode with colours, clearing numbers, and a damaged saved value.
+
+## Quieter home screen (Settings → Home screen)
+
+Once you know your way around, you may not want the extra writing. Settings now has two switches, both on by default:
+
+- **Show the short sentence under my number**: the "That is after setting aside everything you have told me about." line.
+- **Show the payday date.**
+
+What always stays, whatever you choose: the rainy-day pot badge (amount and words), the title and the number, and anything important: a tight month still explains itself, a payday that has passed still says so, an out-of-date balance still gets its note, and waiting questions still show. The sentence is only hidden when things are comfortable.
+
+Saved with the other settings on this device. Clearing numbers does not reset them.
+
+README note: the first picture caption changed from "One number, nothing else" to "Your number, at a glance", because the pot badge is part of the screen too.

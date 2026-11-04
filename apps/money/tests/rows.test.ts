@@ -79,15 +79,20 @@ describe("totals and order", () => {
 
 describe("look and colour settings", () => {
   it("accepts the known choices", () => {
-    const saved = { format: 1, appearance: "dark", accent: "plum", potColour: "lilac" };
-    expect(readSettings(saved)).toEqual({ appearance: "dark", accent: "plum", potColour: "lilac" });
+    const saved = { format: 1, appearance: "dark", accent: "plum", potColour: "lilac", showExplanation: false, showPayday: false };
+    expect(readSettings(saved)).toEqual({
+      appearance: "dark",
+      accent: "plum",
+      potColour: "lilac",
+      showExplanation: false,
+      showPayday: false,
+    });
   });
 
   it("falls back to the default for anything unexpected, one setting at a time", () => {
-    expect(readSettings({ appearance: "purple", accent: "blue", potColour: 5 })).toEqual({
-      appearance: "system",
+    expect(readSettings({ appearance: "purple", accent: "blue", potColour: 5, showExplanation: "no" })).toEqual({
+      ...DEFAULT_SETTINGS,
       accent: "blue",
-      potColour: "gold",
     });
     expect(readSettings(null)).toEqual(DEFAULT_SETTINGS);
     expect(readSettings("dark")).toEqual(DEFAULT_SETTINGS);
@@ -99,8 +104,21 @@ describe("look and colour settings", () => {
     expect(readSettings({ format: 1, appearance: "light" })).toEqual({ ...DEFAULT_SETTINGS, appearance: "light" });
   });
 
+  it("the home screen text is shown unless it was switched off", () => {
+    expect(DEFAULT_SETTINGS.showExplanation).toBe(true);
+    expect(DEFAULT_SETTINGS.showPayday).toBe(true);
+    expect(readSettings({ showExplanation: false }).showExplanation).toBe(false);
+    expect(readSettings({ showExplanation: false }).showPayday).toBe(true);
+  });
+
   it("what is saved reads back the same", () => {
-    const settings = { appearance: "light" as const, accent: "rose" as const, potColour: "green" as const };
+    const settings = {
+      appearance: "light" as const,
+      accent: "rose" as const,
+      potColour: "green" as const,
+      showExplanation: false,
+      showPayday: true,
+    };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
   });
 });

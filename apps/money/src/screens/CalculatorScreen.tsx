@@ -106,6 +106,8 @@ export default function CalculatorScreen() {
         outcome={outcome}
         fresh={fresh}
         potAmount={potAmount}
+        showExplanation={appearance.settings.showExplanation}
+        showPayday={appearance.settings.showPayday}
         loading={!saved.loaded}
         notSaved={saved.saveState === "not-saved"}
         readProblem={saved.readProblem}

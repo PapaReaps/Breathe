@@ -17,7 +17,7 @@ The first app is **Breathe Money**. It answers one question, calmly, on one scre
     <td><img src="docs/images/menu.png" alt="The Menu: a short list with your account, payday, bills, money coming in, food and travel, rainy-day pot and bank holidays" width="250"></td>
   </tr>
   <tr>
-    <td align="center">One number, nothing else</td>
+    <td align="center">Your number, at a glance</td>
     <td align="center">Dark mode, if you prefer it</td>
     <td align="center">Everything else lives in the Menu</td>
   </tr>
@@ -33,6 +33,7 @@ The first app is **Breathe Money**. It answers one question, calmly, on one scre
 - Starts with a **gentle step-by-step setup**: one question per screen, and every question can be skipped.
 - Keeps long lists **tidy**: each bill is one short line, and you open one at a time.
 - Lets you choose **light or dark**, an **app colour** and a **rainy-day pot colour**, because what feels calm is different for everyone.
+- Lets you **hide the extra writing** under your number once you know your way around, so the home screen can be as quiet as you like.
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
 
 <table>
