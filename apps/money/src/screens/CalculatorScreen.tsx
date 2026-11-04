@@ -7,8 +7,10 @@ import { HomeView } from "./HomeView";
 import { MenuSheet } from "./MenuSheet";
 import { backupFileName, makeBackupText } from "../storage/savedData";
 import { downloadTextFile } from "../storage/download";
+import { useSettings } from "../storage/useSettings";
 import { useSavedForm } from "../storage/useSavedForm";
-import type { DataApi, FormApi, Outcome, PanelId } from "./screenTypes";
+import { formatMoney } from "../logic/money";
+import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 /**
  * Holds everything that is typed, works out the number, and decides what to show:
@@ -19,6 +21,7 @@ export default function CalculatorScreen() {
   const [panel, setPanel] = useState<PanelId | null>(null);
   const saved = useSavedForm();
   const { form, update } = saved;
+  const appearance = useSettings();
 
   // If the app has been left open overnight, "today" must move on with the calendar.
   useEffect(() => {
@@ -46,8 +49,16 @@ export default function CalculatorScreen() {
         ...current,
         income: current.income.map((row) => (row.id === id ? { ...row, ...patch } : row)),
       })),
-    addBill: () => update((current) => ({ ...current, bills: [...current.bills, newBillRow()] })),
-    addIncome: () => update((current) => ({ ...current, income: [...current.income, newIncomeRow()] })),
+    addBill: () => {
+      const row = newBillRow();
+      update((current) => ({ ...current, bills: [...current.bills, row] }));
+      return row.id;
+    },
+    addIncome: () => {
+      const row = newIncomeRow();
+      update((current) => ({ ...current, income: [...current.income, row] }));
+      return row.id;
+    },
     removeBill: (id) =>
       update((current) => ({ ...current, bills: current.bills.filter((row) => row.id !== id) })),
     removeIncome: (id) =>
@@ -65,6 +76,8 @@ export default function CalculatorScreen() {
     clearAll: saved.clearAll,
   };
 
+  const settings: SettingsApi = { settings: appearance.settings, change: appearance.change };
+
   const built = useMemo(() => buildInput(form, today), [form, today]);
 
   const outcome = useMemo<Outcome | null>(() => {
@@ -77,6 +90,12 @@ export default function CalculatorScreen() {
     }
   }, [built]);
 
+  // The rainy-day pot, shown as one quiet line when there is one.
+  const potAmount =
+    built.status === "ready" && outcome !== null && outcome.ok && outcome.result.safeToSpend !== null && built.input.buffer > 0
+      ? formatMoney(built.input.buffer)
+      : null;
+
   // "Fresh" means nothing important has been typed yet, so we say a proper hello.
   const fresh = built.status === "needs-more" && form.balance.trim() === "" && form.paydayDate === "";
 
@@ -86,6 +105,7 @@ export default function CalculatorScreen() {
         built={built}
         outcome={outcome}
         fresh={fresh}
+        potAmount={potAmount}
         loading={!saved.loaded}
         notSaved={saved.saveState === "not-saved"}
         readProblem={saved.readProblem}
@@ -100,6 +120,7 @@ export default function CalculatorScreen() {
         outcome={outcome}
         api={api}
         data={data}
+        settings={settings}
       />
     </>
   );

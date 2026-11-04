@@ -41,6 +41,17 @@ describe("saving on the device", () => {
     expect(fromSaved(toSaved(form))).toEqual(form);
   });
 
+  it("a new form starts with no bills or money coming in", () => {
+    expect(emptyForm().bills).toEqual([]);
+    expect(emptyForm().income).toEqual([]);
+  });
+
+  it("rows with nothing in them are dropped when numbers are loaded", () => {
+    const form = sample();
+    const withBlanks = { ...form, bills: [...form.bills, newBillRow()], income: [newIncomeRow(), ...form.income] };
+    expect(fromSaved(toSaved(withBlanks))).toEqual(form);
+  });
+
   it("only the known fields are saved", () => {
     const sneaky = { ...sample(), secret: "x" } as unknown as FormState;
     expect(Object.keys(toSaved(sneaky).form).sort()).toEqual(Object.keys(sample()).sort());

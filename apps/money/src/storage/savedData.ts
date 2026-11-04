@@ -117,8 +117,11 @@ export function readForm(raw: unknown): FormState | null {
   ) {
     return null;
   }
+  // A row with nothing in it carries no information (it was just opened and never filled in).
+  const keptBills = bills.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.dueDate === ""));
+  const keptIncome = income.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.date === ""));
   return {
-    balance, balanceDate, paydayDate, paydayRule, bills, income,
+    balance, balanceDate, paydayDate, paydayRule, bills: keptBills, income: keptIncome,
     foodPerWeek, travelPerWeek, buffer, bankHolidays, answers,
   };
 }

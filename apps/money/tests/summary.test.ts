@@ -10,6 +10,7 @@ describe("the short summaries shown in the menu", () => {
       bills: words.noneAdded,
       income: words.noneAdded,
       essentials: words.notSetYet,
+      pot: words.notSetYet,
       holidays: words.noneAdded,
     });
   });
@@ -33,7 +34,8 @@ describe("the short summaries shown in the menu", () => {
       payday: "Friday 20 November",
       bills: "1 bill",
       income: "2 items",
-      essentials: "Food, rainy-day pot",
+      essentials: "Food",
+      pot: "£50.00",
       holidays: "2 dates",
     });
   });

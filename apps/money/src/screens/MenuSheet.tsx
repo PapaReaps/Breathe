@@ -10,10 +10,12 @@ import {
   HolidaysSection,
   IncomeSection,
   PaydaySection,
+  PotSection,
 } from "./FormSections";
 import { DataView } from "./DataView";
+import { SettingsView } from "./SettingsView";
 import { SetupView } from "./SetupView";
-import type { DataApi, FormApi, Outcome, PanelId } from "./screenTypes";
+import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 interface MenuSheetProps {
   panel: PanelId | null;
@@ -24,6 +26,7 @@ interface MenuSheetProps {
   outcome: Outcome | null;
   api: FormApi;
   data: DataApi;
+  settings: SettingsApi;
 }
 
 const ui = words.ui;
@@ -35,21 +38,23 @@ const TITLES: Record<PanelId, string> = {
   bills: ui.billsTitle,
   income: ui.incomeTitle,
   essentials: ui.essentialsTitle,
+  pot: ui.potTitle,
   holidays: ui.holidaysSummary,
   data: words.data.title,
   setup: words.setup.title,
+  settings: words.settings.title,
   explain: ui.breakdownTitle,
   about: words.menu.aboutTitle,
 };
 
-const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "essentials", "holidays"];
+const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "essentials", "pot", "holidays"];
 
 /**
  * The menu. It is a full-screen panel on a phone and a card on a bigger screen.
  * It uses the browser's own <dialog>, which already handles the Escape key,
  * keeps keyboard focus inside, and hands focus back to the Menu button on close.
  */
-export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data }: MenuSheetProps) {
+export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings }: MenuSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -106,12 +111,13 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
               {TITLES[panel]}
             </h2>
-            {panel === "menu" ? <MenuList form={form} built={built} outcome={outcome} data={data} onPanel={onPanel} /> : null}
+            {panel === "menu" ? <MenuList form={form} built={built} outcome={outcome} settings={settings} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" ? <PaydaySection form={form} today={today} api={api} /> : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
             {panel === "income" ? <IncomeSection form={form} today={today} api={api} /> : null}
             {panel === "essentials" ? <EssentialsSection form={form} today={today} api={api} /> : null}
+            {panel === "pot" ? <PotSection form={form} today={today} api={api} /> : null}
             {panel === "holidays" ? <HolidaysSection form={form} today={today} api={api} /> : null}
             {panel === "explain" ? (
               <ExplainView
@@ -124,6 +130,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "setup" ? (
               <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
             ) : null}
+            {panel === "settings" ? <SettingsView settings={settings} /> : null}
             {panel === "data" ? <DataView data={data} /> : null}
             {panel === "about" ? <AboutView /> : null}
           </div>
@@ -143,11 +150,11 @@ interface MenuListProps {
   form: FormState;
   built: BuildResult;
   outcome: Outcome | null;
-  data: DataApi;
+  settings: SettingsApi;
   onPanel: (panel: PanelId) => void;
 }
 
-function MenuList({ form, built, outcome, data, onPanel }: MenuListProps) {
+function MenuList({ form, built, outcome, settings, onPanel }: MenuListProps) {
   const summary = describeForm(form);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
     { id: "account", title: words.menu.names.account, sub: summary.account },
@@ -155,6 +162,7 @@ function MenuList({ form, built, outcome, data, onPanel }: MenuListProps) {
     { id: "bills", title: words.menu.names.bills, sub: summary.bills },
     { id: "income", title: words.menu.names.income, sub: summary.income },
     { id: "essentials", title: words.menu.names.essentials, sub: summary.essentials },
+    { id: "pot", title: words.menu.names.pot, sub: summary.pot },
     { id: "holidays", title: words.menu.names.holidays, sub: summary.holidays },
   ];
 
@@ -176,7 +184,9 @@ function MenuList({ form, built, outcome, data, onPanel }: MenuListProps) {
           <li key={item.id}>
             <button type="button" className="menu-item" onClick={() => onPanel(item.id)}>
               <span className="menu-title">{item.title}</span>
-              <span className="menu-sub">{item.sub}</span>
+              <span className={item.id === "pot" && item.sub !== words.notSetYet ? "menu-sub pot-amount" : "menu-sub"}>
+                {item.sub}
+              </span>
             </button>
           </li>
         ))}
@@ -196,11 +206,14 @@ function MenuList({ form, built, outcome, data, onPanel }: MenuListProps) {
           </button>
         </li>
         <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("settings")}>
+            <span className="menu-title">{words.menu.names.settings}</span>
+            <span className="menu-sub">{words.settings.options[settings.settings.appearance]}</span>
+          </button>
+        </li>
+        <li>
           <button type="button" className="menu-item" onClick={() => onPanel("data")}>
             <span className="menu-title">{words.menu.names.data}</span>
-            <span className="menu-sub">
-              {data.saveState === "not-saved" ? words.menu.dataSubNotSaved : words.menu.dataSub}
-            </span>
           </button>
         </li>
         <li>

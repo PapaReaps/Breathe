@@ -1,5 +1,6 @@
 import type { BillRow, FormState, IncomeRow } from "../logic/form";
 import type { CalculatorResult, Warning } from "../logic/types";
+import type { Settings } from "../storage/settings";
 import type { SaveState } from "../storage/useSavedForm";
 
 /** Which page of the menu is open. null means the menu is closed. */
@@ -10,9 +11,11 @@ export type PanelId =
   | "bills"
   | "income"
   | "essentials"
+  | "pot"
   | "holidays"
   | "data"
   | "setup"
+  | "settings"
   | "explain"
   | "about";
 
@@ -24,8 +27,9 @@ export interface FormApi {
   set: <K extends keyof FormState>(key: K, value: FormState[K]) => void;
   updateBill: (id: string, patch: Partial<BillRow>) => void;
   updateIncome: (id: string, patch: Partial<IncomeRow>) => void;
-  addBill: () => void;
-  addIncome: () => void;
+  /** Add an empty row and return its id, so the page can open it for typing. */
+  addBill: () => string;
+  addIncome: () => string;
   removeBill: (id: string) => void;
   removeIncome: (id: string) => void;
   answer: (id: string, value: boolean) => void;
@@ -39,4 +43,10 @@ export interface DataApi {
   downloadBackup: () => void;
   replaceAll: (form: FormState) => void;
   clearAll: () => Promise<boolean>;
+}
+
+/** What the Settings page can do. */
+export interface SettingsApi {
+  settings: Settings;
+  change: (patch: Partial<Settings>) => void;
 }

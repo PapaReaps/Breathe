@@ -6,9 +6,9 @@
  */
 
 export interface DeviceStore {
-  /** The saved value, or null if nothing has been saved. Rejects if the device can't be read. */
-  load(): Promise<unknown | null>;
-  save(value: unknown): Promise<void>;
+  /** The saved value (the numbers, unless another key is given), or null if nothing has been saved. Rejects if the device can't be read. */
+  load(key?: string): Promise<unknown | null>;
+  save(value: unknown, key?: string): Promise<void>;
   clear(): Promise<void>;
   /** Has the browser agreed to keep the data? null means "can't tell". */
   isPersisted(): Promise<boolean | null>;
@@ -94,15 +94,16 @@ async function run<T>(mode: IDBTransactionMode, action: (store: IDBObjectStore) 
 }
 
 export const indexedDbStore: DeviceStore = {
-  async load() {
-    const value = await run("readonly", (store) => store.get(KEY));
+  async load(key = KEY) {
+    const value = await run("readonly", (store) => store.get(key));
     return value === undefined ? null : value;
   },
 
-  async save(value) {
-    await run("readwrite", (store) => store.put(value, KEY));
+  async save(value, key = KEY) {
+    await run("readwrite", (store) => store.put(value, key));
   },
 
+  /** Clears the numbers only. Settings are kept. */
   async clear() {
     await run("readwrite", (store) => store.delete(KEY));
   },

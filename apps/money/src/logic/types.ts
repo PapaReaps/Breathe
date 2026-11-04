@@ -104,6 +104,8 @@ export interface BreakdownLine {
   id?: string;
   name?: string;
   amount: Pence;
+  /** For a weekly amount: what it was spread from, so the page can show the working. */
+  spread?: { perWeek: Pence; days: number };
 }
 
 export type ItemType = "bill" | "income" | "savings";

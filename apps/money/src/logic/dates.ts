@@ -99,3 +99,11 @@ export function formatDayLong(date: DateString): string {
 export function weekdayName(date: DateString): string {
   return DAY_NAMES[dayOfWeek(date)] ?? "";
 }
+
+/** "Fri 13 Nov": short enough for a list on a phone. */
+export function formatDayShort(date: DateString): string {
+  const weekday = (DAY_NAMES[dayOfWeek(date)] ?? "").slice(0, 3);
+  const day = Number(date.slice(8, 10));
+  const month = (MONTH_NAMES[Number(date.slice(5, 7)) - 1] ?? "").slice(0, 3);
+  return `${weekday} ${day} ${month}`;
+}

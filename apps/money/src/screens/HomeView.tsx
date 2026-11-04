@@ -1,3 +1,4 @@
+import { PotBadge } from "../components/PotBadge";
 import { describeWarning, headlineFor, paydayLine, words } from "../content/words";
 import type { BuildResult } from "../logic/form";
 import type { NeedsAnswer, Outcome, PanelId } from "./screenTypes";
@@ -6,6 +7,7 @@ interface HomeViewProps {
   built: BuildResult;
   outcome: Outcome | null;
   fresh: boolean;
+  potAmount: string | null;
   loading: boolean;
   notSaved: boolean;
   readProblem: boolean;
@@ -15,7 +17,7 @@ interface HomeViewProps {
 const home = words.home;
 
 /** The main screen. One question answered, and nothing else. */
-export function HomeView({ built, outcome, fresh, loading, notSaved, readProblem, onOpen }: HomeViewProps) {
+export function HomeView({ built, outcome, fresh, potAmount, loading, notSaved, readProblem, onOpen }: HomeViewProps) {
   return (
     <div className="home">
       <header className="topbar">
@@ -39,7 +41,7 @@ export function HomeView({ built, outcome, fresh, loading, notSaved, readProblem
           <p className="home-message">{home.loading}</p>
         ) : (
           <>
-            <HomeContent built={built} outcome={outcome} fresh={fresh} onOpen={onOpen} />
+            <HomeContent built={built} outcome={outcome} fresh={fresh} potAmount={potAmount} onOpen={onOpen} />
             {readProblem ? <p className="small">{home.readProblemLine}</p> : null}
             {notSaved ? (
               <p className="small">
@@ -56,9 +58,9 @@ export function HomeView({ built, outcome, fresh, loading, notSaved, readProblem
   );
 }
 
-type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "onOpen">;
+type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "potAmount" | "onOpen">;
 
-function HomeContent({ built, outcome, fresh, onOpen }: ContentProps) {
+function HomeContent({ built, outcome, fresh, potAmount, onOpen }: ContentProps) {
   if (built.status === "needs-more") {
     if (fresh) {
       return (
@@ -112,6 +114,7 @@ function HomeContent({ built, outcome, fresh, onOpen }: ContentProps) {
       {result.safeToSpend !== null ? (
         <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday)}</p>
       ) : null}
+      {potAmount !== null ? <PotBadge amount={potAmount} /> : null}
 
       {outOfDateText ? <p className="small">{outOfDateText}</p> : null}
       {waitingQuestions.length > 0 ? (

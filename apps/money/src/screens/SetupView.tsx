@@ -100,8 +100,8 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
         />
       ) : null}
       {step === "payday" ? <PaydaySection form={form} today={today} api={api} /> : null}
-      {step === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
-      {step === "income" ? <IncomeSection form={form} today={today} api={api} /> : null}
+      {step === "bills" ? <BillsSection form={form} today={today} api={api} hideHint /> : null}
+      {step === "income" ? <IncomeSection form={form} today={today} api={api} hideHint /> : null}
       {step === "food" ? (
         <>
           <MoneyField

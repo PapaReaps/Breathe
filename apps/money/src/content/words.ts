@@ -23,6 +23,9 @@ export const words = {
     privacyLine: "Your numbers stay on this device. Nothing is sent anywhere.",
     howKept: "How your numbers are kept",
     loading: "Opening your numbers…",
+    potLabel: "Rainy-day pot",
+    potKept: "kept aside",
+    potLine: (amount: string) => `Rainy-day pot: ${amount} kept aside`,
     notSavedLine:
       "Your numbers couldn't be saved on this device just now, so they'll be gone when you close this page. A backup file can help.",
     notSavedLink: "More about saving",
@@ -41,12 +44,12 @@ export const words = {
       payday: "Payday",
       bills: "Bills",
       income: "Money coming in",
-      essentials: "Food, travel and rainy-day pot",
+      essentials: "Food and travel",
+      pot: "Rainy-day pot",
       holidays: "Bank holidays",
       data: "Your data and backups",
+      settings: "Settings",
     },
-    dataSub: "Kept on this device",
-    dataSubNotSaved: "Not being saved",
     aboutTitle: "About Breathe Money",
     liveLine: (amount: string) => `Safe to spend now: ${amount}`,
     liveWaiting: "Your number will appear once the basics are in.",
@@ -106,6 +109,54 @@ export const words = {
     advice: "Breathe Money is an organisation tool, not financial advice.",
   },
 
+  rows: {
+    unnamedBill: "Unnamed bill",
+    unnamedIncome: "Unnamed item",
+    noAmount: "no amount yet",
+    noDate: "no date yet",
+    mightCome: "might come",
+    done: "Done",
+    remove: "Remove",
+    billsNone: "No bills added yet.",
+    incomeNone: "Nothing added yet.",
+    totalBills: (count: number, total: string) =>
+      `${count === 1 ? "1 bill" : `${count} bills`} \u00b7 ${total} in total`,
+    totalIncome: (count: number, total: string) =>
+      `${count === 1 ? "1 item" : `${count} items`} \u00b7 ${total} in total`,
+    someUnreadable: "Some amounts still need a look, so they aren't in the total.",
+    tapToEdit: "Tap one to change it.",
+  },
+  settings: {
+    title: "Settings",
+    appearanceTitle: "Light or dark",
+    appearanceIntro: "Choose how Breathe Money looks. Your choices here are saved on this device only, and clearing your numbers doesn't change them.",
+    options: {
+      system: "Match my device",
+      light: "Light",
+      dark: "Dark",
+    },
+    systemHint: "Follows your phone or computer's own setting.",
+    accentTitle: "App colour",
+    accentIntro: "The colour of buttons and your main number.",
+    accents: {
+      teal: "Teal",
+      blue: "Blue",
+      plum: "Plum",
+      rose: "Rose",
+      green: "Green",
+    },
+    potTitle: "Rainy-day pot colour",
+    potIntro: "The colour of your pot. Pick one that makes you smile.",
+    potColours: {
+      gold: "Gold",
+      rose: "Rose",
+      green: "Green",
+      blue: "Blue",
+      lilac: "Lilac",
+    },
+    potPreview: "Preview",
+    potPreviewAmount: "£100.00",
+  },
   setup: {
     title: "Setting up",
     progress: (step: number, total: number) => `Question ${step} of ${total}`,
@@ -133,11 +184,11 @@ export const words = {
     },
     food: {
       question: "What do you usually spend on food and travel each week?",
-      intro: "A rough amount is fine. I'll spread it across the days until payday.",
+      intro: "A rough amount is fine.",
     },
     pot: {
       question: "Would you like a rainy-day pot?",
-      intro: "An amount you'd rather not touch, kept aside from your number. Leave it empty if you don't want one.",
+      intro: "Money kept aside for the unexpected.",
     },
     doneTitle: "All set",
     doneReady: "That's everything. Your number is waiting on the main screen.",
@@ -197,7 +248,8 @@ export const words = {
     incomeMaybe: "It might come",
     addIncome: "Add money coming in",
 
-    essentialsTitle: "Food, travel and a rainy-day pot",
+    essentialsTitle: "Food and travel",
+    potTitle: "Rainy-day pot",
     foodLabel: "Food and everyday spending, per week (£)",
     foodHint: "I will spread it evenly across the days until payday.",
     travelLabel: "Travel, per week (£)",
@@ -314,7 +366,12 @@ export function describeLine(line: BreakdownLine): { label: string; amountText: 
     case "pending":
       return { label: `Waiting to leave: ${name}`, amountText: signed(line.amount) };
     case "essential":
-      return { label: name, amountText: signed(line.amount) };
+      return {
+        label: line.spread
+          ? `${name} (${line.spread.days === 1 ? "1 day" : `${line.spread.days} days`} of ${formatMoney(line.spread.perWeek)} a week)`
+          : name,
+        amountText: signed(line.amount),
+      };
     case "buffer":
       return { label: "Your rainy-day pot, kept aside", amountText: signed(line.amount) };
     case "savings":

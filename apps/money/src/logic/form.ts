@@ -72,7 +72,7 @@ export function emptyForm(): FormState {
     balanceDate: "",
     paydayDate: "",
     paydayRule: "",
-    bills: [newBillRow()],
+    bills: [],
     income: [],
     foodPerWeek: "",
     travelPerWeek: "",
@@ -279,6 +279,7 @@ export interface FormSummary {
   bills: string;
   income: string;
   essentials: string;
+  pot: string;
   holidays: string;
 }
 
@@ -305,11 +306,16 @@ export function describeForm(form: FormState): FormSummary {
   const setEssentials: string[] = [];
   if (!blank(form.foodPerWeek)) setEssentials.push("food");
   if (!blank(form.travelPerWeek)) setEssentials.push("travel");
-  if (!blank(form.buffer)) setEssentials.push("rainy-day pot");
   const essentials =
     setEssentials.length === 0
       ? words.notSetYet
       : setEssentials[0]!.charAt(0).toUpperCase() + setEssentials.join(", ").slice(1);
+
+  let pot: string = words.notSetYet;
+  if (!blank(form.buffer)) {
+    const parsedPot = parseMoney(form.buffer);
+    pot = parsedPot.ok ? formatMoney(parsedPot.pence) : words.needsALook;
+  }
 
   const holidayCount = parseDayList(form.bankHolidays).days.length;
 
@@ -319,6 +325,7 @@ export function describeForm(form: FormState): FormSummary {
     bills: billCount === 0 ? words.noneAdded : plural(billCount, "bill", "bills"),
     income: incomeCount === 0 ? words.noneAdded : plural(incomeCount, "item", "items"),
     essentials,
+    pot,
     holidays: holidayCount === 0 ? words.noneAdded : plural(holidayCount, "date", "dates"),
   };
 }

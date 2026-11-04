@@ -253,7 +253,17 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
       throw new InvalidInputError(`${what} adds up to too large a number.`);
     }
     if (total > 0) {
-      lines.push({ kind: "essential", id: essential.id, name: essential.name, amount: -total });
+      lines.push(
+        essential.kind === "per-week"
+          ? {
+              kind: "essential",
+              id: essential.id,
+              name: essential.name,
+              amount: -total,
+              spread: { perWeek: essential.amount, days: daysCovered },
+            }
+          : { kind: "essential", id: essential.id, name: essential.name, amount: -total },
+      );
     }
   }
 

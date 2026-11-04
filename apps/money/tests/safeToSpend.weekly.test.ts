@@ -107,3 +107,18 @@ describe("the safety buffer is a one-off pot", () => {
     ).toThrow(InvalidInputError);
   });
 });
+
+describe("the working is shown for weekly amounts", () => {
+  it("a weekly amount that does not divide evenly keeps its pence, and says where they come from", () => {
+    // £50 a week for 9 days is 64.2857... so it is rounded up to £64.29.
+    const result = calculateSafeToSpend(
+      makeInput({
+        balance: { amount: gbp(1000), asOf: "2026-11-04" },
+        essentials: [{ id: "food", name: "Food", kind: "per-week", amount: gbp(50) }],
+      }),
+    );
+    const line = result.lines.find((l) => l.kind === "essential");
+    expect(line?.amount).toBe(-6429);
+    expect(line?.spread).toEqual({ perWeek: gbp(50), days: 9 });
+  });
+});

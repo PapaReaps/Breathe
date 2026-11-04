@@ -177,6 +177,7 @@ function RestorePreview({ restore, data, onDone }: RestorePreviewProps) {
         <li>{words.menu.names.bills}: {summary.bills}</li>
         <li>{words.menu.names.income}: {summary.income}</li>
         <li>{words.menu.names.essentials}: {summary.essentials}</li>
+        <li>{words.menu.names.pot}: {summary.pot}</li>
         <li>{words.menu.names.holidays}: {summary.holidays}</li>
       </ul>
       <div className="buttons">
