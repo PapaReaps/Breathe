@@ -6,18 +6,27 @@ interface HomeViewProps {
   built: BuildResult;
   outcome: Outcome | null;
   fresh: boolean;
+  loading: boolean;
+  notSaved: boolean;
+  readProblem: boolean;
   onOpen: (panel: PanelId) => void;
 }
 
 const home = words.home;
 
 /** The main screen. One question answered, and nothing else. */
-export function HomeView({ built, outcome, fresh, onOpen }: HomeViewProps) {
+export function HomeView({ built, outcome, fresh, loading, notSaved, readProblem, onOpen }: HomeViewProps) {
   return (
     <div className="home">
       <header className="topbar">
         <span className="app-name">{home.appName}</span>
-        <button type="button" className="menu-button" onClick={() => onOpen("menu")} aria-haspopup="dialog">
+        <button
+          type="button"
+          className="menu-button"
+          onClick={() => onOpen("menu")}
+          aria-haspopup="dialog"
+          disabled={loading}
+        >
           <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
             <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
@@ -26,13 +35,30 @@ export function HomeView({ built, outcome, fresh, onOpen }: HomeViewProps) {
       </header>
 
       <main className="home-main" aria-live="polite">
-        <HomeContent built={built} outcome={outcome} fresh={fresh} onOpen={onOpen} />
+        {loading ? (
+          <p className="home-message">{home.loading}</p>
+        ) : (
+          <>
+            <HomeContent built={built} outcome={outcome} fresh={fresh} onOpen={onOpen} />
+            {readProblem ? <p className="small">{home.readProblemLine}</p> : null}
+            {notSaved ? (
+              <p className="small">
+                {home.notSavedLine}{" "}
+                <button type="button" className="link" onClick={() => onOpen("data")}>
+                  {home.notSavedLink}
+                </button>
+              </p>
+            ) : null}
+          </>
+        )}
       </main>
     </div>
   );
 }
 
-function HomeContent({ built, outcome, fresh, onOpen }: HomeViewProps) {
+type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "onOpen">;
+
+function HomeContent({ built, outcome, fresh, onOpen }: ContentProps) {
   if (built.status === "needs-more") {
     if (fresh) {
       return (
@@ -43,6 +69,9 @@ function HomeContent({ built, outcome, fresh, onOpen }: HomeViewProps) {
             {home.welcomeButton}
           </button>
           <p className="small">{home.privacyLine}</p>
+          <button type="button" className="link" onClick={() => onOpen("data")}>
+            {home.howKept}
+          </button>
         </>
       );
     }

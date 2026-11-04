@@ -11,7 +11,8 @@ import {
   IncomeSection,
   PaydaySection,
 } from "./FormSections";
-import type { FormApi, Outcome, PanelId } from "./screenTypes";
+import { DataView } from "./DataView";
+import type { DataApi, FormApi, Outcome, PanelId } from "./screenTypes";
 
 interface MenuSheetProps {
   panel: PanelId | null;
@@ -21,6 +22,7 @@ interface MenuSheetProps {
   built: BuildResult;
   outcome: Outcome | null;
   api: FormApi;
+  data: DataApi;
 }
 
 const ui = words.ui;
@@ -33,6 +35,7 @@ const TITLES: Record<PanelId, string> = {
   income: ui.incomeTitle,
   essentials: ui.essentialsTitle,
   holidays: ui.holidaysSummary,
+  data: words.data.title,
   explain: ui.breakdownTitle,
   about: words.menu.aboutTitle,
 };
@@ -44,7 +47,7 @@ const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "esse
  * It uses the browser's own <dialog>, which already handles the Escape key,
  * keeps keyboard focus inside, and hands focus back to the Menu button on close.
  */
-export function MenuSheet({ panel, onPanel, form, today, built, outcome, api }: MenuSheetProps) {
+export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data }: MenuSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -101,7 +104,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api }: 
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
               {TITLES[panel]}
             </h2>
-            {panel === "menu" ? <MenuList form={form} built={built} outcome={outcome} onPanel={onPanel} /> : null}
+            {panel === "menu" ? <MenuList form={form} built={built} outcome={outcome} data={data} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" ? <PaydaySection form={form} today={today} api={api} /> : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
@@ -116,6 +119,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api }: 
                 api={api}
               />
             ) : null}
+            {panel === "data" ? <DataView data={data} /> : null}
             {panel === "about" ? <AboutView /> : null}
           </div>
 
@@ -134,10 +138,11 @@ interface MenuListProps {
   form: FormState;
   built: BuildResult;
   outcome: Outcome | null;
+  data: DataApi;
   onPanel: (panel: PanelId) => void;
 }
 
-function MenuList({ form, built, outcome, onPanel }: MenuListProps) {
+function MenuList({ form, built, outcome, data, onPanel }: MenuListProps) {
   const summary = describeForm(form);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
     { id: "account", title: words.menu.names.account, sub: summary.account },
@@ -180,6 +185,14 @@ function MenuList({ form, built, outcome, onPanel }: MenuListProps) {
             </button>
           </li>
         ) : null}
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("data")}>
+            <span className="menu-title">{words.menu.names.data}</span>
+            <span className="menu-sub">
+              {data.saveState === "not-saved" ? words.menu.dataSubNotSaved : words.menu.dataSub}
+            </span>
+          </button>
+        </li>
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("about")}>
             <span className="menu-title">{words.menu.aboutTitle}</span>

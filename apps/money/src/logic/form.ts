@@ -17,10 +17,15 @@ import { words } from "../content/words";
  */
 
 let counter = 0;
-/** Simple row ids. (crypto.randomUUID is not available on a phone over plain http.) */
+/**
+ * Row ids. They are saved with the numbers, so they must stay unique across visits:
+ * a counter alone would start again at 1 and clash with saved rows.
+ * (crypto.randomUUID is not available on a phone over plain http, so this builds its own.)
+ */
 export function nextId(prefix: string): string {
   counter += 1;
-  return `${prefix}-${counter}`;
+  const random = Math.floor(Math.random() * 36 ** 5).toString(36).padStart(5, "0");
+  return `${prefix}-${counter}-${random}`;
 }
 
 export interface BillRow {
@@ -75,6 +80,16 @@ export function emptyForm(): FormState {
     bankHolidays: "",
     answers: {},
   };
+}
+
+/**
+ * Typing a new balance means "this is what is in my account now", so the balance
+ * takes today's date. That way a balance saved last week still says it is from
+ * last week when the app is opened again, instead of looking fresh.
+ */
+export function withBalance(form: FormState, balance: string, today: DateString): FormState {
+  if (balance.trim() === "") return { ...form, balance };
+  return { ...form, balance, balanceDate: today };
 }
 
 function isRealDay(date: string): boolean {

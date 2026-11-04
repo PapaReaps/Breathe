@@ -1,43 +1,68 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { InvalidInputError } from "../logic/errors";
-import { buildInput, emptyForm, newBillRow, newIncomeRow } from "../logic/form";
-import type { FormState } from "../logic/form";
+import { buildInput, newBillRow, newIncomeRow, withBalance } from "../logic/form";
 import { calculateSafeToSpend } from "../logic/safeToSpend";
 import { localToday } from "../logic/today";
 import { HomeView } from "./HomeView";
 import { MenuSheet } from "./MenuSheet";
-import type { FormApi, Outcome, PanelId } from "./screenTypes";
+import { backupFileName, makeBackupText } from "../storage/savedData";
+import { downloadTextFile } from "../storage/download";
+import { useSavedForm } from "../storage/useSavedForm";
+import type { DataApi, FormApi, Outcome, PanelId } from "./screenTypes";
 
 /**
  * Holds everything that is typed, works out the number, and decides what to show:
  * the calm home screen, or the menu on top of it.
  */
 export default function CalculatorScreen() {
-  const [today] = useState(localToday);
-  const [form, setForm] = useState<FormState>(emptyForm);
+  const [today, setToday] = useState(localToday);
   const [panel, setPanel] = useState<PanelId | null>(null);
+  const saved = useSavedForm();
+  const { form, update } = saved;
+
+  // If the app has been left open overnight, "today" must move on with the calendar.
+  useEffect(() => {
+    const refresh = () => {
+      if (document.visibilityState === "visible") setToday(localToday());
+    };
+    document.addEventListener("visibilitychange", refresh);
+    return () => document.removeEventListener("visibilitychange", refresh);
+  }, []);
 
   const api: FormApi = {
-    set: (key, value) => setForm((current) => ({ ...current, [key]: value })),
+    set: (key, value) =>
+      update((current) =>
+        key === "balance"
+          ? withBalance(current, value as string, today)
+          : { ...current, [key]: value },
+      ),
     updateBill: (id, patch) =>
-      setForm((current) => ({
+      update((current) => ({
         ...current,
         bills: current.bills.map((row) => (row.id === id ? { ...row, ...patch } : row)),
       })),
     updateIncome: (id, patch) =>
-      setForm((current) => ({
+      update((current) => ({
         ...current,
         income: current.income.map((row) => (row.id === id ? { ...row, ...patch } : row)),
       })),
-    addBill: () => setForm((current) => ({ ...current, bills: [...current.bills, newBillRow()] })),
-    addIncome: () => setForm((current) => ({ ...current, income: [...current.income, newIncomeRow()] })),
+    addBill: () => update((current) => ({ ...current, bills: [...current.bills, newBillRow()] })),
+    addIncome: () => update((current) => ({ ...current, income: [...current.income, newIncomeRow()] })),
     removeBill: (id) =>
-      setForm((current) => ({ ...current, bills: current.bills.filter((row) => row.id !== id) })),
+      update((current) => ({ ...current, bills: current.bills.filter((row) => row.id !== id) })),
     removeIncome: (id) =>
-      setForm((current) => ({ ...current, income: current.income.filter((row) => row.id !== id) })),
+      update((current) => ({ ...current, income: current.income.filter((row) => row.id !== id) })),
     answer: (id, value) =>
-      setForm((current) => ({ ...current, answers: { ...current.answers, [id]: value } })),
-    clearAnswers: () => setForm((current) => ({ ...current, answers: {} })),
+      update((current) => ({ ...current, answers: { ...current.answers, [id]: value } })),
+    clearAnswers: () => update((current) => ({ ...current, answers: {} })),
+  };
+
+  const data: DataApi = {
+    saveState: saved.saveState,
+    persisted: saved.persisted,
+    downloadBackup: () => downloadTextFile(backupFileName(today), makeBackupText(form, today)),
+    replaceAll: saved.replaceAll,
+    clearAll: saved.clearAll,
   };
 
   const built = useMemo(() => buildInput(form, today), [form, today]);
@@ -57,7 +82,15 @@ export default function CalculatorScreen() {
 
   return (
     <>
-      <HomeView built={built} outcome={outcome} fresh={fresh} onOpen={setPanel} />
+      <HomeView
+        built={built}
+        outcome={outcome}
+        fresh={fresh}
+        loading={!saved.loaded}
+        notSaved={saved.saveState === "not-saved"}
+        readProblem={saved.readProblem}
+        onOpen={setPanel}
+      />
       <MenuSheet
         panel={panel}
         onPanel={setPanel}
@@ -66,6 +99,7 @@ export default function CalculatorScreen() {
         built={built}
         outcome={outcome}
         api={api}
+        data={data}
       />
     </>
   );

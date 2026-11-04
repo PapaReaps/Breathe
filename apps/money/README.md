@@ -1,6 +1,6 @@
 # Breathe Money
 
-**Status: Stage 3 (first working version).** One plain page that works out how much is safe to spend until payday. Nothing is saved yet.
+**Status: Stage 4 (remembers your numbers).** A calm main screen that shows how much is safe to spend until payday. Your numbers are kept on your own device (not encrypted, never sent anywhere), with a backup file, restore and clear option.
 
 ## Run it (Windows PowerShell, inside this folder)
 
@@ -20,6 +20,7 @@ Stop the app with `Ctrl+C`.
 |---|---|
 | `src/screens/` | The page people see |
 | `src/components/` | Small reusable pieces (the amount box) |
+| `src/storage/` | Keeping numbers on the device, and checking backup files before trusting them |
 | `src/logic/` | The calculation and the code that reads what is typed. No screens in here |
 | `src/content/` | All the words people see |
 | `tests/` | Automatic checks |

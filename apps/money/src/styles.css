@@ -357,3 +357,24 @@ button.link {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Your data and backups */
+.sheet-body h3 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.sheet-body section {
+  margin-top: 1rem;
+}
+
+.file-choice {
+  display: inline-block;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.file-choice span {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
