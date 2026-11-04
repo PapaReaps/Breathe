@@ -12,6 +12,7 @@ export type PanelId =
   | "essentials"
   | "holidays"
   | "data"
+  | "setup"
   | "explain"
   | "about";
 

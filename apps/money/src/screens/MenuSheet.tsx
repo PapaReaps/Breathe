@@ -12,6 +12,7 @@ import {
   PaydaySection,
 } from "./FormSections";
 import { DataView } from "./DataView";
+import { SetupView } from "./SetupView";
 import type { DataApi, FormApi, Outcome, PanelId } from "./screenTypes";
 
 interface MenuSheetProps {
@@ -36,6 +37,7 @@ const TITLES: Record<PanelId, string> = {
   essentials: ui.essentialsTitle,
   holidays: ui.holidaysSummary,
   data: words.data.title,
+  setup: words.setup.title,
   explain: ui.breakdownTitle,
   about: words.menu.aboutTitle,
 };
@@ -119,6 +121,9 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
                 api={api}
               />
             ) : null}
+            {panel === "setup" ? (
+              <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
+            ) : null}
             {panel === "data" ? <DataView data={data} /> : null}
             {panel === "about" ? <AboutView /> : null}
           </div>
@@ -185,6 +190,11 @@ function MenuList({ form, built, outcome, data, onPanel }: MenuListProps) {
             </button>
           </li>
         ) : null}
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("setup")}>
+            <span className="menu-title">{words.setup.menuItem}</span>
+          </button>
+        </li>
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("data")}>
             <span className="menu-title">{words.menu.names.data}</span>

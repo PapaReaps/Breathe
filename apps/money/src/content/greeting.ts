@@ -7,5 +7,5 @@ export const greeting = {
   promise:
     "Breathe will never be about making money. It will always be about helping people.",
   status:
-    "This is an early test version (Stage 4). Your numbers are kept on this device only, and never sent anywhere.",
+    "This is an early test version (Stage 5). Your numbers are kept on this device only, and never sent anywhere.",
 } as const;

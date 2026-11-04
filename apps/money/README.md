@@ -1,6 +1,6 @@
 # Breathe Money
 
-**Status: Stage 4 (remembers your numbers).** A calm main screen that shows how much is safe to spend until payday. Your numbers are kept on your own device (not encrypted, never sent anywhere), with a backup file, restore and clear option.
+**Status: Stage 5 (friendly setup).** A step-by-step first-time setup, then a calm main screen that shows how much is safe to spend until payday. Your numbers are kept on your own device (not encrypted, never sent anywhere), with a backup file, restore and clear option.
 
 ## Run it (Windows PowerShell, inside this folder)
 

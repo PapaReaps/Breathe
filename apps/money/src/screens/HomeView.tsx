@@ -65,7 +65,7 @@ function HomeContent({ built, outcome, fresh, onOpen }: ContentProps) {
         <>
           <h1 className="home-title">{home.welcomeTitle}</h1>
           <p className="home-message">{home.welcomeMessage}</p>
-          <button type="button" className="big-button" onClick={() => onOpen("account")}>
+          <button type="button" className="big-button" onClick={() => onOpen("setup")}>
             {home.welcomeButton}
           </button>
           <p className="small">{home.privacyLine}</p>

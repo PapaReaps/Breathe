@@ -106,6 +106,47 @@ export const words = {
     advice: "Breathe Money is an organisation tool, not financial advice.",
   },
 
+  setup: {
+    title: "Setting up",
+    progress: (step: number, total: number) => `Question ${step} of ${total}`,
+    next: "Next",
+    back: "Back",
+    skip: "Skip this one",
+    nothingToAdd: "Nothing to add",
+    menuItem: "Step-by-step setup",
+    balance: {
+      question: "What's in your everyday account right now?",
+      intro: "Check your banking app and type what you see. You can change it any time.",
+      label: "Everyday account balance (£)",
+    },
+    payday: {
+      question: "When is your next payday?",
+      intro: "Pick the date from the calendar.",
+    },
+    bills: {
+      question: "Any bills before then?",
+      intro: "Add anything that will leave your account before payday. If there's nothing, just carry on.",
+    },
+    income: {
+      question: "Any other money coming in before payday?",
+      intro: "Like a refund, or money you're owed. Your main pay isn't needed here.",
+    },
+    food: {
+      question: "What do you usually spend on food and travel each week?",
+      intro: "A rough amount is fine. I'll spread it across the days until payday.",
+    },
+    pot: {
+      question: "Would you like a rainy-day pot?",
+      intro: "An amount you'd rather not touch, kept aside from your number. Leave it empty if you don't want one.",
+    },
+    doneTitle: "All set",
+    doneReady: "That's everything. Your number is waiting on the main screen.",
+    doneNeeds: "Nearly there. To see your number:",
+    changeLater: "You can change anything later from the Menu.",
+    seeNumber: "See my number",
+    finishLater: "Finish later",
+  },
+
   waitingTitle: "Your safe-to-spend number will appear here",
   needBalance: "Add what is in your everyday account right now.",
   needPayday: "Add the date of your next payday.",

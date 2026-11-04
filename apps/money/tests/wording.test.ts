@@ -38,6 +38,7 @@ function collectSampleSentences(): string[] {
     words.cantReadDates("25 December"),
     words.unfinishedRow("Rent", "an amount"),
     words.menu.liveLine("£10.00"),
+    words.setup.progress(2, 6),
     words.data.restorePreview(null),
     words.data.restorePreview("Wednesday 4 November"),
     ...Object.values(describeForm(emptyForm())),
