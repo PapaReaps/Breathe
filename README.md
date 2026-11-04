@@ -86,6 +86,8 @@ For now you run it on your own computer. It takes a few minutes the first time, 
 
 **No installing needed:** Breathe Money is also published for free on GitHub Pages, so it can be opened from a link, added to a phone's home screen, and used offline. See [Stage 10](docs/STAGE-10.md) for how it is published and how to add it to your home screen.
 
+**Protected backups and a privacy screen:** backup files can be protected with a passphrase ([Stage 8](docs/STAGE-8.md)), and Settings has an optional PIN privacy screen, text size and contrast choices ([Stage 9](docs/STAGE-9.md)).
+
 ## The Breathe family
 
 | App | What it will help with | Status |

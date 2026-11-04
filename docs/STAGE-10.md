@@ -33,7 +33,7 @@ If the publish step shows a red cross, open it and read the message. The most li
 ## Things to know
 
 - **Numbers belong to a web address.** Numbers you typed while testing on your own computer are not on the published copy. To move them, use **Menu → Your data and backups → Save a backup file** on the old copy, then **Use a backup file** on the new one. Backup files are not encrypted, so keep them private.
-- **Phones can tidy away website data.** Safari on iPhone may remove a website's saved data if you haven't visited for a while. Adding the app to your home screen helps, and a backup file is the safety net. (Passphrase-encrypted backups are Stage 8.)
+- **Phones can tidy away website data.** Safari on iPhone may remove a website's saved data if you haven't visited for a while. Adding the app to your home screen helps, and a backup file is the safety net. (Passphrase-protected backups arrived in Stage 8.)
 - **Updates.** When a new version is published, the app picks it up the next time it is opened with internet. Closing and reopening it once is enough.
 - **Still testing on your own computer?** `npm run dev` works exactly as before. The offline helper only runs in the published version, so you never get stuck with old files while developing.
 

@@ -24,7 +24,7 @@ A short record of what was decided and why, plus what is still open. Every entry
 | D | After how many days is a balance "out of date"? | Stage 2 | 3 days, and changeable |
 | E | How do we get bank holiday dates without a download? | Stage 2 | Ship a small built-in list of England/Wales dates, updated each year, with a manual override |
 | F | Where do we publish? GitHub Pages shares one storage area per account | Stage 10 | A dedicated repository and address; check storage separation first |
-| G | App lock: "privacy screen" only, or optional device encryption too? | Stage 9 | Privacy screen first; encryption as a later, opt-in extra |
+| G | App lock: "privacy screen" only, or optional device encryption too? | Stage 9 | **Decided (Stage 9): privacy screen only**, described honestly. Encryption on the device stays a possible later, opt-in extra |
 
 ## Founding promise check: Stage 1
 
@@ -76,3 +76,23 @@ Founding promise check: nothing collected, nothing costs money, no pressure adde
 
 Founding promise check: free to publish, free to use, nothing collected, no pressure added. Result: **in line with the promise.**
 
+
+## Stage 8: secure backups
+
+- **Passphrase-protected backups are the recommended kind**, shown first. Plain backups stay available, clearly marked, because some people need a file they can read.
+- **Web Crypto only:** AES-256-GCM, with PBKDF2-SHA-256 at 600,000 rounds, a fresh salt and a fresh IV every time. The settings are written in the file and bound into the encryption.
+- **At least 10 characters** for a passphrase, with a gentle suggestion to use a short sentence, rather than rules about symbols.
+- **No recovery, on purpose.** Forget the passphrase and nobody can open the file. The app says so every time.
+- **Still to do:** an independent security review of the design (promised in `STORAGE-AND-BACKUPS.md`).
+
+Founding promise check: nothing collected, nothing sent, nothing costs money, no pressure added. Result: **in line with the promise.**
+
+## Stage 9: privacy and accessibility
+
+- **Question G decided:** the app lock is a **privacy screen only**, described honestly as such. Encrypting the numbers on the device stays a possible later, opt-in extra.
+- **PIN, not password:** 4 to 12 numbers, quick on a phone. Only a salted PBKDF2 fingerprint is kept.
+- **Forgotten PIN clears the numbers**, so the lock still means something, and backup files are the way back.
+- **Locks again after a minute in the background**, so a phone left on a table is covered.
+- **Text size and contrast are Settings, not separate modes.** They add to the device's own settings rather than replacing them, and "Match my device" follows the device's own contrast request.
+
+Founding promise check: all optional, nothing collected, nothing costs money, no pressure added. Result: **in line with the promise.**

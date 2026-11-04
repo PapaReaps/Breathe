@@ -9,6 +9,8 @@ export interface DeviceStore {
   /** The saved value (the numbers, unless another key is given), or null if nothing has been saved. Rejects if the device can't be read. */
   load(key?: string): Promise<unknown | null>;
   save(value: unknown, key?: string): Promise<void>;
+  /** Removes one saved value (for example the privacy screen's PIN check). */
+  remove(key: string): Promise<void>;
   clear(): Promise<void>;
   /** Has the browser agreed to keep the data? null means "can't tell". */
   isPersisted(): Promise<boolean | null>;
@@ -101,6 +103,10 @@ export const indexedDbStore: DeviceStore = {
 
   async save(value, key = KEY) {
     await run("readwrite", (store) => store.put(value, key));
+  },
+
+  async remove(key) {
+    await run("readwrite", (store) => store.delete(key));
   },
 
   /** Clears the numbers only. Settings are kept. */

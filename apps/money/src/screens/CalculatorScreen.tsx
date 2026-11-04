@@ -7,8 +7,12 @@ import { HomeView } from "./HomeView";
 import { MenuSheet } from "./MenuSheet";
 import { backupFileName, makeBackupText } from "../storage/savedData";
 import { downloadTextFile } from "../storage/download";
+import { encryptedBackupFileName, makeEncryptedBackupText } from "../storage/encryptedBackup";
 import { reminderDays } from "../storage/settings";
 import { useSettings } from "../storage/useSettings";
+import { useAppLock } from "../storage/useAppLock";
+import { words } from "../content/words";
+import { LockScreen } from "./LockScreen";
 import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney } from "../logic/money";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -23,6 +27,12 @@ export default function CalculatorScreen() {
   const saved = useSavedForm();
   const { form, update } = saved;
   const appearance = useSettings();
+  const lock = useAppLock();
+
+  // Locking closes the menu, so nothing is left showing behind the privacy screen.
+  useEffect(() => {
+    if (lock.status !== "open") setPanel(null);
+  }, [lock.status]);
 
   // If the app has been left open overnight, "today" must move on with the calendar.
   useEffect(() => {
@@ -73,11 +83,15 @@ export default function CalculatorScreen() {
     saveState: saved.saveState,
     persisted: saved.persisted,
     downloadBackup: () => downloadTextFile(backupFileName(today), makeBackupText(form, today)),
+    downloadProtectedBackup: async (passphrase) => {
+      const content = await makeEncryptedBackupText(form, today, passphrase);
+      downloadTextFile(encryptedBackupFileName(today), content);
+    },
     replaceAll: saved.replaceAll,
     clearAll: saved.clearAll,
   };
 
-  const settings: SettingsApi = { settings: appearance.settings, change: appearance.change };
+  const settings: SettingsApi = { settings: appearance.settings, change: appearance.change, lock };
 
   const staleAfterDays = reminderDays(appearance.settings.balanceReminder);
   const built = useMemo(() => buildInput(form, today, { staleAfterDays }), [form, today, staleAfterDays]);
@@ -100,6 +114,27 @@ export default function CalculatorScreen() {
 
   // "Fresh" means nothing important has been typed yet, so we say a proper hello.
   const fresh = built.status === "needs-more" && form.balance.trim() === "" && form.paydayDate === "";
+
+  if (lock.status === "checking") {
+    return (
+      <main className="home-main">
+        <p className="home-message">{words.lock.opening}</p>
+      </main>
+    );
+  }
+
+  if (lock.status === "locked") {
+    return (
+      <LockScreen
+        lock={lock}
+        onForgot={async () => {
+          const cleared = await saved.clearAll();
+          if (!cleared) return false;
+          return lock.turnOff();
+        }}
+      />
+    );
+  }
 
   return (
     <>

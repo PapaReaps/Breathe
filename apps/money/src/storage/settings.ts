@@ -8,6 +8,9 @@ export type Accent = "teal" | "blue" | "plum" | "rose" | "green";
 export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac";
 
 export type BalanceReminder = "daily" | "three-days" | "weekly" | "never";
+export type TextSize = "standard" | "large" | "largest";
+/** "system" follows the device's own "more contrast" setting; "more" always uses stronger contrast. */
+export type Contrast = "system" | "more";
 
 export interface Settings {
   appearance: Appearance;
@@ -19,6 +22,9 @@ export interface Settings {
   showPayday: boolean;
   /** How often to gently suggest updating the balance. */
   balanceReminder: BalanceReminder;
+  /** Makes every word in the app bigger (on top of the device's own text size). */
+  textSize: TextSize;
+  contrast: Contrast;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -28,6 +34,8 @@ export const DEFAULT_SETTINGS: Settings = {
   showExplanation: true,
   showPayday: true,
   balanceReminder: "three-days",
+  textSize: "standard",
+  contrast: "system",
 };
 
 export const SETTINGS_KEY = "settings";
@@ -52,6 +60,8 @@ export function reminderDays(choice: BalanceReminder): number {
 }
 
 export const APPEARANCES: readonly Appearance[] = ["system", "light", "dark"];
+export const TEXT_SIZES: readonly TextSize[] = ["standard", "large", "largest"];
+export const CONTRASTS: readonly Contrast[] = ["system", "more"];
 
 /** The colour choices. `swatch` is only the little circle shown in Settings. */
 export const ACCENTS: ReadonlyArray<{ id: Accent; swatch: string }> = [
@@ -84,6 +94,8 @@ export function readSettings(raw: unknown): Settings {
     showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
     showPayday: typeof record.showPayday === "boolean" ? record.showPayday : DEFAULT_SETTINGS.showPayday,
     balanceReminder: pick(record.balanceReminder, BALANCE_REMINDERS, DEFAULT_SETTINGS.balanceReminder),
+    textSize: pick(record.textSize, TEXT_SIZES, DEFAULT_SETTINGS.textSize),
+    contrast: pick(record.contrast, CONTRASTS, DEFAULT_SETTINGS.contrast),
   };
 }
 
@@ -96,6 +108,8 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     showExplanation: settings.showExplanation,
     showPayday: settings.showPayday,
     balanceReminder: settings.balanceReminder,
+    textSize: settings.textSize,
+    contrast: settings.contrast,
   };
 }
 
@@ -109,4 +123,6 @@ export function applySettings(settings: Settings): void {
   set("data-theme", settings.appearance, settings.appearance === "system");
   set("data-accent", settings.accent, settings.accent === DEFAULT_SETTINGS.accent);
   set("data-pot", settings.potColour, settings.potColour === DEFAULT_SETTINGS.potColour);
+  set("data-text", settings.textSize, settings.textSize === DEFAULT_SETTINGS.textSize);
+  set("data-contrast", settings.contrast, settings.contrast === DEFAULT_SETTINGS.contrast);
 }

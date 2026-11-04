@@ -51,6 +51,8 @@ function collectSampleSentences(): string[] {
     words.rows.totalBills(3, "£10.00"),
     words.rows.totalIncome(1, "£10.00"),
     words.home.potLine("£50.00"),
+    words.lock.pause(1),
+    words.lock.pause(30),
     words.data.restorePreview(null),
     words.data.restorePreview("Wednesday 4 November"),
     ...Object.values(describeForm(emptyForm())),

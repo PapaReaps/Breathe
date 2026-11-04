@@ -1,6 +1,6 @@
 # Privacy
 
-**Current status (Stage 10):** Breathe Money keeps your numbers **on your own device**, inside your web browser (in a built-in browser database called IndexedDB). Breathe collects nothing. There is no server to send anything to, and the app makes no requests to other websites.
+**Current status (Stages 8 to 10):** Breathe Money keeps your numbers **on your own device**, inside your web browser (in a built-in browser database called IndexedDB). Breathe collects nothing. There is no server to send anything to, and the app makes no requests to other websites.
 
 **Published copy (Stage 10):** if you open Breathe Money from its web address, your browser also keeps a copy of the app's own files (not your numbers) so it can open without internet. The web address is hosted for free by GitHub Pages, which, like any website host, can see that a page was requested. Breathe itself adds no tracking, no analytics and no cookies. Your numbers never leave your device, and they are kept separately for each web address, so numbers typed on your own computer are not on the published copy. Use a backup file to move them.
 
@@ -9,7 +9,8 @@
 - Only on the device and browser you typed them into.
 - **Not encrypted.** Anyone who can open that browser on that device could see them.
 - The browser can remove them (for example if you clear your browsing data). A backup file is the safety net.
-- A backup file is **also not encrypted** (passphrase-encrypted backups are planned for Stage 8). The app says so before it makes one.
+- A backup file can be **protected with a passphrase** (encrypted, recommended), or saved **plain** (not encrypted). The app says which before it makes one. Forget the passphrase and nobody, including us, can open the file.
+- The optional **privacy screen** (a PIN) stops someone glancing at your numbers. It is not encryption: the numbers on the device are still not encrypted. Only a one-way fingerprint of the PIN is kept, never the PIN itself.
 - "Clear my numbers" in the app removes them from the device.
 
 ## Our promises

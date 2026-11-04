@@ -1,19 +1,22 @@
-import { useState } from "react";
-import type { ChangeEvent } from "react";
+import { useId, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { words } from "../content/words";
 import { formatDayLong } from "../logic/dates";
 import { describeForm } from "../logic/form";
 import type { FormState } from "../logic/form";
+import { canEncrypt, checkNewPassphrase, isEncryptedBackupText, openEncryptedBackupText } from "../storage/encryptedBackup";
+import type { PassphraseProblem } from "../storage/encryptedBackup";
 import { parseBackupText } from "../storage/savedData";
 import type { BackupProblem } from "../storage/savedData";
 import type { DataApi } from "./screenTypes";
 
 const text = words.data;
-const MAX_FILE_BYTES = 1_000_000;
+const MAX_FILE_BYTES = 2_000_000;
 
 type Restore =
   | { step: "none" }
   | { step: "problem"; reason: BackupProblem }
+  | { step: "passphrase"; content: string }
   | { step: "preview"; form: FormState; savedOn: string | null }
   | { step: "done" };
 
@@ -42,6 +45,10 @@ export function DataView({ data }: DataViewProps) {
       content = await file.text();
     } catch {
       setRestore({ step: "problem", reason: "unreadable" });
+      return;
+    }
+    if (isEncryptedBackupText(content)) {
+      setRestore({ step: "passphrase", content });
       return;
     }
     const parsed = parseBackupText(content);
@@ -82,9 +89,15 @@ export function DataView({ data }: DataViewProps) {
 
       <section aria-labelledby="backup-title">
         <h3 id="backup-title">{text.backupTitle}</h3>
+        <p>{text.backupIntro}</p>
+
+        <ProtectedBackup data={data} />
+
+        <h4 className="sub-title">{text.plainTitle}</h4>
         <p className="gentle">{text.backupNotice}</p>
         <button
           type="button"
+          className="secondary"
           onClick={() => {
             data.downloadBackup();
             setBackupMade(true);
@@ -112,6 +125,7 @@ export function DataView({ data }: DataViewProps) {
           {restore.step === "done" ? <p>{text.restoredDone}</p> : null}
         </div>
 
+        {restore.step === "passphrase" ? <UnlockBackup content={restore.content} onDone={setRestore} /> : null}
         {restore.step === "preview" ? <RestorePreview restore={restore} data={data} onDone={setRestore} /> : null}
       </section>
 
@@ -156,6 +170,167 @@ export function DataView({ data }: DataViewProps) {
         ) : null}
       </section>
     </>
+  );
+}
+
+/** Choosing a passphrase and saving a protected backup. The passphrase lives only in this box, and only until it closes. */
+function ProtectedBackup({ data }: { data: DataApi }) {
+  const id = useId();
+  const [passphrase, setPassphrase] = useState("");
+  const [again, setAgain] = useState("");
+  const [show, setShow] = useState(false);
+  const [problem, setProblem] = useState<PassphraseProblem | null>(null);
+  const [state, setState] = useState<"idle" | "working" | "done" | "failed">("idle");
+
+  if (!canEncrypt()) {
+    return (
+      <>
+        <h4 className="sub-title">{text.protectedTitle}</h4>
+        <p className="gentle">{text.protectedUnavailable}</p>
+      </>
+    );
+  }
+
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    const found = checkNewPassphrase(passphrase, again);
+    setProblem(found);
+    if (found !== null) return;
+    setState("working");
+    try {
+      await data.downloadProtectedBackup(passphrase);
+      setPassphrase("");
+      setAgain("");
+      setShow(false);
+      setState("done");
+    } catch {
+      setState("failed");
+    }
+  }
+
+  const describedBy = `${id}-hint${problem !== null ? ` ${id}-problem` : ""}`;
+
+  return (
+    <form onSubmit={onSubmit} aria-labelledby={`${id}-title`} noValidate>
+      <h4 className="sub-title" id={`${id}-title`}>
+        {text.protectedTitle}
+      </h4>
+      <p>{text.protectedIntro}</p>
+      <p className="gentle">
+        <strong>{text.protectedForget}</strong>
+      </p>
+      <div className="field">
+        <label htmlFor={`${id}-pass`}>{text.passphraseLabel}</label>
+        <p className="hint" id={`${id}-hint`}>
+          {text.passphraseHint}
+        </p>
+        <input
+          id={`${id}-pass`}
+          type={show ? "text" : "password"}
+          autoComplete="new-password"
+          autoCapitalize="off"
+          spellCheck={false}
+          value={passphrase}
+          aria-describedby={describedBy}
+          aria-invalid={problem === "too-short" ? true : undefined}
+          onChange={(event) => setPassphrase(event.target.value)}
+        />
+      </div>
+      <div className="field">
+        <label htmlFor={`${id}-again`}>{text.passphraseAgainLabel}</label>
+        <input
+          id={`${id}-again`}
+          type={show ? "text" : "password"}
+          autoComplete="new-password"
+          autoCapitalize="off"
+          spellCheck={false}
+          value={again}
+          aria-describedby={problem !== null ? `${id}-problem` : undefined}
+          aria-invalid={problem === "different" ? true : undefined}
+          onChange={(event) => setAgain(event.target.value)}
+        />
+      </div>
+      <label className="choice">
+        <input type="checkbox" checked={show} onChange={(event) => setShow(event.target.checked)} />
+        <span>{text.showPassphrase}</span>
+      </label>
+      <div aria-live="polite">
+        {problem !== null ? (
+          <p className="gentle" id={`${id}-problem`}>
+            {text.passphraseProblem[problem]}
+          </p>
+        ) : null}
+        {state === "working" ? <p className="small">{text.protectedWorking}</p> : null}
+        {state === "done" ? <p className="small">{text.protectedDone}</p> : null}
+        {state === "failed" ? <p className="gentle">{text.protectedUnavailable}</p> : null}
+      </div>
+      <button type="submit" disabled={state === "working"}>
+        {text.protectedButton}
+      </button>
+    </form>
+  );
+}
+
+interface UnlockBackupProps {
+  content: string;
+  onDone: (next: Restore) => void;
+}
+
+/** Asking for the passphrase of a protected backup. Only reads the file; nothing changes yet. */
+function UnlockBackup({ content, onDone }: UnlockBackupProps) {
+  const id = useId();
+  const [passphrase, setPassphrase] = useState("");
+  const [state, setState] = useState<"idle" | "working" | "wrong" | "no-crypto">("idle");
+
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setState("working");
+    const opened = await openEncryptedBackupText(content, passphrase);
+    if (opened.ok) {
+      setPassphrase("");
+      onDone({ step: "preview", form: opened.form, savedOn: opened.savedOn });
+      return;
+    }
+    if (opened.reason === "wrong-passphrase") setState("wrong");
+    else if (opened.reason === "no-crypto") setState("no-crypto");
+    else onDone({ step: "problem", reason: opened.reason });
+  }
+
+  return (
+    <form className="gentle" onSubmit={onSubmit} aria-labelledby={`${id}-title`}>
+      <h4 className="sub-title" id={`${id}-title`}>
+        {text.unlockTitle}
+      </h4>
+      <p>{text.unlockIntro}</p>
+      <div className="field">
+        <label htmlFor={`${id}-pass`}>{text.unlockLabel}</label>
+        <input
+          id={`${id}-pass`}
+          type="password"
+          autoComplete="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          autoFocus
+          value={passphrase}
+          aria-describedby={state === "wrong" || state === "no-crypto" ? `${id}-problem` : undefined}
+          aria-invalid={state === "wrong" ? true : undefined}
+          onChange={(event) => setPassphrase(event.target.value)}
+        />
+      </div>
+      <div aria-live="polite">
+        {state === "working" ? <p className="small">{text.unlockWorking}</p> : null}
+        {state === "wrong" ? <p id={`${id}-problem`}>{text.unlockWrong}</p> : null}
+        {state === "no-crypto" ? <p id={`${id}-problem`}>{text.unlockNoCrypto}</p> : null}
+      </div>
+      <div className="buttons">
+        <button type="submit" disabled={state === "working" || passphrase === ""}>
+          {text.unlockButton}
+        </button>
+        <button type="button" className="secondary" onClick={() => onDone({ step: "none" })}>
+          {text.unlockCancel}
+        </button>
+      </div>
+    </form>
   );
 }
 

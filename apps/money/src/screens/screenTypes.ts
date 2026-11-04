@@ -1,6 +1,7 @@
 import type { BillRow, FormState, IncomeRow } from "../logic/form";
 import type { CalculatorResult, Warning } from "../logic/types";
 import type { Settings } from "../storage/settings";
+import type { LockApi } from "../storage/useAppLock";
 import type { SaveState } from "../storage/useSavedForm";
 
 /** Which page of the menu is open. null means the menu is closed. */
@@ -41,6 +42,8 @@ export interface DataApi {
   saveState: SaveState;
   persisted: boolean | null;
   downloadBackup: () => void;
+  /** Encrypts with the passphrase, then hands the file to the browser. Rejects if encryption isn't possible here. */
+  downloadProtectedBackup: (passphrase: string) => Promise<void>;
   replaceAll: (form: FormState) => void;
   clearAll: () => Promise<boolean>;
 }
@@ -49,4 +52,5 @@ export interface DataApi {
 export interface SettingsApi {
   settings: Settings;
   change: (patch: Partial<Settings>) => void;
+  lock: LockApi;
 }

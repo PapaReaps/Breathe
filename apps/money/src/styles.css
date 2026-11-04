@@ -798,3 +798,97 @@ form > .buttons {
 .settings-group .pot-badge {
   margin-top: 0;
 }
+
+/* Stage 8: the two kinds of backup, and the passphrase boxes */
+.sub-title {
+  font-size: 1.05rem;
+  margin: 1.25rem 0 0.25rem;
+}
+
+/* Stage 9: privacy screen, text size and contrast */
+.settings-heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.lock-box {
+  max-width: 24rem;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.lock-box input {
+  font-size: 1.4rem;
+  letter-spacing: 0.3em;
+}
+
+/*
+ * Text size. Every size in this file is in rem, so changing the starting size here
+ * makes everything (including spacing and tap targets) grow together.
+ * It adds to the person's own browser or phone text size rather than replacing it.
+ */
+:root[data-text="large"] {
+  font-size: 118.75%;
+}
+
+:root[data-text="largest"] {
+  font-size: 137.5%;
+}
+
+/*
+ * Higher contrast: the grey writing becomes full-strength, outlines become solid
+ * and stronger, and the focus ring is thicker. It works in light and dark, because
+ * it reuses whichever text colour is in use. Applied when chosen in Settings, or when
+ * the device asks for more contrast (and Settings is left on "Match my device").
+ */
+:root[data-contrast="more"] {
+  --muted: var(--text);
+  --joy-label: var(--text);
+  --border: var(--text);
+  --field-border: var(--text);
+}
+
+:root[data-contrast="more"] :focus-visible {
+  outline-width: 4px;
+  outline-offset: 3px;
+}
+
+:root[data-contrast="more"] .gentle,
+:root[data-contrast="more"] .choice,
+:root[data-contrast="more"] button.secondary {
+  border: 2px solid var(--text);
+}
+
+@media (prefers-contrast: more) {
+  :root:not([data-contrast]) {
+    --muted: var(--text);
+    --joy-label: var(--text);
+    --border: var(--text);
+    --field-border: var(--text);
+  }
+
+  :root:not([data-contrast]) :focus-visible {
+    outline-width: 4px;
+    outline-offset: 3px;
+  }
+
+  :root:not([data-contrast]) .gentle,
+  :root:not([data-contrast]) .choice,
+  :root:not([data-contrast]) button.secondary {
+    border: 2px solid var(--text);
+  }
+}
+
+/* Windows high contrast and other forced colours: keep outlines visible. */
+@media (forced-colors: active) {
+  button,
+  .choice,
+  .gentle {
+    border: 1px solid CanvasText;
+  }
+
+  :focus-visible {
+    outline: 3px solid Highlight;
+  }
+}

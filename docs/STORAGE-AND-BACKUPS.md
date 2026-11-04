@@ -51,7 +51,7 @@ The app itself will say the key points in plain words, once, during setup, and a
 | Protected by | A passphrase you choose | Nothing |
 | Anyone who finds the file can read it? | No, not without the passphrase | **Yes** |
 | If you forget the passphrase | **Cannot be recovered. Nobody can help.** | Not applicable |
-| When | Stage 8 | Stage 4 (simple, with a clear warning) |
+| When | Stage 8 (done) | Stage 4 (simple, with a clear warning) |
 
 **How encryption will work (technical summary for contributors)**
 - Uses the browser's built-in **Web Crypto API**. No extra encryption library.
@@ -61,7 +61,7 @@ The app itself will say the key points in plain words, once, during setup, and a
 - The file records a format version, the salt, the IV and the settings used, so old backups can always be restored later.
 - The passphrase is never stored or sent anywhere.
 - Restoring checks the file before changing anything, and asks before replacing current data.
-- Before this ships, the design will be reviewed by someone with security experience, and we will seek that review from the open-source community.
+- Before we rely on it, the design will be reviewed by someone with security experience, and we will seek that review from the open-source community. (Stage 8 has shipped the code; that review is still to do.)
 
 **Passphrase wording.** The app must explain, kindly and clearly: *"If you forget this passphrase, nobody, including us, can open this backup."*
 

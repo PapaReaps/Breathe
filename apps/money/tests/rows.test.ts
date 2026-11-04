@@ -87,6 +87,8 @@ describe("look and colour settings", () => {
       showExplanation: false,
       showPayday: false,
       balanceReminder: "three-days",
+      textSize: "standard",
+      contrast: "system",
     });
   });
 
@@ -120,6 +122,8 @@ describe("look and colour settings", () => {
       showExplanation: false,
       showPayday: true,
       balanceReminder: "weekly" as const,
+      textSize: "largest" as const,
+      contrast: "more" as const,
     };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
   });
