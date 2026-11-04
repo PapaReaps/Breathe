@@ -115,4 +115,8 @@ Each app works on its own. One day you may be able to combine them in an optiona
 
 ## Licence
 
-Not chosen yet. See [docs/DECISIONS.md](docs/DECISIONS.md). A licence will be added before the project is shared more widely.
+Breathe is free software, licensed under the **GNU General Public License, version 3 or later** (GPL-3.0-or-later). The full text is in [LICENSE](LICENSE).
+
+In plain English: anyone can use, study, share and change Breathe for free. If they share a changed version, they must share their changes too, under the same licence. That keeps Breathe free for everyone, in the spirit of its founding promise.
+
+This is a plain-English summary, not legal advice.

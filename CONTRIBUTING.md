@@ -38,3 +38,7 @@ If the honest answer to any of these is "no", we will not do it.
 
 **Money**
 - Essential features stay free and work without any connection to a bank.
+
+## Licence
+
+Breathe is licensed under the GNU General Public License, version 3 or later (see `LICENSE`). By contributing, you agree that your contribution can be shared under the same licence.

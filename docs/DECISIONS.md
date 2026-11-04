@@ -18,7 +18,7 @@ A short record of what was decided and why, plus what is still open. Every entry
 
 | # | Question | Needed by | My suggestion |
 |---|---|---|---|
-| A | **Which open-source licence?** MIT (very permissive) or AGPL (anyone who builds on Breathe must share their changes too) | Before sharing publicly | Decide together. AGPL fits the founding promise better; MIT is simpler for contributors |
+| A | **Which open-source licence?** | Before sharing publicly | **Decided (4 November 2026): GNU GPL version 3 or later.** Anyone may use and change Breathe for free; anyone who shares a changed version must share their changes under the same licence |
 | B | Bills due **on** payday: subtract them? | Stage 2 | Yes, subtract (cautious) |
 | C | Weekend payday: which default option? | Stage 2 | No default; ask in setup, because it depends on the employer |
 | D | After how many days is a balance "out of date"? | Stage 2 | 3 days, and changeable |
@@ -33,3 +33,13 @@ Stage 1 adds one runtime dependency pair (React) and development-only tools (Vit
 ## Founding promise check: Stage 0
 
 Nothing in Stage 0 collects data, costs money, or adds pressure. Result: **in line with the promise.**
+
+## Licence decision
+
+**Chosen: GPL-3.0-or-later.** The full text is in `LICENSE` at the top of the project.
+
+Why: it keeps Breathe free for everyone and stops anyone taking it, closing it off and selling it, which fits the founding promise ("never about making money").
+
+One thing to know: the plain GPL covers people who *share* a copy of the code or app. It does not cover someone who only runs a changed version on their own website for others to use. The AGPL (a close cousin) does cover that. If this ever matters, the licence can be moved to AGPL-3.0-or-later, because GPLv3 allows combining with AGPLv3. For now: GPL, as chosen.
+
+Not legal advice.
