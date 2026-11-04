@@ -80,3 +80,22 @@ export function onOrBeforeWorkingDay(
   }
   throw new InvalidInputError("Could not find a working day before " + date + ".");
 }
+
+const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+/** "Friday 13 November". Written out by hand so it reads the same on every device. */
+export function formatDayLong(date: DateString): string {
+  const weekday = DAY_NAMES[dayOfWeek(date)] ?? "";
+  const day = Number(date.slice(8, 10));
+  const month = MONTH_NAMES[Number(date.slice(5, 7)) - 1] ?? "";
+  return `${weekday} ${day} ${month}`;
+}
+
+/** "Saturday", "Sunday" and so on. */
+export function weekdayName(date: DateString): string {
+  return DAY_NAMES[dayOfWeek(date)] ?? "";
+}
