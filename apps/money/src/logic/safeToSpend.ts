@@ -148,6 +148,20 @@ function billDates(bill: Bill, nonWorking: ReadonlySet<DateString>): DateString[
   return [bill.dueDate];
 }
 
+/**
+ * Spreads a weekly amount evenly over a number of days, rounding UP to the next
+ * penny. Rounding up is the cautious way: it can only ever make the safe-to-spend
+ * figure a fraction of a penny smaller, never larger.
+ */
+function spreadOverDays(perWeek: Pence, days: number, what: string): Pence {
+  const product = perWeek * days;
+  if (!Number.isSafeInteger(product)) {
+    throw new InvalidInputError(`${what} adds up to too large a number.`);
+  }
+  const whole = Math.floor(product / 7);
+  return product % 7 === 0 ? whole : whole + 1;
+}
+
 function needsAnswer(itemType: ItemType, item: { id: string; name: string }): Warning {
   return { kind: "needs-answer", itemType, id: item.id, name: item.name };
 }
@@ -230,17 +244,20 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
   // (not including) payday, plus any lump sums.
   const daysCovered = daysBetween(asOf, paydayDate);
   for (const essential of input.essentials) {
-    const total =
-      essential.kind === "per-day" ? essential.amount * daysCovered : essential.amount;
+    const what = `The essential "${essential.name}"`;
+    let total: Pence;
+    if (essential.kind === "per-day") total = essential.amount * daysCovered;
+    else if (essential.kind === "per-week") total = spreadOverDays(essential.amount, daysCovered, what);
+    else total = essential.amount;
     if (!Number.isSafeInteger(total)) {
-      throw new InvalidInputError(`The essential "${essential.name}" adds up to too large a number.`);
+      throw new InvalidInputError(`${what} adds up to too large a number.`);
     }
     if (total > 0) {
       lines.push({ kind: "essential", id: essential.id, name: essential.name, amount: -total });
     }
   }
 
-  // The protected buffer is always kept back.
+  // The rainy-day pot (the "buffer" here) is a one-off amount, always kept back.
   if (input.buffer > 0) {
     lines.push({ kind: "buffer", amount: -input.buffer });
   }

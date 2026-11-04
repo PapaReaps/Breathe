@@ -10,11 +10,47 @@ import type { BreakdownLine, CalculatorResult, Warning } from "../logic/types";
  */
 
 export const words = {
-  pageIntro:
-    "Type in your numbers and I'll work out what is safe to spend until payday. Nothing you type is saved or sent anywhere. If you refresh this page, it clears.",
+  notSetYet: "Not set yet",
+  needsALook: "Needs a look",
+  noneAdded: "None yet",
+
+  home: {
+    appName: "Breathe Money",
+    menuButton: "Menu",
+    welcomeTitle: "Welcome",
+    welcomeMessage: "Let's find out how much is safe to spend until payday.",
+    welcomeButton: "Add your numbers",
+    privacyLine: "Nothing you type is saved or sent anywhere.",
+    openMenu: "Open the menu",
+    questionWaiting: "A quick question is waiting",
+  },
+  menu: {
+    title: "Menu",
+    done: "Done",
+    back: "Back to the menu",
+    toGetYourNumber: "To see your number:",
+    names: {
+      account: "Your account",
+      payday: "Payday",
+      bills: "Bills",
+      income: "Money coming in",
+      essentials: "Food, travel and rainy-day pot",
+      holidays: "Bank holidays",
+    },
+    aboutTitle: "About Breathe Money",
+    liveLine: (amount: string) => `Safe to spend now: ${amount}`,
+    liveWaiting: "Your number will appear once the basics are in.",
+  },
+  about: {
+    promise: "Breathe will never be about making money. It will always be about helping people.",
+    privacy:
+      "Nothing you type is saved or sent anywhere. There are no accounts, no tracking and no adverts. For now, refreshing the page clears everything. Saving on your own device comes in the next stage.",
+    advice: "Breathe Money is an organisation tool, not financial advice.",
+  },
+
   waitingTitle: "Your safe-to-spend number will appear here",
-  needBalance: "Start with what is in your everyday account right now.",
-  needPayday: "Then add the date of your next payday.",
+  needBalance: "Add what is in your everyday account right now.",
+  needPayday: "Add the date of your next payday.",
   balanceDateFuture: "The date for your balance can't be in the future. Pick today, or an earlier day.",
   askPaydayRule: (phrase: string) =>
     `Your payday falls on ${phrase}. When do you usually get paid then?`,
@@ -62,11 +98,14 @@ export const words = {
     incomeMaybe: "It might come",
     addIncome: "Add money coming in",
 
-    essentialsTitle: "Food, travel and a safety buffer",
-    foodLabel: "Food and everyday spending, per day (£)",
-    travelLabel: "Travel until payday, in total (£)",
-    bufferLabel: "Safety buffer to keep aside (£)",
-    bufferHint: "Money you would rather not touch. Leave it empty for none.",
+    essentialsTitle: "Food, travel and a rainy-day pot",
+    foodLabel: "Food and everyday spending, per week (£)",
+    foodHint: "I will spread it evenly across the days until payday.",
+    travelLabel: "Travel, per week (£)",
+    travelHint: "A monthly travel pass counts as a bill, so add that under Bills.",
+    bufferLabel: "Rainy-day pot to keep aside (£)",
+    bufferHint:
+      "Money you would rather not touch. It stays the same however many days are left. Leave it empty for none.",
 
     holidaysSummary: "Bank holidays (optional)",
     holidaysHint:
@@ -178,7 +217,7 @@ export function describeLine(line: BreakdownLine): { label: string; amountText: 
     case "essential":
       return { label: name, amountText: signed(line.amount) };
     case "buffer":
-      return { label: "Your safety buffer, kept aside", amountText: signed(line.amount) };
+      return { label: "Your rainy-day pot, kept aside", amountText: signed(line.amount) };
     case "savings":
       return { label: `Saving: ${name}`, amountText: signed(line.amount) };
   }

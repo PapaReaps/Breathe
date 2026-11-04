@@ -66,7 +66,8 @@ export interface PendingPayment {
 export interface Essential {
   id: string;
   name: string;
-  kind: "per-day" | "lump-sum";
+  /** "per-week" amounts are spread evenly over the days and rounded UP to the next penny. */
+  kind: "per-day" | "per-week" | "lump-sum";
   amount: Pence;
 }
 
@@ -90,6 +91,7 @@ export interface CalculatorInput {
   income: readonly Income[];
   pendingPayments: readonly PendingPayment[];
   essentials: readonly Essential[];
+  /** A one-off amount kept aside, like a small savings pot. It does not change with the number of days. */
   buffer: Pence;
   savings: readonly SavingsTransfer[];
   /** A balance older than this many days gets a gentle "might be out of date" note. Default 3. */

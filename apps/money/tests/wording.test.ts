@@ -8,6 +8,7 @@ import {
   questionFor,
   words,
 } from "../src/content/words";
+import { describeForm, emptyForm } from "../src/logic/form";
 import { calculateSafeToSpend } from "../src/logic/safeToSpend";
 import type { BreakdownLine, Warning } from "../src/logic/types";
 import { gbp, makeInput } from "./helpers";
@@ -36,6 +37,8 @@ function collectSampleSentences(): string[] {
     words.cantReadDate("your payday"),
     words.cantReadDates("25 December"),
     words.unfinishedRow("Rent", "an amount"),
+    words.menu.liveLine("£10.00"),
+    ...Object.values(describeForm(emptyForm())),
   );
   for (const reason of ["not-a-number", "too-many-decimals", "negative-not-allowed", "too-large"] as const) {
     sentences.push(moneyProblemMessage(reason));

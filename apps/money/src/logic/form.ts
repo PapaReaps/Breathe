@@ -1,5 +1,5 @@
-import { isWorkingDay, toDayNumber, weekdayName } from "./dates";
-import { parseMoney } from "./money";
+import { formatDayLong, isWorkingDay, toDayNumber, weekdayName } from "./dates";
+import { formatMoney, parseMoney } from "./money";
 import type {
   Bill,
   CalculatorInput,
@@ -45,8 +45,8 @@ export interface FormState {
   paydayRule: PaydayRule | "";
   bills: BillRow[];
   income: IncomeRow[];
-  foodPerDay: string;
-  travel: string;
+  foodPerWeek: string;
+  travelPerWeek: string;
   buffer: string;
   bankHolidays: string;
   /** The person's answers to "is this already in your balance?", by row id. */
@@ -69,8 +69,8 @@ export function emptyForm(): FormState {
     paydayRule: "",
     bills: [newBillRow()],
     income: [],
-    foodPerDay: "",
-    travel: "",
+    foodPerWeek: "",
+    travelPerWeek: "",
     buffer: "",
     bankHolidays: "",
     answers: {},
@@ -214,26 +214,26 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
     });
   }
 
-  // Food, travel and buffer
+  // Food, travel and the rainy-day pot (called "buffer" inside the code)
   const essentials: Essential[] = [];
-  if (!blank(form.foodPerDay)) {
-    const parsed = parseMoney(form.foodPerDay);
+  if (!blank(form.foodPerWeek)) {
+    const parsed = parseMoney(form.foodPerWeek);
     if (!parsed.ok) messages.push(words.cantReadAmount("food and everyday spending"));
     else if (parsed.pence > 0) {
-      essentials.push({ id: "food", name: "Food and everyday spending", kind: "per-day", amount: parsed.pence });
+      essentials.push({ id: "food", name: "Food and everyday spending", kind: "per-week", amount: parsed.pence });
     }
   }
-  if (!blank(form.travel)) {
-    const parsed = parseMoney(form.travel);
+  if (!blank(form.travelPerWeek)) {
+    const parsed = parseMoney(form.travelPerWeek);
     if (!parsed.ok) messages.push(words.cantReadAmount("travel"));
     else if (parsed.pence > 0) {
-      essentials.push({ id: "travel", name: "Travel", kind: "lump-sum", amount: parsed.pence });
+      essentials.push({ id: "travel", name: "Travel", kind: "per-week", amount: parsed.pence });
     }
   }
   let buffer = 0;
   if (!blank(form.buffer)) {
     const parsed = parseMoney(form.buffer);
-    if (!parsed.ok) messages.push(words.cantReadAmount("your safety buffer"));
+    if (!parsed.ok) messages.push(words.cantReadAmount("your rainy-day pot"));
     else buffer = parsed.pence;
   }
 
@@ -255,5 +255,55 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
       buffer,
       savings: [],
     },
+  };
+}
+
+export interface FormSummary {
+  account: string;
+  payday: string;
+  bills: string;
+  income: string;
+  essentials: string;
+  holidays: string;
+}
+
+function plural(count: number, one: string, many: string): string {
+  return count === 1 ? `1 ${one}` : `${count} ${many}`;
+}
+
+/** A few words about each part of the form, shown in the menu so people know where things are. */
+export function describeForm(form: FormState): FormSummary {
+  let account: string = words.notSetYet;
+  if (!blank(form.balance)) {
+    const parsed = parseMoney(form.balance, { allowNegative: true });
+    account = parsed.ok ? formatMoney(parsed.pence) : words.needsALook;
+  }
+
+  let payday: string = words.notSetYet;
+  if (!blank(form.paydayDate)) {
+    payday = isRealDay(form.paydayDate) ? formatDayLong(form.paydayDate) : words.needsALook;
+  }
+
+  const billCount = form.bills.filter((row) => !(blank(row.name) && blank(row.amount) && row.dueDate === "")).length;
+  const incomeCount = form.income.filter((row) => !(blank(row.name) && blank(row.amount) && row.date === "")).length;
+
+  const setEssentials: string[] = [];
+  if (!blank(form.foodPerWeek)) setEssentials.push("food");
+  if (!blank(form.travelPerWeek)) setEssentials.push("travel");
+  if (!blank(form.buffer)) setEssentials.push("rainy-day pot");
+  const essentials =
+    setEssentials.length === 0
+      ? words.notSetYet
+      : setEssentials[0]!.charAt(0).toUpperCase() + setEssentials.join(", ").slice(1);
+
+  const holidayCount = parseDayList(form.bankHolidays).days.length;
+
+  return {
+    account,
+    payday,
+    bills: billCount === 0 ? words.noneAdded : plural(billCount, "bill", "bills"),
+    income: incomeCount === 0 ? words.noneAdded : plural(incomeCount, "item", "items"),
+    essentials,
+    holidays: holidayCount === 0 ? words.noneAdded : plural(holidayCount, "date", "dates"),
   };
 }

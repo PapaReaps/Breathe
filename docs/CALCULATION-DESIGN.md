@@ -16,7 +16,7 @@ Balance you entered
 - bills due before (or on) payday that your balance has not yet paid
 - pending payments that your balance does not yet show
 - planned food and travel until payday
-- your protected buffer
+- your rainy-day pot
 - savings you have genuinely committed to, not yet moved
 = SAFE TO SPEND
 ```
@@ -50,9 +50,9 @@ When you type in your balance, the app records **the amount and the moment you e
 
 **R8. Bills due on a weekend.** Dates are used as you enter them. Optionally, a bill can be marked "usually taken the next working day", which may move it in or out of the window. The cautious default: a bill is counted if *either* its due date or its working-day date falls inside the window.
 
-**R9. Planned essentials (food, travel).** Entered as a daily amount or a lump sum, for the days from the snapshot to payday. To avoid overlap with bills, the setup asks "Is this already one of your bills?" A monthly travel pass is a bill, not an essential.
+**R9. Planned essentials (food, travel).** Entered as a **weekly amount**. The app spreads it evenly over the days from the balance snapshot until payday (that many days out of 7) and **rounds up to the next penny**, so the figure can never be overstated. For example, £63 a week over 16 days is exactly £144, and £10 a week over 1 day is 143p. The calculator can also take a daily amount or a lump sum. To avoid overlap with bills, a monthly travel pass is a bill, not an essential.
 
-**R10. Protected buffer.** Subtracted once, always. It is yours and the app never "spends" it.
+**R10. Rainy-day pot** (called the "buffer" in the code). A **one-off amount** you keep aside. It does not change with the number of days until payday. It is subtracted once, always. It is yours and the app never "spends" it.
 
 **R11. Savings.**
 - Your savings balance is **never** added to safe-to-spend.
@@ -114,11 +114,22 @@ All examples use fictional people and figures.
 - S3. An uncommitted "I would like to save" transfer is not subtracted.
 - S4. A transfer already made is not subtracted again.
 
+**Weekly amounts (food, travel) and the rainy-day pot**
+- X1. A whole number of weeks is exact.
+- X2. £63 a week over 16 days is exactly £144.
+- X3. Part-weeks round up to the next penny.
+- X4. Payday today means nothing weekly is taken.
+- X5. Rounding never overstates the safe-to-spend figure and never loses more than a penny, across many amounts and day counts.
+- X6. The one-off rainy-day pot is the same however many days are left.
+- X7. No pot means no pot line.
+- X8. The breakdown still adds up exactly with weekly amounts and a rainy-day pot in it.
+- X9. Unusable weekly amounts and pot amounts are refused.
+
 **Money maths and edge cases**
 - M1. Pennies add up exactly (for example 0.10 + 0.20 gives exactly 30p).
 - M2. Zero balance. M3. Zero bills. M4. Everything zero.
 - M5. Result exactly zero. M6. Result negative, and the true figure is returned.
 - M7. Very large numbers do not break.
-- M8. Buffer larger than the balance.
+- M8. Rainy-day pot larger than the balance.
 - M9. Old balance triggers the out-of-date warning. A fresh one does not.
 - M10. The same inputs always give the same answer, and the inputs are not changed.

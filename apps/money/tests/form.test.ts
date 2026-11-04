@@ -32,13 +32,16 @@ describe("turning the form into calculator input", () => {
     expect(messagesOf(result)).toEqual([words.needBalance, words.needPayday]);
   });
 
-  it("a realistic month adds up (£188.00)", () => {
+  it("a realistic month adds up (£168.00)", () => {
     const bill = { ...newBillRow(), name: "Phone", amount: "18", dueDate: "2026-11-10" };
     const input = ready(
-      buildInput(filled({ bills: [bill], foodPerDay: "9", travel: "20", buffer: "50" }), TODAY),
+      buildInput(
+        filled({ bills: [bill], foodPerWeek: "63", travelPerWeek: "17.50", buffer: "50" }),
+        TODAY,
+      ),
     );
-    // 420 - 18 - (9 x 16 days) - 20 - 50
-    expect(calculateSafeToSpend(input).safeToSpend).toBe(18800);
+    // 16 days to payday. 420 - 18 - food (63 a week = 144) - travel (17.50 a week = 40) - buffer 50 (one-off)
+    expect(calculateSafeToSpend(input).safeToSpend).toBe(16800);
   });
 
   it("blank rows are ignored, and half-filled rows get a gentle nudge", () => {

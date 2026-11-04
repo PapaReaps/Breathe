@@ -1,4 +1,4 @@
-/* Plain, neutral placeholder styling. Real branding comes later. */
+/* Plain, neutral placeholder styling. Real branding comes later (docs/BRANDING.md). */
 :root {
   font-family: system-ui, "Segoe UI", Arial, sans-serif;
   line-height: 1.6;
@@ -14,30 +14,15 @@ body {
   margin: 0;
 }
 
-.page {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+/* Stop the page behind the menu scrolling while the menu is open. */
+body:has(dialog[open]) {
+  overflow: hidden;
 }
 
-h1 {
-  font-size: 2rem;
-  margin: 0 0 0.5rem;
-}
-
-h2 {
-  font-size: 1.25rem;
-  margin: 0 0 0.75rem;
-}
-
+h1,
+h2,
 h3 {
-  font-size: 1.05rem;
-  margin: 1.25rem 0 0.5rem;
-}
-
-.lead {
-  font-size: 1.1rem;
-  margin-top: 0;
+  margin: 0;
 }
 
 .small,
@@ -47,38 +32,214 @@ h3 {
   margin: 0.25rem 0 0.5rem;
 }
 
-.card {
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 12px;
-  padding: 1.25rem;
-  margin: 1rem 0;
+/* ---------- Home: one question, one answer ---------- */
+
+.home {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-.result {
-  border: 2px solid #8a8a8a;
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.app-name {
+  font-weight: 600;
+  color: #555555;
+}
+
+.menu-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: #333333;
+}
+
+.home-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 5rem;
+}
+
+.home-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #444444;
 }
 
 .big-number {
-  font-size: 3rem;
+  font-size: clamp(3.25rem, 18vw, 5rem);
   font-weight: 700;
   line-height: 1.1;
-  margin: 0.25rem 0 0.5rem;
+  margin: 0.5rem 0 1rem;
+  font-variant-numeric: tabular-nums;
 }
+
+.home-message {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 1rem;
+  max-width: 28rem;
+}
+
+.big-button {
+  font-size: 1.1rem;
+  padding: 0.75rem 1.75rem;
+  margin: 0.5rem 0 1rem;
+}
+
+/* ---------- The menu panel ---------- */
+
+dialog.sheet {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  background: #ffffff;
+  color: #222222;
+}
+
+dialog.sheet::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+dialog.sheet[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 40.0625rem) {
+  dialog.sheet {
+    max-width: 38rem;
+    height: auto;
+    max-height: 90vh;
+    margin: 5vh auto;
+    border-radius: 16px;
+  }
+}
+
+.sheet-inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.sheet-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1rem 2rem;
+}
+
+.sheet-body h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  text-wrap: balance;
+}
+
+.sheet-body h2:focus {
+  outline: none;
+}
+
+.sheet-footer {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e3e3e3;
+  background: #f6f6f6;
+  font-weight: 600;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.menu-list li + li {
+  border-top: 1px solid #e3e3e3;
+}
+
+.menu-item {
+  width: 100%;
+  min-height: 3.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 1rem;
+  text-align: left;
+  background: #ffffff;
+  color: #222222;
+  border: none;
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+}
+
+.menu-title {
+  font-weight: 600;
+}
+
+.menu-sub {
+  color: #555555;
+  text-align: right;
+  margin-left: auto;
+}
+
+.gentle {
+  background: #f3f3f3;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.gentle p {
+  margin: 0.25rem 0;
+  font-weight: 600;
+}
+
+.about-promise {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* ---------- Forms (inside the menu) ---------- */
 
 .field {
   margin: 0 0 1rem;
 }
 
-label,
-summary {
+label {
   display: block;
   font-weight: 600;
   margin-bottom: 0.25rem;
-}
-
-summary {
-  cursor: pointer;
 }
 
 input,
@@ -160,7 +321,7 @@ button.link {
   padding: 0.25rem 0;
 }
 
-.breakdown .plain-list li {
+.breakdown li {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
@@ -176,7 +337,12 @@ button.link {
   background: #f3f3f3;
   border-radius: 8px;
   padding: 0.5rem 1rem 1rem;
-  margin: 1rem 0;
+  margin: 0 0 1rem;
+}
+
+.question h3 {
+  font-size: 1.05rem;
+  margin: 0.75rem 0 0.25rem;
 }
 
 .question-item p {
