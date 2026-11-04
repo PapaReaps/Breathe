@@ -1,5 +1,6 @@
 import { PotBadge } from "../components/PotBadge";
 import { describeWarning, headlineFor, paydayLine, words } from "../content/words";
+import { BUILT_IN_LAST_DAY } from "../data/bankHolidays";
 import { formatDayLong } from "../logic/dates";
 import type { BuildResult } from "../logic/form";
 import type { NeedsAnswer, Outcome, PanelId } from "./screenTypes";
@@ -129,6 +130,7 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
   // If a payday has gone by since the balance was entered, say that instead of the general
   // "your balance may be out of date" note. It is kind, and it is never hidden by a setting.
   const paidSince = built.status === "ready" ? built.paidSince : null;
+  const listEnded = built.status === "ready" && built.holidayListEnded;
   const outOfDateText = outOfDate && paidSince === null ? describeWarning(outOfDate) : null;
 
   return (
@@ -153,6 +155,14 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
         </p>
       ) : null}
       {outOfDateText ? <p className="small">{outOfDateText}</p> : null}
+      {listEnded ? (
+        <p className="small">
+          {words.holidayListEnded(`the end of ${BUILT_IN_LAST_DAY.slice(0, 4)}`)}{" "}
+          <button type="button" className="link" onClick={() => onOpen("holidays")}>
+            {words.menu.names.holidays}
+          </button>
+        </p>
+      ) : null}
       {waitingQuestions.length > 0 ? (
         <button type="button" className="link" onClick={() => onOpen("explain")}>
           {home.questionWaiting}

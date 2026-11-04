@@ -30,6 +30,7 @@ The first app is **Breathe Money**. It answers one question, calmly, on one scre
 - Shows how much is **safe to spend until payday**, after your bills, food and travel, and a rainy-day pot you choose to keep aside.
 - Counts every pound **once**. Bills already taken from your balance are not taken off twice, and money that might not arrive is never counted.
 - Handles real life: paydays that fall on weekends or bank holidays, bills due on payday, and a balance that is a few days old.
+- Knows the **UK bank holidays** (England and Wales, Scotland or Northern Ireland), built in, so you don't have to type them. Nothing is looked up online.
 - Copes with **paydays and bills that repeat**: paid weekly, every 2 or 4 weeks, or monthly, and bills that come round on the same pattern. Payday rolls forward by itself.
 - Gently says when a payday has gone by since you last updated your balance, and lets you choose **how often it reminds you** (or not at all).
 - Starts with a **gentle step-by-step setup**: one question per screen, and every question can be skipped.

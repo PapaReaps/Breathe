@@ -171,7 +171,7 @@ describe("backup files", () => {
     expect(parseBackupText(text([1, 2]))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ app: "something-else", format: 1, form: good.form }))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ app: "breathe-money", form: good.form }))).toEqual({ ok: false, reason: "not-ours" });
-    expect(parseBackupText(text({ ...good, format: 3 }))).toEqual({ ok: false, reason: "newer" });
+    expect(parseBackupText(text({ ...good, format: 4 }))).toEqual({ ok: false, reason: "newer" });
     expect(parseBackupText(text({ ...good, format: 0 }))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ ...good, form: { ...good.form, balance: 5 } }))).toEqual({ ok: false, reason: "unreadable" });
     expect(parseBackupText("x".repeat(1_000_001))).toEqual({ ok: false, reason: "too-big" });

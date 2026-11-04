@@ -34,6 +34,11 @@ function collectSampleSentences(): string[] {
   sentences.push(
     words.askPaydayRule("a Saturday"),
     words.askPaydayRuleMonthly,
+    words.holidaysSummaryRegion("scotland", 0),
+    words.holidaysSummaryRegion("northern-ireland", 1),
+    words.holidaysSummaryRegion("england-and-wales", 3),
+    words.holidayListEnded("Dec 2028"),
+    words.ui.holidaysCovers("28 Dec 2028"),
     words.paydaySummary("Fri 6 Nov", "weekly"),
     words.paydaySummary("Fri 6 Nov", "monthly"),
     words.home.paidSince("Fri 30 Oct"),

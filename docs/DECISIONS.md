@@ -55,3 +55,13 @@ Not legal advice.
 
 Founding promise check: nothing in Stage 7 collects anything, costs anything or adds pressure. The reminder can be switched off. Result: **in line with the promise.**
 
+## Stage 7c: built-in bank holidays
+
+- **Source:** the official GOV.UK list, copied into the app as a plain list of dates. The app never fetches anything, so it works offline and nothing leaves the device.
+- **Three regions** (England and Wales, Scotland, Northern Ireland), plus "I'll type my own". Extra typed days are always added on top.
+- **The list has an end.** When it runs out the app says so instead of guessing. Someone refreshes it about once a year (`docs/UPDATING-BANK-HOLIDAYS.md`).
+- **Only dates are stored**, from 2024 onwards, to keep it small and simple.
+- Saved numbers moved to format 3; formats 1 and 2 are still read.
+
+Founding promise check: nothing collected, nothing costs money, no pressure added. Result: **in line with the promise.**
+

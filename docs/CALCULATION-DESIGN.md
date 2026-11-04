@@ -80,6 +80,8 @@ When you type in your balance, the app records **the amount and the moment you e
 
 **R20. How old is too old (R14).** The "balance may be out of date" note appears when the balance is older than a number of days the person chooses in Settings: *every day* (anything older than today), *every 3 days* (the usual choice), *once a week*, or *never*. If a payday has gone by, the "paid since" note (R19) is shown instead, so there is only ever one gentle note.
 
+**R21. Bank holidays can be built in (Stage 7c).** The days money does not move (R7, R8, R18) are the weekends plus a list of bank holidays. That list is now either the person's own typed days, or the official GOV.UK list for England and Wales, Scotland or Northern Ireland, plus any extra days they type. The calculation is not changed: it is given one combined list. The built-in list has a last day it covers. Past that day the app says so and does not pretend the days are ordinary.
+
 ## Test plan (written in Stage 2, before the calculation code)
 
 All examples use fictional people and figures.

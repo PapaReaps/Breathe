@@ -1,3 +1,5 @@
+import { isHolidayRegion } from "../data/bankHolidays";
+import type { HolidayRegion } from "../data/bankHolidays";
 import { isRepeat } from "../logic/repeat";
 import type { Repeat } from "../logic/repeat";
 import { PAYDAY_RULES } from "../logic/types";
@@ -14,10 +16,11 @@ import type { BillRow, FormState, IncomeRow } from "../logic/form";
 
 /**
  * 2 added "how often" for payday, bills and money coming in.
- * Format 1 (saved before that) is still read; it just means "one date only".
+ * 3 added the choice of built-in bank holiday list.
+ * Formats 1 and 2 are still read: no "how often" means "one date only", and no list means "my own".
  * An older version of the app refuses a format 2 file as "newer" instead of guessing.
  */
-export const SAVE_FORMAT = 2;
+export const SAVE_FORMAT = 3;
 const OLDEST_READABLE_FORMAT = 1;
 export const BACKUP_APP = "breathe-money";
 
@@ -55,6 +58,12 @@ function rowId(value: unknown, prefix: "bill" | "income", seen: Set<string>): st
 function readRepeat(value: unknown): Repeat | null {
   if (value === undefined) return "once";
   return isRepeat(value) ? value : null;
+}
+
+/** Missing means saved before regions existed: only the typed days. Anything unknown is refused. */
+function readRegion(value: unknown): HolidayRegion | null {
+  if (value === undefined) return "own";
+  return isHolidayRegion(value) ? value : null;
 }
 
 function readBills(raw: unknown): BillRow[] | null {
@@ -127,12 +136,13 @@ export function readForm(raw: unknown): FormState | null {
   const travelPerWeek = text(raw.travelPerWeek, MAX_AMOUNT_TEXT);
   const buffer = text(raw.buffer, MAX_AMOUNT_TEXT);
   const bankHolidays = text(raw.bankHolidays, MAX_HOLIDAYS_TEXT);
+  const bankHolidayRegion = readRegion(raw.bankHolidayRegion);
   const answers = readAnswers(raw.answers);
 
   if (
     balance === null || balanceDate === null || paydayDate === null || paydayRule === null || paydayRepeat === null ||
     bills === null || income === null || foodPerWeek === null || travelPerWeek === null ||
-    buffer === null || bankHolidays === null || answers === null
+    buffer === null || bankHolidays === null || bankHolidayRegion === null || answers === null
   ) {
     return null;
   }
@@ -141,7 +151,7 @@ export function readForm(raw: unknown): FormState | null {
   const keptIncome = income.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.date === ""));
   return {
     balance, balanceDate, paydayDate, paydayRule, paydayRepeat, bills: keptBills, income: keptIncome,
-    foodPerWeek, travelPerWeek, buffer, bankHolidays, answers,
+    foodPerWeek, travelPerWeek, buffer, bankHolidays, bankHolidayRegion, answers,
   };
 }
 
@@ -165,6 +175,7 @@ export function formRecord(form: FormState): FormState {
     travelPerWeek: form.travelPerWeek,
     buffer: form.buffer,
     bankHolidays: form.bankHolidays,
+    bankHolidayRegion: isHolidayRegion(form.bankHolidayRegion) ? form.bankHolidayRegion : "own",
     answers: { ...form.answers },
   };
 }

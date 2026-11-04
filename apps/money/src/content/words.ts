@@ -230,6 +230,15 @@ export const words = {
   balanceDateFuture: "The date for your balance can't be in the future. Pick today, or an earlier day.",
   askPaydayRule: (phrase: string) =>
     `Your payday falls on ${phrase}. When do you usually get paid then?`,
+  holidaysSummaryRegion: (
+    region: "england-and-wales" | "scotland" | "northern-ireland",
+    extra: number,
+  ) => {
+    const name = { "england-and-wales": "England and Wales", scotland: "Scotland", "northern-ireland": "Northern Ireland" }[region];
+    return extra === 0 ? name : `${name} + ${extra === 1 ? "1 extra" : `${extra} extra`}`;
+  },
+  holidayListEnded: (until: string) =>
+    `The built-in bank holidays only go up to ${until}. You can add later ones yourself in the Menu, under Bank holidays.`,
   askPaydayRuleMonthly:
     "Sometimes your payday will fall on a weekend or bank holiday. When do you usually get paid then?",
   paydaySummary: (day: string, repeat: "weekly" | "fortnightly" | "four-weekly" | "monthly") =>
@@ -310,8 +319,20 @@ export const words = {
     bufferHint:
       "Money you would rather not touch. It stays the same however many days are left. Leave it empty for none.",
 
-    holidaysSummary: "Bank holidays (optional)",
+    holidaysSummary: "Bank holidays",
+    holidaysRegionLabel: "Where do you live?",
+    holidaysRegionHint:
+      "I'll use the official bank holidays for that part of the UK, so you don't have to type them. Weekends are already handled.",
+    holidaysRegionOptions: {
+      own: "I'll type my own",
+      "england-and-wales": "England and Wales",
+      scotland: "Scotland",
+      "northern-ireland": "Northern Ireland",
+    },
+    holidaysCovers: (until: string) => `The built-in list goes up to ${until}. The dates come from GOV.UK.`,
     holidaysHint:
+      "Extra days when money doesn't move (optional), written like 2026-12-25 and separated by spaces or commas. These are added to the list above.",
+    holidaysHintOwn:
       "Days when money doesn't move, written like 2026-12-25 and separated by spaces or commas. Weekends are already handled.",
 
     breakdownTitle: "Where this number comes from",

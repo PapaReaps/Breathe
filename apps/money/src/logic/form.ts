@@ -12,6 +12,8 @@ import type {
   PaydayRule,
 } from "./types";
 import { words } from "../content/words";
+import { BUILT_IN_HOLIDAYS, BUILT_IN_LAST_DAY, isHolidayRegion } from "../data/bankHolidays";
+import type { HolidayRegion } from "../data/bankHolidays";
 
 /*
  * Turns what is typed into the form into the information the calculator needs.
@@ -62,7 +64,10 @@ export interface FormState {
   foodPerWeek: string;
   travelPerWeek: string;
   buffer: string;
+  /** Extra days when money does not move, typed by the person, on top of their region's list. */
   bankHolidays: string;
+  /** Which built-in list of bank holidays to use. "own" means only the typed days. */
+  bankHolidayRegion: HolidayRegion;
   /** The person's answers to "is this already in your balance?", by row id. */
   answers: Record<string, boolean>;
 }
@@ -88,6 +93,7 @@ export function emptyForm(): FormState {
     travelPerWeek: "",
     buffer: "",
     bankHolidays: "",
+    bankHolidayRegion: "own",
     answers: {},
   };
 }
@@ -123,11 +129,26 @@ export function parseDayList(text: string): { days: DateString[]; bad: string[] 
   return { days, bad };
 }
 
+/** Numbers saved before regions existed have none, which means "my own list". */
+export function regionOf(form: Pick<FormState, "bankHolidayRegion">): HolidayRegion {
+  return isHolidayRegion(form.bankHolidayRegion) ? form.bankHolidayRegion : "own";
+}
+
+/** Every day money does not move: the built-in list for the region, plus any days typed in. */
+export function holidayDays(region: HolidayRegion, typedText: string): DateString[] {
+  const typed = parseDayList(typedText).days;
+  if (region === "own") return typed;
+  return [...new Set([...BUILT_IN_HOLIDAYS[region], ...typed])];
+}
+
 /** Is this payday a weekend or a listed bank holiday? */
-export function paydayIsNonWorkingDay(paydayDate: string, bankHolidaysText: string): boolean {
+export function paydayIsNonWorkingDay(
+  paydayDate: string,
+  bankHolidaysText: string,
+  region: HolidayRegion = "own",
+): boolean {
   if (!isRealDay(paydayDate)) return false;
-  const { days } = parseDayList(bankHolidaysText);
-  return !isWorkingDay(paydayDate, new Set(days));
+  return !isWorkingDay(paydayDate, new Set(holidayDays(region, bankHolidaysText)));
 }
 
 /** "a Saturday", "a Sunday" or "a bank holiday". */
@@ -150,17 +171,18 @@ function repeatOf(value: unknown): Repeat {
 export function paydayRuleQuestion(form: FormState, today: DateString): string | null {
   if (!isRealDay(form.paydayDate)) return null;
   const repeat = repeatOf(form.paydayRepeat);
+  const region = regionOf(form);
   if (repeat === "once") {
-    return paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays)
+    return paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays, region)
       ? words.askPaydayRule(nonWorkingDayPhrase(form.paydayDate))
       : null;
   }
   if (repeat === "monthly") return words.askPaydayRuleMonthly;
-  if (paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays)) {
+  if (paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays, region)) {
     return words.askPaydayRule(nonWorkingDayPhrase(form.paydayDate));
   }
   const next = nextOccurrenceOnOrAfter(form.paydayDate, repeat, today);
-  if (next !== null && paydayIsNonWorkingDay(next, form.bankHolidays)) {
+  if (next !== null && paydayIsNonWorkingDay(next, form.bankHolidays, region)) {
     return words.askPaydayRule(nonWorkingDayPhrase(next));
   }
   return null;
@@ -221,6 +243,8 @@ export type BuildResult =
       input: CalculatorInput;
       /** Set when a repeating payday has gone by since the balance was entered. */
       paidSince: DateString | null;
+      /** True when a built-in bank holiday list is chosen but payday is past the dates it covers. */
+      holidayListEnded: boolean;
     };
 
 export interface BuildOptions {
@@ -275,6 +299,8 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
   if (holidays.bad.length > 0) messages.push(words.cantReadDates(holidays.bad.join(", ")));
 
   // Payday
+  const region = regionOf(form);
+  const allHolidays = holidayDays(region, form.bankHolidays);
   const paydayRepeat = repeatOf(form.paydayRepeat);
   const paydayRule: PaydayRule = form.paydayRule === "" ? "on-the-day" : form.paydayRule;
   let plan: PaydayPlan | null = null;
@@ -288,7 +314,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
       messages.push(question);
     } else {
       const from = isRealDay(balanceDate) && balanceDate <= today ? balanceDate : today;
-      plan = planPayday(form.paydayDate, paydayRepeat, paydayRule, holidays.days, today, from);
+      plan = planPayday(form.paydayDate, paydayRepeat, paydayRule, allHolidays, today, from);
     }
   }
   const windowStart = isRealDay(balanceDate) && balanceDate <= today ? balanceDate : today;
@@ -387,7 +413,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
       today,
       balance: { amount: balance, asOf: balanceDate },
       payday: { date: plan.nominal, ifNotWorkingDay: paydayRule },
-      nonWorkingDays: holidays.days,
+      nonWorkingDays: allHolidays,
       bills,
       income,
       pendingPayments: [],
@@ -397,6 +423,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
       ...(options.staleAfterDays === undefined ? {} : { staleAfterDays: options.staleAfterDays }),
     },
     paidSince: plan.paidSince,
+    holidayListEnded: region !== "own" && plan.resolved > BUILT_IN_LAST_DAY,
   };
 }
 
@@ -431,7 +458,7 @@ export function describeForm(form: FormState, today?: DateString): FormSummary {
       let day = form.paydayDate;
       if (repeat !== "once" && today !== undefined) {
         const rule: PaydayRule = form.paydayRule === "" ? "on-the-day" : form.paydayRule;
-        day = planPayday(form.paydayDate, repeat, rule, parseDayList(form.bankHolidays).days, today, today).resolved;
+        day = planPayday(form.paydayDate, repeat, rule, holidayDays(regionOf(form), form.bankHolidays), today, today).resolved;
       }
       payday = repeat === "once" ? formatDayLong(day) : words.paydaySummary(formatDayLong(day), repeat);
     }
@@ -455,6 +482,7 @@ export function describeForm(form: FormState, today?: DateString): FormSummary {
   }
 
   const holidayCount = parseDayList(form.bankHolidays).days.length;
+  const holidayRegion = regionOf(form);
 
   return {
     account,
@@ -463,6 +491,11 @@ export function describeForm(form: FormState, today?: DateString): FormSummary {
     income: incomeCount === 0 ? words.noneAdded : plural(incomeCount, "item", "items"),
     essentials,
     pot,
-    holidays: holidayCount === 0 ? words.noneAdded : plural(holidayCount, "date", "dates"),
+    holidays:
+      holidayRegion !== "own"
+        ? words.holidaysSummaryRegion(holidayRegion, holidayCount)
+        : holidayCount === 0
+          ? words.noneAdded
+          : plural(holidayCount, "date", "dates"),
   };
 }

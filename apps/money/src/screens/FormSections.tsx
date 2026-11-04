@@ -1,7 +1,8 @@
 import { MoneyField } from "../components/MoneyField";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
-import { paydayRuleQuestion } from "../logic/form";
+import { BUILT_IN_LAST_DAY, HOLIDAY_REGIONS } from "../data/bankHolidays";
+import { paydayRuleQuestion, regionOf } from "../logic/form";
 import type { FormState } from "../logic/form";
 import { billsTotalLine, incomeTotalLine, isBlankBill, isBlankIncome, summariseBill, summariseIncome } from "../logic/rows";
 import { REPEATS } from "../logic/repeat";
@@ -277,15 +278,36 @@ export function PotSection({ form, api }: SectionProps) {
 }
 
 export function HolidaysSection({ form, api }: SectionProps) {
+  const region = regionOf(form);
+  const until = `the end of ${BUILT_IN_LAST_DAY.slice(0, 4)}`;
   return (
-    <div className="field">
-      <label htmlFor="bank-holidays">{ui.holidaysHint}</label>
-      <textarea
-        id="bank-holidays"
-        rows={4}
-        value={form.bankHolidays}
-        onChange={(event) => api.set("bankHolidays", event.target.value)}
-      />
-    </div>
+    <>
+      <fieldset className="choice-group">
+        <legend>{ui.holidaysRegionLabel}</legend>
+        <p className="hint">{ui.holidaysRegionHint}</p>
+        {HOLIDAY_REGIONS.map((choice) => (
+          <label key={choice} className="choice">
+            <input
+              type="radio"
+              name="holiday-region"
+              value={choice}
+              checked={region === choice}
+              onChange={() => api.set("bankHolidayRegion", choice)}
+            />
+            <span>{ui.holidaysRegionOptions[choice]}</span>
+          </label>
+        ))}
+        {region === "own" ? null : <p className="hint">{ui.holidaysCovers(until)}</p>}
+      </fieldset>
+      <div className="field">
+        <label htmlFor="bank-holidays">{region === "own" ? ui.holidaysHintOwn : ui.holidaysHint}</label>
+        <textarea
+          id="bank-holidays"
+          rows={4}
+          value={form.bankHolidays}
+          onChange={(event) => api.set("bankHolidays", event.target.value)}
+        />
+      </div>
+    </>
   );
 }
