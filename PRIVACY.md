@@ -1,6 +1,14 @@
 # Privacy
 
-**Current status:** there is no app yet, so Breathe collects nothing.
+**Current status (Stage 4):** Breathe Money keeps your numbers **on your own device**, inside your web browser (in a built-in browser database called IndexedDB). Breathe collects nothing. There is no server to send anything to, and the app makes no requests to other websites.
+
+**Where your numbers live, and what that means:**
+
+- Only on the device and browser you typed them into.
+- **Not encrypted.** Anyone who can open that browser on that device could see them.
+- The browser can remove them (for example if you clear your browsing data). A backup file is the safety net.
+- A backup file is **also not encrypted** (passphrase-encrypted backups are planned for Stage 8). The app says so before it makes one.
+- "Clear my numbers" in the app removes them from the device.
 
 ## Our promises
 
