@@ -27,7 +27,7 @@ When you type in your balance, the app records **the amount and the moment you e
 
 ## Rules
 
-**R1. Money is whole pennies.** £12.50 is stored as 1250. No decimals in calculations.
+**R1. Money is whole pennies, behind the scenes.** The app stores £12.50 as 1250 and uses whole numbers in every calculation, because computers make tiny rounding errors with decimals. People never see this. They type and read normal amounts such as £12.50, and the app converts in both directions. Typed amounts like `12`, `12.5`, `£12.50` and `12,50` should all be understood kindly.
 
 **R2. The window.** The calculation covers *from your balance snapshot until payday*.
 

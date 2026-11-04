@@ -19,7 +19,17 @@ Git stamps every saved change with a name and an email address, and on a public 
 
 You can also tick **Block command line pushes that expose my email**.
 
-## Steps
+## From Stage 1: Node.js
+
+Stage 1 also needs **Node.js (LTS)** from nodejs.org. Use the Windows 64-bit installer (`.msi`) and accept the defaults. Close and reopen PowerShell afterwards and check with `node --version` and `npm --version`.
+
+If PowerShell says running scripts is disabled, run this once, then type **Y**:
+
+```
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+## Steps (Stage 0: first upload)
 
 1. **Tell Git who you are** (once only). Open **PowerShell** from the Start menu and type these two lines, with your own details:
    ```

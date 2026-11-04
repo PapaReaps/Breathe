@@ -1,0 +1,31 @@
+/* Plain, neutral placeholder styling. Real branding comes later. */
+:root {
+  font-family: system-ui, "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+  color: #222222;
+  background: #fafafa;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+}
+
+.small {
+  font-size: 1rem;
+  color: #555555;
+}

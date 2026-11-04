@@ -8,7 +8,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ## Status
 
-**Stage 0: Foundations.** There is no app yet. This stage only sets up the project's promises, plans and structure.
+**Stage 1: Hello Breathe.** A tiny starter page and one example test. There are no money features yet. Stage 0 set up the promises, plans and structure.
 
 ## The Breathe family
 

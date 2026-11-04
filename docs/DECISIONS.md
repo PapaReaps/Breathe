@@ -26,6 +26,10 @@ A short record of what was decided and why, plus what is still open. Every entry
 | F | Where do we publish? GitHub Pages shares one storage area per account | Stage 10 | A dedicated repository and address; check storage separation first |
 | G | App lock: "privacy screen" only, or optional device encryption too? | Stage 9 | Privacy screen first; encryption as a later, opt-in extra |
 
+## Founding promise check: Stage 1
+
+Stage 1 adds one runtime dependency pair (React) and development-only tools (Vite, TypeScript, Vitest). Development tools are not shipped inside the finished app. The page loads nothing from other companies and collects nothing. Result: **in line with the promise.**
+
 ## Founding promise check: Stage 0
 
 Nothing in Stage 0 collects data, costs money, or adds pressure. Result: **in line with the promise.**
