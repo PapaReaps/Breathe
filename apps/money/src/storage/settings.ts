@@ -1,3 +1,5 @@
+import { rememberAppearance } from "../splash";
+
 /*
  * Preferences about how the app looks. Kept apart from the numbers, so
  * "Clear my numbers" never resets them and backups never carry them.
@@ -121,6 +123,7 @@ export function applySettings(settings: Settings): void {
     else root.setAttribute(name, value);
   };
   set("data-theme", settings.appearance, settings.appearance === "system");
+  rememberAppearance(settings.appearance);
   set("data-accent", settings.accent, settings.accent === DEFAULT_SETTINGS.accent);
   set("data-pot", settings.potColour, settings.potColour === DEFAULT_SETTINGS.potColour);
   set("data-text", settings.textSize, settings.textSize === DEFAULT_SETTINGS.textSize);

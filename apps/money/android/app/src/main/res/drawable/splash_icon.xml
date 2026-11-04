@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The still circle Android shows the moment the app opens. It is the same size and colour
+  as the first moment of the web app's breath, so the hand-over from Android to the app is seamless.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+    <path
+        android:fillColor="@color/splash_dot"
+        android:pathData="M144,105.6a38.4,38.4 0,1 1,0 76.8a38.4,38.4 0,1 1,0 -76.8z" />
+</vector>

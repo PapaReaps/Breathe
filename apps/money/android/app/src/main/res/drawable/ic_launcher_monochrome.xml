@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For Android's "themed icons": one colour, which the phone tints to match the wallpaper. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeAlpha="0.5"
+        android:strokeWidth="2"
+        android:pathData="M54,32.9a21.1,21.1 0,1 1,0 42.2a21.1,21.1 0,1 1,0 -42.2z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,41.6a12.4,12.4 0,1 1,0 24.8a12.4,12.4 0,1 1,0 -24.8z" />
+</vector>

@@ -2,16 +2,91 @@
 <html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Breathe Money</title>
     <meta name="description" content="A calm, private way to see how much you can spend until payday." />
     <meta name="theme-color" content="#1f5f5b" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+      // Before anything is drawn: use the light or dark choice from Settings, so the
+      // opening screen never flashes the wrong colour. Only that one word is kept here.
+      try {
+        var theme = localStorage.getItem("breathe-appearance");
+        if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {}
+    </script>
+    <style>
+      /*
+       * The opening "breath": one slow breath in, then the app fades in.
+       * Under a second, and only when the app starts fresh. With "reduce motion"
+       * it is a still circle that fades away as soon as the app is ready.
+       */
+      #splash {
+        --splash-bg: #f6f5f1;
+        --splash-dot: #1f5f5b;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        background: var(--splash-bg);
+        transition: opacity 240ms ease-out;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) #splash { --splash-bg: #151b1e; --splash-dot: #7cc4bd; }
+      }
+      :root[data-theme="dark"] #splash { --splash-bg: #151b1e; --splash-dot: #7cc4bd; }
+      #splash.splash-out { opacity: 0; pointer-events: none; }
+      .splash-mark { position: relative; width: 168px; height: 168px; }
+      .splash-ring, .splash-dot { position: absolute; inset: 0; margin: auto; border-radius: 50%; }
+      .splash-ring {
+        width: 160px; height: 160px;
+        border: 8px solid var(--splash-dot);
+        opacity: 0.25;
+        animation: splash-ring 700ms cubic-bezier(0.45, 0, 0.25, 1) both;
+      }
+      .splash-dot {
+        width: 96px; height: 96px;
+        background: var(--splash-dot);
+        animation: splash-breathe 700ms cubic-bezier(0.45, 0, 0.25, 1) both;
+      }
+      @keyframes splash-breathe { from { transform: scale(0.8); } to { transform: scale(1); } }
+      @keyframes splash-ring { from { transform: scale(0.82); opacity: 0; } to { transform: scale(1); opacity: 0.25; } }
+      @media (prefers-reduced-motion: reduce) {
+        .splash-ring, .splash-dot { animation: none; }
+        #splash { transition: none; }
+      }
+    </style>
   </head>
   <body>
+    <div id="splash" aria-hidden="true">
+      <div class="splash-mark"><div class="splash-ring"></div><div class="splash-dot"></div></div>
+    </div>
     <div id="root"></div>
+    <script>
+      // The app calls window.breatheSplashDone() once it is ready to show.
+      // The breath always finishes first, and the screen never stays longer than 4 seconds.
+      (function () {
+        var started = Date.now();
+        var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var breath = calm ? 0 : 700;
+        var gone = false;
+        function remove() {
+          if (gone) return;
+          gone = true;
+          var splash = document.getElementById("splash");
+          if (!splash) return;
+          splash.classList.add("splash-out");
+          setTimeout(function () { splash.remove(); }, calm ? 0 : 250);
+        }
+        window.breatheSplashDone = function () {
+          setTimeout(remove, Math.max(0, breath - (Date.now() - started)));
+        };
+        setTimeout(remove, 4000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -13,6 +13,7 @@ import { useSettings } from "../storage/useSettings";
 import { useAppLock } from "../storage/useAppLock";
 import { words } from "../content/words";
 import { LockScreen } from "./LockScreen";
+import { hideSplash } from "../splash";
 import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney } from "../logic/money";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -28,6 +29,11 @@ export default function CalculatorScreen() {
   const { form, update } = saved;
   const appearance = useSettings();
   const lock = useAppLock();
+
+  // Once the numbers (and any lock) are read, the opening breath can fade away.
+  useEffect(() => {
+    if (saved.loaded && lock.status !== "checking") hideSplash();
+  }, [saved.loaded, lock.status]);
 
   // Locking closes the menu, so nothing is left showing behind the privacy screen.
   useEffect(() => {
@@ -85,7 +91,7 @@ export default function CalculatorScreen() {
     downloadBackup: () => downloadTextFile(backupFileName(today), makeBackupText(form, today)),
     downloadProtectedBackup: async (passphrase) => {
       const content = await makeEncryptedBackupText(form, today, passphrase);
-      downloadTextFile(encryptedBackupFileName(today), content);
+      await downloadTextFile(encryptedBackupFileName(today), content);
     },
     replaceAll: saved.replaceAll,
     clearAll: saved.clearAll,

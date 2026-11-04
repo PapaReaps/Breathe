@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode: no bright flash when the app opens at night. -->
+    <color name="splash_background">#151B1E</color>
+    <color name="splash_dot">#7CC4BD</color>
+</resources>

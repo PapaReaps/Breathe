@@ -8,6 +8,7 @@ import { canEncrypt, checkNewPassphrase, isEncryptedBackupText, openEncryptedBac
 import type { PassphraseProblem } from "../storage/encryptedBackup";
 import { parseBackupText } from "../storage/savedData";
 import type { BackupProblem } from "../storage/savedData";
+import { isNativeApp } from "../platform";
 import type { DataApi } from "./screenTypes";
 
 const text = words.data;
@@ -98,16 +99,20 @@ export function DataView({ data }: DataViewProps) {
         <button
           type="button"
           className="secondary"
-          onClick={() => {
-            data.downloadBackup();
-            setBackupMade(true);
+          onClick={async () => {
+            try {
+              await data.downloadBackup();
+              setBackupMade(true);
+            } catch {
+              setBackupMade(false);
+            }
           }}
         >
           {text.backupButton}
         </button>
         {backupMade ? (
           <p className="small" aria-live="polite">
-            {text.backupDone}
+            {isNativeApp() ? text.backupDoneApp : text.backupDone}
           </p>
         ) : null}
       </section>
@@ -117,7 +122,8 @@ export function DataView({ data }: DataViewProps) {
         <p>{text.restoreIntro}</p>
         <label className="file-choice">
           <span>{text.restoreChoose}</span>
-          <input type="file" accept=".json,application/json" onChange={onFile} />
+          {/* Android's file picker can't match ".json", so the app shows every file; the check below still refuses anything else. */}
+          <input type="file" accept={isNativeApp() ? undefined : ".json,application/json"} onChange={onFile} />
         </label>
 
         <div aria-live="polite">
@@ -261,7 +267,7 @@ function ProtectedBackup({ data }: { data: DataApi }) {
           </p>
         ) : null}
         {state === "working" ? <p className="small">{text.protectedWorking}</p> : null}
-        {state === "done" ? <p className="small">{text.protectedDone}</p> : null}
+        {state === "done" ? <p className="small">{isNativeApp() ? text.backupDoneApp : text.protectedDone}</p> : null}
         {state === "failed" ? <p className="gentle">{text.protectedUnavailable}</p> : null}
       </div>
       <button type="submit" disabled={state === "working"}>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The placeholder icon (public/favicon.svg): a soft ring and a circle. Swap when branding is agreed. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#F6F5F1"
+        android:strokeAlpha="0.4"
+        android:strokeWidth="2"
+        android:pathData="M54,32.9a21.1,21.1 0,1 1,0 42.2a21.1,21.1 0,1 1,0 -42.2z" />
+    <path
+        android:fillColor="#F6F5F1"
+        android:pathData="M54,41.6a12.4,12.4 0,1 1,0 24.8a12.4,12.4 0,1 1,0 -24.8z" />
+</vector>

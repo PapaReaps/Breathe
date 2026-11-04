@@ -1,0 +1,114 @@
+# Builds the Breathe Money Android app (an APK). See docs/ANDROID-APP.md.
+#
+# - Every push to main: the tests run, then a TEST copy is built and kept for 30 days
+#   (Actions tab → the run → "Artifacts"). It's signed with a throwaway key, so it's for trying out only.
+# - Every version tag (for example v0.10.0): the tests run, then the REAL copy is built, signed with
+#   the Breathe key (kept in GitHub secrets), and attached to a new GitHub Release with its notes.
+# If any test fails, nothing is built.
+name: Build Android app
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/money
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install
+        run: npm ci
+      - name: Check the tests pass
+        run: npm test
+      - name: Build the app
+        run: npm run build
+      - name: Put the app inside the Android project
+        run: npx cap sync android
+
+      - name: Work out the version
+        id: version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            name="${GITHUB_REF#refs/tags/v}"
+            IFS=. read -r major minor patch <<< "${name%%-*}"
+            code=$(( major * 1000000 + minor * 1000 + patch ))
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          else
+            name="0.0.0-test.${GITHUB_RUN_NUMBER}"
+            code=1
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+
+      - name: Build a test copy
+        if: steps.version.outputs.release != 'true'
+        working-directory: apps/money/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug \
+            -PbreatheVersionCode=${{ steps.version.outputs.code }} \
+            -PbreatheVersionName=${{ steps.version.outputs.name }}
+          mkdir -p ../out
+          cp app/build/outputs/apk/debug/app-debug.apk "../out/breathe-money-test-${{ steps.version.outputs.name }}.apk"
+      - uses: actions/upload-artifact@v4
+        if: steps.version.outputs.release != 'true'
+        with:
+          name: breathe-money-test-apk
+          path: apps/money/out/*.apk
+          retention-days: 30
+
+      - name: Build the signed release copy
+        if: steps.version.outputs.release == 'true'
+        working-directory: apps/money/android
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          BREATHE_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          BREATHE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$BREATHE_KEYSTORE_PASSWORD" ] || [ -z "$BREATHE_KEY_ALIAS" ]; then
+            echo "::error::The Breathe signing key isn't in GitHub secrets yet. See docs/ANDROID-APP.md, 'Setting up the signing key'."
+            exit 1
+          fi
+          export BREATHE_KEYSTORE_FILE="$RUNNER_TEMP/breathe-release.p12"
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$BREATHE_KEYSTORE_FILE"
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease \
+            -PbreatheVersionCode=${{ steps.version.outputs.code }} \
+            -PbreatheVersionName=${{ steps.version.outputs.name }}
+          rm -f "$BREATHE_KEYSTORE_FILE"
+          mkdir -p ../out
+          cp app/build/outputs/apk/release/app-release.apk "../out/breathe-money-v${{ steps.version.outputs.name }}.apk"
+
+      - name: Publish the GitHub Release
+        if: steps.version.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${GITHUB_REF#refs/tags/}"
+          notes="../../docs/releases/${tag}.md"
+          [ -f "$notes" ] || notes=/dev/null
+          gh release create "$tag" out/*.apk \
+            --title "Breathe Money ${tag}" \
+            --notes-file "$notes" \
+            --verify-tag

@@ -96,3 +96,15 @@ Founding promise check: nothing collected, nothing sent, nothing costs money, no
 - **Text size and contrast are Settings, not separate modes.** They add to the device's own settings rather than replacing them, and "Match my device" follows the device's own contrast request.
 
 Founding promise check: all optional, nothing collected, nothing costs money, no pressure added. Result: **in line with the promise.**
+
+## Android app and the opening breath
+
+- **Both a web link and an Android app.** The web link stays the main way in (every phone, updates by itself). The Android app (an APK on GitHub Releases) is for people who prefer a download.
+- **Capacitor**, free and open source, wraps the same built app. Nothing extra is collected.
+- **Built by GitHub**, never on someone's own computer: tests first, then a test copy on every push, and a signed copy for every version tag.
+- **Signing key in GitHub secrets only**, never in the code. The same key must sign every version.
+- **Google Drive backup switched off** for the app, because the promise is that numbers never leave the device.
+- **Not yet:** Google Play ($25 once) and the App Store ($99 a year). iPhones use the web link.
+- **The opening breath:** one slow breath, under a second, the same on the web and in the app. It respects "reduce motion", follows light and dark, plays only on a fresh start, and uses the placeholder circle (no logo) until branding is agreed.
+
+Founding promise check: free, nothing collected, no pressure, and the opening never makes anyone wait. Result: **in line with the promise.**

@@ -106,6 +106,7 @@ export const words = {
       "This file is not encrypted. Anyone who finds it can read your numbers, so keep it somewhere private.",
     backupButton: "Save a plain backup file",
     backupDone: "Your browser has been asked to save the file. Look in your downloads folder.",
+    backupDoneApp: "Your backup file is ready. If you chose somewhere to keep it, like Files or Drive, it's there now.",
     unlockTitle: "This backup is protected",
     unlockIntro: "Type the passphrase you chose when you saved it. Nothing changes until you've seen what's inside.",
     unlockLabel: "Passphrase for this backup",

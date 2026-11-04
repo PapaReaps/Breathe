@@ -41,7 +41,7 @@ export interface FormApi {
 export interface DataApi {
   saveState: SaveState;
   persisted: boolean | null;
-  downloadBackup: () => void;
+  downloadBackup: () => Promise<void>;
   /** Encrypts with the passphrase, then hands the file to the browser. Rejects if encryption isn't possible here. */
   downloadProtectedBackup: (passphrase: string) => Promise<void>;
   replaceAll: (form: FormState) => void;

@@ -11,3 +11,10 @@ Thumbs.db
 # Never commit backup files or anything resembling real data
 *.breathe-backup
 *.breathe-backup.json
+
+# Android signing keys: never commit these (docs/ANDROID-APP.md)
+*.p12
+*.jks
+*.keystore
+*.pem
+apps/money/out/
