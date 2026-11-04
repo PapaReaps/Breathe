@@ -65,3 +65,14 @@ Founding promise check: nothing in Stage 7 collects anything, costs anything or 
 
 Founding promise check: nothing collected, nothing costs money, no pressure added. Result: **in line with the promise.**
 
+## Stage 10: installable, offline and published free
+
+- **Hosting:** GitHub Pages, which is free and needs no account beyond the one the project already has. A short "publish recipe" (`.github/workflows/deploy.yml`) builds and publishes every time something is pushed to `main`, and **only after the tests pass**.
+- **Relative addresses:** the app works at any web address, so it does not depend on the repository's name or a custom domain.
+- **Offline helper kept simple and hand-written (`public/sw.js`):** no extra packages. It keeps only the app's own files, never contacts other sites, and never touches your numbers. Tests check this.
+- **Numbers belong to a web address.** Numbers typed on your own computer's test copy are not on the published copy. The existing backup and restore moves them across.
+- **Placeholder icon:** a plain teal square with a soft circle, until branding is agreed. It is one set of files to swap.
+- **Not done on purpose:** notifications, accounts, analytics.
+
+Founding promise check: free to publish, free to use, nothing collected, no pressure added. Result: **in line with the promise.**
+

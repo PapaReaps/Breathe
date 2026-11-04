@@ -1,0 +1,50 @@
+# Publishes Breathe Money for free on GitHub Pages.
+# It runs every time something is pushed to the main branch (and can be started by hand).
+# The tests run first. If any test fails, nothing is published.
+name: Publish Breathe Money
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/money
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Check the tests pass
+        run: npm test
+      - name: Build the app
+        run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/money/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

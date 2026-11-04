@@ -84,7 +84,7 @@ You can follow the plan in the [Roadmap](docs/ROADMAP.md). Each stage has a shor
 
 For now you run it on your own computer. It takes a few minutes the first time, and the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
 
-A simple web link that needs no installing is planned for a later stage.
+**No installing needed:** Breathe Money is also published for free on GitHub Pages, so it can be opened from a link, added to a phone's home screen, and used offline. See [Stage 10](docs/STAGE-10.md) for how it is published and how to add it to your home screen.
 
 ## The Breathe family
 

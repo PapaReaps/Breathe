@@ -1,6 +1,8 @@
 # Privacy
 
-**Current status (Stage 4):** Breathe Money keeps your numbers **on your own device**, inside your web browser (in a built-in browser database called IndexedDB). Breathe collects nothing. There is no server to send anything to, and the app makes no requests to other websites.
+**Current status (Stage 10):** Breathe Money keeps your numbers **on your own device**, inside your web browser (in a built-in browser database called IndexedDB). Breathe collects nothing. There is no server to send anything to, and the app makes no requests to other websites.
+
+**Published copy (Stage 10):** if you open Breathe Money from its web address, your browser also keeps a copy of the app's own files (not your numbers) so it can open without internet. The web address is hosted for free by GitHub Pages, which, like any website host, can see that a page was requested. Breathe itself adds no tracking, no analytics and no cookies. Your numbers never leave your device, and they are kept separately for each web address, so numbers typed on your own computer are not on the published copy. Use a backup file to move them.
 
 **Where your numbers live, and what that means:**
 

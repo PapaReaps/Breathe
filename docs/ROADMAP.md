@@ -16,7 +16,7 @@ The big change from the first plan: **you can try a working (plain-looking) calc
 | **7** | Things that repeat | Payday that rolls forward (weekly, every 2 or 4 weeks, monthly), bills and money coming in that repeat, a kind "paid since your last update" note, a balance-reminder setting, and built-in UK bank holidays (Stage 7c) | A week of real use |
 | **8** | Secure backups | Optional passphrase-encrypted backup and restore (see `STORAGE-AND-BACKUPS.md`) | Back up, wipe, restore |
 | **9** | Privacy and accessibility | Optional app lock, screen reader, text size, contrast, keyboard checks | Accessibility checklist |
-| **10** | Installable and shareable | Works offline, installs like an app, published free | Installing it on your phone |
+| **10** | Installable and shareable | Works offline, can be added to a phone's home screen, published free on GitHub Pages | Opening the web link on your phone, then going offline |
 
 ## Running alongside the stages: branding
 
