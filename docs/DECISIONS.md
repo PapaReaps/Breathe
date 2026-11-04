@@ -43,3 +43,15 @@ Why: it keeps Breathe free for everyone and stops anyone taking it, closing it o
 One thing to know: the plain GPL covers people who *share* a copy of the code or app. It does not cover someone who only runs a changed version on their own website for others to use. The AGPL (a close cousin) does cover that. If this ever matters, the licence can be moved to AGPL-3.0-or-later, because GPLv3 allows combining with AGPLv3. For now: GPL, as chosen.
 
 Not legal advice.
+
+## Stage 7: things that repeat
+
+- **The calculation was left alone.** Repeating is worked out in the form layer, which hands the calculation ordinary dated bills and income. Every earlier rule and test still applies unchanged.
+- **Four weeks is 28 days**, not a month. They are separate choices because people really are paid both ways.
+- **A monthly payday always asks the weekend question** the first time, rather than surprising the person later in a month that happens to land on a weekend.
+- **The number stays cautious after a payday.** The app does not add the new pay to an old balance. It says so, and asks for the balance.
+- **Saved numbers keep working.** The save format moved from 1 to 2. Version 2 of the app reads both. An older copy of the app refuses a newer file instead of guessing.
+- **The reminder is the person's choice** (every day, every 3 days, once a week, or never), because what feels like a helpful nudge to one person is pressure to another.
+
+Founding promise check: nothing in Stage 7 collects anything, costs anything or adds pressure. The reminder can be switched off. Result: **in line with the promise.**
+

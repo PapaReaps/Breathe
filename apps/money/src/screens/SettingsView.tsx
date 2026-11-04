@@ -1,11 +1,11 @@
 import { PotBadge } from "../components/PotBadge";
 import { words } from "../content/words";
-import { ACCENTS, APPEARANCES, POT_COLOURS } from "../storage/settings";
+import { ACCENTS, APPEARANCES, BALANCE_REMINDERS, DEFAULT_SETTINGS, POT_COLOURS } from "../storage/settings";
 import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
 
-/** Settings: light or dark, the app colour, and the rainy-day pot colour. */
+/** Settings: light or dark, the app colour, the rainy-day pot colour, reminders and the home screen. */
 export function SettingsView({ settings }: { settings: SettingsApi }) {
   const { settings: current, change } = settings;
   return (
@@ -70,6 +70,28 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
         </div>
         <p className="hint">{text.potPreview}</p>
         <PotBadge amount={text.potPreviewAmount} />
+      </fieldset>
+
+      <fieldset className="choice-group settings-group">
+        <legend>{text.reminderTitle}</legend>
+        <p className="hint">{text.reminderIntro}</p>
+        {BALANCE_REMINDERS.map((choice) => (
+          <label key={choice} className="choice">
+            <input
+              type="radio"
+              name="balance-reminder"
+              value={choice}
+              checked={current.balanceReminder === choice}
+              onChange={() => change({ balanceReminder: choice })}
+            />
+            <span>
+              {text.reminderOptions[choice]}
+              {choice === DEFAULT_SETTINGS.balanceReminder ? (
+                <span className="hint choice-hint">{text.reminderDefaultHint}</span>
+              ) : null}
+            </span>
+          </label>
+        ))}
       </fieldset>
 
       <fieldset className="choice-group settings-group">

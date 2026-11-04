@@ -1,3 +1,5 @@
+import { isRepeat } from "../logic/repeat";
+import type { Repeat } from "../logic/repeat";
 import { PAYDAY_RULES } from "../logic/types";
 import type { PaydayRule } from "../logic/types";
 import type { BillRow, FormState, IncomeRow } from "../logic/form";
@@ -10,7 +12,13 @@ import type { BillRow, FormState, IncomeRow } from "../logic/form";
  * it is rebuilt field by field, and anything unexpected is refused, never guessed at.
  */
 
-export const SAVE_FORMAT = 1;
+/**
+ * 2 added "how often" for payday, bills and money coming in.
+ * Format 1 (saved before that) is still read; it just means "one date only".
+ * An older version of the app refuses a format 2 file as "newer" instead of guessing.
+ */
+export const SAVE_FORMAT = 2;
+const OLDEST_READABLE_FORMAT = 1;
 export const BACKUP_APP = "breathe-money";
 
 const MAX_BACKUP_CHARS = 1_000_000;
@@ -21,6 +29,8 @@ const MAX_HOLIDAYS_TEXT = 5_000;
 const MAX_ANSWERS = 400;
 const DATE_OR_BLANK = /^(\d{4}-\d{2}-\d{2})?$/;
 const ROW_ID = /^(bill|income)-[a-z0-9-]{1,48}$/;
+/** Answers about a repeating item end with the date they are about: "bill-3-ab12c@2026-11-13". */
+const ANSWER_KEY = /^(bill|income)-[a-z0-9-]{1,48}(@\d{4}-\d{2}-\d{2})?$/;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -41,6 +51,12 @@ function rowId(value: unknown, prefix: "bill" | "income", seen: Set<string>): st
   return id;
 }
 
+/** Missing means saved before repeats existed: one date only. Anything else unknown is refused. */
+function readRepeat(value: unknown): Repeat | null {
+  if (value === undefined) return "once";
+  return isRepeat(value) ? value : null;
+}
+
 function readBills(raw: unknown): BillRow[] | null {
   if (!Array.isArray(raw) || raw.length > MAX_ROWS) return null;
   const seen = new Set<string>();
@@ -51,8 +67,9 @@ function readBills(raw: unknown): BillRow[] | null {
     const name = text(item.name, MAX_NAME);
     const amount = text(item.amount, MAX_AMOUNT_TEXT);
     const dueDate = dateText(item.dueDate);
-    if (id === null || name === null || amount === null || dueDate === null) return null;
-    rows.push({ id, name, amount, dueDate });
+    const repeat = readRepeat(item.repeat);
+    if (id === null || name === null || amount === null || dueDate === null || repeat === null) return null;
+    rows.push({ id, name, amount, dueDate, repeat });
   }
   return rows;
 }
@@ -68,9 +85,10 @@ function readIncome(raw: unknown): IncomeRow[] | null {
     const amount = text(item.amount, MAX_AMOUNT_TEXT);
     const date = dateText(item.date);
     const reliability = item.reliability;
-    if (id === null || name === null || amount === null || date === null) return null;
+    const repeat = readRepeat(item.repeat);
+    if (id === null || name === null || amount === null || date === null || repeat === null) return null;
     if (reliability !== "reliable" && reliability !== "uncertain") return null;
-    rows.push({ id, name, amount, date, reliability });
+    rows.push({ id, name, amount, date, reliability, repeat });
   }
   return rows;
 }
@@ -81,7 +99,7 @@ function readAnswers(raw: unknown): Record<string, boolean> | null {
   if (entries.length > MAX_ANSWERS) return null;
   const answers: Record<string, boolean> = {};
   for (const [key, value] of entries) {
-    if (!ROW_ID.test(key) || typeof value !== "boolean") return null;
+    if (!ANSWER_KEY.test(key) || typeof value !== "boolean") return null;
     answers[key] = value;
   }
   return answers;
@@ -102,6 +120,7 @@ export function readForm(raw: unknown): FormState | null {
   const balanceDate = dateText(raw.balanceDate);
   const paydayDate = dateText(raw.paydayDate);
   const paydayRule = readPaydayRule(raw.paydayRule);
+  const paydayRepeat = readRepeat(raw.paydayRepeat);
   const bills = readBills(raw.bills);
   const income = readIncome(raw.income);
   const foodPerWeek = text(raw.foodPerWeek, MAX_AMOUNT_TEXT);
@@ -111,7 +130,7 @@ export function readForm(raw: unknown): FormState | null {
   const answers = readAnswers(raw.answers);
 
   if (
-    balance === null || balanceDate === null || paydayDate === null || paydayRule === null ||
+    balance === null || balanceDate === null || paydayDate === null || paydayRule === null || paydayRepeat === null ||
     bills === null || income === null || foodPerWeek === null || travelPerWeek === null ||
     buffer === null || bankHolidays === null || answers === null
   ) {
@@ -121,7 +140,7 @@ export function readForm(raw: unknown): FormState | null {
   const keptBills = bills.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.dueDate === ""));
   const keptIncome = income.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.date === ""));
   return {
-    balance, balanceDate, paydayDate, paydayRule, bills: keptBills, income: keptIncome,
+    balance, balanceDate, paydayDate, paydayRule, paydayRepeat, bills: keptBills, income: keptIncome,
     foodPerWeek, travelPerWeek, buffer, bankHolidays, answers,
   };
 }
@@ -133,9 +152,14 @@ export function formRecord(form: FormState): FormState {
     balanceDate: form.balanceDate,
     paydayDate: form.paydayDate,
     paydayRule: form.paydayRule,
-    bills: form.bills.map((row) => ({ id: row.id, name: row.name, amount: row.amount, dueDate: row.dueDate })),
+    paydayRepeat: isRepeat(form.paydayRepeat) ? form.paydayRepeat : "once",
+    bills: form.bills.map((row) => ({
+      id: row.id, name: row.name, amount: row.amount, dueDate: row.dueDate,
+      repeat: isRepeat(row.repeat) ? row.repeat : "once",
+    })),
     income: form.income.map((row) => ({
       id: row.id, name: row.name, amount: row.amount, date: row.date, reliability: row.reliability,
+      repeat: isRepeat(row.repeat) ? row.repeat : "once",
     })),
     foodPerWeek: form.foodPerWeek,
     travelPerWeek: form.travelPerWeek,
@@ -158,7 +182,8 @@ export function toSaved(form: FormState): SavedRecord {
 
 /** Null means "this is not something I can safely read". */
 export function fromSaved(raw: unknown): FormState | null {
-  if (!isRecord(raw) || raw.format !== SAVE_FORMAT) return null;
+  if (!isRecord(raw)) return null;
+  if (typeof raw.format !== "number" || raw.format < OLDEST_READABLE_FORMAT || raw.format > SAVE_FORMAT) return null;
   return readForm(raw.form);
 }
 
@@ -203,7 +228,7 @@ export function parseBackupText(content: string): BackupParse {
     return { ok: false, reason: "not-ours" };
   }
   if (raw.format > SAVE_FORMAT) return { ok: false, reason: "newer" };
-  if (raw.format !== SAVE_FORMAT) return { ok: false, reason: "not-ours" };
+  if (raw.format < OLDEST_READABLE_FORMAT) return { ok: false, reason: "not-ours" };
 
   const form = readForm(raw.form);
   if (form === null) return { ok: false, reason: "unreadable" };

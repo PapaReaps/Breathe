@@ -111,7 +111,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
               {TITLES[panel]}
             </h2>
-            {panel === "menu" ? <MenuList form={form} built={built} outcome={outcome} settings={settings} onPanel={onPanel} /> : null}
+            {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} settings={settings} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" ? <PaydaySection form={form} today={today} api={api} /> : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
@@ -148,14 +148,15 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
 
 interface MenuListProps {
   form: FormState;
+  today: string;
   built: BuildResult;
   outcome: Outcome | null;
   settings: SettingsApi;
   onPanel: (panel: PanelId) => void;
 }
 
-function MenuList({ form, built, outcome, settings, onPanel }: MenuListProps) {
-  const summary = describeForm(form);
+function MenuList({ form, today, built, outcome, settings, onPanel }: MenuListProps) {
+  const summary = describeForm(form, today);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
     { id: "account", title: words.menu.names.account, sub: summary.account },
     { id: "payday", title: words.menu.names.payday, sub: summary.payday },

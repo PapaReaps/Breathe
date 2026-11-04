@@ -96,7 +96,8 @@ function validate(input: CalculatorInput): void {
 
 // ---------------------------------------------------------------- payday
 
-function resolvePayday(payday: Payday, nonWorking: ReadonlySet<DateString>): DateString {
+/** The day payday really lands, after the weekend / bank holiday answer is applied. */
+export function resolvePayday(payday: Payday, nonWorking: ReadonlySet<DateString>): DateString {
   switch (payday.ifNotWorkingDay) {
     case "on-the-day":
       return payday.date;

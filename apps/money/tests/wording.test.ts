@@ -33,6 +33,10 @@ function collectSampleSentences(): string[] {
 
   sentences.push(
     words.askPaydayRule("a Saturday"),
+    words.askPaydayRuleMonthly,
+    words.paydaySummary("Fri 6 Nov", "weekly"),
+    words.paydaySummary("Fri 6 Nov", "monthly"),
+    words.home.paidSince("Fri 30 Oct"),
     words.cantReadAmount("rent"),
     words.cantReadDate("your payday"),
     words.cantReadDates("25 December"),

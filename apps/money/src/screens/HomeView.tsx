@@ -1,5 +1,6 @@
 import { PotBadge } from "../components/PotBadge";
 import { describeWarning, headlineFor, paydayLine, words } from "../content/words";
+import { formatDayLong } from "../logic/dates";
 import type { BuildResult } from "../logic/form";
 import type { NeedsAnswer, Outcome, PanelId } from "./screenTypes";
 
@@ -125,7 +126,10 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
   const head = headlineFor(result);
   const waitingQuestions = result.warnings.filter((w): w is NeedsAnswer => w.kind === "needs-answer");
   const outOfDate = result.warnings.find((w) => w.kind === "balance-out-of-date");
-  const outOfDateText = outOfDate ? describeWarning(outOfDate) : null;
+  // If a payday has gone by since the balance was entered, say that instead of the general
+  // "your balance may be out of date" note. It is kind, and it is never hidden by a setting.
+  const paidSince = built.status === "ready" ? built.paidSince : null;
+  const outOfDateText = outOfDate && paidSince === null ? describeWarning(outOfDate) : null;
 
   return (
     <>
@@ -140,6 +144,14 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
       ) : null}
       {potAmount !== null ? <PotBadge amount={potAmount} /> : null}
 
+      {paidSince !== null ? (
+        <p className="small">
+          {home.paidSince(formatDayLong(paidSince))}{" "}
+          <button type="button" className="link" onClick={() => onOpen("account")}>
+            {home.updateBalance}
+          </button>
+        </p>
+      ) : null}
       {outOfDateText ? <p className="small">{outOfDateText}</p> : null}
       {waitingQuestions.length > 0 ? (
         <button type="button" className="link" onClick={() => onOpen("explain")}>

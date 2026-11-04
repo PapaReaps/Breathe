@@ -1,5 +1,8 @@
-import { formatDayLong, isWorkingDay, toDayNumber, weekdayName } from "./dates";
+import { addDays, formatDayLong, isWorkingDay, toDayNumber, weekdayName } from "./dates";
 import { formatMoney, parseMoney } from "./money";
+import { isRepeat, nextOccurrenceOnOrAfter, occurrencesBetween } from "./repeat";
+import type { Repeat } from "./repeat";
+import { resolvePayday } from "./safeToSpend";
 import type {
   Bill,
   CalculatorInput,
@@ -33,6 +36,8 @@ export interface BillRow {
   name: string;
   amount: string;
   dueDate: string;
+  /** "once", or how often it comes round. dueDate is the first one. */
+  repeat: Repeat;
 }
 
 export interface IncomeRow {
@@ -41,6 +46,8 @@ export interface IncomeRow {
   amount: string;
   date: string;
   reliability: "reliable" | "uncertain";
+  /** "once", or how often it comes round. date is the first one. */
+  repeat: Repeat;
 }
 
 export interface FormState {
@@ -48,6 +55,8 @@ export interface FormState {
   balanceDate: string;
   paydayDate: string;
   paydayRule: PaydayRule | "";
+  /** "once" means the one date only. Otherwise payday rolls forward by itself. */
+  paydayRepeat: Repeat;
   bills: BillRow[];
   income: IncomeRow[];
   foodPerWeek: string;
@@ -59,11 +68,11 @@ export interface FormState {
 }
 
 export function newBillRow(): BillRow {
-  return { id: nextId("bill"), name: "", amount: "", dueDate: "" };
+  return { id: nextId("bill"), name: "", amount: "", dueDate: "", repeat: "once" };
 }
 
 export function newIncomeRow(): IncomeRow {
-  return { id: nextId("income"), name: "", amount: "", date: "", reliability: "reliable" };
+  return { id: nextId("income"), name: "", amount: "", date: "", reliability: "reliable", repeat: "once" };
 }
 
 export function emptyForm(): FormState {
@@ -72,6 +81,7 @@ export function emptyForm(): FormState {
     balanceDate: "",
     paydayDate: "",
     paydayRule: "",
+    paydayRepeat: "once",
     bills: [],
     income: [],
     foodPerWeek: "",
@@ -126,15 +136,121 @@ export function nonWorkingDayPhrase(paydayDate: string): string {
   return name === "Saturday" || name === "Sunday" ? `a ${name}` : "a bank holiday";
 }
 
+function repeatOf(value: unknown): Repeat {
+  // Numbers saved before repeats existed have no "repeat" at all: that means one date only.
+  return isRepeat(value) ? value : "once";
+}
+
+/**
+ * The weekend question for payday, or null when there is nothing to ask.
+ *  - One date only: ask if that date is a weekend or bank holiday (as always).
+ *  - Every month: always ask, because some months will land on a weekend.
+ *  - Every week / 2 / 4 weeks: ask if the first date or the next one is a weekend or bank holiday.
+ */
+export function paydayRuleQuestion(form: FormState, today: DateString): string | null {
+  if (!isRealDay(form.paydayDate)) return null;
+  const repeat = repeatOf(form.paydayRepeat);
+  if (repeat === "once") {
+    return paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays)
+      ? words.askPaydayRule(nonWorkingDayPhrase(form.paydayDate))
+      : null;
+  }
+  if (repeat === "monthly") return words.askPaydayRuleMonthly;
+  if (paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays)) {
+    return words.askPaydayRule(nonWorkingDayPhrase(form.paydayDate));
+  }
+  const next = nextOccurrenceOnOrAfter(form.paydayDate, repeat, today);
+  if (next !== null && paydayIsNonWorkingDay(next, form.bankHolidays)) {
+    return words.askPaydayRule(nonWorkingDayPhrase(next));
+  }
+  return null;
+}
+
+export interface PaydayPlan {
+  /** The date as the pattern gives it, before the weekend answer is applied. */
+  nominal: DateString;
+  /** The day the money really arrives, after the weekend answer. */
+  resolved: DateString;
+  /** A repeating payday that has come and gone since the balance was entered, if any. */
+  paidSince: DateString | null;
+}
+
+/**
+ * Works out which payday the number is counting down to.
+ * A payday that repeats rolls forward by itself, so there is no "payday has passed"
+ * for it. It also notices a payday that went by after the balance was entered.
+ */
+export function planPayday(
+  paydayDate: DateString,
+  repeat: Repeat,
+  rule: PaydayRule,
+  holidays: readonly DateString[],
+  today: DateString,
+  balanceDate: DateString,
+): PaydayPlan {
+  const nonWorking = new Set(holidays);
+  const resolve = (date: DateString): DateString =>
+    resolvePayday({ date, ifNotWorkingDay: rule }, nonWorking);
+
+  if (repeat === "once") {
+    return { nominal: paydayDate, resolved: resolve(paydayDate), paidSince: null };
+  }
+
+  // Look a little way back (a payday moved by the weekend answer) and well ahead.
+  const from = addDays(balanceDate < today ? balanceDate : today, -14);
+  const to = addDays(today, 70);
+  let nominals = occurrencesBetween(paydayDate, repeat, from, to);
+  if (nominals.length === 0) {
+    const first = nextOccurrenceOnOrAfter(paydayDate, repeat, from);
+    nominals = [first ?? paydayDate];
+  }
+  const dated = nominals.map((nominal) => ({ nominal, resolved: resolve(nominal) }));
+  const next = dated.find((item) => item.resolved >= today) ?? dated[dated.length - 1]!;
+
+  let paidSince: DateString | null = null;
+  for (const item of dated) {
+    if (item.resolved > balanceDate && item.resolved < today) paidSince = item.resolved;
+  }
+  return { nominal: next.nominal, resolved: next.resolved, paidSince };
+}
+
 export type BuildResult =
   | { status: "needs-more"; messages: string[] }
-  | { status: "ready"; input: CalculatorInput };
+  | {
+      status: "ready";
+      input: CalculatorInput;
+      /** Set when a repeating payday has gone by since the balance was entered. */
+      paidSince: DateString | null;
+    };
+
+export interface BuildOptions {
+  /** How many days old a balance can be before the app gently says so. Default 3. */
+  staleAfterDays?: number;
+}
 
 function blank(text: string): boolean {
   return text.trim() === "";
 }
 
-export function buildInput(form: FormState, today: DateString): BuildResult {
+/**
+ * The dated copies of one bill or one item of money coming in.
+ * One date only: just that date (with the row's own id, as it always was).
+ * Repeating: one copy for each time it comes round from the balance date up to payday,
+ * each with its own id ("row-id@2026-11-13") so an answer belongs to one date only.
+ */
+function occurrencesOf(
+  rowId: string,
+  firstDate: DateString,
+  repeat: Repeat,
+  from: DateString,
+  to: DateString | null,
+): Array<{ id: string; date: DateString }> {
+  if (repeat === "once") return [{ id: rowId, date: firstDate }];
+  if (to === null) return [];
+  return occurrencesBetween(firstDate, repeat, from, to).map((date) => ({ id: `${rowId}@${date}`, date }));
+}
+
+export function buildInput(form: FormState, today: DateString, options: BuildOptions = {}): BuildResult {
   const messages: string[] = [];
 
   // Balance
@@ -159,18 +275,23 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
   if (holidays.bad.length > 0) messages.push(words.cantReadDates(holidays.bad.join(", ")));
 
   // Payday
-  let paydayRule: PaydayRule = "on-the-day";
+  const paydayRepeat = repeatOf(form.paydayRepeat);
+  const paydayRule: PaydayRule = form.paydayRule === "" ? "on-the-day" : form.paydayRule;
+  let plan: PaydayPlan | null = null;
   if (blank(form.paydayDate)) {
     messages.push(words.needPayday);
   } else if (!isRealDay(form.paydayDate)) {
     messages.push(words.cantReadDate("your payday"));
-  } else if (paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays)) {
-    if (form.paydayRule === "") {
-      messages.push(words.askPaydayRule(nonWorkingDayPhrase(form.paydayDate)));
+  } else {
+    const question = paydayRuleQuestion(form, today);
+    if (question !== null && form.paydayRule === "") {
+      messages.push(question);
     } else {
-      paydayRule = form.paydayRule;
+      const from = isRealDay(balanceDate) && balanceDate <= today ? balanceDate : today;
+      plan = planPayday(form.paydayDate, paydayRepeat, paydayRule, holidays.days, today, from);
     }
   }
+  const windowStart = isRealDay(balanceDate) && balanceDate <= today ? balanceDate : today;
 
   // Bills
   const bills: Bill[] = [];
@@ -190,14 +311,16 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
       messages.push(words.cantReadDate(`the due date for "${name}"`));
       continue;
     }
-    const answer = form.answers[row.id];
-    bills.push({
-      id: row.id,
-      name,
-      amount: parsed.pence,
-      dueDate: row.dueDate,
-      ...(answer === undefined ? {} : { alreadyInBalance: answer }),
-    });
+    for (const item of occurrencesOf(row.id, row.dueDate, repeatOf(row.repeat), windowStart, plan?.resolved ?? null)) {
+      const answer = form.answers[item.id];
+      bills.push({
+        id: item.id,
+        name,
+        amount: parsed.pence,
+        dueDate: item.date,
+        ...(answer === undefined ? {} : { alreadyInBalance: answer }),
+      });
+    }
   }
 
   // Money coming in
@@ -218,15 +341,17 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
       messages.push(words.cantReadDate(`the date for "${name}"`));
       continue;
     }
-    const answer = form.answers[row.id];
-    income.push({
-      id: row.id,
-      name,
-      amount: parsed.pence,
-      date: row.date,
-      reliability: row.reliability,
-      ...(answer === undefined ? {} : { alreadyInBalance: answer }),
-    });
+    for (const item of occurrencesOf(row.id, row.date, repeatOf(row.repeat), windowStart, plan?.resolved ?? null)) {
+      const answer = form.answers[item.id];
+      income.push({
+        id: item.id,
+        name,
+        amount: parsed.pence,
+        date: item.date,
+        reliability: row.reliability,
+        ...(answer === undefined ? {} : { alreadyInBalance: answer }),
+      });
+    }
   }
 
   // Food, travel and the rainy-day pot (called "buffer" inside the code)
@@ -252,7 +377,7 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
     else buffer = parsed.pence;
   }
 
-  if (messages.length > 0 || balance === null) {
+  if (messages.length > 0 || balance === null || plan === null) {
     return { status: "needs-more", messages };
   }
 
@@ -261,7 +386,7 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
     input: {
       today,
       balance: { amount: balance, asOf: balanceDate },
-      payday: { date: form.paydayDate, ifNotWorkingDay: paydayRule },
+      payday: { date: plan.nominal, ifNotWorkingDay: paydayRule },
       nonWorkingDays: holidays.days,
       bills,
       income,
@@ -269,7 +394,9 @@ export function buildInput(form: FormState, today: DateString): BuildResult {
       essentials,
       buffer,
       savings: [],
+      ...(options.staleAfterDays === undefined ? {} : { staleAfterDays: options.staleAfterDays }),
     },
+    paidSince: plan.paidSince,
   };
 }
 
@@ -288,7 +415,7 @@ function plural(count: number, one: string, many: string): string {
 }
 
 /** A few words about each part of the form, shown in the menu so people know where things are. */
-export function describeForm(form: FormState): FormSummary {
+export function describeForm(form: FormState, today?: DateString): FormSummary {
   let account: string = words.notSetYet;
   if (!blank(form.balance)) {
     const parsed = parseMoney(form.balance, { allowNegative: true });
@@ -297,7 +424,17 @@ export function describeForm(form: FormState): FormSummary {
 
   let payday: string = words.notSetYet;
   if (!blank(form.paydayDate)) {
-    payday = isRealDay(form.paydayDate) ? formatDayLong(form.paydayDate) : words.needsALook;
+    if (!isRealDay(form.paydayDate)) {
+      payday = words.needsALook;
+    } else {
+      const repeat = repeatOf(form.paydayRepeat);
+      let day = form.paydayDate;
+      if (repeat !== "once" && today !== undefined) {
+        const rule: PaydayRule = form.paydayRule === "" ? "on-the-day" : form.paydayRule;
+        day = planPayday(form.paydayDate, repeat, rule, parseDayList(form.bankHolidays).days, today, today).resolved;
+      }
+      payday = repeat === "once" ? formatDayLong(day) : words.paydaySummary(formatDayLong(day), repeat);
+    }
   }
 
   const billCount = form.bills.filter((row) => !(blank(row.name) && blank(row.amount) && row.dueDate === "")).length;

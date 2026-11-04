@@ -7,6 +7,8 @@ export type Appearance = "system" | "light" | "dark";
 export type Accent = "teal" | "blue" | "plum" | "rose" | "green";
 export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac";
 
+export type BalanceReminder = "daily" | "three-days" | "weekly" | "never";
+
 export interface Settings {
   appearance: Appearance;
   accent: Accent;
@@ -15,6 +17,8 @@ export interface Settings {
   showExplanation: boolean;
   /** The payday date under the number. */
   showPayday: boolean;
+  /** How often to gently suggest updating the balance. */
+  balanceReminder: BalanceReminder;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -23,9 +27,29 @@ export const DEFAULT_SETTINGS: Settings = {
   potColour: "gold",
   showExplanation: true,
   showPayday: true,
+  balanceReminder: "three-days",
 };
 
 export const SETTINGS_KEY = "settings";
+
+export const BALANCE_REMINDERS: readonly BalanceReminder[] = ["daily", "three-days", "weekly", "never"];
+
+/**
+ * How many days old a balance can be before the app says so.
+ * "Every day" means anything older than today; "never" is a number too big to reach.
+ */
+export function reminderDays(choice: BalanceReminder): number {
+  switch (choice) {
+    case "daily":
+      return 0;
+    case "three-days":
+      return 3;
+    case "weekly":
+      return 7;
+    case "never":
+      return Number.MAX_SAFE_INTEGER;
+  }
+}
 
 export const APPEARANCES: readonly Appearance[] = ["system", "light", "dark"];
 
@@ -59,6 +83,7 @@ export function readSettings(raw: unknown): Settings {
     potColour: pick(record.potColour, POT_COLOURS.map((p) => p.id), DEFAULT_SETTINGS.potColour),
     showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
     showPayday: typeof record.showPayday === "boolean" ? record.showPayday : DEFAULT_SETTINGS.showPayday,
+    balanceReminder: pick(record.balanceReminder, BALANCE_REMINDERS, DEFAULT_SETTINGS.balanceReminder),
   };
 }
 
@@ -70,6 +95,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     potColour: settings.potColour,
     showExplanation: settings.showExplanation,
     showPayday: settings.showPayday,
+    balanceReminder: settings.balanceReminder,
   };
 }
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { newBillRow, newIncomeRow } from "../src/logic/form";
 import { billsTotalLine, idsByDate, incomeTotalLine, isBlankBill, isBlankIncome, summariseBill, summariseIncome, totalOf } from "../src/logic/rows";
 import { formatDayShort } from "../src/logic/dates";
-import { DEFAULT_SETTINGS, readSettings, toSavedSettings } from "../src/storage/settings";
+import { BALANCE_REMINDERS, DEFAULT_SETTINGS, readSettings, reminderDays, toSavedSettings } from "../src/storage/settings";
 
 // Everything here is fictional.
 describe("one line per bill", () => {
@@ -86,6 +86,7 @@ describe("look and colour settings", () => {
       potColour: "lilac",
       showExplanation: false,
       showPayday: false,
+      balanceReminder: "three-days",
     });
   });
 
@@ -118,7 +119,56 @@ describe("look and colour settings", () => {
       potColour: "green" as const,
       showExplanation: false,
       showPayday: true,
+      balanceReminder: "weekly" as const,
     };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
+  });
+});
+
+describe("the balance reminder setting", () => {
+  it("is every 3 days unless the person chooses otherwise", () => {
+    expect(DEFAULT_SETTINGS.balanceReminder).toBe("three-days");
+    expect(readSettings({}).balanceReminder).toBe("three-days");
+    expect(reminderDays(DEFAULT_SETTINGS.balanceReminder)).toBe(3);
+  });
+
+  it("turns each choice into a number of days", () => {
+    expect(reminderDays("daily")).toBe(0);
+    expect(reminderDays("three-days")).toBe(3);
+    expect(reminderDays("weekly")).toBe(7);
+    expect(reminderDays("never")).toBe(Number.MAX_SAFE_INTEGER);
+  });
+
+  it("reads each known choice, and ignores anything else", () => {
+    for (const choice of BALANCE_REMINDERS) expect(readSettings({ balanceReminder: choice }).balanceReminder).toBe(choice);
+    expect(readSettings({ balanceReminder: "hourly" }).balanceReminder).toBe("three-days");
+    expect(readSettings({ balanceReminder: 3 }).balanceReminder).toBe("three-days");
+  });
+});
+
+describe("list lines for things that repeat", () => {
+  it("a repeating bill says how often and from when", () => {
+    const row = { ...newBillRow(), name: "Mum", amount: "100", dueDate: "2026-11-13", repeat: "monthly" as const };
+    expect(summariseBill(row).detail).toBe("£100.00 · every month from Fri 13 Nov");
+    expect(summariseBill({ ...row, repeat: "weekly" }).detail).toBe("£100.00 · every week from Fri 13 Nov");
+    expect(summariseBill({ ...row, repeat: "fortnightly" }).detail).toBe("£100.00 · every 2 weeks from Fri 13 Nov");
+    expect(summariseBill({ ...row, repeat: "four-weekly" }).detail).toBe("£100.00 · every 4 weeks from Fri 13 Nov");
+  });
+
+  it("a one-off reads exactly as before", () => {
+    const row = { ...newBillRow(), name: "Mum", amount: "100", dueDate: "2026-11-13" };
+    expect(summariseBill(row).detail).toBe("£100.00 · Fri 13 Nov");
+  });
+
+  it("repeating money coming in keeps its 'might come' note", () => {
+    const row = { ...newIncomeRow(), name: "Shifts", amount: "80", date: "2026-11-13", repeat: "weekly" as const, reliability: "uncertain" as const };
+    expect(summariseIncome(row).detail).toBe("£80.00 · every week from Fri 13 Nov · might come");
+  });
+
+  it("without a date yet it still reads sensibly", () => {
+    const row = { ...newBillRow(), name: "Gym", amount: "10", dueDate: "", repeat: "weekly" as const };
+    const line = summariseBill(row);
+    expect(line.detail).toBe("£10.00 · every week · no date yet");
+    expect(line.unfinished).toBe(true);
   });
 });

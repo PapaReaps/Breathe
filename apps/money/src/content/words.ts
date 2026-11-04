@@ -9,6 +9,13 @@ import type { BreakdownLine, CalculatorResult, Warning } from "../logic/types";
  * tests/wording.test.ts scans these for words we never want to use.
  */
 
+const words_every = {
+  weekly: "every week",
+  fortnightly: "every 2 weeks",
+  "four-weekly": "every 4 weeks",
+  monthly: "every month",
+} as const;
+
 export const words = {
   notSetYet: "Not set yet",
   needsALook: "Needs a look",
@@ -33,6 +40,9 @@ export const words = {
       "We couldn't read the numbers saved earlier, so we've started fresh. Your next change will replace them.",
     openMenu: "Open the menu",
     questionWaiting: "A quick question is waiting",
+    paidSince: (day: string) =>
+      `You've had a payday (${day}) since you last updated your balance. Update it when you can, and your number can include your pay.`,
+    updateBalance: "Update my balance",
   },
   menu: {
     title: "Menu",
@@ -114,6 +124,7 @@ export const words = {
     unnamedIncome: "Unnamed item",
     noAmount: "no amount yet",
     noDate: "no date yet",
+    every: words_every,
     mightCome: "might come",
     done: "Done",
     remove: "Remove",
@@ -154,6 +165,16 @@ export const words = {
       blue: "Blue",
       lilac: "Lilac",
     },
+    reminderTitle: "Balance reminder",
+    reminderIntro:
+      "How often should I gently remind you to update your balance? It is only a note under your number, and you can switch it off.",
+    reminderOptions: {
+      daily: "Every day",
+      "three-days": "Every 3 days",
+      weekly: "Once a week",
+      never: "Don't remind me",
+    },
+    reminderDefaultHint: "This is the usual choice.",
     homeTitle: "Home screen",
     homeIntro:
       "Once you know your way around, you can hide the extra writing under your number. Anything important still shows, like when things are tight or your balance needs updating.",
@@ -209,6 +230,10 @@ export const words = {
   balanceDateFuture: "The date for your balance can't be in the future. Pick today, or an earlier day.",
   askPaydayRule: (phrase: string) =>
     `Your payday falls on ${phrase}. When do you usually get paid then?`,
+  askPaydayRuleMonthly:
+    "Sometimes your payday will fall on a weekend or bank holiday. When do you usually get paid then?",
+  paydaySummary: (day: string, repeat: "weekly" | "fortnightly" | "four-weekly" | "monthly") =>
+    `${day} \u00b7 ${words_every[repeat]}`,
   cantReadAmount: (what: string) =>
     `I couldn't read the amount for ${what}. Try something like 12.50.`,
   cantReadDate: (what: string) => `I couldn't read ${what}. You can pick it from the calendar.`,
@@ -228,6 +253,28 @@ export const words = {
 
     paydayTitle: "Payday",
     paydayDateLabel: "Your next payday",
+    paydayRepeatLabel: "How often are you paid?",
+    paydayRepeatHint:
+      "If you're paid on a regular pattern, I'll move on to your next payday by myself once this one has gone by.",
+    paydayRepeatOptions: {
+      once: "Just this one date",
+      weekly: "Every week",
+      fortnightly: "Every 2 weeks",
+      "four-weekly": "Every 4 weeks",
+      monthly: "Every month",
+    },
+    repeatLabel: "How often?",
+    repeatOptions: {
+      once: "Just once",
+      weekly: "Every week",
+      fortnightly: "Every 2 weeks",
+      "four-weekly": "Every 4 weeks",
+      monthly: "Every month",
+    },
+    repeatBillHint: "Only the ones that come round before payday are counted.",
+    repeatIncomeHint: "Only the ones that arrive before payday are counted.",
+    billDueRepeating: "Next due on",
+    incomeDateRepeating: "Next arrives on",
     paydayRuleOptions: {
       "": "Choose one",
       "working-day-before": "The working day before",
@@ -342,7 +389,7 @@ export function describeWarning(warning: Warning): string | null {
     case "payday-passed":
       return "Your payday date has passed. Update it when you can.";
     case "balance-out-of-date":
-      return `Your balance is from ${warning.daysOld} days ago, so it may have changed. Update it when you can for a more accurate number.`;
+      return `Your balance is from ${warning.daysOld === 1 ? "yesterday" : `${warning.daysOld} days ago`}, so it may have changed. Update it when you can for a more accurate number.`;
     case "uncertain-income-not-counted":
       return `${formatMoney(warning.amount)} might arrive, but it isn't counted in your number.`;
     case "uncertain-income-would-cover-shortfall":

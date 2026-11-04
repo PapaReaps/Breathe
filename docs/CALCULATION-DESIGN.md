@@ -67,6 +67,19 @@ When you type in your balance, the app records **the amount and the moment you e
 
 **R15. The calculation changes nothing.** It takes information in and gives an answer out. It never alters saved data.
 
+**R16. Things that repeat (added in Stage 7).** A payday, a bill or a piece of money coming in can repeat: *every week*, *every 2 weeks*, *every 4 weeks* or *every month*. The person gives **one date and how often**. Everything about *whether* an amount counts (R3 to R6) stays exactly as it was. Repeating only decides **which dates there are**.
+- Every week, 2 weeks and 4 weeks are 7, 14 and 28 days apart. Four weeks is not the same as a month, and the app does not pretend it is.
+- Every month keeps the same day of the month as the first date. If a month is too short, the last day of that month is used (the 31st becomes the 30th in April, the 28th in February and the 29th in a leap year). The day is always counted from the **first date**, so it never drifts: a bill on the 31st is on the 28th in February and back on the 31st in March.
+- A series never goes back before its first date. Dates before the balance snapshot are ignored by R3, as before.
+
+**R17. A repeating bill or money coming in.** The form turns it into one dated item for each time it falls from the balance date up to the real payday, then hands those to the calculation as ordinary bills and income. So the calculation itself did not change. A weekly bill can count once or twice or more, depending on the days left. A bill that lands on payday counts (R4). Money that lands on payday does not (R6). An item that lands on the balance date asks the usual question, and the answer belongs to that one date only.
+
+**R18. A repeating payday rolls forward.** The next payday is the first one, after the weekend rule (R7), that is today or later. There is no "your payday has passed" for a repeating payday. A payday that is *only one date* still says it has passed, as before. A repeating payday that falls on a weekend or bank holiday uses the same three choices as R7. For *every month* the app always asks, because some months will land on a weekend. For the weekly kinds it asks only if the first or next payday is a weekend or bank holiday.
+
+**R19. Paid since you last updated.** If a repeating payday has gone by *after* the balance snapshot and *before* today, the home screen says so kindly and offers "Update my balance". The number itself stays cautious: the new pay is **not** added, because the balance does not show it. A payday on the snapshot day, or today, does not count (the money may not be in yet).
+
+**R20. How old is too old (R14).** The "balance may be out of date" note appears when the balance is older than a number of days the person chooses in Settings: *every day* (anything older than today), *every 3 days* (the usual choice), *once a week*, or *never*. If a payday has gone by, the "paid since" note (R19) is shown instead, so there is only ever one gentle note.
+
 ## Test plan (written in Stage 2, before the calculation code)
 
 All examples use fictional people and figures.
@@ -133,3 +146,10 @@ All examples use fictional people and figures.
 - M8. Rainy-day pot larger than the balance.
 - M9. Old balance triggers the out-of-date warning. A fresh one does not.
 - M10. The same inputs always give the same answer, and the inputs are not changed.
+
+## Stage 7 tests (written before the code)
+
+- `tests/repeat.test.ts`: every week, 2 weeks, 4 weeks and month; month ends; the 29th, 30th and 31st; leap years (and 2100, which is not one); year boundaries; a first date long ago; plus **20,000 random cases** compared with a slow, obvious day-by-day method.
+- `tests/recurrence.test.ts`: a repeating payday rolling forward; the weekend answer for repeating paydays; "paid since" (before, on and after the balance date, and with a weekend payday); repeating bills and money coming in (counting before payday, on payday, ids and answers per date); the reminder setting reaching the calculation; plus **10,000 random months** where payday, a bill and money coming in all repeat, compared with a slow day-by-day count including the whole safe-to-spend figure to the penny.
+- `tests/savedData.test.ts`: repeats save and come back; saves from before Stage 7 still open (as "one date only"); unknown repeats or answer names are refused.
+- `tests/rows.test.ts`: list lines such as `every month from Fri 13 Nov`, and the reminder setting.

@@ -74,6 +74,62 @@ describe("saving on the device", () => {
   });
 });
 
+describe("repeating items are saved and read back", () => {
+  function repeating(): FormState {
+    const bill = { ...newBillRow(), name: "Gym", amount: "10", dueDate: "2026-11-06", repeat: "weekly" as const };
+    const income = { ...newIncomeRow(), name: "Wages", amount: "50", date: "2026-11-06", repeat: "monthly" as const };
+    return {
+      ...emptyForm(),
+      balance: "420",
+      paydayDate: "2026-11-20",
+      paydayRule: "on-the-day",
+      paydayRepeat: "fortnightly",
+      bills: [bill],
+      income: [income],
+      answers: { [`${bill.id}@2026-11-06`]: true, [`${income.id}@2026-11-06`]: false },
+    };
+  }
+
+  it("how often comes back exactly, including answers about one date of a repeating item", () => {
+    const form = repeating();
+    expect(fromSaved(toSaved(form))).toEqual(form);
+    expect(parseBackupText(makeBackupText(form, "2026-11-04"))).toEqual({ ok: true, form, savedOn: "2026-11-04" });
+  });
+
+  it("numbers saved before repeats existed still open, as one date only", () => {
+    const form = sample();
+    const oldForm = JSON.parse(JSON.stringify(toSaved(form).form));
+    delete oldForm.paydayRepeat;
+    for (const row of [...oldForm.bills, ...oldForm.income]) delete row.repeat;
+    expect(fromSaved({ format: 1, form: oldForm })).toEqual(form);
+  });
+
+  it("an old backup file (format 1) can be used", () => {
+    const file = JSON.parse(makeBackupText(sample(), "2026-11-04"));
+    file.format = 1;
+    delete file.form.paydayRepeat;
+    for (const row of [...file.form.bills, ...file.form.income]) delete row.repeat;
+    const parsed = parseBackupText(JSON.stringify(file));
+    expect(parsed.ok).toBe(true);
+  });
+
+  it("refuses a how-often it does not know, and answer names it does not recognise", () => {
+    const good = JSON.parse(makeBackupText(repeating(), "2026-11-04"));
+    const attempt = (change: (form: Record<string, any>) => void) => {
+      const copy = JSON.parse(JSON.stringify(good));
+      change(copy.form);
+      return parseBackupText(JSON.stringify(copy));
+    };
+    const refused = { ok: false, reason: "unreadable" };
+    expect(attempt((f) => { f.paydayRepeat = "daily"; })).toEqual(refused);
+    expect(attempt((f) => { f.bills[0].repeat = "sometimes"; })).toEqual(refused);
+    expect(attempt((f) => { f.income[0].repeat = 7; })).toEqual(refused);
+    expect(attempt((f) => { f.answers = { "bill-1@tomorrow": true }; })).toEqual(refused);
+    expect(attempt((f) => { f.answers = { "bill-1@2026-11-06@2026-11-07": true }; })).toEqual(refused);
+    expect(attempt((f) => { f.answers = { "other-1@2026-11-06": true }; })).toEqual(refused);
+  });
+});
+
 describe("the date a balance is from", () => {
   it("typing a balance dates it today, so an old one is never mistaken for fresh", () => {
     const form = { ...emptyForm(), balance: "100", balanceDate: "2026-10-01" };
@@ -115,7 +171,7 @@ describe("backup files", () => {
     expect(parseBackupText(text([1, 2]))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ app: "something-else", format: 1, form: good.form }))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ app: "breathe-money", form: good.form }))).toEqual({ ok: false, reason: "not-ours" });
-    expect(parseBackupText(text({ ...good, format: 2 }))).toEqual({ ok: false, reason: "newer" });
+    expect(parseBackupText(text({ ...good, format: 3 }))).toEqual({ ok: false, reason: "newer" });
     expect(parseBackupText(text({ ...good, format: 0 }))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ ...good, form: { ...good.form, balance: 5 } }))).toEqual({ ok: false, reason: "unreadable" });
     expect(parseBackupText("x".repeat(1_000_001))).toEqual({ ok: false, reason: "too-big" });

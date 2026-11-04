@@ -2,6 +2,8 @@ import { words } from "../content/words";
 import { formatDayShort } from "./dates";
 import type { BillRow, IncomeRow } from "./form";
 import { formatMoney, parseMoney } from "./money";
+import { isRepeat } from "./repeat";
+import type { Repeat } from "./repeat";
 
 /*
  * One short line for each bill or item of money coming in, so a long list stays easy to scan.
@@ -26,12 +28,23 @@ function dateText(date: string): { text: string; ok: boolean } {
   return { text: formatDayShort(date), ok: true };
 }
 
+/** "£100.00 · Fri 13 Nov", or "£100.00 · every month from Fri 13 Nov" for one that repeats. */
+function whenText(repeat: Repeat, date: { text: string; ok: boolean }): string {
+  if (repeat === "once") return date.text;
+  const every = words.rows.every[repeat];
+  return date.ok ? `${every} from ${date.text}` : `${every} \u00b7 ${date.text}`;
+}
+
+function repeatOf(value: unknown): Repeat {
+  return isRepeat(value) ? value : "once";
+}
+
 export function summariseBill(row: BillRow): RowSummary {
   const amount = amountText(row.amount);
   const date = dateText(row.dueDate);
   return {
     title: row.name.trim() === "" ? words.rows.unnamedBill : row.name.trim(),
-    detail: `${amount.text} · ${date.text}`,
+    detail: `${amount.text} · ${whenText(repeatOf(row.repeat), date)}`,
     unfinished: !amount.ok || !date.ok,
   };
 }
@@ -42,7 +55,7 @@ export function summariseIncome(row: IncomeRow): RowSummary {
   const maybe = row.reliability === "uncertain" ? ` · ${words.rows.mightCome}` : "";
   return {
     title: row.name.trim() === "" ? words.rows.unnamedIncome : row.name.trim(),
-    detail: `${amount.text} · ${date.text}${maybe}`,
+    detail: `${amount.text} · ${whenText(repeatOf(row.repeat), date)}${maybe}`,
     unfinished: !amount.ok || !date.ok,
   };
 }

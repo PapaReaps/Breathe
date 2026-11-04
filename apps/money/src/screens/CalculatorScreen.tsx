@@ -7,6 +7,7 @@ import { HomeView } from "./HomeView";
 import { MenuSheet } from "./MenuSheet";
 import { backupFileName, makeBackupText } from "../storage/savedData";
 import { downloadTextFile } from "../storage/download";
+import { reminderDays } from "../storage/settings";
 import { useSettings } from "../storage/useSettings";
 import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney } from "../logic/money";
@@ -78,7 +79,8 @@ export default function CalculatorScreen() {
 
   const settings: SettingsApi = { settings: appearance.settings, change: appearance.change };
 
-  const built = useMemo(() => buildInput(form, today), [form, today]);
+  const staleAfterDays = reminderDays(appearance.settings.balanceReminder);
+  const built = useMemo(() => buildInput(form, today, { staleAfterDays }), [form, today, staleAfterDays]);
 
   const outcome = useMemo<Outcome | null>(() => {
     if (built.status !== "ready") return null;

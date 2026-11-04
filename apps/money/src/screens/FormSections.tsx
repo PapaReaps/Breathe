@@ -1,9 +1,11 @@
 import { MoneyField } from "../components/MoneyField";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
-import { nonWorkingDayPhrase, paydayIsNonWorkingDay } from "../logic/form";
+import { paydayRuleQuestion } from "../logic/form";
 import type { FormState } from "../logic/form";
 import { billsTotalLine, incomeTotalLine, isBlankBill, isBlankIncome, summariseBill, summariseIncome } from "../logic/rows";
+import { REPEATS } from "../logic/repeat";
+import type { Repeat } from "../logic/repeat";
 import type { PaydayRule } from "../logic/types";
 import type { FormApi } from "./screenTypes";
 
@@ -44,8 +46,37 @@ export function AccountSection({ form, today, api }: SectionProps) {
   );
 }
 
-export function PaydaySection({ form, api }: SectionProps) {
-  const askRule = paydayIsNonWorkingDay(form.paydayDate, form.bankHolidays);
+/** "How often?" for a bill or for money coming in, with a short hint when it repeats. */
+function RepeatField({
+  id,
+  value,
+  hint,
+  onChange,
+}: {
+  id: string;
+  value: Repeat;
+  hint: string;
+  onChange: (value: Repeat) => void;
+}) {
+  const current: Repeat = REPEATS.includes(value) ? value : "once";
+  return (
+    <div className="field">
+      <label htmlFor={id}>{ui.repeatLabel}</label>
+      {current === "once" ? null : <p className="hint">{hint}</p>}
+      <select id={id} value={current} onChange={(event) => onChange(event.target.value as Repeat)}>
+        {REPEATS.map((choice) => (
+          <option key={choice} value={choice}>
+            {ui.repeatOptions[choice]}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+export function PaydaySection({ form, today, api }: SectionProps) {
+  const question = paydayRuleQuestion(form, today);
+  const repeat: Repeat = REPEATS.includes(form.paydayRepeat) ? form.paydayRepeat : "once";
   return (
     <>
       <div className="field">
@@ -57,9 +88,24 @@ export function PaydaySection({ form, api }: SectionProps) {
           onChange={(event) => api.set("paydayDate", event.target.value)}
         />
       </div>
-      {askRule ? (
+      <div className="field">
+        <label htmlFor="payday-repeat">{ui.paydayRepeatLabel}</label>
+        {repeat === "once" ? null : <p className="hint">{ui.paydayRepeatHint}</p>}
+        <select
+          id="payday-repeat"
+          value={repeat}
+          onChange={(event) => api.set("paydayRepeat", event.target.value as Repeat)}
+        >
+          {REPEATS.map((choice) => (
+            <option key={choice} value={choice}>
+              {ui.paydayRepeatOptions[choice]}
+            </option>
+          ))}
+        </select>
+      </div>
+      {question !== null ? (
         <div className="field">
-          <label htmlFor="payday-rule">{words.askPaydayRule(nonWorkingDayPhrase(form.paydayDate))}</label>
+          <label htmlFor="payday-rule">{question}</label>
           <select
             id="payday-rule"
             value={form.paydayRule}
@@ -110,7 +156,7 @@ export function BillsSection({ form, api, hideHint = false }: SectionProps) {
               onChange={(value) => api.updateBill(bill.id, { amount: value })}
             />
             <div className="field">
-              <label htmlFor={`${bill.id}-due`}>{ui.billDue}</label>
+              <label htmlFor={`${bill.id}-due`}>{bill.repeat && bill.repeat !== "once" ? ui.billDueRepeating : ui.billDue}</label>
               <input
                 id={`${bill.id}-due`}
                 type="date"
@@ -118,6 +164,12 @@ export function BillsSection({ form, api, hideHint = false }: SectionProps) {
                 onChange={(event) => api.updateBill(bill.id, { dueDate: event.target.value })}
               />
             </div>
+            <RepeatField
+              id={`${bill.id}-repeat`}
+              value={bill.repeat}
+              hint={ui.repeatBillHint}
+              onChange={(value) => api.updateBill(bill.id, { repeat: value })}
+            />
           </>
         )}
       />
@@ -158,7 +210,7 @@ export function IncomeSection({ form, api, hideHint = false }: SectionProps) {
               onChange={(value) => api.updateIncome(item.id, { amount: value })}
             />
             <div className="field">
-              <label htmlFor={`${item.id}-date`}>{ui.incomeDate}</label>
+              <label htmlFor={`${item.id}-date`}>{item.repeat && item.repeat !== "once" ? ui.incomeDateRepeating : ui.incomeDate}</label>
               <input
                 id={`${item.id}-date`}
                 type="date"
@@ -166,6 +218,12 @@ export function IncomeSection({ form, api, hideHint = false }: SectionProps) {
                 onChange={(event) => api.updateIncome(item.id, { date: event.target.value })}
               />
             </div>
+            <RepeatField
+              id={`${item.id}-repeat`}
+              value={item.repeat}
+              hint={ui.repeatIncomeHint}
+              onChange={(value) => api.updateIncome(item.id, { repeat: value })}
+            />
             <div className="field">
               <label htmlFor={`${item.id}-reliability`}>How sure are you?</label>
               <select

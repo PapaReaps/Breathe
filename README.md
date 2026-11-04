@@ -30,6 +30,8 @@ The first app is **Breathe Money**. It answers one question, calmly, on one scre
 - Shows how much is **safe to spend until payday**, after your bills, food and travel, and a rainy-day pot you choose to keep aside.
 - Counts every pound **once**. Bills already taken from your balance are not taken off twice, and money that might not arrive is never counted.
 - Handles real life: paydays that fall on weekends or bank holidays, bills due on payday, and a balance that is a few days old.
+- Copes with **paydays and bills that repeat**: paid weekly, every 2 or 4 weeks, or monthly, and bills that come round on the same pattern. Payday rolls forward by itself.
+- Gently says when a payday has gone by since you last updated your balance, and lets you choose **how often it reminds you** (or not at all).
 - Starts with a **gentle step-by-step setup**: one question per screen, and every question can be skipped.
 - Keeps long lists **tidy**: each bill is one short line, and you open one at a time.
 - Lets you choose **light or dark**, an **app colour** and a **rainy-day pot colour**, because what feels calm is different for everyone.
@@ -38,7 +40,7 @@ The first app is **Breathe Money**. It answers one question, calmly, on one scre
 
 <table>
   <tr>
-    <td><img src="docs/images/bills-list.png" alt="The setup question: Any bills before then? Three bills shown as short lines, with a total" width="250"></td>
+    <td><img src="docs/images/bills-list.png" alt="The setup question: Any bills before then? Three bills shown as short lines, each saying how often it repeats, with a total" width="250"></td>
     <td><img src="docs/images/settings-colours.png" alt="Settings: choose light or dark, an app colour from five, and a rainy-day pot colour from five" width="250"></td>
     <td><img src="docs/images/home-plum-rose.png" alt="The main screen with the plum app colour and a rose rainy-day pot badge" width="250"></td>
   </tr>
@@ -46,6 +48,17 @@ The first app is **Breathe Money**. It answers one question, calmly, on one scre
     <td align="center">Tidy bills</td>
     <td align="center">Colour choices</td>
     <td align="center">Make it yours</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td><img src="docs/images/payday-repeat.png" alt="The setup question: When is your next payday? with a date and a choice for how often you are paid, set to every week" width="250"></td>
+    <td><img src="docs/images/settings-reminder.png" alt="Settings: how often to be reminded to update your balance: every day, every 3 days, once a week, or don't remind me" width="250"></td>
+  </tr>
+  <tr>
+    <td align="center">Paid weekly or monthly? Say so once</td>
+    <td align="center">Reminders, your way</td>
   </tr>
 </table>
 
