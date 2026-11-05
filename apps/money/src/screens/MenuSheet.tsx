@@ -124,9 +124,14 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             </h2>
             {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
-            {panel === "payday" ? <PaydaySection form={form} today={today} api={api} /> : null}
+            {panel === "payday" || panel === "income" ? (
+              <>
+                <PaydaySection form={form} today={today} api={api} />
+                <h3 className="sub-question">{ui.otherIncomeTitle}</h3>
+                <IncomeSection form={form} today={today} api={api} />
+              </>
+            ) : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
-            {panel === "income" ? <IncomeSection form={form} today={today} api={api} /> : null}
             {panel === "essentials" ? <EssentialsSection form={form} today={today} api={api} /> : null}
             {panel === "pot" ? <PotSection form={form} today={today} api={api} /> : null}
             {panel === "holidays" ? <HolidaysSection form={form} today={today} api={api} /> : null}
@@ -171,10 +176,9 @@ interface MenuListProps {
 function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
   const summary = describeForm(form, today);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
+    { id: "income", title: words.menu.names.income, sub: summary.payday },
     { id: "account", title: words.menu.names.account, sub: summary.account },
-    { id: "payday", title: words.menu.names.payday, sub: summary.payday },
     { id: "bills", title: words.menu.names.bills, sub: summary.bills },
-    { id: "income", title: words.menu.names.income, sub: summary.income },
     { id: "essentials", title: words.menu.names.essentials, sub: summary.essentials },
     { id: "pot", title: words.menu.names.pot, sub: summary.pot },
     { id: "holidays", title: words.menu.names.holidays, sub: summary.holidays },

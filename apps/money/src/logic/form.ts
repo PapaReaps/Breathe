@@ -307,7 +307,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
   if (blank(form.paydayDate)) {
     messages.push(words.needPayday);
   } else if (!isRealDay(form.paydayDate)) {
-    messages.push(words.cantReadDate("your payday"));
+    messages.push(words.cantReadDate("the date your money comes in"));
   } else {
     const question = paydayRuleQuestion(form, today);
     if (question !== null && form.paydayRule === "") {

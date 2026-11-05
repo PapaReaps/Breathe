@@ -82,8 +82,12 @@ export function PaydaySection({ form, today, api }: SectionProps) {
     <>
       <div className="field">
         <label htmlFor="payday-date">{ui.paydayDateLabel}</label>
+        <p className="hint" id="payday-date-hint">
+          {ui.paydayDateHint}
+        </p>
         <input
           id="payday-date"
+          aria-describedby="payday-date-hint"
           type="date"
           value={form.paydayDate}
           onChange={(event) => api.set("paydayDate", event.target.value)}

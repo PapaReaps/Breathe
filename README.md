@@ -29,7 +29,7 @@ It is a personal project, built by someone who struggles with these things too. 
     <td width="300"><img src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode" width="280"></td>
     <td>
       <h3>One question, one calm answer</h3>
-      <p><b>"How much can I spend until payday?"</b></p>
+      <p><b>"How much can I spend until my money comes in?"</b></p>
       <p>Type what's in your account. Breathe Money sets aside your bills, food and travel, and some savings you choose to keep aside. Then it shows what's left as one big number.</p>
       <p>Change anything and the number updates as you type. Dark mode follows your phone's own setting.</p>
       <p><a href="https://papareaps.github.io/Breathe/">Try it now</a>, with no account and no download.</p>
@@ -56,10 +56,10 @@ It is a personal project, built by someone who struggles with these things too. 
   </tr>
 </table>
 
-- Shows how much is **safe to spend until payday**, after your bills, food and travel, and some savings kept aside.
+- Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel, and some savings kept aside.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice, and money that might not arrive is never counted.
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
-- Handles real life: paydays on weekends or bank holidays, bills due on payday, and a balance that's a few days old.
+- Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
 
 ### Gentle setup, tidy lists
 
@@ -77,9 +77,9 @@ It is a personal project, built by someone who struggles with these things too. 
 </table>
 
 - **Step-by-step setup**: one question per screen, and every question can be skipped.
-- **Paydays and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. Payday rolls forward by itself.
+- **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
 - **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
-- A kind note when a payday has gone by since you last updated your balance, and **reminders as often as you like**, or never.
+- A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.
 
 ### Make it yours
 
@@ -146,7 +146,7 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 
 | App | What it will help with | Status |
 |---|---|---|
-| **Breathe Money** | Knowing how much you have to spend until payday | **In progress** |
+| **Breathe Money** | Knowing how much you have to spend until your money comes in | **In progress** |
 | Breathe Medication | Medication reminders and tracking | Later |
 | Breathe Travel | Making independent travel easier | Later |
 | Breathe Daily | Routines and reminders | Later |

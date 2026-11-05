@@ -136,19 +136,19 @@ describe("the wording stays kind", () => {
       }),
     );
     const head = headlineFor(tight);
-    expect(head.title).toBe("Things are tight until payday");
+    expect(head.title).toBe("Things are tight until your money comes in");
     expect(head.amount).toBe("£40.00 short");
   });
 
   it("a plentiful month shows the plain number", () => {
     const head = headlineFor(calculateSafeToSpend(makeInput()));
-    expect(head.title).toBe("Safe to spend until payday");
+    expect(head.title).toBe("Safe to spend until your money comes in");
     expect(head.amount).toBe("£1,000.00");
   });
 
   it("describes payday in plain words", () => {
-    expect(paydayLine("2026-11-13", 9)).toBe("Payday: Friday 13 November (in 9 days)");
-    expect(paydayLine("2026-11-13", 1)).toBe("Payday: Friday 13 November (tomorrow)");
-    expect(paydayLine("2026-11-13", 0)).toBe("Payday: Friday 13 November (today)");
+    expect(paydayLine("2026-11-13", 9)).toBe("Money comes in: Friday 13 November (in 9 days)");
+    expect(paydayLine("2026-11-13", 1)).toBe("Money comes in: Friday 13 November (tomorrow)");
+    expect(paydayLine("2026-11-13", 0)).toBe("Money comes in: Friday 13 November (today)");
   });
 });

@@ -1,7 +1,7 @@
 {
   "name": "Breathe Money",
   "short_name": "Breathe",
-  "description": "A calm, private way to see how much you can spend until payday.",
+  "description": "A calm, private way to see how much you can spend until your money comes in.",
   "lang": "en-GB",
   "start_url": "./",
   "scope": "./",

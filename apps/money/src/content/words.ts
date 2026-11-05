@@ -25,7 +25,7 @@ export const words = {
     appName: "Breathe Money",
     menuButton: "Menu",
     welcomeTitle: "Welcome",
-    welcomeMessage: "Let's find out how much is safe to spend until payday.",
+    welcomeMessage: "Let's find out how much is safe to spend until your money comes in.",
     welcomeButton: "Add your numbers",
     privacyLine: "Your numbers stay on this device. Nothing is sent anywhere.",
     howKept: "How your numbers are kept",
@@ -43,7 +43,7 @@ export const words = {
     openMenu: "Open the menu",
     questionWaiting: "A quick question is waiting",
     paidSince: (day: string) =>
-      `You've had a payday (${day}) since you last updated your balance. Update it when you can, and your number can include your pay.`,
+      `Money has come in (${day}) since you last updated your balance. Update it when you can, and your number can include it.`,
     updateBalance: "Update my balance",
   },
   menu: {
@@ -55,7 +55,7 @@ export const words = {
     toGetYourNumber: "To see your number:",
     names: {
       account: "Your account",
-      payday: "Payday",
+      payday: "Next money in",
       bills: "Bills",
       income: "Money coming in",
       essentials: "Food and travel",
@@ -234,7 +234,7 @@ export const words = {
     homeIntro:
       "Once you know your way around, you can hide the extra writing under your number. Anything important still shows, like when things are tight or your balance needs updating.",
     showExplanation: "Show the short sentence under my number",
-    showPayday: "Show the payday date",
+    showPayday: "Show the date your money comes in",
     potPreview: "Preview",
     potPreviewAmount: "£100.00",
     textSizeTitle: "Text size",
@@ -320,16 +320,16 @@ export const words = {
       label: "Everyday account balance (£)",
     },
     payday: {
-      question: "When is your next payday?",
-      intro: "Pick the date from the calendar.",
+      question: "When does your main money next come in?",
+      intro: "Pick the date from the calendar, and how often it comes.",
     },
     bills: {
       question: "Any bills before then?",
-      intro: "Add anything that will leave your account before payday. If there's nothing, just carry on.",
+      intro: "Add anything that will leave your account before your money comes in. If there's nothing, just carry on.",
     },
     income: {
-      question: "Any other money coming in before payday?",
-      intro: "Like a refund, or money you're owed. Your main pay isn't needed here.",
+      question: "Any other money coming in before then?",
+      intro: "Like a refund, or money you're owed. If there's nothing, just carry on.",
     },
     food: {
       question: "What do you usually spend on food and travel each week?",
@@ -349,10 +349,10 @@ export const words = {
 
   waitingTitle: "Your safe-to-spend number will appear here",
   needBalance: "Add what is in your everyday account right now.",
-  needPayday: "Add the date of your next payday.",
+  needPayday: "Add the date your money next comes in.",
   balanceDateFuture: "The date for your balance can't be in the future. Pick today, or an earlier day.",
   askPaydayRule: (phrase: string) =>
-    `Your payday falls on ${phrase}. When do you usually get paid then?`,
+    `Your money is due on ${phrase}. When does it usually arrive then?`,
   holidaysSummaryRegion: (
     region: "england-and-wales" | "scotland" | "northern-ireland",
     extra: number,
@@ -363,7 +363,7 @@ export const words = {
   holidayListEnded: (until: string) =>
     `The built-in bank holidays only go up to ${until}. You can add later ones yourself in the Menu, under Bank holidays.`,
   askPaydayRuleMonthly:
-    "Sometimes your payday will fall on a weekend or bank holiday. When do you usually get paid then?",
+    "Sometimes the date will fall on a weekend or bank holiday. When does your money usually arrive then?",
   paydaySummary: (day: string, repeat: "weekly" | "fortnightly" | "four-weekly" | "monthly") =>
     `${day} \u00b7 ${words_every[repeat]}`,
   cantReadAmount: (what: string) =>
@@ -383,11 +383,13 @@ export const words = {
     balanceDateLabel: "This balance is from",
     balanceDateHint: "Leave this as today if you have just checked it.",
 
-    paydayTitle: "Payday",
-    paydayDateLabel: "Your next payday",
-    paydayRepeatLabel: "How often are you paid?",
+    paydayTitle: "Money coming in",
+    paydayDateLabel: "When your main money next comes in",
+    paydayDateHint: "Like wages, Universal Credit, a pension or PIP. Your number lasts until this day.",
+    paydayRepeatLabel: "How often does it come?",
     paydayRepeatHint:
-      "If you're paid on a regular pattern, I'll move on to your next payday by myself once this one has gone by.",
+      "If it comes on a regular pattern, I'll move on to the next date by myself once this one has gone by.",
+    otherIncomeTitle: "Any other money coming in before then?",
     paydayRepeatOptions: {
       once: "Just this one date",
       weekly: "Every week",
@@ -403,8 +405,8 @@ export const words = {
       "four-weekly": "Every 4 weeks",
       monthly: "Every month",
     },
-    repeatBillHint: "Only the ones that come round before payday are counted.",
-    repeatIncomeHint: "Only the ones that arrive before payday are counted.",
+    repeatBillHint: "Only the ones that come round before your money comes in are counted.",
+    repeatIncomeHint: "Only the ones that arrive before your main money are counted.",
     billDueRepeating: "Next due on",
     incomeDateRepeating: "Next arrives on",
     paydayRuleOptions: {
@@ -414,17 +416,17 @@ export const words = {
       "next-working-day": "The next working day",
     },
 
-    billsTitle: "Bills before payday",
+    billsTitle: "Bills before your money comes in",
     billsHint:
-      "Add anything that will leave your account before payday. Bills after payday can wait.",
+      "Add anything that will leave your account before your money comes in. Bills after that can wait.",
     billName: "What is it?",
     billAmount: "Amount (£)",
     billDue: "Due on",
     addBill: "Add a bill",
     remove: "Remove",
 
-    incomeTitle: "Money coming in before payday",
-    incomeHint: "Only things that arrive before payday. Your main pay isn't needed here.",
+    incomeTitle: "Money coming in",
+    incomeHint: "Only things that arrive before your main money, like a refund or money you're owed.",
     incomeName: "What is it?",
     incomeAmount: "Amount (£)",
     incomeDate: "Arrives on",
@@ -435,7 +437,7 @@ export const words = {
     essentialsTitle: "Food and travel",
     potTitle: "Savings",
     foodLabel: "Food and everyday spending, per week (£)",
-    foodHint: "I will spread it evenly across the days until payday.",
+    foodHint: "I will spread it evenly across the days until your money comes in.",
     travelLabel: "Travel, per week (£)",
     travelHint: "A monthly travel pass counts as a bill, so add that under Bills.",
     bufferLabel: "Savings to keep aside (£)",
@@ -491,28 +493,28 @@ export function headlineFor(result: CalculatorResult): Headline {
   const safe = result.safeToSpend;
   if (safe === null) {
     return {
-      title: "Let's check your payday date",
+      title: "Let's check when your money comes in",
       amount: null,
       message:
-        "The payday you entered looks like it has already gone by. Add your next payday and I'll work it out.",
+        "The date you entered for your money looks like it has already gone by. Add the next date and I'll work it out.",
     };
   }
   if (safe > 0) {
     return {
-      title: "Safe to spend until payday",
+      title: "Safe to spend until your money comes in",
       amount: formatMoney(safe),
       message: "That is after setting aside everything you have told me about.",
     };
   }
   if (safe === 0) {
     return {
-      title: "Safe to spend until payday",
+      title: "Safe to spend until your money comes in",
       amount: formatMoney(0),
-      message: "There is nothing spare until payday, but everything you listed is covered.",
+      message: "There is nothing spare until your money comes in, but everything you listed is covered.",
     };
   }
   return {
-    title: "Things are tight until payday",
+    title: "Things are tight until your money comes in",
     amount: `${formatMoney(-safe)} short`,
     message:
       "Here is where it all goes, so you can see the whole picture. This is a snapshot, not a judgement.",
@@ -521,17 +523,17 @@ export function headlineFor(result: CalculatorResult): Headline {
 
 export function paydayLine(paydayDate: string, daysUntilPayday: number | null): string {
   const day = formatDayLong(paydayDate);
-  if (daysUntilPayday === null) return `Payday: ${day}`;
-  if (daysUntilPayday === 0) return `Payday: ${day} (today)`;
-  if (daysUntilPayday === 1) return `Payday: ${day} (tomorrow)`;
-  return `Payday: ${day} (in ${daysUntilPayday} days)`;
+  if (daysUntilPayday === null) return `Money comes in: ${day}`;
+  if (daysUntilPayday === 0) return `Money comes in: ${day} (today)`;
+  if (daysUntilPayday === 1) return `Money comes in: ${day} (tomorrow)`;
+  return `Money comes in: ${day} (in ${daysUntilPayday} days)`;
 }
 
 /** Plain-words notes under the number. Questions are handled separately. */
 export function describeWarning(warning: Warning): string | null {
   switch (warning.kind) {
     case "payday-passed":
-      return "Your payday date has passed. Update it when you can.";
+      return "The date your money comes in has passed. Update it when you can.";
     case "balance-out-of-date":
       return `Your balance is from ${warning.daysOld === 1 ? "yesterday" : `${warning.daysOld} days ago`}, so it may have changed. Update it when you can for a more accurate number.`;
     case "uncertain-income-not-counted":

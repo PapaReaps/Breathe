@@ -980,3 +980,11 @@ a.button-link {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* "Any other money coming in before then?", under the main money date. */
+.sub-question {
+  font-size: 1.1rem;
+  margin: 1.75rem 0 0.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
