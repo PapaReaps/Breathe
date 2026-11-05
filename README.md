@@ -10,7 +10,7 @@
 > **Breathe will never be about making money. It will always be about helping people.**
 
 <p align="center">
-  <img src="docs/images/hero.png" alt="Breathe Money: How much can I spend until payday? One calm number, after your bills, food, travel and a rainy-day pot. Shown on three phones in light, dark and plum colours" width="100%">
+  <img src="docs/images/hero.png" alt="Breathe Money: How much can I spend until my money comes in? One calm number, after your bills, food, travel and savings. Shown on three phones in light, dark and plum colours" width="100%">
 </p>
 
 <p align="center">
@@ -45,9 +45,9 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td><img src="docs/images/home-light.png" alt="The home screen: Safe to spend until payday, £343.74, with the payday date and a gold rainy-day pot badge of £150.00" width="250"></td>
-    <td><img src="docs/images/menu.png" alt="The Menu: your account, payday, bills, money coming in, food and travel, rainy-day pot and bank holidays, each with a short summary" width="250"></td>
-    <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and the rainy-day pot taken off, line by line" width="250"></td>
+    <td><img src="docs/images/home-light.png" alt="The home screen: Safe to spend until your money comes in, £343.74, with the date the money comes in and a gold savings badge of £150.00" width="250"></td>
+    <td><img src="docs/images/menu.png" alt="The Menu: money coming in, your account, bills, food and travel, savings and bank holidays, each with a short summary, then Where this number comes from and Settings" width="250"></td>
+    <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and your savings taken off, line by line" width="250"></td>
   </tr>
   <tr>
     <td align="center">Just the number</td>
@@ -65,9 +65,9 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td><img src="docs/images/welcome.png" alt="The welcome screen: Let's find out how much is safe to spend until payday, with an Add your numbers button" width="250"></td>
-    <td><img src="docs/images/setup-first.png" alt="Setting up, question 1 of 6: What's in your everyday account right now? With Skip this one and Next buttons" width="250"></td>
-    <td><img src="docs/images/bills.png" alt="Bills before payday: four bills, each one short line saying how much and how often, with a total" width="250"></td>
+    <td><img src="docs/images/welcome.png" alt="The welcome screen: Let's find out how much is safe to spend until your money comes in, with an Add your numbers button" width="250"></td>
+    <td><img src="docs/images/setup-first.png" alt="Setting up, question 1 of 5: When does your main money next come in? Like wages, Universal Credit, a pension or PIP. Then any other money coming in before then" width="250"></td>
+    <td><img src="docs/images/bills.png" alt="Bills before your money comes in: four bills, each one short line saying how much and how often, with a total" width="250"></td>
   </tr>
   <tr>
     <td align="center">A calm hello</td>
@@ -85,26 +85,26 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td><img src="docs/images/home-dark.png" alt="The home screen in dark mode, with a teal number and a gold pot badge" width="250"></td>
-    <td><img src="docs/images/home-plum.png" alt="The home screen with a plum number and a rose pot badge" width="250"></td>
-    <td><img src="docs/images/home-blue-dark.png" alt="The home screen in dark mode with a blue number and a lilac pot badge" width="250"></td>
+    <td><img src="docs/images/home-dark.png" alt="The home screen in dark mode, with a teal number and a gold savings badge" width="250"></td>
+    <td><img src="docs/images/home-plum.png" alt="The home screen with a plum number and a rose savings badge" width="250"></td>
+    <td><img src="docs/images/home-blue-dark.png" alt="The home screen in dark mode with a blue number and a lilac savings badge" width="250"></td>
   </tr>
   <tr>
     <td align="center">Dark mode</td>
     <td align="center">Five app colours</td>
-    <td align="center">Five pot colours</td>
+    <td align="center">Five savings colours</td>
   </tr>
 </table>
 
 - **Light or dark**, or follow your device.
-- Pick an **app colour** and a **rainy-day pot colour**, because what feels calm is different for everyone.
+- Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
 - **Hide the extra writing** under your number once you know your way around, so the home screen can be as quiet as you like.
 
 ### Easy to read, private by design
 
 <table>
   <tr>
-    <td><img src="docs/images/settings-access.png" alt="Settings: text size (Standard, Larger, Largest) and contrast (Match my device, or Higher contrast)" width="250"></td>
+    <td><img src="docs/images/settings-access.png" alt="App options: text size (Standard, Larger, Largest) and contrast (Match my device, or Higher contrast)" width="250"></td>
     <td><img src="docs/images/lock.png" alt="The privacy screen: Welcome back, type your PIN to open Breathe Money" width="250"></td>
     <td><img src="docs/images/backup-protected.png" alt="Save a backup file: protected with a passphrase (recommended), with a reminder that a forgotten passphrase can't be recovered" width="250"></td>
   </tr>
