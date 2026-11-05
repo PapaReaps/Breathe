@@ -78,7 +78,7 @@ export function HomeView({
                   className="link"
                   onClick={() => {
                     openUpdatesNext();
-                    onOpen("settings");
+                    onOpen("opt-updates");
                   }}
                 >
                   {home.updateLink}

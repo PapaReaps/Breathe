@@ -15,6 +15,7 @@ import {
 import { DataView } from "./DataView";
 import { ComingUpView } from "./ComingUpView";
 import { SettingsView } from "./SettingsView";
+import type { OptionGroup } from "./SettingsView";
 import { SetupView } from "./SetupView";
 import { ReportView, ShareView } from "./ShareView";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -46,6 +47,14 @@ const TITLES: Record<PanelId, string> = {
   setup: words.setup.title,
   more: words.menu.moreTitle,
   settings: words.menu.names.settings,
+  help: words.menu.helpTitle,
+  "opt-look": words.menu.optionGroups.look,
+  "opt-text": words.menu.optionGroups.text,
+  "opt-home": words.menu.optionGroups.home,
+  "opt-reminder": words.menu.optionGroups.reminder,
+  "opt-sounds": words.menu.optionGroups.sounds,
+  "opt-privacy": words.menu.optionGroups.privacy,
+  "opt-updates": words.menu.optionGroups.updates,
   explain: ui.breakdownTitle,
   "coming-up": words.comingUp.title,
   share: words.menu.shareTitle,
@@ -53,8 +62,21 @@ const TITLES: Record<PanelId, string> = {
   about: words.menu.aboutTitle,
 };
 
-/** Pages that live inside the Settings folder: their Back button returns there. */
-const IN_MORE: PanelId[] = ["setup", "settings", "data", "share", "report", "about"];
+/** Where each page's Back button goes: the folder it lives in. */
+function parentOf(panel: PanelId): PanelId {
+  if (panel === "setup" || panel === "settings" || panel === "data" || panel === "help") return "more";
+  if (panel === "share" || panel === "report" || panel === "about") return "help";
+  if (panel.startsWith("opt-")) return "settings";
+  return "menu";
+}
+const BACK_LABEL: Partial<Record<PanelId, string>> = {
+  menu: words.menu.back,
+  more: words.menu.backToMore,
+  help: words.menu.backToHelp,
+  settings: words.menu.backToOptions,
+};
+const groupOf = (panel: PanelId): OptionGroup | null =>
+  panel.startsWith("opt-") ? (panel.slice(4) as OptionGroup) : null;
 
 const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "essentials", "pot", "holidays"];
 
@@ -110,9 +132,9 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               <button
                 type="button"
                 className="secondary"
-                onClick={() => onPanel(IN_MORE.includes(panel) ? "more" : "menu")}
+                onClick={() => onPanel(parentOf(panel))}
               >
-                {`← ${IN_MORE.includes(panel) ? words.menu.backToMore : words.menu.back}`}
+                {`← ${BACK_LABEL[parentOf(panel)] ?? words.menu.back}`}
               </button>
             )}
             <button type="button" onClick={() => onPanel(null)}>
@@ -149,8 +171,10 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
             ) : null}
             {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
-            {panel === "more" ? <MoreList settings={settings} onPanel={onPanel} /> : null}
-            {panel === "settings" ? <SettingsView settings={settings} /> : null}
+            {panel === "more" ? <MoreList onPanel={onPanel} /> : null}
+            {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} /> : null}
+            {groupOf(panel) !== null ? <SettingsView settings={settings} group={groupOf(panel)!} /> : null}
+            {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
             {panel === "data" ? <DataView data={data} /> : null}
             {panel === "share" ? <ShareView /> : null}
             {panel === "report" ? <ReportView /> : null}
@@ -238,7 +262,7 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
 }
 
 /** The Settings folder: the less-used pages, kept together so the menu stays short. */
-function MoreList({ settings, onPanel }: { settings: SettingsApi; onPanel: (panel: PanelId) => void }) {
+function MoreList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
   return (
     <>
       <ul className="menu-list">
@@ -250,7 +274,6 @@ function MoreList({ settings, onPanel }: { settings: SettingsApi; onPanel: (pane
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("settings")}>
             <span className="menu-title">{words.menu.names.settings}</span>
-            <span className="menu-sub">{words.settings.options[settings.settings.appearance]}</span>
           </button>
         </li>
         <li>
@@ -259,21 +282,71 @@ function MoreList({ settings, onPanel }: { settings: SettingsApi; onPanel: (pane
           </button>
         </li>
         <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("share")}>
-            <span className="menu-title">{words.menu.shareTitle}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("report")}>
-            <span className="menu-title">{words.menu.reportTitle}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("about")}>
-            <span className="menu-title">{words.menu.aboutTitle}</span>
+          <button type="button" className="menu-item" onClick={() => onPanel("help")}>
+            <span className="menu-title">{words.menu.helpTitle}</span>
           </button>
         </li>
       </ul>
+    </>
+  );
+}
+
+/** Help and sharing: Share, Report a problem and About, kept together. */
+function HelpList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
+  const items: Array<[PanelId, string]> = [
+    ["share", words.menu.shareTitle],
+    ["report", words.menu.reportTitle],
+    ["about", words.menu.aboutTitle],
+  ];
+  return (
+    <ul className="menu-list">
+      {items.map(([id, title]) => (
+        <li key={id}>
+          <button type="button" className="menu-item" onClick={() => onPanel(id)}>
+            <span className="menu-title">{title}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** App options: a short list of groups. Each shows the current choice, and opens its own small page. */
+function OptionsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (panel: PanelId) => void }) {
+  const s = settings.settings;
+  const t = words.settings;
+  const m = words.menu;
+  const shown = [s.showExplanation, s.showPayday, s.showSavings].filter(Boolean).length;
+  const sound = s.clickSound === "off" ? null : t.sounds[s.clickSound];
+  const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
+  const now: Record<OptionGroup, string> = {
+    look: `${t.options[s.appearance]} · ${t.accents[s.accent]}`,
+    text: t.textSizes[s.textSize],
+    home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
+    reminder: t.reminderOptions[s.balanceReminder],
+    sounds: sound === null && buzz === null ? m.off : [sound, buzz].filter(Boolean).join(" · "),
+    privacy: settings.lock.isOn ? m.on : m.off,
+    updates: settings.updates.installed ?? "",
+  };
+  // Three small groups, like the Menu: how it looks, what it does, and keeping it safe.
+  const sets: OptionGroup[][] = [["look", "text", "home"], ["reminder", "sounds"], ["privacy", "updates"]];
+  return (
+    <>
+      <p className="hint">{m.optionsIntro}</p>
+      {sets.map((set) => (
+        <ul key={set.join()} className="menu-list">
+          {set
+            .filter((g) => g !== "updates" || settings.updates.available)
+            .map((g) => (
+              <li key={g}>
+                <button type="button" className="menu-item" onClick={() => onPanel(`opt-${g}` as PanelId)}>
+                  <span className="menu-title">{m.optionGroups[g]}</span>
+                  <span className="menu-sub">{now[g]}</span>
+                </button>
+              </li>
+            ))}
+        </ul>
+      ))}
     </>
   );
 }

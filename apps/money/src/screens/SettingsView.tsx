@@ -13,11 +13,18 @@ import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
 
-/** Settings: light or dark, the app colour, the savings colour, reminders and the home screen. */
-export function SettingsView({ settings }: { settings: SettingsApi }) {
+/** The groups in App options. Each opens its own small page, so no page is long. */
+export const OPTION_GROUPS = ["look", "text", "home", "reminder", "sounds", "privacy", "updates"] as const;
+export type OptionGroup = (typeof OPTION_GROUPS)[number];
+
+/** One group of App options: light or dark and colours, text and contrast, and so on. */
+export function SettingsView({ settings, group }: { settings: SettingsApi; group: OptionGroup }) {
   const { settings: current, change } = settings;
+  const show = (part: OptionGroup | "look-colours") => (part === "look-colours" ? group === "look" : group === part);
   return (
     <>
+      {show("look") ? (
+        <>
       <fieldset className="choice-group">
         <legend>{text.appearanceTitle}</legend>
         <p className="hint">{text.appearanceIntro}</p>
@@ -37,7 +44,11 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           </label>
         ))}
       </fieldset>
+        </>
+      ) : null}
 
+      {show("text") ? (
+        <>
       <fieldset className="choice-group settings-group">
         <legend>{text.textSizeTitle}</legend>
         <p className="hint">{text.textSizeIntro}</p>
@@ -74,7 +85,11 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           </label>
         ))}
       </fieldset>
+        </>
+      ) : null}
 
+      {show("look-colours") ? (
+        <>
       <fieldset className="choice-group settings-group">
         <legend>{text.accentTitle}</legend>
         <p className="hint">{text.accentIntro}</p>
@@ -116,9 +131,13 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
         <p className="hint">{text.potPreview}</p>
         <PotBadge amount={text.potPreviewAmount} />
       </fieldset>
+        </>
+      ) : null}
 
+      {show("reminder") ? (
+        <>
       <fieldset className="choice-group settings-group">
-        <legend>{text.reminderTitle}</legend>
+        <legend className="visually-hidden">{text.reminderTitle}</legend>
         <p className="hint">{text.reminderIntro}</p>
         {BALANCE_REMINDERS.map((choice) => (
           <label key={choice} className="choice">
@@ -138,9 +157,14 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           </label>
         ))}
       </fieldset>
+        </>
+      ) : null}
 
+      {show("home") ? (
+        <>
       <fieldset className="choice-group settings-group">
-        <legend>{text.homeTitle}</legend>
+        {/* The page title already says this, so it is only read out, not shown twice. */}
+        <legend className="visually-hidden">{text.homeTitle}</legend>
         <p className="hint">{text.homeIntro}</p>
         <label className="choice">
           <input
@@ -170,7 +194,11 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           </span>
         </label>
       </fieldset>
+        </>
+      ) : null}
 
+      {show("sounds") ? (
+        <>
       <fieldset className="choice-group settings-group">
         <legend>{text.soundTitle}</legend>
         <p className="hint">{text.soundIntro}</p>
@@ -214,11 +242,21 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           </div>
         </fieldset>
       ) : null}
+        </>
+      ) : null}
 
+      {show("privacy") ? (
+        <>
       <PrivacyScreenSettings lock={settings.lock} />
+        </>
+      ) : null}
 
+      {show("updates") ? (
+        <>
       {settings.updates.available ? (
         <UpdatesSettings updates={settings.updates} on={current.checkForUpdates} onChange={(value) => change({ checkForUpdates: value })} />
+      ) : null}
+        </>
       ) : null}
     </>
   );
@@ -238,7 +276,7 @@ function UpdatesSettings({ updates, on, onChange }: { updates: UpdatesApi; on: b
   }, []);
   return (
     <section ref={sectionRef} className="choice-group settings-group" aria-labelledby="updates-title">
-      <h3 id="updates-title" className="settings-heading">
+      <h3 id="updates-title" className="visually-hidden">
         {text.updatesTitle}
       </h3>
       <p className="hint">{text.updatesIntro}</p>
@@ -366,7 +404,7 @@ function PrivacyScreenSettings({ lock }: { lock: LockApi }) {
 
   return (
     <section className="choice-group settings-group" aria-labelledby="privacy-screen-title">
-      <h3 id="privacy-screen-title" className="settings-heading">
+      <h3 id="privacy-screen-title" className="visually-hidden">
         {text.lockTitle}
       </h3>
       <p className="hint">{text.lockIntro}</p>

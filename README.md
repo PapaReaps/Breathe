@@ -108,15 +108,16 @@ It is a personal project, built by someone who struggles with these things too. 
   <tr>
     <td><img src="docs/images/home-dark.png" alt="The home screen in dark mode, with a teal number and a gold savings badge" width="250"></td>
     <td><img src="docs/images/home-plum.png" alt="The home screen with a plum number and a rose savings badge" width="250"></td>
-    <td><img src="docs/images/home-blue-dark.png" alt="The home screen in dark mode with a blue number and a lilac savings badge" width="250"></td>
+    <td><img src="docs/images/app-options.png" alt="App options as a short list, each with the current choice: Look and colours, Text and contrast, Home screen, Balance reminder, Sounds and vibration, and Privacy screen" width="250"></td>
   </tr>
   <tr>
     <td align="center">Dark mode</td>
-    <td align="center">Nine app colours</td>
-    <td align="center">Nine savings colours</td>
+    <td align="center">Nine app colours, nine savings colours</td>
+    <td align="center">App options, one calm list</td>
   </tr>
 </table>
 
+- **App options is a short, calm list**: Look and colours, Text and contrast, Home screen, Balance reminder, Sounds and vibration, Privacy screen and Updates. Each opens its own small page.
 - **Light or dark**, or follow your device.
 - Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz. All off until you choose.
@@ -128,7 +129,7 @@ It is a personal project, built by someone who struggles with these things too. 
     <td align="center" width="420">
       <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/saying-dark.png"><img src="docs/images/saying.png" alt="Take a breath. You've got this." width="360"></picture>
       <br><br>
-      Like it simpler? Switch off the extras in<br><b>Menu → Settings → App options</b>.
+      Like it simpler? Switch off the extras in<br><b>Menu → Settings → App options → Home screen</b>.
     </td>
   </tr>
 </table>
@@ -144,7 +145,7 @@ It is a personal project, built by someone who struggles with these things too. 
         <li><b>Report a problem</b>: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.</li>
         <li><b>Updates in the Android app</b>: tap <b>Check now</b>, then <b>Download and install</b>. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.</li>
       </ul>
-      <p>All three are in <b>Menu → Settings</b>.</p>
+      <p>Share and Report a problem are in <b>Menu → Settings → Help and sharing</b>. Updates are in <b>Menu → Settings → App options → Updates</b>.</p>
     </td>
   </tr>
 </table>
@@ -153,7 +154,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td><img src="docs/images/settings-access.png" alt="App options: text size (Standard, Larger, Largest) and contrast (Match my device, or Higher contrast)" width="250"></td>
+    <td><img src="docs/images/settings-access.png" alt="App options, Text and contrast: text size (Standard, Larger, Largest) and contrast (Match my device, or Higher contrast)" width="250"></td>
     <td><img src="docs/images/lock.png" alt="The privacy screen: Welcome back, type your PIN to open Breathe Money" width="250"></td>
     <td><img src="docs/images/backup-protected.png" alt="Save a backup file: protected with a passphrase (recommended), with a reminder that a forgotten passphrase can't be recovered" width="250"></td>
   </tr>

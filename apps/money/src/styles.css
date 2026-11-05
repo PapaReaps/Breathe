@@ -1339,3 +1339,9 @@ a.button-link {
 .month-details p {
   margin: 0.2rem 0 0;
 }
+
+/* Each App options page starts straight under its heading. */
+.sheet-body h2 + .settings-group,
+.sheet-body h2 + .choice-group {
+  margin-top: 0;
+}

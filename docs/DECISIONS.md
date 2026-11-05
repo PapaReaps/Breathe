@@ -139,6 +139,7 @@ Each of these was asked for by the person who uses Breathe Money every day, and 
 - **The app icon, "Breathing out", and eight more colours (v0.15.0).** Every colour is tested to stay easy to read in light and dark.
 - **Sounds and vibration when you tap (v0.16.0).** Twelve sounds made inside the app (nothing downloaded) and three vibration strengths. Both off by default. Uses the VIBRATE permission for this alone.
 - **Coming up (v0.17.0).** Bills and money day from today, as a list first or a month. Money that might come is left off, by choice.
+- **Calmer Settings (after v0.17.1).** App options is now a short list of seven groups, each on its own small page, showing the current choice. The Settings folder went from six items to four: Share, Report a problem and About sit in Help and sharing.
 - **A safety check (after v0.17.0).** Nothing serious found. Fixed: PIN pauses now survive reopening the app, and the downloaded update file is tidied away.
 
 Founding promise check: everything is optional or off by default where it does something new, nothing about the person is sent, and every new permission is used for one thing and explained. Result: **in line with the promise.**
