@@ -14,6 +14,7 @@ import { useAppLock } from "../storage/useAppLock";
 import { words } from "../content/words";
 import { LockScreen } from "./LockScreen";
 import { hideSplash } from "../splash";
+import { useUpdates } from "../useUpdates";
 import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney } from "../logic/money";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -97,7 +98,9 @@ export default function CalculatorScreen() {
     clearAll: saved.clearAll,
   };
 
-  const settings: SettingsApi = { settings: appearance.settings, change: appearance.change, lock };
+  const updates = useUpdates(appearance.settings.checkForUpdates);
+  const settings: SettingsApi = { settings: appearance.settings, change: appearance.change, lock, updates };
+  const updateNote = updates.result?.state === "newer" ? updates.result : null;
 
   const staleAfterDays = reminderDays(appearance.settings.balanceReminder);
   const built = useMemo(() => buildInput(form, today, { staleAfterDays }), [form, today, staleAfterDays]);
@@ -154,6 +157,7 @@ export default function CalculatorScreen() {
         loading={!saved.loaded}
         notSaved={saved.saveState === "not-saved"}
         readProblem={saved.readProblem}
+        updateNote={updateNote}
         onOpen={setPanel}
       />
       <MenuSheet

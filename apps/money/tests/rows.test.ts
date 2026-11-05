@@ -89,6 +89,7 @@ describe("look and colour settings", () => {
       balanceReminder: "three-days",
       textSize: "standard",
       contrast: "system",
+      checkForUpdates: false,
     });
   });
 
@@ -124,6 +125,7 @@ describe("look and colour settings", () => {
       balanceReminder: "weekly" as const,
       textSize: "largest" as const,
       contrast: "more" as const,
+      checkForUpdates: true,
     };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
   });

@@ -7,7 +7,7 @@ Breathe Money comes two ways. Both are free, and both are the same app:
 | Get it | Open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) | Download the `.apk` from [Releases](https://github.com/PapaReaps/Breathe/releases) |
 | Phones | Any phone or computer | Android only |
 | Works offline | After the first visit | Always: the app's files are inside it |
-| Updates | By itself | Download the new `.apk` and install it over the old one |
+| Updates | By itself | Optional "check for updates" in Settings, then install the new `.apk` over the old one |
 | Your numbers | Kept in that browser | Kept inside the app |
 
 iPhones can't install an app from a file. On an iPhone, open the web link and use **Share → Add to Home Screen**.
@@ -18,7 +18,9 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 2. Android asks whether your browser may "install unknown apps". That's Android's standard check for anything that doesn't come from the Play Store. Allow it for this one install (you can switch it off again afterwards).
 3. Tap **Install**, then **Open**.
 
-**Updating:** download the newer `.apk` and install it the same way. Your numbers stay.
+**Updating:** in the app, go to **Menu → Settings → Updates**. Tap **Check now**, or switch on **Check once a day when I open the app**. When a new version is out, the app says so (in Settings, and as a small note on the home screen) with a link to get it. Download the newer `.apk` and install it over the old one. Your numbers stay.
+
+Versions before v0.12.0 don't have the check, so update to v0.12.0 by hand once from the [Releases page](https://github.com/PapaReaps/Breathe/releases).
 
 **Moving numbers between the web link and the app:** they keep separate copies. In the one with your numbers, use **Menu → Your data and backups → Save a backup file** (protected is best). In the other, use **Use a backup file**.
 
@@ -27,7 +29,8 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 - **Saving a backup** opens Android's share sheet, so you choose where the file goes (Files, Drive, and so on). The app keeps no copy for itself.
 - **Google Drive backup is switched off.** Android normally copies app data to your Google account, and to a new phone. Breathe turns both off, so your numbers never leave the phone. A backup file you save yourself is the way to move them.
 - **No offline helper is needed.** The app's files are already on the phone.
-- **It asks for no permissions** except the one Android needs to show web pages inside an app. The app itself never contacts anything.
+- **It asks for no permissions** except the one Android needs to show web pages inside an app.
+- **It contacts nothing, unless you ask it to check for updates.** The check is off until you switch it on (or tap **Check now**). It asks GitHub one question, "what's the newest Breathe Money version?", at most once a day. It sends no numbers, no account, no cookies and nothing about you, though GitHub can see that a phone asked, from its internet address, as with visiting any website. The link it opens is built by the app, never taken from the answer.
 
 ## The opening breath
 

@@ -6,6 +6,7 @@ import { checkNewPin } from "../storage/appLock";
 import type { PinProblem } from "../storage/appLock";
 import { ACCENTS, APPEARANCES, BALANCE_REMINDERS, CONTRASTS, DEFAULT_SETTINGS, POT_COLOURS, TEXT_SIZES } from "../storage/settings";
 import type { LockApi } from "../storage/useAppLock";
+import type { UpdatesApi } from "../useUpdates";
 import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
@@ -158,7 +159,50 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
       </fieldset>
 
       <PrivacyScreenSettings lock={settings.lock} />
+
+      {settings.updates.available ? (
+        <UpdatesSettings updates={settings.updates} on={current.checkForUpdates} onChange={(value) => change({ checkForUpdates: value })} />
+      ) : null}
     </>
+  );
+}
+
+/** Android app only: the optional check for a newer version. Off unless switched on. */
+function UpdatesSettings({ updates, on, onChange }: { updates: UpdatesApi; on: boolean; onChange: (value: boolean) => void }) {
+  const result = updates.result;
+  return (
+    <section className="choice-group settings-group" aria-labelledby="updates-title">
+      <h3 id="updates-title" className="settings-heading">
+        {text.updatesTitle}
+      </h3>
+      <p className="hint">{text.updatesIntro}</p>
+      <p className="gentle">{text.updatesHonest}</p>
+      <label className="choice">
+        <input type="checkbox" checked={on} onChange={(event) => onChange(event.target.checked)} />
+        <span>{text.updatesToggle}</span>
+      </label>
+      <div className="buttons">
+        <button type="button" className="secondary" disabled={updates.checking} onClick={() => void updates.checkNow()}>
+          {text.updatesCheckNow}
+        </button>
+      </div>
+      <div aria-live="polite">
+        {updates.checking ? <p className="small">{text.updatesChecking}</p> : null}
+        {!updates.checking && result?.state === "up-to-date" ? <p className="small">{text.updatesUpToDate(result.version)}</p> : null}
+        {!updates.checking && result?.state === "unknown" ? <p className="small">{text.updatesUnknown}</p> : null}
+        {!updates.checking && result?.state === "newer" ? (
+          <div className="gentle">
+            <p>{text.updatesNewer(result.version)}</p>
+            <p className="small">{text.updatesHowTo}</p>
+            <p>
+              <a href={result.page} target="_blank" rel="noopener noreferrer">
+                {text.updatesGet}
+              </a>
+            </p>
+          </div>
+        ) : null}
+      </div>
+    </section>
   );
 }
 

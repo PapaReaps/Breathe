@@ -1,0 +1,78 @@
+import { describe, expect, it } from "vitest";
+import { RELEASES_API, checkForUpdate, isNewer, parseVersion, readLatestRelease } from "../src/updates";
+
+describe("version numbers", () => {
+  it("reads the forms we use, and nothing else", () => {
+    expect(parseVersion("v0.11.0")).toEqual([0, 11, 0]);
+    expect(parseVersion("0.12.3")).toEqual([0, 12, 3]);
+    expect(parseVersion("v1.2")).toBeNull();
+    expect(parseVersion("0.0.0-test.4")).toBeNull();
+    expect(parseVersion("latest")).toBeNull();
+    expect(parseVersion(12)).toBeNull();
+  });
+
+  it("compares them number by number, not as text", () => {
+    expect(isNewer([0, 12, 0], [0, 11, 0])).toBe(true);
+    expect(isNewer([0, 10, 0], [0, 9, 9])).toBe(true);
+    expect(isNewer([0, 11, 0], [0, 11, 0])).toBe(false);
+    expect(isNewer([0, 9, 0], [0, 11, 0])).toBe(false);
+    expect(isNewer([1, 0, 0], [0, 99, 99])).toBe(true);
+  });
+});
+
+describe("reading GitHub's answer", () => {
+  it("says when a newer version is ready, with a link built by the app itself", () => {
+    const result = readLatestRelease({ tag_name: "v0.12.0", html_url: "https://example.com/not-this" }, [0, 11, 0]);
+    expect(result).toEqual({ state: "newer", version: "0.12.0", page: "https://github.com/PapaReaps/Breathe/releases/tag/v0.12.0" });
+  });
+
+  it("says so when you already have the newest", () => {
+    expect(readLatestRelease({ tag_name: "v0.11.0" }, [0, 11, 0])).toEqual({ state: "up-to-date", version: "0.11.0" });
+  });
+
+  it("ignores drafts, test versions and anything odd", () => {
+    expect(readLatestRelease({ tag_name: "v9.0.0", prerelease: true }, [0, 11, 0])).toEqual({ state: "unknown" });
+    expect(readLatestRelease({ tag_name: "v9.0.0", draft: true }, [0, 11, 0])).toEqual({ state: "unknown" });
+    expect(readLatestRelease({ tag_name: "<script>" }, [0, 11, 0])).toEqual({ state: "unknown" });
+    expect(readLatestRelease(null, [0, 11, 0])).toEqual({ state: "unknown" });
+    expect(readLatestRelease({ tag_name: "v0.12.0" }, null)).toEqual({ state: "unknown" });
+  });
+});
+
+describe("asking GitHub", () => {
+  it("sends one plain request: no cookies, no referrer, nothing about you", async () => {
+    const calls: Array<[string, RequestInit | undefined]> = [];
+    const fake = (async (url: string, init?: RequestInit) => {
+      calls.push([url, init]);
+      return new Response(JSON.stringify({ tag_name: "v0.12.0" }), { status: 200 });
+    }) as unknown as typeof fetch;
+    const result = await checkForUpdate(fake, [0, 11, 0]);
+    expect(result.state).toBe("newer");
+    expect(calls).toHaveLength(1);
+    const [url, init] = calls[0]!;
+    expect(url).toBe(RELEASES_API);
+    expect(init?.method).toBe("GET");
+    expect(init?.credentials).toBe("omit");
+    expect(init?.referrerPolicy).toBe("no-referrer");
+    expect(init?.body).toBeUndefined();
+  });
+
+  it("never throws: no internet just means it can't tell", async () => {
+    const offline = (async () => {
+      throw new TypeError("Failed to fetch");
+    }) as unknown as typeof fetch;
+    expect(await checkForUpdate(offline, [0, 11, 0])).toEqual({ state: "unknown" });
+    const notFound = (async () => new Response("{}", { status: 404 })) as unknown as typeof fetch;
+    expect(await checkForUpdate(notFound, [0, 11, 0])).toEqual({ state: "unknown" });
+  });
+
+  it("does nothing on the web version, which updates by itself", async () => {
+    let asked = false;
+    const fake = (async () => {
+      asked = true;
+      return new Response("{}");
+    }) as unknown as typeof fetch;
+    expect(await checkForUpdate(fake)).toEqual({ state: "unknown" });
+    expect(asked).toBe(false);
+  });
+});

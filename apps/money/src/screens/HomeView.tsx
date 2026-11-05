@@ -15,6 +15,8 @@ interface HomeViewProps {
   loading: boolean;
   notSaved: boolean;
   readProblem: boolean;
+  /** A newer Android version is out (only when the person chose to check). */
+  updateNote: { version: string; page: string } | null;
   onOpen: (panel: PanelId) => void;
 }
 
@@ -31,6 +33,7 @@ export function HomeView({
   loading,
   notSaved,
   readProblem,
+  updateNote,
   onOpen,
 }: HomeViewProps) {
   return (
@@ -66,6 +69,14 @@ export function HomeView({
               onOpen={onOpen}
             />
             {readProblem ? <p className="small">{home.readProblemLine}</p> : null}
+            {updateNote ? (
+              <p className="small">
+                {home.updateReady(updateNote.version)}{" "}
+                <a href={updateNote.page} target="_blank" rel="noopener noreferrer">
+                  {home.updateLink}
+                </a>
+              </p>
+            ) : null}
             {notSaved ? (
               <p className="small">
                 {home.notSavedLine}{" "}

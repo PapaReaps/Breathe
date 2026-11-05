@@ -12,6 +12,7 @@
 - A backup file can be **protected with a passphrase** (encrypted, recommended), or saved **plain** (not encrypted). The app says which before it makes one. Forget the passphrase and nobody, including us, can open the file.
 - The optional **privacy screen** (a PIN) stops someone glancing at your numbers. It is not encryption: the numbers on the device are still not encrypted. Only a one-way fingerprint of the PIN is kept, never the PIN itself.
 - "Clear my numbers" in the app removes them from the device.
+- **Optional update check (Android app only, off unless you switch it on):** the app asks GitHub whether a newer version is out. Only that question is sent: never your numbers, and no account or cookies. GitHub can see that a phone asked (its internet address), as with any website.
 - **The Android app** keeps your numbers inside the app on your phone. Android's Google Drive backup and phone-to-phone transfer are **switched off** for it, so nothing is copied off the phone. Saving a backup opens Android's share sheet, and you choose where the file goes. See [docs/ANDROID-APP.md](docs/ANDROID-APP.md).
 
 ## Our promises

@@ -29,6 +29,8 @@ export const words = {
     welcomeButton: "Add your numbers",
     privacyLine: "Your numbers stay on this device. Nothing is sent anywhere.",
     howKept: "How your numbers are kept",
+    updateReady: (version: string) => `Version ${version} of Breathe Money is ready.`,
+    updateLink: "Get it",
     loading: "Opening your numbers…",
     potLabel: "Rainy-day pot",
     potKept: "kept aside",
@@ -248,6 +250,19 @@ export const words = {
     lockNow: "Lock now",
     lockTurnOff: "Turn off the privacy screen",
     lockTurnedOff: "The privacy screen is off.",
+    updatesTitle: "Updates",
+    updatesIntro:
+      "This app doesn't update itself. It can check whether a newer version of Breathe Money is out, so you know when to get it.",
+    updatesHonest:
+      "Checking asks GitHub one question: what's the newest version? Your numbers are never sent. GitHub can see that a phone asked, as with visiting any website.",
+    updatesToggle: "Check once a day when I open the app",
+    updatesCheckNow: "Check now",
+    updatesChecking: "Checking…",
+    updatesUpToDate: (version: string) => `You have the newest version (${version}).`,
+    updatesNewer: (version: string) => `Version ${version} is ready.`,
+    updatesGet: "Get the new version",
+    updatesUnknown: "Couldn't check just now. You may be offline. Nothing has changed.",
+    updatesHowTo: "Download the file, then install it over this one. Your numbers stay.",
   },
   lock: {
     title: "Welcome back",

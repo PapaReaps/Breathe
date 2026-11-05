@@ -27,6 +27,8 @@ export interface Settings {
   /** Makes every word in the app bigger (on top of the device's own text size). */
   textSize: TextSize;
   contrast: Contrast;
+  /** Android app only: ask GitHub once a day whether a newer version is out. Off unless switched on. */
+  checkForUpdates: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -38,6 +40,7 @@ export const DEFAULT_SETTINGS: Settings = {
   balanceReminder: "three-days",
   textSize: "standard",
   contrast: "system",
+  checkForUpdates: false,
 };
 
 export const SETTINGS_KEY = "settings";
@@ -98,6 +101,7 @@ export function readSettings(raw: unknown): Settings {
     balanceReminder: pick(record.balanceReminder, BALANCE_REMINDERS, DEFAULT_SETTINGS.balanceReminder),
     textSize: pick(record.textSize, TEXT_SIZES, DEFAULT_SETTINGS.textSize),
     contrast: pick(record.contrast, CONTRASTS, DEFAULT_SETTINGS.contrast),
+    checkForUpdates: record.checkForUpdates === true,
   };
 }
 
@@ -112,6 +116,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     balanceReminder: settings.balanceReminder,
     textSize: settings.textSize,
     contrast: settings.contrast,
+    checkForUpdates: settings.checkForUpdates,
   };
 }
 

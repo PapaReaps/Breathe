@@ -117,3 +117,13 @@ Founding promise check: free, nothing collected, no pressure, and the opening is
 - **Logo and icon are still open.** This settles the opening animation and the wordmark's feeling, not the icon.
 
 Founding promise check: free font, nothing fetched, nothing collected, and it respects "reduce motion". Result: **in line with the promise.**
+
+## Android app: an optional check for updates
+
+- **Why:** an APK installed from a file never updates itself, and nobody hears about new versions.
+- **What:** Settings → Updates (Android app only). **Off by default.** "Check now", or "check once a day when I open the app". When a newer version is out, a calm note on the home screen and in Settings links to the release page.
+- **Honest about it:** this is the only time the app contacts anything. It asks GitHub's public releases address one question. It sends no numbers, account or cookies, and no referrer; GitHub can see the request came from a phone's internet address. The app says this in Settings.
+- **Careful with the answer:** only a version number in the expected form is accepted, drafts and test versions are ignored, and the link the app opens is built by the app.
+- **The web version doesn't need it:** it already updates itself.
+
+Founding promise check: optional, off by default, nothing about the person sent, plainly explained. Result: **in line with the promise.**
