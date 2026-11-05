@@ -81,6 +81,11 @@ It is a personal project, built by someone who struggles with these things too. 
 - **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
 - A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.
 
+> [!TIP]
+> **You only really need to set it up once.** Depending on how things change for you, that might be all. After that it's just your balance now and then.
+>
+> And you never have to do it alone. Ask someone you trust, like a friend, family member or support worker, to sit with you while you set it up.
+
 ### Make it yours
 
 <table>
