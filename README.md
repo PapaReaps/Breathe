@@ -92,10 +92,12 @@ It is a personal project, built by someone who struggles with these things too. 
   <tr>
     <td><img src="docs/images/coming-up.png" alt="Coming up, as a list: today, then each bill with its date and amount (Rent share, Phone, Bus pass, Streaming), and Your money comes in on Friday 27, in 23 days. Underneath: 4 bills before then, £527.99" width="250"></td>
     <td><img src="docs/images/coming-up-month.png" alt="Coming up, as a month: November, with bill days in soft pink, money day in teal and a ring round today. Thursday 12 November is picked: Phone, £25.00" width="250"></td>
+    <td><img src="docs/images/coming-up-dark.png" alt="Coming up as a month in dark mode, with Monday 16 November picked: Bus pass, £42.00" width="250"></td>
   </tr>
   <tr>
     <td align="center">A simple list first</td>
     <td align="center">Or a month, if you'd rather</td>
+    <td align="center">In dark mode too</td>
   </tr>
 </table>
 
