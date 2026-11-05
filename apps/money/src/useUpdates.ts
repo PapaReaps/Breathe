@@ -3,6 +3,20 @@ import { isNativeApp } from "./platform";
 import { checkForUpdate, dueForCheck, noteChecked } from "./updates";
 import type { UpdateResult } from "./updates";
 
+/*
+ * The note on the home screen opens App options at the Updates section, where
+ * "Download and install" is. This remembers that it should scroll there once.
+ */
+let showUpdatesNext = false;
+export function openUpdatesNext(): void {
+  showUpdatesNext = true;
+}
+export function takeShowUpdates(): boolean {
+  const answer = showUpdatesNext;
+  showUpdatesNext = false;
+  return answer;
+}
+
 export interface UpdatesApi {
   /** Only the Android app checks; the web version updates by itself. */
   available: boolean;

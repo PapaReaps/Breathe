@@ -1,6 +1,6 @@
 # Branding
 
-**Status: being explored. One piece is chosen: the opening "deep breath" (below). There is no logo or icon yet.**
+**Status: being explored. Two pieces are chosen: the opening "deep breath" and the app icon, "Breathing out" (below).**
 
 ## Why we are waiting
 
@@ -18,9 +18,13 @@ The brand has to work for Money, Medication, Travel and Daily, and for apps we h
 
 The word **breathe**, lowercase, in **Nunito** (soft and rounded, SIL Open Font Licence, bundled with the app), in the app's teal. On opening it takes one deep breath: light, then full and lifted, then settled, with a soft shadow beneath it. Sketches of the other ideas tried are kept outside the project, in the `branding-concepts` folder.
 
+## Chosen so far: the app icon, "Breathing out"
+
+Soft cream ripples around a calm centre, on the app's teal (a little lighter at the top left). It matches the GitHub profile picture (ocean-blue ripples) and works for any Breathe app, not just Money. Chosen November 2026 from four ideas (ripples, a rounded "b", a sunrise, a pebble). Used for the Android icon (with a one-colour version for themed icons), the browser tab and bookmarks, and "add to home screen".
+
 ## What is NOT decided
 
-Logo, app icon, exact colours, the font for the rest of the app, and how each app is distinguished within the family.
+Logo (a full logo beyond the icon), exact colours, the font for the rest of the app, and how each app is distinguished within the family.
 
 ## What this means for development
 

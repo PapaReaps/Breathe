@@ -799,6 +799,143 @@ form > .buttons {
   --joy-bg: #2f1f40;
   --joy-label: #d3c4e0;
 }
+/* Added November 2026: four more app colours and four more savings colours. */
+:root[data-accent="ocean"] {
+  --accent: #1a5670;
+  --on-accent: #ffffff;
+  --gentle: #e6f0f4;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="ocean"]:not([data-theme="light"]) {
+    --accent: #86c5db;
+    --on-accent: #0b1f27;
+    --gentle: #1d2e35;
+  }
+}
+:root[data-theme="dark"][data-accent="ocean"] {
+  --accent: #86c5db;
+  --on-accent: #0b1f27;
+  --gentle: #1d2e35;
+}
+:root[data-accent="terracotta"] {
+  --accent: #9a4523;
+  --on-accent: #ffffff;
+  --gentle: #f7ebe5;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="terracotta"]:not([data-theme="light"]) {
+    --accent: #f0a888;
+    --on-accent: #2a140b;
+    --gentle: #3a2620;
+  }
+}
+:root[data-theme="dark"][data-accent="terracotta"] {
+  --accent: #f0a888;
+  --on-accent: #2a140b;
+  --gentle: #3a2620;
+}
+:root[data-accent="slate"] {
+  --accent: #44525c;
+  --on-accent: #ffffff;
+  --gentle: #eceff1;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="slate"]:not([data-theme="light"]) {
+    --accent: #b9c6ce;
+    --on-accent: #141b20;
+    --gentle: #262e33;
+  }
+}
+:root[data-theme="dark"][data-accent="slate"] {
+  --accent: #b9c6ce;
+  --on-accent: #141b20;
+  --gentle: #262e33;
+}
+:root[data-accent="amber"] {
+  --accent: #855300;
+  --on-accent: #ffffff;
+  --gentle: #f7efe0;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="amber"]:not([data-theme="light"]) {
+    --accent: #f2c46d;
+    --on-accent: #2a1b00;
+    --gentle: #352b19;
+  }
+}
+:root[data-theme="dark"][data-accent="amber"] {
+  --accent: #f2c46d;
+  --on-accent: #2a1b00;
+  --gentle: #352b19;
+}
+:root[data-pot="peach"] {
+  --joy: #9a4a1c;
+  --joy-bg: #ffe9da;
+  --joy-label: #4d5a61;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-pot="peach"]:not([data-theme="light"]) {
+    --joy: #ffc29e;
+    --joy-bg: #3b2416;
+    --joy-label: #e3cbbd;
+  }
+}
+:root[data-theme="dark"][data-pot="peach"] {
+  --joy: #ffc29e;
+  --joy-bg: #3b2416;
+  --joy-label: #e3cbbd;
+}
+:root[data-pot="mint"] {
+  --joy: #1f6b5e;
+  --joy-bg: #dcf3ed;
+  --joy-label: #4d5a61;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-pot="mint"]:not([data-theme="light"]) {
+    --joy: #96e0cf;
+    --joy-bg: #173229;
+    --joy-label: #bfdcd3;
+  }
+}
+:root[data-theme="dark"][data-pot="mint"] {
+  --joy: #96e0cf;
+  --joy-bg: #173229;
+  --joy-label: #bfdcd3;
+}
+:root[data-pot="sand"] {
+  --joy: #74561f;
+  --joy-bg: #f4ead4;
+  --joy-label: #4d5a61;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-pot="sand"]:not([data-theme="light"]) {
+    --joy: #e8cf98;
+    --joy-bg: #352d1c;
+    --joy-label: #d9cdb5;
+  }
+}
+:root[data-theme="dark"][data-pot="sand"] {
+  --joy: #e8cf98;
+  --joy-bg: #352d1c;
+  --joy-label: #d9cdb5;
+}
+:root[data-pot="silver"] {
+  --joy: #44525c;
+  --joy-bg: #e8ecee;
+  --joy-label: #4d5a61;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-pot="silver"]:not([data-theme="light"]) {
+    --joy: #c9d4da;
+    --joy-bg: #283035;
+    --joy-label: #c2ccd1;
+  }
+}
+:root[data-theme="dark"][data-pot="silver"] {
+  --joy: #c9d4da;
+  --joy-bg: #283035;
+  --joy-label: #c2ccd1;
+}
 
 /* Settings: colour swatches */
 .swatches {

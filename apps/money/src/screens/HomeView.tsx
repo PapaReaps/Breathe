@@ -4,6 +4,7 @@ import { BUILT_IN_LAST_DAY } from "../data/bankHolidays";
 import { formatDayLong } from "../logic/dates";
 import type { BuildResult } from "../logic/form";
 import type { NeedsAnswer, Outcome, PanelId } from "./screenTypes";
+import { openUpdatesNext } from "../useUpdates";
 
 interface HomeViewProps {
   built: BuildResult;
@@ -72,9 +73,16 @@ export function HomeView({
             {updateNote ? (
               <p className="small">
                 {home.updateReady(updateNote.version)}{" "}
-                <a href={updateNote.page} target="_blank" rel="noopener noreferrer">
+                <button
+                  type="button"
+                  className="link"
+                  onClick={() => {
+                    openUpdatesNext();
+                    onOpen("settings");
+                  }}
+                >
                   {home.updateLink}
-                </a>
+                </button>
               </p>
             ) : null}
             {notSaved ? (

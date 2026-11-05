@@ -6,8 +6,8 @@ import { rememberAppearance } from "../splash";
  */
 
 export type Appearance = "system" | "light" | "dark";
-export type Accent = "teal" | "blue" | "plum" | "rose" | "green";
-export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac";
+export type Accent = "teal" | "blue" | "plum" | "rose" | "green" | "ocean" | "terracotta" | "slate" | "amber";
+export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac" | "peach" | "mint" | "sand" | "silver";
 
 export type BalanceReminder = "daily" | "three-days" | "weekly" | "never";
 export type TextSize = "standard" | "large" | "largest";
@@ -78,6 +78,10 @@ export const ACCENTS: ReadonlyArray<{ id: Accent; swatch: string }> = [
   { id: "plum", swatch: "#6b3a8a" },
   { id: "rose", swatch: "#9b2f55" },
   { id: "green", swatch: "#2f6b2f" },
+  { id: "ocean", swatch: "#1a5670" },
+  { id: "terracotta", swatch: "#9a4523" },
+  { id: "slate", swatch: "#44525c" },
+  { id: "amber", swatch: "#855300" },
 ];
 
 export const POT_COLOURS: ReadonlyArray<{ id: PotColour; swatch: string }> = [
@@ -86,6 +90,10 @@ export const POT_COLOURS: ReadonlyArray<{ id: PotColour; swatch: string }> = [
   { id: "green", swatch: "#6cc070" },
   { id: "blue", swatch: "#6aa5ee" },
   { id: "lilac", swatch: "#b98ae0" },
+  { id: "peach", swatch: "#f7a072" },
+  { id: "mint", swatch: "#6fd1b8" },
+  { id: "sand", swatch: "#d9bd84" },
+  { id: "silver", swatch: "#b8c2c8" },
 ];
 
 function pick<T extends string>(value: unknown, allowed: ReadonlyArray<T>, fallback: T): T {

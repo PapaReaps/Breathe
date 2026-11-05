@@ -91,8 +91,8 @@ It is a personal project, built by someone who struggles with these things too. 
   </tr>
   <tr>
     <td align="center">Dark mode</td>
-    <td align="center">Five app colours</td>
-    <td align="center">Five savings colours</td>
+    <td align="center">Nine app colours</td>
+    <td align="center">Nine savings colours</td>
   </tr>
 </table>
 

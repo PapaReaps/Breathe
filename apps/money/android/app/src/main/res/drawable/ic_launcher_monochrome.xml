@@ -8,10 +8,22 @@
     <path
         android:fillColor="#00000000"
         android:strokeColor="#FFFFFFFF"
-        android:strokeAlpha="0.5"
-        android:strokeWidth="2"
-        android:pathData="M54,32.9a21.1,21.1 0,1 1,0 42.2a21.1,21.1 0,1 1,0 -42.2z" />
+        android:strokeAlpha="0.22"
+        android:strokeWidth="1.90"
+        android:pathData="M54,22.95a31.05,31.05 0,1 1,0 62.10a31.05,31.05 0,1 1,0 -62.10z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeAlpha="0.45"
+        android:strokeWidth="2.22"
+        android:pathData="M54,30.87a23.13,23.13 0,1 1,0 46.26a23.13,23.13 0,1 1,0 -46.26z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeAlpha="0.75"
+        android:strokeWidth="2.53"
+        android:pathData="M54,38.48a15.52,15.52 0,1 1,0 31.05a15.52,15.52 0,1 1,0 -31.05z" />
     <path
         android:fillColor="#FFFFFFFF"
-        android:pathData="M54,41.6a12.4,12.4 0,1 1,0 24.8a12.4,12.4 0,1 1,0 -24.8z" />
+        android:pathData="M54,45.13a8.87,8.87 0,1 1,0 17.74a8.87,8.87 0,1 1,0 -17.74z" />
 </vector>

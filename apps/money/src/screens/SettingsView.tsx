@@ -1,12 +1,13 @@
 import { PotBadge } from "../components/PotBadge";
 import { words } from "../content/words";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { checkNewPin } from "../storage/appLock";
 import type { PinProblem } from "../storage/appLock";
 import { ACCENTS, APPEARANCES, BALANCE_REMINDERS, CONTRASTS, DEFAULT_SETTINGS, POT_COLOURS, TEXT_SIZES } from "../storage/settings";
 import type { LockApi } from "../storage/useAppLock";
 import type { UpdatesApi } from "../useUpdates";
+import { takeShowUpdates } from "../useUpdates";
 import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
@@ -181,8 +182,17 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
 /** Android app only: the optional check for a newer version. Off unless switched on. */
 function UpdatesSettings({ updates, on, onChange }: { updates: UpdatesApi; on: boolean; onChange: (value: boolean) => void }) {
   const result = updates.result;
+  const sectionRef = useRef<HTMLElement>(null);
+  // Opened from the note on the home screen: go straight to this section.
+  useEffect(() => {
+    if (takeShowUpdates()) {
+      const timer = setTimeout(() => sectionRef.current?.scrollIntoView({ block: "start" }), 50);
+      return () => clearTimeout(timer);
+    }
+    return undefined;
+  }, []);
   return (
-    <section className="choice-group settings-group" aria-labelledby="updates-title">
+    <section ref={sectionRef} className="choice-group settings-group" aria-labelledby="updates-title">
       <h3 id="updates-title" className="settings-heading">
         {text.updatesTitle}
       </h3>
