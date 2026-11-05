@@ -30,7 +30,7 @@ It is a personal project, built by someone who struggles with these things too. 
     <td>
       <h3>One question, one calm answer</h3>
       <p><b>"How much can I spend until payday?"</b></p>
-      <p>Type what's in your account. Breathe Money sets aside your bills, food and travel, and a rainy-day pot you choose. Then it shows what's left as one big number.</p>
+      <p>Type what's in your account. Breathe Money sets aside your bills, food and travel, and some savings you choose to keep aside. Then it shows what's left as one big number.</p>
       <p>Change anything and the number updates as you type. Dark mode follows your phone's own setting.</p>
       <p><a href="https://papareaps.github.io/Breathe/">Try it now</a>, with no account and no download.</p>
     </td>
@@ -56,7 +56,7 @@ It is a personal project, built by someone who struggles with these things too. 
   </tr>
 </table>
 
-- Shows how much is **safe to spend until payday**, after your bills, food and travel, and a rainy-day pot.
+- Shows how much is **safe to spend until payday**, after your bills, food and travel, and some savings kept aside.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice, and money that might not arrive is never counted.
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
 - Handles real life: paydays on weekends or bank holidays, bills due on payday, and a balance that's a few days old.

@@ -115,7 +115,7 @@ export default function CalculatorScreen() {
     }
   }, [built]);
 
-  // The rainy-day pot, shown as one quiet line when there is one.
+  // The savings pot, shown as one quiet line when there is one.
   const potAmount =
     built.status === "ready" && outcome !== null && outcome.ok && outcome.result.safeToSpend !== null && built.input.buffer > 0
       ? formatMoney(built.input.buffer)

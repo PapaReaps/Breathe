@@ -653,6 +653,11 @@ form > .buttons {
   font-variant-numeric: tabular-nums;
 }
 
+/* In the menu, the word "Savings" wears the savings colour chosen in App options. */
+.menu-title.pot-word {
+  color: var(--joy);
+}
+
 .menu-sub.pot-amount {
   font-size: 1rem;
 }
@@ -945,4 +950,33 @@ form > .buttons {
   :focus-visible {
     outline: 3px solid Highlight;
   }
+}
+
+/* Share Breathe Money */
+.share-link {
+  margin: 0 0 1.5rem;
+}
+
+.share-link h3 {
+  font-size: 1.1rem;
+}
+
+.share-address {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  user-select: all;
+  margin: 0.25rem 0 0.75rem;
+}
+
+/* A link that looks like the main button (used for "Open the report page"). */
+a.button-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  text-decoration: none;
 }

@@ -32,9 +32,9 @@ export const words = {
     updateReady: (version: string) => `Version ${version} of Breathe Money is ready.`,
     updateLink: "Get it",
     loading: "Opening your numbers…",
-    potLabel: "Rainy-day pot",
+    potLabel: "Savings",
     potKept: "kept aside",
-    potLine: (amount: string) => `Rainy-day pot: ${amount} kept aside`,
+    potLine: (amount: string) => `Savings: ${amount} kept aside`,
     notSavedLine:
       "Your numbers couldn't be saved on this device just now, so they'll be gone when you close this page. A backup file can help.",
     notSavedLink: "More about saving",
@@ -59,12 +59,14 @@ export const words = {
       bills: "Bills",
       income: "Money coming in",
       essentials: "Food and travel",
-      pot: "Rainy-day pot",
+      pot: "Savings",
       holidays: "Bank holidays",
       data: "Your data and backups",
       settings: "App options",
     },
     aboutTitle: "About Breathe Money",
+    shareTitle: "Share Breathe Money",
+    reportTitle: "Report a problem",
     liveLine: (amount: string) => `Safe to spend now: ${amount}`,
     liveWaiting: "Your number will appear once the basics are in.",
   },
@@ -146,6 +148,25 @@ export const words = {
     clearedPartly:
       "Your numbers are cleared from the screen, but we couldn't confirm the saved copy on this device was removed.",
   },
+  share: {
+    intro: "Know someone who might like Breathe Money? Copy a link and send it to them. It's free.",
+    webTitle: "The website",
+    webHint: "Works on any phone or computer, in a web browser.",
+    apkTitle: "The Android app",
+    apkHint: "The download page for Android phones. Tap the .apk file there to install it.",
+    copy: "Copy link",
+    share: "Share",
+    copied: "Link copied. You can paste it into a message.",
+    notCopied: "That link couldn't be copied here. You can press and hold it to copy it instead.",
+  },
+  report: {
+    intro: "Something not working as you expected, or an idea to make Breathe Money better? We'd love to hear it.",
+    how: "This opens a page on GitHub, where Breathe Money is made. You'll need a free GitHub account to send it.",
+    privacy:
+      "Nothing is sent from the app itself. Please don't include your real numbers: a rough description is plenty.",
+    button: "Open the report page",
+    bodyTemplate: "What happened:\n\n\nWhat you expected:\n\n\nPhone or computer:\n",
+  },
   about: {
     promise: "Breathe will never be about making money. It will always be about helping people.",
     privacy:
@@ -190,8 +211,8 @@ export const words = {
       rose: "Rose",
       green: "Green",
     },
-    potTitle: "Rainy-day pot colour",
-    potIntro: "The colour of your pot. Pick one that makes you smile.",
+    potTitle: "Savings colour",
+    potIntro: "The colour of your savings. Pick one that makes you smile.",
     potColours: {
       gold: "Gold",
       rose: "Rose",
@@ -315,7 +336,7 @@ export const words = {
       intro: "A rough amount is fine.",
     },
     pot: {
-      question: "Would you like a rainy-day pot?",
+      question: "Would you like to keep some savings aside?",
       intro: "Money kept aside for the unexpected.",
     },
     doneTitle: "All set",
@@ -412,12 +433,12 @@ export const words = {
     addIncome: "Add money coming in",
 
     essentialsTitle: "Food and travel",
-    potTitle: "Rainy-day pot",
+    potTitle: "Savings",
     foodLabel: "Food and everyday spending, per week (£)",
     foodHint: "I will spread it evenly across the days until payday.",
     travelLabel: "Travel, per week (£)",
     travelHint: "A monthly travel pass counts as a bill, so add that under Bills.",
-    bufferLabel: "Rainy-day pot to keep aside (£)",
+    bufferLabel: "Savings to keep aside (£)",
     bufferHint:
       "Money you would rather not touch. It stays the same however many days are left. Leave it empty for none.",
 
@@ -548,7 +569,7 @@ export function describeLine(line: BreakdownLine): { label: string; amountText: 
         amountText: signed(line.amount),
       };
     case "buffer":
-      return { label: "Your rainy-day pot, kept aside", amountText: signed(line.amount) };
+      return { label: "Your savings, kept aside", amountText: signed(line.amount) };
     case "savings":
       return { label: `Saving: ${name}`, amountText: signed(line.amount) };
   }

@@ -20,6 +20,8 @@ export type PanelId =
   | "more"
   | "settings"
   | "explain"
+  | "share"
+  | "report"
   | "about";
 
 export type Outcome = { ok: true; result: CalculatorResult } | { ok: false };

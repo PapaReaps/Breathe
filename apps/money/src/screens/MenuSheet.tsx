@@ -15,6 +15,7 @@ import {
 import { DataView } from "./DataView";
 import { SettingsView } from "./SettingsView";
 import { SetupView } from "./SetupView";
+import { ReportView, ShareView } from "./ShareView";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 interface MenuSheetProps {
@@ -45,11 +46,13 @@ const TITLES: Record<PanelId, string> = {
   more: words.menu.moreTitle,
   settings: words.menu.names.settings,
   explain: ui.breakdownTitle,
+  share: words.menu.shareTitle,
+  report: words.menu.reportTitle,
   about: words.menu.aboutTitle,
 };
 
 /** Pages that live inside the Settings folder: their Back button returns there. */
-const IN_MORE: PanelId[] = ["setup", "settings", "data", "about"];
+const IN_MORE: PanelId[] = ["setup", "settings", "data", "share", "report", "about"];
 
 const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "essentials", "pot", "holidays"];
 
@@ -141,6 +144,8 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "more" ? <MoreList settings={settings} onPanel={onPanel} /> : null}
             {panel === "settings" ? <SettingsView settings={settings} /> : null}
             {panel === "data" ? <DataView data={data} /> : null}
+            {panel === "share" ? <ShareView /> : null}
+            {panel === "report" ? <ReportView /> : null}
             {panel === "about" ? <AboutView /> : null}
           </div>
 
@@ -192,7 +197,7 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
         {items.map((item) => (
           <li key={item.id}>
             <button type="button" className="menu-item" onClick={() => onPanel(item.id)}>
-              <span className="menu-title">{item.title}</span>
+              <span className={item.id === "pot" ? "menu-title pot-word" : "menu-title"}>{item.title}</span>
               <span className={item.id === "pot" && item.sub !== words.notSetYet ? "menu-sub pot-amount" : "menu-sub"}>
                 {item.sub}
               </span>
@@ -238,6 +243,16 @@ function MoreList({ settings, onPanel }: { settings: SettingsApi; onPanel: (pane
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("data")}>
             <span className="menu-title">{words.menu.names.data}</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("share")}>
+            <span className="menu-title">{words.menu.shareTitle}</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("report")}>
+            <span className="menu-title">{words.menu.reportTitle}</span>
           </button>
         </li>
         <li>
