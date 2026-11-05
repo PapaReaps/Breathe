@@ -108,3 +108,12 @@ Founding promise check: all optional, nothing collected, nothing costs money, no
 - **The opening breath:** one slow breath of about two seconds (lengthened from under a second, so the breath can actually be seen and felt), the same on the web and in the app. It respects "reduce motion", follows light and dark, plays only on a fresh start, and uses the placeholder circle (no logo) until branding is agreed.
 
 Founding promise check: free, nothing collected, no pressure, and the opening is short and skipped for anyone who asks for less motion. Result: **in line with the promise.**
+
+## The opening becomes "a deep breath" (branding idea 4d)
+
+- **Chosen from the branding sketches:** the word "breathe" itself takes a deep breath (light, then full and slightly lifted, then settled), with a soft shadow like a chest rising and falling. About three seconds. It replaces the breathing circle on the web and in the Android app.
+- **Font:** Nunito, a soft rounded font, free under the SIL Open Font Licence. It is bundled inside the app (`public/fonts/`), never loaded from Google, so it works offline and nothing is sent anywhere. For now it is used for the opening only; the rest of the app keeps the device's own font.
+- **Still for people who ask for less motion**, and plays only on a fresh start.
+- **Logo and icon are still open.** This settles the opening animation and the wordmark's feeling, not the icon.
+
+Founding promise check: free font, nothing fetched, nothing collected, and it respects "reduce motion". Result: **in line with the promise.**

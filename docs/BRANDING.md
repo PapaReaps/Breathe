@@ -1,6 +1,6 @@
 # Branding
 
-**Status: being explored. Nothing is final. There is no logo yet.**
+**Status: being explored. One piece is chosen: the opening "deep breath" (below). There is no logo or icon yet.**
 
 ## Why we are waiting
 
@@ -14,9 +14,13 @@ The brand has to work for Money, Medication, Travel and Daily, and for apps we h
 - Nothing finance-specific in the main logo or name.
 - Avoid clutter, bright aggressive colours, shame or guilt language, and pressure.
 
+## Chosen so far: the opening "deep breath"
+
+The word **breathe**, lowercase, in **Nunito** (soft and rounded, SIL Open Font Licence, bundled with the app), in the app's teal. On opening it takes one deep breath: light, then full and lifted, then settled, with a soft shadow beneath it. Sketches of the other ideas tried are kept outside the project, in the `branding-concepts` folder.
+
 ## What is NOT decided
 
-Logo, exact colours, fonts, icon style, and how each app is distinguished within the family.
+Logo, app icon, exact colours, the font for the rest of the app, and how each app is distinguished within the family.
 
 ## What this means for development
 

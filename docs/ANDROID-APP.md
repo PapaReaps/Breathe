@@ -31,7 +31,7 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 
 ## The opening breath
 
-Both versions open with one slow breath: a soft circle slowly breathes in and settles, then the app fades in. It takes about two seconds, long enough to take a breath with it. In the Android app, Android first shows the same circle, still, the moment you tap the icon, so the hand-over is seamless. Light and dark follow your setting, and with "reduce motion" switched on it's a still circle that fades as soon as the app is ready. It plays only when the app starts fresh, not every time you switch back to it.
+Both versions open with a **deep breath**: the word "breathe" starts light, fills out and rises a little as it breathes in, holds, then settles, with a soft shadow beneath it like a chest rising and falling. Then the app fades in. It takes about three seconds. In the Android app, Android first shows the plain background colour the moment you tap the icon, then the word breathes on the same colour, so the hand-over is seamless. Light and dark follow your setting, and with "reduce motion" switched on it's the still word, which fades as soon as the app is ready. It plays only when the app starts fresh, not every time you switch back to it. The font (Nunito, free under the SIL Open Font Licence) is inside the app, so nothing is fetched from anywhere.
 
 ## For contributors: how it's built
 

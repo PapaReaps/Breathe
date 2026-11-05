@@ -17,15 +17,26 @@
         if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
       } catch (e) {}
     </script>
+    <link rel="preload" href="/fonts/nunito.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       /*
-       * The opening "breath": one slow breath in, then the app fades in.
-       * About two seconds, and only when the app starts fresh. With "reduce motion"
-       * it is a still circle that fades away as soon as the app is ready.
+       * The opening "deep breath" (branding idea 4d, docs/BRANDING.md): the word "breathe"
+       * starts light, fills out and rises a little as it breathes in, holds, then settles,
+       * with a soft shadow beneath it, like a chest rising and falling. About three seconds,
+       * and only when the app starts fresh. With "reduce motion" it is the still word,
+       * which fades away as soon as the app is ready.
+       * The font (Nunito, SIL Open Font Licence) is inside the app: nothing is fetched from elsewhere.
        */
+      @font-face {
+        font-family: "Breathe Nunito";
+        src: url("fonts/nunito.woff2") format("woff2");
+        font-weight: 200 1000;
+        font-display: block;
+      }
       #splash {
         --splash-bg: #f6f5f1;
-        --splash-dot: #1f5f5b;
+        --splash-ink: #1f5f5b;
+        --splash-shadow: rgba(31, 95, 91, 0.22);
         position: fixed;
         inset: 0;
         z-index: 1000;
@@ -35,57 +46,98 @@
         transition: opacity 400ms ease-out;
       }
       @media (prefers-color-scheme: dark) {
-        :root:not([data-theme="light"]) #splash { --splash-bg: #151b1e; --splash-dot: #7cc4bd; }
+        :root:not([data-theme="light"]) #splash { --splash-bg: #151b1e; --splash-ink: #7cc4bd; --splash-shadow: rgba(124, 196, 189, 0.2); }
       }
-      :root[data-theme="dark"] #splash { --splash-bg: #151b1e; --splash-dot: #7cc4bd; }
+      :root[data-theme="dark"] #splash { --splash-bg: #151b1e; --splash-ink: #7cc4bd; --splash-shadow: rgba(124, 196, 189, 0.2); }
       #splash.splash-out { opacity: 0; pointer-events: none; }
-      .splash-mark { position: relative; width: 168px; height: 168px; }
-      .splash-ring, .splash-dot { position: absolute; inset: 0; margin: auto; border-radius: 50%; }
-      .splash-ring {
-        width: 160px; height: 160px;
-        border: 8px solid var(--splash-dot);
-        opacity: 0.25;
-        animation: splash-ring 1600ms cubic-bezier(0.45, 0, 0.25, 1) both;
+      .splash-mark { position: relative; font-size: clamp(56px, 17vw, 104px); }
+      .splash-word {
+        font-family: "Breathe Nunito", system-ui, sans-serif;
+        font-weight: 200;
+        line-height: 1;
+        color: var(--splash-ink);
+        opacity: 0;
+        transform-origin: 50% 80%;
       }
-      .splash-dot {
-        width: 96px; height: 96px;
-        background: var(--splash-dot);
-        animation: splash-breathe 1600ms cubic-bezier(0.45, 0, 0.25, 1) both;
+      .splash-shadow {
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        width: 3.2em;
+        height: 0.28em;
+        margin: 0.08em 0 0 -1.6em;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, var(--splash-shadow), transparent);
+        opacity: 0;
       }
-      /* Breathe in slowly, then settle. */
-      @keyframes splash-breathe { 0% { transform: scale(0.8); } 70% { transform: scale(1.05); } 100% { transform: scale(1); } }
-      @keyframes splash-ring { 0% { transform: scale(0.82); opacity: 0; } 70% { transform: scale(1.07); opacity: 0.32; } 100% { transform: scale(1); opacity: 0.25; } }
+      #splash.splash-go .splash-word { animation: splash-breathe 2600ms both; }
+      #splash.splash-go .splash-shadow { animation: splash-chest 2600ms both; }
+      /* In (1.3s), hold (0.26s), out (1.04s). Each step eases on its own, like a real breath. */
+      @keyframes splash-breathe {
+        0% { opacity: 0; font-weight: 200; letter-spacing: 0; transform: translateY(0.04em) scale(0.97, 0.95); animation-timing-function: ease-out; }
+        8% { opacity: 1; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+        50% { opacity: 1; font-weight: 900; letter-spacing: 0.03em; transform: translateY(-0.06em) scale(1.02, 1.05); animation-timing-function: linear; }
+        60% { opacity: 1; font-weight: 900; letter-spacing: 0.03em; transform: translateY(-0.06em) scale(1.02, 1.05); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+        100% { opacity: 1; font-weight: 200; letter-spacing: 0; transform: translateY(0.04em) scale(0.97, 0.95); }
+      }
+      @keyframes splash-chest {
+        0% { opacity: 0; transform: scale(1); animation-timing-function: ease-out; }
+        8% { opacity: 1; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+        50% { opacity: 0.55; transform: scale(0.82); animation-timing-function: linear; }
+        60% { opacity: 0.55; transform: scale(0.82); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+        100% { opacity: 1; transform: scale(1); }
+      }
       @media (prefers-reduced-motion: reduce) {
-        .splash-ring, .splash-dot { animation: none; }
+        #splash.splash-go .splash-word, #splash.splash-go .splash-shadow { animation: none; }
+        .splash-word { opacity: 1; font-weight: 600; }
+        .splash-shadow { display: none; }
         #splash { transition: none; }
       }
     </style>
   </head>
   <body>
     <div id="splash" aria-hidden="true">
-      <div class="splash-mark"><div class="splash-ring"></div><div class="splash-dot"></div></div>
+      <div class="splash-mark"><div class="splash-word">breathe</div><div class="splash-shadow"></div></div>
     </div>
     <div id="root"></div>
     <script>
-      // The app calls window.breatheSplashDone() once it is ready to show.
-      // The breath always finishes first, and the screen never stays longer than 5 seconds.
+      // The breath starts once its font is ready (so the letters never jump), then the app
+      // calls window.breatheSplashDone() when it is ready to show. The breath always finishes
+      // first, and the screen never stays longer than 6 seconds.
       (function () {
-        var started = Date.now();
+        var splash = document.getElementById("splash");
         var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var breath = calm ? 0 : 1600;
+        var breath = calm ? 0 : 2600;
+        var started = null;
+        var appReady = false;
         var gone = false;
         function remove() {
           if (gone) return;
           gone = true;
-          var splash = document.getElementById("splash");
-          if (!splash) return;
           splash.classList.add("splash-out");
           setTimeout(function () { splash.remove(); }, calm ? 0 : 420);
         }
-        window.breatheSplashDone = function () {
+        function maybeRemove() {
+          if (!appReady || started === null) return;
           setTimeout(remove, Math.max(0, breath - (Date.now() - started)));
+        }
+        function go() {
+          if (started !== null) return;
+          started = Date.now();
+          splash.classList.add("splash-go");
+          maybeRemove();
+        }
+        try {
+          document.fonts.load('200 1em "Breathe Nunito"').then(go, go);
+        } catch (e) {
+          go();
+        }
+        setTimeout(go, 800);
+        window.breatheSplashDone = function () {
+          appReady = true;
+          maybeRemove();
         };
-        setTimeout(remove, 5000);
+        setTimeout(remove, 6000);
       })();
     </script>
     <script type="module" src="/src/main.tsx"></script>

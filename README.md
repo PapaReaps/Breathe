@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-dark.gif">
+    <img src="docs/images/breathe-light.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath: it fills out and rises a little, then settles, with a soft shadow beneath it" width="600">
+  </picture>
+</p>
+
 # Breathe
 
 > **Breathe will never be about making money. It will always be about helping people.**

@@ -58,12 +58,12 @@ describe("the Android build recipe", () => {
 describe("the opening breath", () => {
   const html = read("index.html");
 
-  it("is there, short, and still for people who ask for less motion", () => {
+  it("is there, about three seconds at most, and still for people who ask for less motion", () => {
     expect(html).toContain('id="splash"');
     expect(html).toContain("prefers-reduced-motion: reduce");
     const breath = Number(html.match(/var breath = calm \? 0 : (\d+);/)?.[1]);
     expect(breath).toBeGreaterThan(0);
-    expect(breath).toBeLessThanOrEqual(2000);
+    expect(breath).toBeLessThanOrEqual(3000);
   });
 
   it("can never get stuck", () => {
@@ -80,4 +80,15 @@ it("no signing key file is anywhere in the project", () => {
     expect(existsSync(appDir + name)).toBe(false);
     expect(existsSync(appDir + "android/" + name)).toBe(false);
   }
+});
+
+describe("the opening font", () => {
+  it("is inside the app with its licence, never fetched from another website", () => {
+    expect(existsSync(appDir + "public/fonts/nunito.woff2")).toBe(true);
+    expect(existsSync(appDir + "public/fonts/NUNITO-LICENSE.txt")).toBe(true);
+    const html = read("index.html");
+    expect(html).toContain('src: url("fonts/nunito.woff2")');
+    expect(html.includes("fonts.googleapis.com")).toBe(false);
+    expect(html.includes("fonts.gstatic.com")).toBe(false);
+  });
 });
