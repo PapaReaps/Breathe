@@ -78,6 +78,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 - **Step-by-step setup**: one question per screen, and every question can be skipped.
 - **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
+- **Coming up**: your bills and the day your money comes in, as a simple list, or as a month if you'd rather.
 - **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
 - A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.
 

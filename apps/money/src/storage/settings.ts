@@ -13,6 +13,9 @@ export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac" | "peach" |
 
 export type BalanceReminder = "daily" | "three-days" | "weekly" | "never";
 export type TextSize = "standard" | "large" | "largest";
+/** How "Coming up" is shown: a simple list, or a month. */
+export type CalendarView = "list" | "month";
+export const CALENDAR_VIEWS: ReadonlyArray<CalendarView> = ["list", "month"];
 /** "system" follows the device's own "more contrast" setting; "more" always uses stronger contrast. */
 export type Contrast = "system" | "more";
 
@@ -37,6 +40,8 @@ export interface Settings {
   clickSound: ClickSound;
   /** A small vibration when a button is tapped, where the phone allows it. Off unless chosen. */
   vibration: Vibration;
+  /** Coming up: list first, unless the person picked the month. */
+  calendarView: CalendarView;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -52,6 +57,7 @@ export const DEFAULT_SETTINGS: Settings = {
   checkForUpdates: false,
   clickSound: "off",
   vibration: "off",
+  calendarView: "list",
 };
 
 export const SETTINGS_KEY = "settings";
@@ -124,6 +130,7 @@ export function readSettings(raw: unknown): Settings {
     checkForUpdates: record.checkForUpdates === true,
     clickSound: pick(record.clickSound, CLICK_SOUNDS, DEFAULT_SETTINGS.clickSound),
     vibration: pick(record.vibration, VIBRATIONS, DEFAULT_SETTINGS.vibration),
+    calendarView: pick(record.calendarView, CALENDAR_VIEWS, DEFAULT_SETTINGS.calendarView),
   };
 }
 
@@ -142,6 +149,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     checkForUpdates: settings.checkForUpdates,
     clickSound: settings.clickSound,
     vibration: settings.vibration,
+    calendarView: settings.calendarView,
   };
 }
 

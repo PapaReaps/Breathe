@@ -20,6 +20,7 @@ export type PanelId =
   | "more"
   | "settings"
   | "explain"
+  | "coming-up"
   | "share"
   | "report"
   | "about";

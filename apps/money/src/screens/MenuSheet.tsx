@@ -13,6 +13,7 @@ import {
   PotSection,
 } from "./FormSections";
 import { DataView } from "./DataView";
+import { ComingUpView } from "./ComingUpView";
 import { SettingsView } from "./SettingsView";
 import { SetupView } from "./SetupView";
 import { ReportView, ShareView } from "./ShareView";
@@ -46,6 +47,7 @@ const TITLES: Record<PanelId, string> = {
   more: words.menu.moreTitle,
   settings: words.menu.names.settings,
   explain: ui.breakdownTitle,
+  "coming-up": words.comingUp.title,
   share: words.menu.shareTitle,
   report: words.menu.reportTitle,
   about: words.menu.aboutTitle,
@@ -146,6 +148,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "setup" ? (
               <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
             ) : null}
+            {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
             {panel === "more" ? <MoreList settings={settings} onPanel={onPanel} /> : null}
             {panel === "settings" ? <SettingsView settings={settings} /> : null}
             {panel === "data" ? <DataView data={data} /> : null}
@@ -211,6 +214,12 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
       </ul>
 
       <ul className="menu-list">
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("coming-up")}>
+            <span className="menu-title">{words.comingUp.title}</span>
+            <span className="menu-sub">{words.comingUp.menuSub}</span>
+          </button>
+        </li>
         {outcome !== null && outcome.ok ? (
           <li>
             <button type="button" className="menu-item" onClick={() => onPanel("explain")}>

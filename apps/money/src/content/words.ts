@@ -148,6 +148,23 @@ export const words = {
     clearedPartly:
       "Your numbers are cleared from the screen, but we couldn't confirm the saved copy on this device was removed.",
   },
+  comingUp: {
+    title: "Coming up",
+    menuSub: "Bills and money days",
+    intro: "From today until your money comes in.",
+    viewLabel: "Show as",
+    views: { list: "List", month: "Month" },
+    today: "Today",
+    tomorrow: "tomorrow",
+    inDays: (days: number) => `in ${days} days`,
+    moneyDay: "Your money comes in",
+    bill: "Bill",
+    moneyIn: "Money coming in",
+    billTotal: (count: number, total: string) => `${count === 1 ? "1 bill" : `${count} bills`} before then · ${total}`,
+    noBills: "No bills before then.",
+    nothing: "Nothing on this day.",
+    waiting: "Once your balance and the date your money comes in are added, you'll see your bills and money days here.",
+  },
   share: {
     intro: "Know someone who might like Breathe Money? Copy a link and send it to them. It's free.",
     webTitle: "The website",

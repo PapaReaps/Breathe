@@ -1131,3 +1131,211 @@ a.button-link {
   font-weight: 600;
   margin: 0 0 0.75rem;
 }
+
+/* ---------- Coming up: bills and money days ---------- */
+:root {
+  --bill: #9b2f55;
+  --bill-bg: #fbe9ef;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bill: #f0a3bf;
+    --bill-bg: #3a2229;
+  }
+}
+:root[data-theme="dark"] {
+  --bill: #f0a3bf;
+  --bill-bg: #3a2229;
+}
+
+.view-switch {
+  display: inline-flex;
+  border: 1px solid var(--field-border);
+  border-radius: 999px;
+  padding: 3px;
+  margin: 0 0 1rem;
+}
+.view-switch label {
+  position: relative;
+  padding: 0.35rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.view-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+}
+.view-switch label.picked {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.view-switch label:has(input:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.coming-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.coming-day {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.coming-date {
+  width: 3.2rem;
+  flex: none;
+  text-align: center;
+  line-height: 1.1;
+}
+.coming-date b {
+  display: block;
+  font-size: 1.4rem;
+}
+.coming-date span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.coming-what {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.coming-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.coming-tag {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.coming-amount {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.coming-today {
+  color: var(--accent);
+  font-weight: 700;
+}
+.coming-money {
+  background: var(--gentle);
+  border-radius: 12px;
+  border-bottom: none;
+  padding: 0.75rem 0.6rem;
+  margin-top: 0.5rem;
+}
+.coming-money b {
+  color: var(--accent);
+}
+.coming-total {
+  font-weight: 600;
+  margin: 1rem 0 0;
+}
+
+.month {
+  margin: 0 0 1rem;
+}
+.month-name {
+  font-size: 1.15rem;
+  margin: 0 0 0.5rem;
+}
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+.month-dow {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.month-day {
+  min-height: 2.75rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-weight: 400;
+}
+.month-quiet {
+  color: var(--muted);
+  opacity: 0.7;
+}
+.month-bill {
+  background: var(--bill-bg);
+  color: var(--text);
+  box-shadow: inset 0 -3px 0 var(--bill);
+}
+.month-in {
+  background: var(--gentle);
+}
+.month-money {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  box-shadow: none;
+}
+.month-today {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  font-weight: 700;
+}
+.month-selected {
+  outline: 3px solid var(--text);
+  outline-offset: -3px;
+}
+.month-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+.month-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.month-key i {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+.key-bill {
+  background: var(--bill-bg);
+  box-shadow: inset 0 -3px 0 var(--bill);
+}
+.key-money {
+  background: var(--accent);
+}
+.key-today {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.month-details {
+  background: var(--gentle);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+.month-details p {
+  margin: 0.2rem 0 0;
+}

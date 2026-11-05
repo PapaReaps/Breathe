@@ -93,6 +93,7 @@ describe("look and colour settings", () => {
       checkForUpdates: false,
       clickSound: "off",
       vibration: "off",
+      calendarView: "list",
     });
   });
 
@@ -142,6 +143,7 @@ describe("look and colour settings", () => {
       checkForUpdates: true,
       clickSound: "drop" as const,
       vibration: "gentle" as const,
+      calendarView: "month" as const,
     };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
   });
