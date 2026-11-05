@@ -42,10 +42,14 @@ const TITLES: Record<PanelId, string> = {
   holidays: ui.holidaysSummary,
   data: words.data.title,
   setup: words.setup.title,
-  settings: words.settings.title,
+  more: words.menu.moreTitle,
+  settings: words.menu.names.settings,
   explain: ui.breakdownTitle,
   about: words.menu.aboutTitle,
 };
+
+/** Pages that live inside the Settings folder: their Back button returns there. */
+const IN_MORE: PanelId[] = ["setup", "settings", "data", "about"];
 
 const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "essentials", "pot", "holidays"];
 
@@ -98,8 +102,12 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "menu" ? (
               <span />
             ) : (
-              <button type="button" className="secondary" onClick={() => onPanel("menu")}>
-                {`← ${words.menu.back}`}
+              <button
+                type="button"
+                className="secondary"
+                onClick={() => onPanel(IN_MORE.includes(panel) ? "more" : "menu")}
+              >
+                {`← ${IN_MORE.includes(panel) ? words.menu.backToMore : words.menu.back}`}
               </button>
             )}
             <button type="button" onClick={() => onPanel(null)}>
@@ -111,7 +119,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
               {TITLES[panel]}
             </h2>
-            {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} settings={settings} onPanel={onPanel} /> : null}
+            {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" ? <PaydaySection form={form} today={today} api={api} /> : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
@@ -130,6 +138,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "setup" ? (
               <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
             ) : null}
+            {panel === "more" ? <MoreList settings={settings} onPanel={onPanel} /> : null}
             {panel === "settings" ? <SettingsView settings={settings} /> : null}
             {panel === "data" ? <DataView data={data} /> : null}
             {panel === "about" ? <AboutView /> : null}
@@ -151,11 +160,10 @@ interface MenuListProps {
   today: string;
   built: BuildResult;
   outcome: Outcome | null;
-  settings: SettingsApi;
   onPanel: (panel: PanelId) => void;
 }
 
-function MenuList({ form, today, built, outcome, settings, onPanel }: MenuListProps) {
+function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
   const summary = describeForm(form, today);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
     { id: "account", title: words.menu.names.account, sub: summary.account },
@@ -201,6 +209,21 @@ function MenuList({ form, today, built, outcome, settings, onPanel }: MenuListPr
             </button>
           </li>
         ) : null}
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("more")}>
+            <span className="menu-title">{words.menu.moreTitle}</span>
+          </button>
+        </li>
+      </ul>
+    </>
+  );
+}
+
+/** The Settings folder: the less-used pages, kept together so the menu stays short. */
+function MoreList({ settings, onPanel }: { settings: SettingsApi; onPanel: (panel: PanelId) => void }) {
+  return (
+    <>
+      <ul className="menu-list">
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("setup")}>
             <span className="menu-title">{words.setup.menuItem}</span>

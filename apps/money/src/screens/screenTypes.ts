@@ -17,6 +17,7 @@ export type PanelId =
   | "holidays"
   | "data"
   | "setup"
+  | "more"
   | "settings"
   | "explain"
   | "about";

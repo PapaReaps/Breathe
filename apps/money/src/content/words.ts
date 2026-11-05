@@ -50,6 +50,8 @@ export const words = {
     title: "Menu",
     done: "Done",
     back: "Back to the menu",
+    backToMore: "Back to Settings",
+    moreTitle: "Settings",
     toGetYourNumber: "To see your number:",
     names: {
       account: "Your account",
@@ -60,7 +62,7 @@ export const words = {
       pot: "Rainy-day pot",
       holidays: "Bank holidays",
       data: "Your data and backups",
-      settings: "Settings",
+      settings: "App options",
     },
     aboutTitle: "About Breathe Money",
     liveLine: (amount: string) => `Safe to spend now: ${amount}`,
