@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { isNativeApp } from "./platform";
-import { checkForUpdate, dueForCheck, noteChecked } from "./updates";
+import { checkForUpdate, dueForCheck, installedVersion, noteChecked, versionText } from "./updates";
 import type { UpdateResult } from "./updates";
 
 /*
@@ -24,6 +24,8 @@ export interface UpdatesApi {
   /** The last answer, or null if nothing has been checked yet. */
   result: UpdateResult | null;
   checkNow: () => Promise<void>;
+  /** The version on this phone, like "0.16.0". Null on the web, or until Android says. */
+  installed: string | null;
 }
 
 /** Checks for a newer Android version: once a day on opening if switched on, or when asked. */
@@ -31,6 +33,18 @@ export function useUpdates(enabled: boolean): UpdatesApi {
   const available = isNativeApp();
   const [checking, setChecking] = useState(false);
   const [result, setResult] = useState<UpdateResult | null>(null);
+  const [installed, setInstalled] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!available) return;
+    let cancelled = false;
+    installedVersion().then((version) => {
+      if (!cancelled && version !== null) setInstalled(versionText(version));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [available]);
 
   const checkNow = useCallback(async () => {
     if (!available) return;
@@ -54,5 +68,5 @@ export function useUpdates(enabled: boolean): UpdatesApi {
     };
   }, [available, enabled]);
 
-  return { available, checking, result, checkNow };
+  return { available, checking, result, checkNow, installed };
 }

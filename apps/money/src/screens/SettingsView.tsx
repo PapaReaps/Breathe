@@ -242,6 +242,7 @@ function UpdatesSettings({ updates, on, onChange }: { updates: UpdatesApi; on: b
         {text.updatesTitle}
       </h3>
       <p className="hint">{text.updatesIntro}</p>
+      {updates.installed !== null ? <p className="installed-version">{text.updatesYouHave(updates.installed)}</p> : null}
       <p className="gentle">{text.updatesHonest}</p>
       <label className="choice">
         <input type="checkbox" checked={on} onChange={(event) => onChange(event.target.checked)} />

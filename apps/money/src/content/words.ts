@@ -315,6 +315,7 @@ export const words = {
       "Checking asks GitHub one question: what's the newest version? Downloading fetches the new app from GitHub too. Your numbers are never sent. GitHub can see that a phone asked, as with visiting any website.",
     updatesToggle: "Check once a day when I open the app",
     updatesCheckNow: "Check now",
+    updatesYouHave: (version: string) => `You have version ${version}.`,
     updatesChecking: "Checking…",
     updatesUpToDate: (version: string) => `You have the newest version (${version}).`,
     updatesNewer: (version: string) => `Version ${version} is ready.`,
