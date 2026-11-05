@@ -91,6 +91,8 @@ describe("look and colour settings", () => {
       textSize: "standard",
       contrast: "system",
       checkForUpdates: false,
+      clickSound: "off",
+      vibration: "off",
     });
   });
 
@@ -119,6 +121,13 @@ describe("look and colour settings", () => {
     expect(readSettings({ showSavings: "no" }).showSavings).toBe(true);
   });
 
+  it("sounds and vibration stay off unless chosen, and odd values are ignored", () => {
+    expect(DEFAULT_SETTINGS.clickSound).toBe("off");
+    expect(DEFAULT_SETTINGS.vibration).toBe("off");
+    expect(readSettings({ clickSound: "chime", vibration: "firm" })).toMatchObject({ clickSound: "chime", vibration: "firm" });
+    expect(readSettings({ clickSound: "<script>", vibration: 3 })).toMatchObject({ clickSound: "off", vibration: "off" });
+  });
+
   it("what is saved reads back the same", () => {
     const settings = {
       appearance: "light" as const,
@@ -131,6 +140,8 @@ describe("look and colour settings", () => {
       textSize: "largest" as const,
       contrast: "more" as const,
       checkForUpdates: true,
+      clickSound: "drop" as const,
+      vibration: "gentle" as const,
     };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
   });

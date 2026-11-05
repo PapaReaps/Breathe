@@ -4,6 +4,7 @@ import type { DeviceStore } from "./deviceStore";
 import { DEFAULT_SETTINGS, SETTINGS_KEY, applySettings, readSettings, toSavedSettings } from "./settings";
 import type { Settings } from "./settings";
 import { matchSystemBars } from "../platform";
+import { setTapFeedback } from "../feedback";
 
 /** How the app looks (light or dark, and the colours). Applied straight away and remembered on this device. */
 export function useSettings(store: DeviceStore = indexedDbStore) {
@@ -19,6 +20,7 @@ export function useSettings(store: DeviceStore = indexedDbStore) {
         setSettings(saved);
         applySettings(saved);
         matchSystemBars(saved.appearance);
+        setTapFeedback(saved.clickSound, saved.vibration);
       })
       .catch(() => {
         /* No storage: keep the defaults. */
@@ -34,6 +36,7 @@ export function useSettings(store: DeviceStore = indexedDbStore) {
         const next = { ...current, ...patch };
         applySettings(next);
         matchSystemBars(next.appearance);
+        setTapFeedback(next.clickSound, next.vibration);
         store.save(toSavedSettings(next), SETTINGS_KEY).catch(() => {
           /* It still applies for now; it just won't be remembered. */
         });

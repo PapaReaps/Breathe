@@ -1,4 +1,6 @@
 import { rememberAppearance } from "../splash";
+import { CLICK_SOUNDS, VIBRATIONS } from "../feedback";
+import type { ClickSound, Vibration } from "../feedback";
 
 /*
  * Preferences about how the app looks. Kept apart from the numbers, so
@@ -31,6 +33,10 @@ export interface Settings {
   contrast: Contrast;
   /** Android app only: ask GitHub once a day whether a newer version is out. Off unless switched on. */
   checkForUpdates: boolean;
+  /** A soft sound when a button is tapped. Off unless chosen. */
+  clickSound: ClickSound;
+  /** A small vibration when a button is tapped, where the phone allows it. Off unless chosen. */
+  vibration: Vibration;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -44,6 +50,8 @@ export const DEFAULT_SETTINGS: Settings = {
   textSize: "standard",
   contrast: "system",
   checkForUpdates: false,
+  clickSound: "off",
+  vibration: "off",
 };
 
 export const SETTINGS_KEY = "settings";
@@ -114,6 +122,8 @@ export function readSettings(raw: unknown): Settings {
     textSize: pick(record.textSize, TEXT_SIZES, DEFAULT_SETTINGS.textSize),
     contrast: pick(record.contrast, CONTRASTS, DEFAULT_SETTINGS.contrast),
     checkForUpdates: record.checkForUpdates === true,
+    clickSound: pick(record.clickSound, CLICK_SOUNDS, DEFAULT_SETTINGS.clickSound),
+    vibration: pick(record.vibration, VIBRATIONS, DEFAULT_SETTINGS.vibration),
   };
 }
 
@@ -130,6 +140,8 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     textSize: settings.textSize,
     contrast: settings.contrast,
     checkForUpdates: settings.checkForUpdates,
+    clickSound: settings.clickSound,
+    vibration: settings.vibration,
   };
 }
 

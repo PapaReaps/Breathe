@@ -22,10 +22,10 @@ describe("the Android app", () => {
     expect(rules).toContain("<device-transfer>");
   });
 
-  it("asks for no permissions beyond showing its own pages and installing its own updates", () => {
+  it("asks for no permissions beyond showing its own pages, installing its own updates and vibrating", () => {
     const manifest = read("android/app/src/main/AndroidManifest.xml");
     const permissions = [...manifest.matchAll(/uses-permission android:name="([^"]+)"/g)].map((m) => m[1]);
-    expect(permissions).toEqual(["android.permission.INTERNET", "android.permission.REQUEST_INSTALL_PACKAGES"]);
+    expect(permissions).toEqual(["android.permission.INTERNET", "android.permission.REQUEST_INSTALL_PACKAGES", "android.permission.VIBRATE"]);
   });
 
   it("opens with the same calm colours as the web app, in light and dark", () => {

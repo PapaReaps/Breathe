@@ -42,4 +42,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Only for "Download and install" of a new Breathe Money version. Android still asks the person each time. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Only for the optional "Vibrate when I tap" (off unless chosen). Android doesn't need to ask for this one. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

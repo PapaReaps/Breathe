@@ -8,6 +8,7 @@ import { ACCENTS, APPEARANCES, BALANCE_REMINDERS, CONTRASTS, DEFAULT_SETTINGS, P
 import type { LockApi } from "../storage/useAppLock";
 import type { UpdatesApi } from "../useUpdates";
 import { takeShowUpdates } from "../useUpdates";
+import { CLICK_SOUNDS, VIBRATIONS, canVibrate, playSound, vibrate } from "../feedback";
 import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
@@ -169,6 +170,50 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           </span>
         </label>
       </fieldset>
+
+      <fieldset className="choice-group settings-group">
+        <legend>{text.soundTitle}</legend>
+        <p className="hint">{text.soundIntro}</p>
+        <div className="swatches">
+          {CLICK_SOUNDS.map((choice) => (
+            <label key={choice} className="swatch">
+              <input
+                type="radio"
+                name="click-sound"
+                value={choice}
+                data-feedback-preview=""
+                checked={current.clickSound === choice}
+                onChange={() => change({ clickSound: choice })}
+                onClick={() => playSound(choice)}
+              />
+              <span>{text.sounds[choice]}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      {canVibrate() ? (
+        <fieldset className="choice-group settings-group">
+          <legend>{text.vibrateTitle}</legend>
+          <p className="hint">{text.vibrateIntro}</p>
+          <div className="swatches">
+            {VIBRATIONS.map((choice) => (
+              <label key={choice} className="swatch">
+                <input
+                  type="radio"
+                  name="vibration"
+                  value={choice}
+                  data-feedback-preview=""
+                  checked={current.vibration === choice}
+                  onChange={() => change({ vibration: choice })}
+                  onClick={() => vibrate(choice)}
+                />
+                <span>{text.vibrations[choice]}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ) : null}
 
       <PrivacyScreenSettings lock={settings.lock} />
 
