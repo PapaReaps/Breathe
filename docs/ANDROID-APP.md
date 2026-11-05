@@ -7,7 +7,7 @@ Breathe Money comes two ways. Both are free, and both are the same app:
 | Get it | Open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) | Download the `.apk` from [Releases](https://github.com/PapaReaps/Breathe/releases) |
 | Phones | Any phone or computer | Android only |
 | Works offline | After the first visit | Always: the app's files are inside it |
-| Updates | By itself | Optional "check for updates" in Settings, then install the new `.apk` over the old one |
+| Updates | By itself | Optional "check for updates" in Settings, then **Download and install** |
 | Your numbers | Kept in that browser | Kept inside the app |
 
 iPhones can't install an app from a file. On an iPhone, open the web link and use **Share → Add to Home Screen**.
@@ -18,7 +18,11 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 2. Android asks whether your browser may "install unknown apps". That's Android's standard check for anything that doesn't come from the Play Store. Allow it for this one install (you can switch it off again afterwards).
 3. Tap **Install**, then **Open**.
 
-**Updating:** in the app, go to **Menu → Settings → Updates**. Tap **Check now**, or switch on **Check once a day when I open the app**. When a new version is out, the app says so (in Settings, and as a small note on the home screen) with a link to get it. Download the newer `.apk` and install it over the old one. Your numbers stay.
+**Updating:** in the app, go to **Menu → Settings → App options → Updates**. Tap **Check now**, or switch on **Check once a day when I open the app**. When a new version is out, the app says so (in Settings, and as a small note on the home screen). In **Menu → Settings → App options → Updates**, tap **Download and install**. The first time, Android asks you to allow Breathe Money to install apps ("Allow from this source"): switch it on, come back and tap **Install now**. Android then asks "Do you want to update this app?": tap **Update**. Your numbers stay. There's also a link to get it from GitHub by hand.
+
+How it's kept safe: the app only downloads from Breathe Money's own GitHub releases (any other address is refused), checks the file really is Breathe Money, and Android refuses any update not signed with the same key as the installed app. The `REQUEST_INSTALL_PACKAGES` permission is used for this alone. If the app ever goes on the Play Store, this would be removed, since Play does updates itself.
+
+Versions before v0.14.0 can check but not download: update to v0.14.0 by hand once.
 
 Versions before v0.12.0 don't have the check, so update to v0.12.0 by hand once from the [Releases page](https://github.com/PapaReaps/Breathe/releases).
 
@@ -30,7 +34,7 @@ Versions before v0.12.0 don't have the check, so update to v0.12.0 by hand once 
 - **Google Drive backup is switched off.** Android normally copies app data to your Google account, and to a new phone. Breathe turns both off, so your numbers never leave the phone. A backup file you save yourself is the way to move them.
 - **No offline helper is needed.** The app's files are already on the phone.
 - **It asks for no permissions** except the one Android needs to show web pages inside an app.
-- **It contacts nothing, unless you ask it to check for updates.** The check is off until you switch it on (or tap **Check now**). It asks GitHub one question, "what's the newest Breathe Money version?", at most once a day. It sends no numbers, no account, no cookies and nothing about you, though GitHub can see that a phone asked, from its internet address, as with visiting any website. The link it opens is built by the app, never taken from the answer.
+- **It contacts nothing, unless you ask it to check for updates.** The check is off until you switch it on (or tap **Check now**). It asks GitHub one question, "what's the newest Breathe Money version?", at most once a day. It sends no numbers, no account, no cookies and nothing about you, though GitHub can see that a phone asked, from its internet address, as with visiting any website. The link it opens, and the file it downloads, are built by the app, never taken from the answer.
 
 ## The opening breath
 

@@ -14,6 +14,10 @@ import { isNativeApp } from "./platform";
 
 export const RELEASES_API = "https://api.github.com/repos/PapaReaps/Breathe/releases/latest";
 export const RELEASES_PAGE = "https://github.com/PapaReaps/Breathe/releases/tag/";
+/** The Android file for a version, as the release recipe names it. Built here, never taken from GitHub's answer. */
+export function apkAddress(version: string): string {
+  return `https://github.com/PapaReaps/Breathe/releases/download/v${version}/breathe-money-v${version}.apk`;
+}
 /** Checking on opening happens at most once a day. */
 export const CHECK_EVERY_MS = 24 * 60 * 60 * 1000;
 const LAST_CHECK_KEY = "breathe-last-update-check";
@@ -40,7 +44,7 @@ export function versionText(version: Version): string {
 }
 
 export type UpdateResult =
-  | { state: "newer"; version: string; page: string }
+  | { state: "newer"; version: string; page: string; apk: string }
   | { state: "up-to-date"; version: string }
   | { state: "unknown" };
 
@@ -52,7 +56,8 @@ export function readLatestRelease(raw: unknown, current: Version | null): Update
   const latest = parseVersion(record.tag_name);
   if (latest === null || current === null) return { state: "unknown" };
   if (isNewer(latest, current)) {
-    return { state: "newer", version: versionText(latest), page: RELEASES_PAGE + "v" + versionText(latest) };
+    const version = versionText(latest);
+    return { state: "newer", version, page: RELEASES_PAGE + "v" + version, apk: apkAddress(version) };
   }
   return { state: "up-to-date", version: versionText(current) };
 }

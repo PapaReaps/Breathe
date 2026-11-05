@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { RELEASES_API, checkForUpdate, isNewer, parseVersion, readLatestRelease } from "../src/updates";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { RELEASES_API, apkAddress, checkForUpdate, isNewer, parseVersion, readLatestRelease } from "../src/updates";
+
+const appDir = fileURLToPath(new URL("../", import.meta.url));
 
 describe("version numbers", () => {
   it("reads the forms we use, and nothing else", () => {
@@ -23,7 +27,24 @@ describe("version numbers", () => {
 describe("reading GitHub's answer", () => {
   it("says when a newer version is ready, with a link built by the app itself", () => {
     const result = readLatestRelease({ tag_name: "v0.12.0", html_url: "https://example.com/not-this" }, [0, 11, 0]);
-    expect(result).toEqual({ state: "newer", version: "0.12.0", page: "https://github.com/PapaReaps/Breathe/releases/tag/v0.12.0" });
+    expect(result).toEqual({
+      state: "newer",
+      version: "0.12.0",
+      page: "https://github.com/PapaReaps/Breathe/releases/tag/v0.12.0",
+      apk: "https://github.com/PapaReaps/Breathe/releases/download/v0.12.0/breathe-money-v0.12.0.apk",
+    });
+  });
+
+  it("the download address matches what the Android code allows, and the release recipe makes", () => {
+    const java = readFileSync(appDir + "android/app/src/main/java/io/github/papareaps/breathe/money/ApkInstallerPlugin.java", "utf8");
+    // The Java text writes each backslash twice; a regular expression wants it once.
+    const pattern = /Pattern\.compile\(\s*"(.+)"\s*\)/.exec(java)![1]!.split("\\\\").join("\\");
+    const allowed = new RegExp(pattern);
+    expect(allowed.test(apkAddress("0.14.0"))).toBe(true);
+    expect(allowed.test("https://example.com/breathe-money-v0.14.0.apk")).toBe(false);
+    expect(allowed.test("https://github.com/someone-else/Breathe/releases/download/v0.14.0/breathe-money-v0.14.0.apk")).toBe(false);
+    const recipe = readFileSync(appDir + "../../.github/workflows/android.yml", "utf8");
+    expect(recipe).toContain('"../out/breathe-money-v${{ steps.version.outputs.name }}.apk"');
   });
 
   it("says so when you already have the newest", () => {
