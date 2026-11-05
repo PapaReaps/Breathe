@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkNewPin, makeLockRecord, pauseAfterWrongTries, pinMatches, readLockRecord } from "../src/storage/appLock";
+import { TRIES_KEY, checkNewPin, makeLockRecord, pauseAfterWrongTries, pinMatches, readLockRecord, readTries, recallTries, rememberTries } from "../src/storage/appLock";
 import { DEFAULT_SETTINGS, readSettings } from "../src/storage/settings";
 
 const FAST = 10_000;
@@ -61,5 +61,41 @@ describe("text size and contrast settings", () => {
   it("keep a valid choice and ignore anything unknown", () => {
     expect(readSettings({ textSize: "largest", contrast: "more" })).toMatchObject({ textSize: "largest", contrast: "more" });
     expect(readSettings({ textSize: "huge", contrast: "max" })).toMatchObject({ textSize: "standard", contrast: "system" });
+  });
+});
+
+describe("wrong PIN tries are remembered after the app is closed", () => {
+  const now = 1_800_000_000_000;
+  function memory() {
+    const items = new Map<string, string>();
+    return {
+      items,
+      getItem: (k: string) => items.get(k) ?? null,
+      setItem: (k: string, v: string) => void items.set(k, v),
+      removeItem: (k: string) => void items.delete(k),
+    };
+  }
+
+  it("keeps the count and the pause, so reopening doesn't skip it", () => {
+    const store = memory();
+    rememberTries({ tries: 5, until: now + 30_000 }, store);
+    expect(recallTries(store, now)).toEqual({ tries: 5, until: now + 30_000 });
+  });
+
+  it("forgets everything once the right PIN is typed", () => {
+    const store = memory();
+    rememberTries({ tries: 3, until: null }, store);
+    rememberTries({ tries: 0, until: null }, store);
+    expect(store.items.has(TRIES_KEY)).toBe(false);
+  });
+
+  it("a pause that has ended, or an odd value, doesn't block anyone", () => {
+    expect(readTries(JSON.stringify({ tries: 5, until: now - 1 }), now)).toEqual({ tries: 5, until: null });
+    expect(readTries("not json", now)).toEqual({ tries: 0, until: null });
+    expect(readTries(JSON.stringify({ tries: -4, until: "soon" }), now)).toEqual({ tries: 0, until: null });
+  });
+
+  it("a pause can never be longer than the longest one, even if the clock was changed", () => {
+    expect(readTries(JSON.stringify({ tries: 10, until: now + 999_999_999 }), now).until).toBeNull();
   });
 });

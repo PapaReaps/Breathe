@@ -35,6 +35,13 @@ export function useUpdates(enabled: boolean): UpdatesApi {
   const [result, setResult] = useState<UpdateResult | null>(null);
   const [installed, setInstalled] = useState<string | null>(null);
 
+  // A new version that was downloaded and installed has done its job: tidy the file away.
+  // (If the app is opened again before installing, Download and install simply fetches it again.)
+  useEffect(() => {
+    if (!available) return;
+    void import("./apkInstaller").then(({ ApkInstaller }) => ApkInstaller.tidyUp()).catch(() => undefined);
+  }, [available]);
+
   useEffect(() => {
     if (!available) return;
     let cancelled = false;

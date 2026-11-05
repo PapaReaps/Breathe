@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LOCK_AFTER_HIDDEN_MS, LOCK_KEY, makeLockRecord, pauseAfterWrongTries, pinMatches, readLockRecord } from "./appLock";
+import { LOCK_AFTER_HIDDEN_MS, LOCK_KEY, makeLockRecord, pauseAfterWrongTries, pinMatches, readLockRecord, recallTries, rememberTries } from "./appLock";
 import type { LockRecord } from "./appLock";
 import { indexedDbStore } from "./deviceStore";
 import type { DeviceStore } from "./deviceStore";
@@ -28,8 +28,9 @@ export function useAppLock(store: DeviceStore = indexedDbStore): LockApi {
   const [record, setRecord] = useState<LockRecord | null>(null);
   // A lock is saved but can't be read: keep the screen up (only "Forgotten your PIN?" opens it).
   const [unreadable, setUnreadable] = useState(false);
-  const [waitUntil, setWaitUntil] = useState<number | null>(null);
-  const wrongTries = useRef(0);
+  // Wrong tries and any pause carry on after the app is closed and opened again.
+  const [waitUntil, setWaitUntil] = useState<number | null>(() => recallTries().until);
+  const wrongTries = useRef(recallTries().tries);
   const hiddenAt = useRef<number | null>(null);
 
   useEffect(() => {
@@ -79,12 +80,15 @@ export function useAppLock(store: DeviceStore = indexedDbStore): LockApi {
       if (record !== null && (await pinMatches(record, pin))) {
         wrongTries.current = 0;
         setWaitUntil(null);
+        rememberTries({ tries: 0, until: null });
         setStatus("open");
         return "open";
       }
       wrongTries.current += 1;
       const pause = pauseAfterWrongTries(wrongTries.current);
-      setWaitUntil(pause > 0 ? Date.now() + pause : null);
+      const until = pause > 0 ? Date.now() + pause : null;
+      setWaitUntil(until);
+      rememberTries({ tries: wrongTries.current, until });
       return pause > 0 ? "wait" : "wrong";
     },
     [record, waitUntil],
@@ -112,6 +116,7 @@ export function useAppLock(store: DeviceStore = indexedDbStore): LockApi {
       setUnreadable(false);
       wrongTries.current = 0;
       setWaitUntil(null);
+      rememberTries({ tries: 0, until: null });
       setStatus("open");
       return true;
     } catch {

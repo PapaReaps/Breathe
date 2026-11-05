@@ -87,3 +87,58 @@ export function pauseAfterWrongTries(tries: number): number {
   if (tries < 10) return 30_000;
   return 5 * 60_000;
 }
+
+/*
+ * Wrong tries are remembered on this device, so closing and reopening the app doesn't
+ * start the count again or skip a pause. Only two numbers are kept: how many wrong tries
+ * in a row, and when any pause ends. Nothing about the PIN itself.
+ */
+export const TRIES_KEY = "breathe-pin-tries";
+
+export interface TriesRecord {
+  tries: number;
+  /** When the pause ends (as Date.now()), or null for no pause. */
+  until: number | null;
+}
+
+/** Reads what was remembered. Anything odd counts as "no wrong tries". */
+export function readTries(raw: string | null, now: number = Date.now()): TriesRecord {
+  if (raw === null) return { tries: 0, until: null };
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (typeof value !== "object" || value === null) return { tries: 0, until: null };
+    const record = value as Record<string, unknown>;
+    const tries = typeof record.tries === "number" && Number.isInteger(record.tries) && record.tries > 0 ? Math.min(record.tries, 1000) : 0;
+    // A pause can't be longer than the longest one, so a changed clock can't lock someone out for ever.
+    const longest = pauseAfterWrongTries(Number.MAX_SAFE_INTEGER);
+    const until = typeof record.until === "number" && record.until > now && record.until <= now + longest ? record.until : null;
+    return { tries, until };
+  } catch {
+    return { tries: 0, until: null };
+  }
+}
+
+export function recallTries(storage: Pick<Storage, "getItem"> | null = safeLocalStorage(), now?: number): TriesRecord {
+  try {
+    return readTries(storage?.getItem(TRIES_KEY) ?? null, now);
+  } catch {
+    return { tries: 0, until: null };
+  }
+}
+
+export function rememberTries(record: TriesRecord, storage: Pick<Storage, "setItem" | "removeItem"> | null = safeLocalStorage()): void {
+  try {
+    if (record.tries === 0 && record.until === null) storage?.removeItem(TRIES_KEY);
+    else storage?.setItem(TRIES_KEY, JSON.stringify(record));
+  } catch {
+    // Can't be remembered here: the count still works until the app is closed.
+  }
+}
+
+function safeLocalStorage(): Storage | null {
+  try {
+    return typeof localStorage === "undefined" ? null : localStorage;
+  } catch {
+    return null;
+  }
+}
