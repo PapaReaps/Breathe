@@ -13,6 +13,14 @@ describe("the Android app", () => {
     expect(config).toContain('appName: "Breathe Money"');
   });
 
+  it("has a short name under the home-screen icon, so it isn't cut off", () => {
+    const strings = read("android/app/src/main/res/values/strings.xml");
+    const label = /name="title_activity_main">([^<]+)</.exec(strings)![1]!;
+    expect(label).toBe("Breathe");
+    expect(label.length).toBeLessThanOrEqual(10);
+    expect(strings).toContain('name="app_name">Breathe Money<');
+  });
+
   it("never copies your numbers to Google Drive or a new phone", () => {
     const manifest = read("android/app/src/main/AndroidManifest.xml");
     expect(manifest).toContain('android:allowBackup="false"');
