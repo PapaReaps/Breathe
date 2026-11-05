@@ -1,0 +1,24 @@
+name: An idea to make it better
+description: Share an idea that would make Breathe Money easier or calmer to use.
+title: "Idea: "
+labels: ["idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We'd love to hear it. There are no silly ideas.
+
+        **Please don't include your real numbers, passwords, PINs or backup passphrases.**
+  - type: textarea
+    id: idea
+    attributes:
+      label: What's your idea?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: How would it help you? (optional)
+      description: For example, what it would make easier, or what feels hard at the moment.
+    validations:
+      required: false

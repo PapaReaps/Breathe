@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: A safety problem (kept private)
+    url: https://github.com/PapaReaps/Breathe/security
+    about: If you've found a way someone's numbers or phone could be put at risk, please tell us privately here, not in a public report.

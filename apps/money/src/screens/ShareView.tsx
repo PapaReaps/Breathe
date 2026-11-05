@@ -5,7 +5,8 @@ import { isNativeApp } from "../platform";
 /** Where Breathe Money lives. These are only links the person chooses to copy or open: nothing is fetched. */
 export const WEB_ADDRESS = "https://papareaps.github.io/Breathe/";
 export const APK_PAGE = "https://github.com/PapaReaps/Breathe/releases/latest";
-export const REPORT_PAGE = "https://github.com/PapaReaps/Breathe/issues/new";
+/** GitHub's page for choosing a report form: "Something isn't working" or "An idea". */
+export const REPORT_PAGE = "https://github.com/PapaReaps/Breathe/issues/new/choose";
 
 const text = words.share;
 
@@ -88,10 +89,10 @@ function copyTheOldWay(value: string): boolean {
   return ok;
 }
 
-/** "Report a problem": opens the GitHub page for a new report, with a few headings filled in. */
+/** "Report a problem": opens GitHub's report forms, which ask a few gentle questions. */
 export function ReportView() {
   const r = words.report;
-  const link = `${REPORT_PAGE}?body=${encodeURIComponent(r.bodyTemplate)}`;
+  const link = REPORT_PAGE;
   return (
     <>
       <p>{r.intro}</p>

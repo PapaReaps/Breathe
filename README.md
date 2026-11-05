@@ -236,7 +236,9 @@ Each app works on its own. One day you may be able to combine them in an optiona
 - [Storage and backups](docs/STORAGE-AND-BACKUPS.md)
 - [Branding (the opening breath and the app icon are chosen)](docs/BRANDING.md)
 - [Open decisions](docs/DECISIONS.md)
-- [Contributing](CONTRIBUTING.md)
+- [Contributing](CONTRIBUTING.md) and our [Code of conduct](CODE_OF_CONDUCT.md)
+- [Accessibility](ACCESSIBILITY.md): what Breathe does, and its known limits
+- [Security policy](SECURITY.md): how to tell us about a safety problem privately
 
 ## Licence
 

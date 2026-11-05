@@ -200,7 +200,6 @@ export const words = {
     privacy:
       "Nothing is sent from the app itself. Please don't include your real numbers: a rough description is plenty.",
     button: "Open the report page",
-    bodyTemplate: "What happened:\n\n\nWhat you expected:\n\n\nPhone or computer:\n",
   },
   about: {
     promise: "Breathe will never be about making money. It will always be about helping people.",
