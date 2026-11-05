@@ -268,7 +268,7 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
     }
   }
 
-  // The rainy-day pot (the "buffer" here) is a one-off amount, always kept back.
+  // Savings (the "buffer" here) is a one-off amount, always kept back.
   if (input.buffer > 0) {
     lines.push({ kind: "buffer", amount: -input.buffer });
   }

@@ -18,6 +18,19 @@ The big change from the first plan: **you can try a working (plain-looking) calc
 | **9** | Privacy and accessibility | Optional app lock, screen reader, text size, contrast, keyboard checks | Accessibility checklist |
 | **10** | Installable and shareable | Works offline, can be added to a phone's home screen, published free on GitHub Pages | Opening the web link on your phone, then going offline |
 
+All ten stages are done. Since then (November 2026, versions 0.13.0 to 0.17.0), Breathe Money has grown with the things its first user asked for: money coming in instead of payday, Savings, a tidier menu, updates that download inside the Android app, the app icon, more colours, sounds and vibration, and Coming up. The details are in `docs/DECISIONS.md` and each release's notes in `docs/releases/`.
+
+## Next: getting ready for version 1.0
+
+Version 1.0 means "ready for anyone to rely on". Before then:
+
+1. A test on a real phone: Download and install, the screen fit, sounds and vibration, and Coming up.
+2. Everyday use for a while, with no problems.
+3. A safety check of the code (done in November 2026; an independent review would be a welcome extra).
+4. A test with the phone's own screen reader (TalkBack on Android).
+
+Then: version 1.0.0, with a short "Breathe Money is ready" note.
+
 ## Running alongside the stages: branding
 
 Branding is explored **separately**, in its own conversations, not hidden inside a coding stage. Until it is agreed, the app uses plain neutral styling and **no logo**. See `docs/BRANDING.md`.

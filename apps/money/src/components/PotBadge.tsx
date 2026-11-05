@@ -1,6 +1,6 @@
 import { words } from "../content/words";
 
-/** The warm little badge for the rainy-day pot. Its colour comes from Settings. */
+/** The warm little badge for your savings. Its colour comes from App options. */
 export function PotBadge({ amount }: { amount: string }) {
   const home = words.home;
   return (

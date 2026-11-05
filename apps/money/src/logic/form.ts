@@ -380,7 +380,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
     }
   }
 
-  // Food, travel and the rainy-day pot (called "buffer" inside the code)
+  // Food, travel and savings (the savings pot is called "buffer" inside the code)
   const essentials: Essential[] = [];
   if (!blank(form.foodPerWeek)) {
     const parsed = parseMoney(form.foodPerWeek);
@@ -399,7 +399,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
   let buffer = 0;
   if (!blank(form.buffer)) {
     const parsed = parseMoney(form.buffer);
-    if (!parsed.ok) messages.push(words.cantReadAmount("your rainy-day pot"));
+    if (!parsed.ok) messages.push(words.cantReadAmount("your savings"));
     else buffer = parsed.pence;
   }
 

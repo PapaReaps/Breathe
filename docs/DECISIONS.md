@@ -127,3 +127,18 @@ Founding promise check: free font, nothing fetched, nothing collected, and it re
 - **The web version doesn't need it:** it already updates itself.
 
 Founding promise check: optional, off by default, nothing about the person sent, plainly explained. Result: **in line with the promise.**
+
+## November 2026: changes after Stage 10 (v0.13.0 to v0.17.0)
+
+Each of these was asked for by the person who uses Breathe Money every day, and shown as pictures first.
+
+- **Money coming in, not payday (v0.13.0).** Not everyone has a payday. The first question is now when your main money next comes in (wages, Universal Credit, a pension or PIP). The sums are unchanged; saved numbers carry over.
+- **Savings (v0.13.0).** The "rainy-day pot" is now called Savings. A switch can hide its badge (v0.14.1); the savings are still kept aside.
+- **A tidier menu (v0.13.0).** Setup, App options, data, share, report and About sit in one Settings folder.
+- **Download and install (v0.14.0).** The Android app can download a new version and hand it to Android's installer. Only Breathe Money's own GitHub release files can be downloaded; the file must be Breathe Money; Android refuses any update not signed with the same key. This replaces "a link to the release page" above. Uses the REQUEST_INSTALL_PACKAGES permission for this alone; it would be removed for the Play Store.
+- **The app icon, "Breathing out", and eight more colours (v0.15.0).** Every colour is tested to stay easy to read in light and dark.
+- **Sounds and vibration when you tap (v0.16.0).** Twelve sounds made inside the app (nothing downloaded) and three vibration strengths. Both off by default. Uses the VIBRATE permission for this alone.
+- **Coming up (v0.17.0).** Bills and money day from today, as a list first or a month. Money that might come is left off, by choice.
+- **A safety check (after v0.17.0).** Nothing serious found. Fixed: PIN pauses now survive reopening the app, and the downloaded update file is tidied away.
+
+Founding promise check: everything is optional or off by default where it does something new, nothing about the person is sent, and every new permission is used for one thing and explained. Result: **in line with the promise.**

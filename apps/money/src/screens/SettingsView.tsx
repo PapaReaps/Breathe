@@ -13,7 +13,7 @@ import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
 
-/** Settings: light or dark, the app colour, the rainy-day pot colour, reminders and the home screen. */
+/** Settings: light or dark, the app colour, the savings colour, reminders and the home screen. */
 export function SettingsView({ settings }: { settings: SettingsApi }) {
   const { settings: current, change } = settings;
   return (

@@ -46,7 +46,7 @@ It is a personal project, built by someone who struggles with these things too. 
 <table>
   <tr>
     <td><img src="docs/images/home-simple.png" alt="The home screen with the extras switched off: just Safe to spend until your money comes in, and £343.74" width="250"></td>
-    <td><img src="docs/images/menu.png" alt="The Menu: money coming in, your account, bills, food and travel, savings and bank holidays, each with a short summary, then Where this number comes from and Settings" width="250"></td>
+    <td><img src="docs/images/menu.png" alt="The Menu: money coming in, your account, bills, food and travel, savings and bank holidays, each with a short summary, then Coming up, Where this number comes from, and Settings" width="250"></td>
     <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and your savings taken off, line by line" width="250"></td>
   </tr>
   <tr>
@@ -78,7 +78,6 @@ It is a personal project, built by someone who struggles with these things too. 
 
 - **Step-by-step setup**: one question per screen, and every question can be skipped.
 - **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
-- **Coming up**: your bills and the day your money comes in, as a simple list, or as a month if you'd rather.
 - **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
 - A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.
 
@@ -86,6 +85,22 @@ It is a personal project, built by someone who struggles with these things too. 
 > **You only really need to set it up once.** Depending on how things change for you, that might be all. After that it's just your balance now and then.
 >
 > And you never have to do it alone. Ask someone you trust, like a friend, family member or support worker, to sit with you while you set it up.
+
+### See what's coming up
+
+<table>
+  <tr>
+    <td><img src="docs/images/coming-up.png" alt="Coming up, as a list: today, then each bill with its date and amount (Rent share, Phone, Bus pass, Streaming), and Your money comes in on Friday 27, in 23 days. Underneath: 4 bills before then, £527.99" width="250"></td>
+    <td><img src="docs/images/coming-up-month.png" alt="Coming up, as a month: November, with bill days in soft pink, money day in teal and a ring round today. Thursday 12 November is picked: Phone, £25.00" width="250"></td>
+  </tr>
+  <tr>
+    <td align="center">A simple list first</td>
+    <td align="center">Or a month, if you'd rather</td>
+  </tr>
+</table>
+
+- **Coming up** shows your bills and the day your money comes in, from today until then. Switch between **List** and **Month**, and the app remembers which you like.
+- Only money you're sure of is shown. Money that might come is left off, just as it is in your number.
 
 ### Make it yours
 
@@ -114,6 +129,22 @@ It is a personal project, built by someone who struggles with these things too. 
       <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/saying-dark.png"><img src="docs/images/saying.png" alt="Take a breath. You've got this." width="360"></picture>
       <br><br>
       Like it simpler? Switch off the extras in<br><b>Menu → Settings → App options</b>.
+    </td>
+  </tr>
+</table>
+
+### Share it, tell us, keep it up to date
+
+<table>
+  <tr>
+    <td><img src="docs/images/share.png" alt="Share Breathe Money: copy or share the website link, or the Android download page" width="250"></td>
+    <td>
+      <ul>
+        <li><b>Share Breathe Money</b>: copy or share the website link or the Android download page, to send to someone who might like it.</li>
+        <li><b>Report a problem</b>: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.</li>
+        <li><b>Updates in the Android app</b>: tap <b>Check now</b>, then <b>Download and install</b>. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.</li>
+      </ul>
+      <p>All three are in <b>Menu → Settings</b>.</p>
     </td>
   </tr>
 </table>
@@ -153,7 +184,7 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 ## Try it
 
 - **On any phone or computer:** open **[papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/)**. To keep it on your phone: on Android, use the menu and choose **Install app**; on iPhone, tap **Share → Add to Home Screen**. It works offline after the first visit. More in [Stage 10](docs/STAGE-10.md).
-- **Android app:** download the `.apk` from the **[latest release](https://github.com/PapaReaps/Breathe/releases/latest)** and open it on your phone. [How to install it, and what's different](docs/ANDROID-APP.md).
+- **Android app:** download the `.apk` from the **[latest release](https://github.com/PapaReaps/Breathe/releases/latest)** and open it on your phone. After that, new versions download and install from inside the app: **Menu → Settings → App options → Updates**. [How to install it, and what's different](docs/ANDROID-APP.md).
 - **Run it on your own computer:** the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
 
 ## Status
@@ -200,7 +231,7 @@ Each app works on its own. One day you may be able to combine them in an optiona
 - [Roadmap](docs/ROADMAP.md)
 - [How safe-to-spend is calculated](docs/CALCULATION-DESIGN.md)
 - [Storage and backups](docs/STORAGE-AND-BACKUPS.md)
-- [Branding (still being explored)](docs/BRANDING.md)
+- [Branding (the opening breath and the app icon are chosen)](docs/BRANDING.md)
 - [Open decisions](docs/DECISIONS.md)
 - [Contributing](CONTRIBUTING.md)
 

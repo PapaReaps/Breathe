@@ -1,6 +1,6 @@
 # Breathe Money
 
-**Status: Stage 6b (calm look, tidy lists, settings).** A step-by-step first-time setup, then a calm main screen that shows how much is safe to spend until payday. Your numbers are kept on your own device (not encrypted, never sent anywhere), with a backup file, restore and clear option.
+**Status: version 0.17 (all ten stages done, getting ready for 1.0).** A step-by-step setup, then a calm main screen that shows how much is safe to spend until your money comes in. Coming up shows your bills and money days. Your numbers are kept on your own device (never sent anywhere), with plain or passphrase-protected backups, restore and clear. It also comes as an Android app (`android/`, see `docs/ANDROID-APP.md` in the main folder).
 
 ## Run it (Windows PowerShell, inside this folder)
 
