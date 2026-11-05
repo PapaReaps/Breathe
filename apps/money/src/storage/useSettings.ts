@@ -3,6 +3,7 @@ import { indexedDbStore } from "./deviceStore";
 import type { DeviceStore } from "./deviceStore";
 import { DEFAULT_SETTINGS, SETTINGS_KEY, applySettings, readSettings, toSavedSettings } from "./settings";
 import type { Settings } from "./settings";
+import { matchSystemBars } from "../platform";
 
 /** How the app looks (light or dark, and the colours). Applied straight away and remembered on this device. */
 export function useSettings(store: DeviceStore = indexedDbStore) {
@@ -17,6 +18,7 @@ export function useSettings(store: DeviceStore = indexedDbStore) {
         const saved = readSettings(raw);
         setSettings(saved);
         applySettings(saved);
+        matchSystemBars(saved.appearance);
       })
       .catch(() => {
         /* No storage: keep the defaults. */
@@ -31,6 +33,7 @@ export function useSettings(store: DeviceStore = indexedDbStore) {
       setSettings((current) => {
         const next = { ...current, ...patch };
         applySettings(next);
+        matchSystemBars(next.appearance);
         store.save(toSavedSettings(next), SETTINGS_KEY).catch(() => {
           /* It still applies for now; it just won't be remembered. */
         });

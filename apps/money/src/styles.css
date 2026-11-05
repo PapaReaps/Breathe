@@ -76,6 +76,49 @@
   box-sizing: border-box;
 }
 
+/*
+ * The phone's own bars: the status bar at the top (time, battery) and the buttons or
+ * gesture line at the bottom. The Android app draws right to the screen edges, so these
+ * say how much room to leave. Newer Android WebViews give env(); the app also passes the
+ * same numbers in as --safe-area-inset-* for older ones. On a computer they are all 0.
+ */
+:root {
+  --safe-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
+  --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
+  --safe-left: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
+  --safe-right: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
+  /* A slightly shaded strip behind those bars, so the app stops clearly where they start. */
+  --bar-shade: color-mix(in srgb, var(--bg) 92%, var(--text));
+}
+
+/* Never let the whole page stretch or bounce past its ends. */
+html,
+body {
+  overscroll-behavior: none;
+}
+
+/* The shaded strips. They sit above the page, so words scroll under them, not under the bars. */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bar-shade);
+  pointer-events: none;
+}
+
+body::before {
+  top: 0;
+  height: var(--safe-top);
+}
+
+body::after {
+  bottom: 0;
+  height: var(--safe-bottom);
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -110,8 +153,9 @@ h3 {
   max-width: 40rem;
   margin: 0 auto;
   padding: 0 1rem;
-  padding-left: max(1rem, env(safe-area-inset-left));
-  padding-right: max(1rem, env(safe-area-inset-right));
+  padding-left: calc(1rem + var(--safe-left));
+  padding-right: calc(1rem + var(--safe-right));
+  padding-bottom: var(--safe-bottom);
 }
 
 .topbar {
@@ -188,8 +232,13 @@ dialog.sheet {
   height: 100dvh;
   max-height: 100vh;
   max-height: 100dvh;
-  background: var(--surface);
+  /* Room for the phone's bars, shown as the same shaded strips as the main page. */
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+  background: var(--bar-shade);
   color: var(--text);
+  /* Only the middle part scrolls. The panel itself never slides off the screen. */
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 dialog.sheet::backdrop {
@@ -216,6 +265,7 @@ dialog.sheet[open] {
   flex-direction: column;
   min-height: 0;
   flex: 1;
+  background: var(--surface);
 }
 
 .sheet-header {
@@ -230,6 +280,9 @@ dialog.sheet[open] {
 .sheet-body {
   flex: 1;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Hidden parts (like the round buttons behind colour choices) stay inside this scrolling area. */
+  position: relative;
   padding: 1.25rem 1rem 2rem;
 }
 
@@ -466,7 +519,7 @@ button.link {
 
 /* The Menu button sits in the top bar: keep it clear of phone notches and rounded corners. */
 .topbar {
-  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-top: calc(1rem + var(--safe-top));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -751,6 +804,7 @@ form > .buttons {
 }
 
 .swatch {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
