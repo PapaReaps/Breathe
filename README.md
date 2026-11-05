@@ -45,7 +45,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td><img src="docs/images/home-light.png" alt="The home screen: Safe to spend until your money comes in, £343.74, with the date the money comes in and a gold savings badge of £150.00" width="250"></td>
+    <td><img src="docs/images/home-simple.png" alt="The home screen with the extras switched off: just Safe to spend until your money comes in, £343.74, and a gold savings badge of £150.00" width="250"></td>
     <td><img src="docs/images/menu.png" alt="The Menu: money coming in, your account, bills, food and travel, savings and bank holidays, each with a short summary, then Where this number comes from and Settings" width="250"></td>
     <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and your savings taken off, line by line" width="250"></td>
   </tr>
@@ -99,6 +99,12 @@ It is a personal project, built by someone who struggles with these things too. 
 - **Light or dark**, or follow your device.
 - Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
 - **Hide the extra writing** under your number once you know your way around, so the home screen can be as quiet as you like.
+
+<p align="center">
+  <img src="docs/images/simple-fade.gif" alt="A short clip that fades between two home screens: Everything explained, with the number, a short sentence, the date your money comes in and your savings, then Or just your number, with only the number and your savings" width="280">
+  <br>
+  <em>Like it simpler? Switch off the extras in <b>Menu → Settings → App options</b>.</em>
+</p>
 
 ### Easy to read, private by design
 
