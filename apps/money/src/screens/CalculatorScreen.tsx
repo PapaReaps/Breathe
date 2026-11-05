@@ -151,7 +151,7 @@ export default function CalculatorScreen() {
         built={built}
         outcome={outcome}
         fresh={fresh}
-        potAmount={potAmount}
+        potAmount={appearance.settings.showSavings ? potAmount : null}
         showExplanation={appearance.settings.showExplanation}
         showPayday={appearance.settings.showPayday}
         loading={!saved.loaded}

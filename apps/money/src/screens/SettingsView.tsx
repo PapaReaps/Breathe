@@ -156,6 +156,17 @@ export function SettingsView({ settings }: { settings: SettingsApi }) {
           />
           <span>{text.showPayday}</span>
         </label>
+        <label className="choice">
+          <input
+            type="checkbox"
+            checked={current.showSavings}
+            onChange={(event) => change({ showSavings: event.target.checked })}
+          />
+          <span>
+            {text.showSavings}
+            <span className="hint choice-hint">{text.showSavingsHint}</span>
+          </span>
+        </label>
       </fieldset>
 
       <PrivacyScreenSettings lock={settings.lock} />

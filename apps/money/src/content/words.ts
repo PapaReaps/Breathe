@@ -235,6 +235,8 @@ export const words = {
       "Once you know your way around, you can hide the extra writing under your number. Anything important still shows, like when things are tight or your balance needs updating.",
     showExplanation: "Show the short sentence under my number",
     showPayday: "Show the date your money comes in",
+    showSavings: "Show my savings under the number",
+    showSavingsHint: "Your savings are still kept aside. This only hides the reminder.",
     potPreview: "Preview",
     potPreviewAmount: "£100.00",
     textSizeTitle: "Text size",

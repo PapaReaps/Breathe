@@ -22,6 +22,8 @@ export interface Settings {
   showExplanation: boolean;
   /** The payday date under the number. */
   showPayday: boolean;
+  /** The Savings badge under the number. Hiding it doesn't change the number: savings are still kept aside. */
+  showSavings: boolean;
   /** How often to gently suggest updating the balance. */
   balanceReminder: BalanceReminder;
   /** Makes every word in the app bigger (on top of the device's own text size). */
@@ -37,6 +39,7 @@ export const DEFAULT_SETTINGS: Settings = {
   potColour: "gold",
   showExplanation: true,
   showPayday: true,
+  showSavings: true,
   balanceReminder: "three-days",
   textSize: "standard",
   contrast: "system",
@@ -98,6 +101,7 @@ export function readSettings(raw: unknown): Settings {
     potColour: pick(record.potColour, POT_COLOURS.map((p) => p.id), DEFAULT_SETTINGS.potColour),
     showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
     showPayday: typeof record.showPayday === "boolean" ? record.showPayday : DEFAULT_SETTINGS.showPayday,
+    showSavings: typeof record.showSavings === "boolean" ? record.showSavings : DEFAULT_SETTINGS.showSavings,
     balanceReminder: pick(record.balanceReminder, BALANCE_REMINDERS, DEFAULT_SETTINGS.balanceReminder),
     textSize: pick(record.textSize, TEXT_SIZES, DEFAULT_SETTINGS.textSize),
     contrast: pick(record.contrast, CONTRASTS, DEFAULT_SETTINGS.contrast),
@@ -113,6 +117,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     potColour: settings.potColour,
     showExplanation: settings.showExplanation,
     showPayday: settings.showPayday,
+    showSavings: settings.showSavings,
     balanceReminder: settings.balanceReminder,
     textSize: settings.textSize,
     contrast: settings.contrast,

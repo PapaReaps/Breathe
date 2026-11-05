@@ -86,6 +86,7 @@ describe("look and colour settings", () => {
       potColour: "lilac",
       showExplanation: false,
       showPayday: false,
+      showSavings: true,
       balanceReminder: "three-days",
       textSize: "standard",
       contrast: "system",
@@ -113,6 +114,9 @@ describe("look and colour settings", () => {
     expect(DEFAULT_SETTINGS.showPayday).toBe(true);
     expect(readSettings({ showExplanation: false }).showExplanation).toBe(false);
     expect(readSettings({ showExplanation: false }).showPayday).toBe(true);
+    expect(DEFAULT_SETTINGS.showSavings).toBe(true);
+    expect(readSettings({ showSavings: false }).showSavings).toBe(false);
+    expect(readSettings({ showSavings: "no" }).showSavings).toBe(true);
   });
 
   it("what is saved reads back the same", () => {
@@ -122,6 +126,7 @@ describe("look and colour settings", () => {
       potColour: "green" as const,
       showExplanation: false,
       showPayday: true,
+      showSavings: false,
       balanceReminder: "weekly" as const,
       textSize: "largest" as const,
       contrast: "more" as const,

@@ -26,7 +26,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td width="300"><img src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode" width="280"></td>
+    <td width="300"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode" width="280"></picture></td>
     <td>
       <h3>One question, one calm answer</h3>
       <p><b>"How much can I spend until my money comes in?"</b></p>
@@ -45,7 +45,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <table>
   <tr>
-    <td><img src="docs/images/home-simple.png" alt="The home screen with the extras switched off: just Safe to spend until your money comes in, £343.74, and a gold savings badge of £150.00" width="250"></td>
+    <td><img src="docs/images/home-simple.png" alt="The home screen with the extras switched off: just Safe to spend until your money comes in, and £343.74" width="250"></td>
     <td><img src="docs/images/menu.png" alt="The Menu: money coming in, your account, bills, food and travel, savings and bank holidays, each with a short summary, then Where this number comes from and Settings" width="250"></td>
     <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and your savings taken off, line by line" width="250"></td>
   </tr>
@@ -98,13 +98,18 @@ It is a personal project, built by someone who struggles with these things too. 
 
 - **Light or dark**, or follow your device.
 - Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
-- **Hide the extra writing** under your number once you know your way around, so the home screen can be as quiet as you like.
+- **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. Your savings are still kept aside.
 
-<p align="center">
-  <img src="docs/images/simple-fade.gif" alt="A short clip that fades between two home screens: Everything explained, with the number, a short sentence, the date your money comes in and your savings, then Or just your number, with only the number and your savings" width="280">
-  <br>
-  <em>Like it simpler? Switch off the extras in <b>Menu → Settings → App options</b>.</em>
-</p>
+<table>
+  <tr>
+    <td><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/simple-fade-dark.gif"><img src="docs/images/simple-fade.gif" alt="A short clip that fades between two home screens: Everything explained, with the number, a short sentence, the date your money comes in and your savings, then Or just your number, with only the number" width="250"></picture></td>
+    <td align="center" width="420">
+      <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/saying-dark.png"><img src="docs/images/saying.png" alt="Take a breath. You've got this." width="360"></picture>
+      <br><br>
+      Like it simpler? Switch off the extras in<br><b>Menu → Settings → App options</b>.
+    </td>
+  </tr>
+</table>
 
 ### Easy to read, private by design
 
