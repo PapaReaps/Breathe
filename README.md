@@ -41,6 +41,8 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
 </table>
 </div>
 
+**On a computer?** Open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) in Chrome or Edge and click **Install** at the right of the address bar. It opens in its own window, works offline and updates itself.
+
 Already have it? Show a friend the code on your own phone: **Menu → Settings → Help and sharing → Share Breathe Money**.
 
 Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
@@ -187,8 +189,9 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 ## Try it
 
 - **On any phone or computer:** open **[papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/)**. To keep it on your phone: on Android, use the menu and choose **Install app**; on iPhone, tap **Share → Add to Home Screen**. It works offline after the first visit. More in [Stage 10](docs/STAGE-10.md).
+- **On your computer, as an app:** open the web link in **Chrome** or **Edge** and click the **Install** icon at the right-hand end of the address bar (or open the **⋮** menu and choose **Install Breathe Money**; in Edge it's **Apps → Install this site as an app**). It gets its own window and a Start menu or Dock icon, works offline, and updates itself each time you open it with internet. Your numbers are never touched by updates.
 - **Android app:** on your Android phone, **[tap here to download it](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)**, then open it. (Or pick the `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).) A friend who has it can also show you a QR code: **Menu → Settings → Help and sharing → Share Breathe Money**. After that, new versions download and install from inside the app: **Menu → Settings → App options → Updates**. [How to install it, and what's different](docs/ANDROID-APP.md).
-- **Run it on your own computer:** the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
+- **Build it yourself (for developers):** the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
 
 ## Status
 
