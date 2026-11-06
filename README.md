@@ -24,16 +24,16 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
 
 <table>
   <tr>
-    <td align="center" width="50%">
-      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="160" alt="QR code that downloads the Breathe Money Android app"></a><br>
+    <td align="center" valign="top">
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="200" alt="QR code that downloads the Breathe Money Android app"></a><br>
       <b>Android phone</b><br>
       <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download the app →</a><br>
       <sub>Then tap <b>Open</b>, and <b>Install</b>.</sub>
     </td>
-    <td align="center" width="50%">
-      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="160" alt="QR code that opens Breathe Money in your web browser"></a><br>
+    <td align="center" valign="top">
+      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="200" alt="QR code that opens Breathe Money in your web browser"></a><br>
       <b>iPhone or computer</b><br>
-      <a href="https://papareaps.github.io/Breathe/">Open in your browser →</a><br>
+      <a href="https://papareaps.github.io/Breathe/">Open in a browser →</a><br>
       <sub>It opens straight away.</sub>
     </td>
   </tr>
