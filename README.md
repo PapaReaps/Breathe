@@ -27,24 +27,14 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
     <td align="center" width="50%">
       <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="160" alt="QR code that downloads the Breathe Money Android app"></a><br>
       <b>Android phone</b><br>
-      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download the app →</a>
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download the app →</a><br>
+      <sub>Then tap <b>Open</b>, and <b>Install</b>.</sub>
     </td>
     <td align="center" width="50%">
       <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="160" alt="QR code that opens Breathe Money in your web browser"></a><br>
       <b>iPhone or computer</b><br>
-      <a href="https://papareaps.github.io/Breathe/">Open in your browser →</a>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top">
-      1. Tap the link or scan the code.<br>
-      2. Tap <b>Open</b> when it's downloaded.<br>
-      3. Allow the install once, then tap <b>Install</b>.
-    </td>
-    <td valign="top">
-      1. Tap the link or scan the code.<br>
-      2. It opens straight away.<br>
-      3. Optional: <b>Share → Add to Home Screen</b>.
+      <a href="https://papareaps.github.io/Breathe/">Open in your browser →</a><br>
+      <sub>It opens straight away.</sub>
     </td>
   </tr>
 </table>
