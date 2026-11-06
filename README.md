@@ -22,22 +22,24 @@
 
 Free, with no sign-up. Point your phone camera at a code, or tap the link on your phone.
 
+<div align="center">
 <table>
   <tr>
     <td align="center" valign="top">
-      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="200" alt="QR code that downloads the Breathe Money Android app"></a><br>
-      <b>Android phone</b><br>
-      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download the app →</a><br>
-      <sub>Then tap <b>Open</b>, and <b>Install</b>.</sub>
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="180" alt="QR code that downloads the Breathe Money Android app"></a><br>
+      <b>Android</b><br>
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download →</a><br>
+      <sub>Tap Open, then Install.</sub>
     </td>
     <td align="center" valign="top">
-      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="200" alt="QR code that opens Breathe Money in your web browser"></a><br>
+      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="180" alt="QR code that opens Breathe Money in your web browser"></a><br>
       <b>iPhone or computer</b><br>
-      <a href="https://papareaps.github.io/Breathe/">Open in a browser →</a><br>
-      <sub>It opens straight away.</sub>
+      <a href="https://papareaps.github.io/Breathe/">Open →</a><br>
+      <sub>Nothing to install.</sub>
     </td>
   </tr>
 </table>
+</div>
 
 Already have it? Show a friend the code on your own phone: **Menu → Settings → Help and sharing → Share Breathe Money**.
 
@@ -47,17 +49,24 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ## Breathe Money in 15 seconds
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img align="left" width="40%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img align="left" width="36%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode"></picture>
 
 ### One question, one calm answer
 
 **"How much can I spend until my money comes in?"**
 
-Type what's in your account. Breathe Money sets aside your bills, food and travel, and some savings you choose to keep aside. Then it shows what's left as one big number.
+Type what's in your account. Breathe Money sets aside your bills, food and travel, and any savings you want to keep. What's left is one big number.
 
-Change anything and the number updates as you type. Dark mode follows your phone's own setting.
+**In the clip:**
 
-[Try it now](https://papareaps.github.io/Breathe/), with no account and no download.
+1. Open the **Menu**.
+2. Change what's in your account.
+3. Watch the number update as you type.
+4. Back home, the new number is waiting.
+5. Dark mode follows your phone.
+
+**[Try it now →](https://papareaps.github.io/Breathe/)**<br>
+No account, no download.
 
 <br clear="left">
 
