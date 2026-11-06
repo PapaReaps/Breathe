@@ -1149,6 +1149,14 @@ form > .buttons {
   padding: 0.75rem 0;
 }
 
+/* Setup question 2: the main money, so it never seems to disappear. */
+.main-money {
+  background: var(--gentle);
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  margin: 0 0 1rem;
+}
+
 .share-link h3 {
   font-size: 1.1rem;
 }
@@ -1399,4 +1407,58 @@ a.button-link {
 .sheet-body h2 + .settings-group,
 .sheet-body h2 + .choice-group {
   margin-top: 0;
+}
+
+/*
+ * "breathe" above the number. The opening breath floats up and lands on it (index.html),
+ * then it breathes slowly: one breath every 6 seconds, just like the opening, only calmer.
+ * Still when "Let 'breathe' breathe" is off, and always still with "reduce motion".
+ */
+.breath-mark {
+  font-family: "Breathe Nunito", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--accent);
+  text-align: center;
+  margin: 0 0 1rem;
+  user-select: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-breath="still"]) .breath-mark {
+    font-weight: 200;
+    animation: breath-loop 6s ease-in-out infinite;
+  }
+}
+@keyframes breath-loop {
+  0%,
+  100% {
+    font-weight: 200;
+    letter-spacing: 0;
+  }
+  50% {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
+.breath-line {
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+/* While the opening word is floating up: the landing spot waits, and the screen arrives softly. */
+:root.breath-arriving .breath-mark {
+  visibility: hidden;
+}
+:root.breath-arriving .home-main > :not(.breath-mark) {
+  animation: breath-arrive var(--arrive-ms, 900ms) var(--arrive-delay, 0ms) both ease-out;
+}
+@keyframes breath-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

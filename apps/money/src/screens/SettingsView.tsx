@@ -185,12 +185,34 @@ export function SettingsView({ settings, group }: { settings: SettingsApi; group
         <label className="choice">
           <input
             type="checkbox"
+            checked={current.showMoneyName}
+            onChange={(event) => change({ showMoneyName: event.target.checked })}
+          />
+          <span>
+            {text.showMoneyName}
+            <span className="hint choice-hint">{text.showMoneyNameHint}</span>
+          </span>
+        </label>
+        <label className="choice">
+          <input
+            type="checkbox"
             checked={current.showSavings}
             onChange={(event) => change({ showSavings: event.target.checked })}
           />
           <span>
             {text.showSavings}
             <span className="hint choice-hint">{text.showSavingsHint}</span>
+          </span>
+        </label>
+        <label className="choice">
+          <input
+            type="checkbox"
+            checked={current.breathMotion}
+            onChange={(event) => change({ breathMotion: event.target.checked })}
+          />
+          <span>
+            {text.breathMotion}
+            <span className="hint choice-hint">{text.breathMotionHint}</span>
           </span>
         </label>
       </fieldset>

@@ -233,7 +233,8 @@ export function BillsSection({ form, api, hideHint = false }: SectionProps) {
   );
 }
 
-export function IncomeSection({ form, api, hideHint = false }: SectionProps) {
+/** In setup, extra money is simply counted as sure: "might not arrive" stays on the Menu page. */
+export function IncomeSection({ form, api, hideHint = false, simple = false }: SectionProps & { simple?: boolean }) {
   return (
     <>
       {hideHint ? null : <p className="hint">{ui.incomeHint}</p>}
@@ -280,6 +281,7 @@ export function IncomeSection({ form, api, hideHint = false }: SectionProps) {
               hint={ui.repeatIncomeHint}
               onChange={(value) => api.updateIncome(item.id, { repeat: value })}
             />
+            {simple ? null : (
             <div className="field">
               <label htmlFor={`${item.id}-reliability`}>How sure are you?</label>
               <select
@@ -295,6 +297,7 @@ export function IncomeSection({ form, api, hideHint = false }: SectionProps) {
                 <option value="uncertain">{ui.incomeMaybe}</option>
               </select>
             </div>
+            )}
           </>
         )}
       />

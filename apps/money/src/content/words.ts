@@ -25,7 +25,8 @@ export const words = {
     appName: "Breathe Money",
     menuButton: "Menu",
     welcomeTitle: "Welcome",
-    welcomeMessage: "Let's find out how much is safe to spend until your money comes in.",
+    welcomeMessage: "Let's find out how much is safe to spend until your money comes in. No rush, and you can skip anything.",
+    breathLine: "Take a breath. You've got this.",
     welcomeButton: "Add your numbers",
     privacyLine: "Your numbers stay on this device. Nothing is sent anywhere.",
     howKept: "How your numbers are kept",
@@ -296,6 +297,10 @@ export const words = {
     showPayday: "Show the date your money comes in",
     showSavings: "Show my savings under the number",
     showSavingsHint: "Your savings are still kept aside. This only hides the reminder.",
+    showMoneyName: "Show what your money is called",
+    showMoneyNameHint: "Like \"Universal Credit comes in…\". Off, so anyone glancing at your screen can't see it.",
+    breathMotion: "Let \"breathe\" breathe",
+    breathMotionHint: "The word above your number breathes slowly. Switch off to keep it still.",
     soundTitle: "Sound when I tap",
     soundIntro: "A soft sound when you tap a button. You'll hear each one as you choose it. It plays at your phone's media volume.",
     sounds: {
@@ -408,6 +413,7 @@ export const words = {
     back: "Back",
     skip: "Skip this one",
     nothingToAdd: "Nothing to add",
+    mainMoney: "Your main money",
     menuItem: "Step-by-step setup",
     balance: {
       question: "What's in your everyday account right now?",

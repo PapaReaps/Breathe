@@ -29,6 +29,10 @@ export interface Settings {
   showPayday: boolean;
   /** The Savings badge under the number. Hiding it doesn't change the number: savings are still kept aside. */
   showSavings: boolean;
+  /** The main money's own name ("Universal Credit") under the number. Off, so it stays private from people glancing. */
+  showMoneyName: boolean;
+  /** The word "breathe" above the number breathes slowly. Off keeps it still. Always still with "reduce motion". */
+  breathMotion: boolean;
   /** How often to gently suggest updating the balance. */
   balanceReminder: BalanceReminder;
   /** Makes every word in the app bigger (on top of the device's own text size). */
@@ -51,6 +55,8 @@ export const DEFAULT_SETTINGS: Settings = {
   showExplanation: true,
   showPayday: true,
   showSavings: true,
+  showMoneyName: false,
+  breathMotion: true,
   balanceReminder: "three-days",
   textSize: "standard",
   contrast: "system",
@@ -124,6 +130,8 @@ export function readSettings(raw: unknown): Settings {
     showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
     showPayday: typeof record.showPayday === "boolean" ? record.showPayday : DEFAULT_SETTINGS.showPayday,
     showSavings: typeof record.showSavings === "boolean" ? record.showSavings : DEFAULT_SETTINGS.showSavings,
+    showMoneyName: record.showMoneyName === true,
+    breathMotion: record.breathMotion !== false,
     balanceReminder: pick(record.balanceReminder, BALANCE_REMINDERS, DEFAULT_SETTINGS.balanceReminder),
     textSize: pick(record.textSize, TEXT_SIZES, DEFAULT_SETTINGS.textSize),
     contrast: pick(record.contrast, CONTRASTS, DEFAULT_SETTINGS.contrast),
@@ -143,6 +151,8 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     showExplanation: settings.showExplanation,
     showPayday: settings.showPayday,
     showSavings: settings.showSavings,
+    showMoneyName: settings.showMoneyName,
+    breathMotion: settings.breathMotion,
     balanceReminder: settings.balanceReminder,
     textSize: settings.textSize,
     contrast: settings.contrast,
@@ -154,6 +164,16 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
 }
 
 /** The defaults remove the attribute, so the styles' own starting colours apply. */
+/** The opening reads this before the app loads, so a still "breathe" stays still from the very start. */
+function rememberBreath(moving: boolean): void {
+  try {
+    if (moving) localStorage.removeItem("breathe-still");
+    else localStorage.setItem("breathe-still", "1");
+  } catch {
+    // Not available: the opening just breathes as usual.
+  }
+}
+
 export function applySettings(settings: Settings): void {
   const root = document.documentElement;
   const set = (name: string, value: string, isDefault: boolean) => {
@@ -166,4 +186,6 @@ export function applySettings(settings: Settings): void {
   set("data-pot", settings.potColour, settings.potColour === DEFAULT_SETTINGS.potColour);
   set("data-text", settings.textSize, settings.textSize === DEFAULT_SETTINGS.textSize);
   set("data-contrast", settings.contrast, settings.contrast === DEFAULT_SETTINGS.contrast);
+  set("data-breath", "still", settings.breathMotion);
+  rememberBreath(settings.breathMotion);
 }

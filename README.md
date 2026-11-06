@@ -134,7 +134,8 @@ No account, no download.
 - **Light or dark**, or follow your device.
 - Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz. All off until you choose.
-- **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. Your savings are still kept aside.
+- **A calm opening:** "breathe" takes one deep breath, slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
+- **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. Your savings are still kept aside. What your money is called (like "Universal Credit") stays off the home screen unless you choose to show it.
 
 <p align="center">
   <picture>

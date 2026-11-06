@@ -13,6 +13,8 @@ interface HomeViewProps {
   potAmount: string | null;
   showExplanation: boolean;
   showPayday: boolean;
+  /** Show the main money's own name under the number (off unless chosen). */
+  showMoneyName: boolean;
   loading: boolean;
   notSaved: boolean;
   readProblem: boolean;
@@ -31,6 +33,7 @@ export function HomeView({
   potAmount,
   showExplanation,
   showPayday,
+  showMoneyName,
   loading,
   notSaved,
   readProblem,
@@ -55,7 +58,17 @@ export function HomeView({
         </button>
       </header>
 
-      <main className="home-main" aria-live="polite">
+      <main
+        className="home-main"
+        aria-live="polite"
+        data-screen={!loading && fresh && built.status === "needs-more" ? "welcome" : "home"}
+      >
+        {/* The opening breath floats up and lands here, then keeps breathing slowly (unless switched off). */}
+        {loading ? null : (
+          <div className="breath-mark" aria-hidden="true">
+            breathe
+          </div>
+        )}
         {loading ? (
           <p className="home-message">{home.loading}</p>
         ) : (
@@ -67,6 +80,7 @@ export function HomeView({
               potAmount={potAmount}
               showExplanation={showExplanation}
               showPayday={showPayday}
+              showMoneyName={showMoneyName}
               onOpen={onOpen}
             />
             {readProblem ? <p className="small">{home.readProblemLine}</p> : null}
@@ -100,13 +114,14 @@ export function HomeView({
   );
 }
 
-type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "potAmount" | "showExplanation" | "showPayday" | "onOpen">;
+type ContentProps = Pick<HomeViewProps, "built" | "outcome" | "fresh" | "potAmount" | "showExplanation" | "showPayday" | "showMoneyName" | "onOpen">;
 
-function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPayday, onOpen }: ContentProps) {
+function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPayday, showMoneyName, onOpen }: ContentProps) {
   if (built.status === "needs-more") {
     if (fresh) {
       return (
         <>
+          <p className="breath-line">{home.breathLine}</p>
           <h1 className="home-title">{home.welcomeTitle}</h1>
           <p className="home-message">{home.welcomeMessage}</p>
           <button type="button" className="big-button" onClick={() => onOpen("setup")}>
@@ -161,7 +176,7 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
         <p className="home-message">{head.message}</p>
       ) : null}
       {showPayday && result.safeToSpend !== null ? (
-        <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday, built.status === "ready" ? built.moneyName : "")}</p>
+        <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday, showMoneyName && built.status === "ready" ? built.moneyName : "")}</p>
       ) : null}
       {potAmount !== null ? <PotBadge amount={potAmount} /> : null}
 

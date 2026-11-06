@@ -50,6 +50,8 @@
       }
       :root[data-theme="dark"] #splash { --splash-bg: #151b1e; --splash-ink: #7cc4bd; --splash-shadow: rgba(124, 196, 189, 0.2); }
       #splash.splash-out { opacity: 0; pointer-events: none; }
+      /* After the breath, the background softly clears and the word floats up to its place above the number. */
+      #splash.splash-float { background-color: transparent; pointer-events: none; transition: background-color 1400ms ease-out; }
       .splash-mark { position: relative; font-size: clamp(56px, 17vw, 104px); }
       .splash-word {
         font-family: "Breathe Nunito", system-ui, sans-serif;
@@ -111,11 +113,73 @@
         var started = null;
         var appReady = false;
         var gone = false;
-        function remove() {
-          if (gone) return;
+        var still = false;
+        try { still = localStorage.getItem("breathe-still") === "1"; } catch (e) {}
+        function fadeAway() {
           gone = true;
           splash.classList.add("splash-out");
           setTimeout(function () { splash.remove(); }, calm ? 0 : 420);
+        }
+        // The word floats up (4 seconds) to the "breathe" above the number, breathing as it goes
+        // (one breath every 6 seconds), then hands over to it. A tap skips straight to the end.
+        function floatUp(target) {
+          gone = true;
+          var root = document.documentElement;
+          var word = splash.querySelector(".splash-word");
+          var shadow = splash.querySelector(".splash-shadow");
+          var welcome = !!document.querySelector('[data-screen="welcome"]');
+          root.style.setProperty("--arrive-delay", welcome ? "2400ms" : "2000ms");
+          root.style.setProperty("--arrive-ms", welcome ? "1600ms" : "1400ms");
+          root.classList.add("breath-arriving");
+          var FLOAT = 4000, BREATH = 6000;
+          var settled = "translateY(0.04em) scale(0.97, 0.95)";
+          word.style.animation = "none";
+          word.style.opacity = "1";
+          word.style.fontWeight = "200";
+          word.style.transform = settled;
+          var a = word.getBoundingClientRect();
+          word.style.transform = "none";
+          var plain = word.getBoundingClientRect();
+          word.style.transform = settled;
+          var b = target.getBoundingClientRect();
+          var k = parseFloat(getComputedStyle(target).fontSize) / parseFloat(getComputedStyle(word).fontSize);
+          var ox = plain.left + plain.width / 2, oy = plain.top + plain.height * 0.8;
+          var cy = plain.top + plain.height / 2;
+          var dx = b.left + b.width / 2 - ox;
+          var dy = b.top + b.height / 2 - (oy + (cy - oy) * k);
+          var ink = getComputedStyle(target).color;
+          splash.classList.add("splash-float");
+          var trip = word.animate(
+            [{ transform: settled }, { transform: "translate(" + dx + "px, " + dy + "px) scale(" + k + ")", color: ink }],
+            { duration: FLOAT, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
+          );
+          var loopStart = performance.now();
+          var breathing = still ? null : word.animate(
+            [{ fontWeight: 200, letterSpacing: "0em" }, { fontWeight: 600, letterSpacing: "0.02em", offset: 0.5 }, { fontWeight: 200, letterSpacing: "0em" }],
+            { duration: BREATH, iterations: Infinity, easing: "ease-in-out" }
+          );
+          if (shadow) shadow.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 900, fill: "forwards" });
+          var landed = false;
+          function land() {
+            if (landed) return;
+            landed = true;
+            window.removeEventListener("pointerdown", skip, true);
+            if (breathing) target.style.animationDelay = -Math.round(performance.now() - loopStart) + "ms";
+            root.classList.remove("breath-arriving");
+            splash.remove();
+          }
+          function skip() { trip.finish(); land(); }
+          trip.onfinish = land;
+          window.addEventListener("pointerdown", skip, true);
+          setTimeout(land, FLOAT + 1000);
+        }
+        function remove() {
+          if (gone) return;
+          var target = document.querySelector(".breath-mark");
+          if (!calm && target && target.getClientRects().length > 0 && typeof Element.prototype.animate === "function") {
+            try { floatUp(target); return; } catch (e) { document.documentElement.classList.remove("breath-arriving"); /* fall back to the plain fade */ }
+          }
+          fadeAway();
         }
         function maybeRemove() {
           if (!appReady || started === null) return;

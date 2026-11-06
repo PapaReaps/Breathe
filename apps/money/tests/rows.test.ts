@@ -87,6 +87,8 @@ describe("look and colour settings", () => {
       showExplanation: false,
       showPayday: false,
       showSavings: true,
+      showMoneyName: false,
+      breathMotion: true,
       balanceReminder: "three-days",
       textSize: "standard",
       contrast: "system",
@@ -144,8 +146,18 @@ describe("look and colour settings", () => {
       clickSound: "drop" as const,
       vibration: "gentle" as const,
       calendarView: "month" as const,
+      showMoneyName: true,
+      breathMotion: false,
     };
     expect(readSettings(toSavedSettings(settings))).toEqual(settings);
+  });
+});
+
+describe("the money's name and the breathing word", () => {
+  it("keeps the name private and lets the word breathe, unless the person chooses otherwise", () => {
+    expect(readSettings({}).showMoneyName).toBe(false);
+    expect(readSettings({}).breathMotion).toBe(true);
+    expect(readSettings({ showMoneyName: "yes", breathMotion: 0 }).showMoneyName).toBe(false);
   });
 });
 

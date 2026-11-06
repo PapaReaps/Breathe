@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { MoneyField } from "../components/MoneyField";
 import { words } from "../content/words";
+import { describeForm } from "../logic/form";
 import type { BuildResult, FormState } from "../logic/form";
 import { SETUP_STEPS, firstSetupStep } from "../logic/setup";
 import type { SetupStep } from "../logic/setup";
@@ -102,7 +103,18 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
       {step === "payday" ? (
         <PaydaySection form={form} today={today} api={api} compactRule />
       ) : null}
-      {step === "income" ? <IncomeSection form={form} today={today} api={api} hideHint /> : null}
+      {step === "income" ? (
+        <>
+          {form.paydayDate.trim() !== "" ? (
+            <p className="main-money">
+              <span className="small">{text.mainMoney}</span>
+              <br />
+              <strong>{describeForm(form, today).payday}</strong>
+            </p>
+          ) : null}
+          <IncomeSection form={form} today={today} api={api} hideHint simple />
+        </>
+      ) : null}
       {step === "bills" ? <BillsSection form={form} today={today} api={api} hideHint /> : null}
       {step === "food" ? (
         <>

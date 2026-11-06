@@ -154,6 +154,7 @@ export default function CalculatorScreen() {
         potAmount={appearance.settings.showSavings ? potAmount : null}
         showExplanation={appearance.settings.showExplanation}
         showPayday={appearance.settings.showPayday}
+        showMoneyName={appearance.settings.showMoneyName}
         loading={!saved.loaded}
         notSaved={saved.saveState === "not-saved"}
         readProblem={saved.readProblem}
