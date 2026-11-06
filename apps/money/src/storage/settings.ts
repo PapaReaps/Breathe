@@ -29,7 +29,7 @@ export interface Settings {
   showPayday: boolean;
   /** The Savings badge under the number. Hiding it doesn't change the number: savings are still kept aside. */
   showSavings: boolean;
-  /** The main money's own name ("Universal Credit") on the home screen, Menu, Coming up and the breakdown. Off, so it stays private from people glancing. */
+  /** The main money's own name ("Universal Credit") under the number. Off, so it stays private from people glancing. */
   showMoneyName: boolean;
   /** The word "breathe" above the number breathes slowly. Off keeps it still. Always still with "reduce motion". */
   breathMotion: boolean;

@@ -298,7 +298,7 @@ export const words = {
     showSavings: "Show my savings under the number",
     showSavingsHint: "Your savings are still kept aside. This only hides the reminder.",
     showMoneyName: "Show what your money is called",
-    showMoneyNameHint: "Like \"Universal Credit comes in…\", on the home screen, in the Menu, Coming up and Where this number comes from. Off, so anyone glancing at your screen can't see it.",
+    showMoneyNameHint: "Like \"Universal Credit comes in…\". Off, so anyone glancing at your screen can't see it.",
     breathMotion: "Let \"breathe\" breathe",
     breathMotionHint: "The word above your number breathes slowly. Switch off to keep it still.",
     soundTitle: "Sound when I tap",

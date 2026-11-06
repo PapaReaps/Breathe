@@ -148,15 +148,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
               {TITLES[panel]}
             </h2>
-            {panel === "menu" ? (
-              <MenuList
-                form={settings.settings.showMoneyName ? form : { ...form, paydayName: "" }}
-                today={today}
-                built={built}
-                outcome={outcome}
-                onPanel={onPanel}
-              />
-            ) : null}
+            {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" || panel === "income" ? (
               <>
@@ -175,7 +167,6 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
                 outcome={outcome}
                 hasAnswers={Object.keys(form.answers).length > 0}
                 api={api}
-                showMoneyName={settings.settings.showMoneyName}
               />
             ) : null}
             {panel === "setup" ? (

@@ -17,8 +17,6 @@ export function ComingUpView({ built, outcome, settings }: { built: BuildResult;
   }
   const data = comingUp(built.input, outcome.result.paydayDate);
   const view = settings.settings.calendarView;
-  // The main money's own name only when the person chose to show it.
-  const name = settings.settings.showMoneyName ? built.moneyName : "";
   const choose = (next: CalendarView) => settings.change({ calendarView: next });
 
   return (
@@ -32,7 +30,7 @@ export function ComingUpView({ built, outcome, settings }: { built: BuildResult;
           </label>
         ))}
       </div>
-      {view === "month" ? <MonthView data={data} name={name} /> : <ListView data={data} name={name} />}
+      {view === "month" ? <MonthView data={data} name={built.moneyName} /> : <ListView data={data} name={built.moneyName} />}
       <p className="coming-total">{data.billCount === 0 ? text.noBills : text.billTotal(data.billCount, formatMoney(data.billTotal))}</p>
     </>
   );
