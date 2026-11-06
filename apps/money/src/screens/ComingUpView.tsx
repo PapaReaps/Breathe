@@ -30,18 +30,18 @@ export function ComingUpView({ built, outcome, settings }: { built: BuildResult;
           </label>
         ))}
       </div>
-      {view === "month" ? <MonthView data={data} /> : <ListView data={data} />}
+      {view === "month" ? <MonthView data={data} name={built.moneyName} /> : <ListView data={data} name={built.moneyName} />}
       <p className="coming-total">{data.billCount === 0 ? text.noBills : text.billTotal(data.billCount, formatMoney(data.billTotal))}</p>
     </>
   );
 }
 
-function itemLabel(item: ComingUpItem): string {
-  if (item.kind === "money-day") return text.moneyDay;
+function itemLabel(item: ComingUpItem, name: string): string {
+  if (item.kind === "money-day") return text.moneyDayNamed(name);
   return item.name;
 }
 
-function ListView({ data }: { data: ComingUp }) {
+function ListView({ data, name }: { data: ComingUp; name: string }) {
   const startsToday = data.days[0]?.date === data.today;
   return (
     <ul className="coming-list">
@@ -54,7 +54,7 @@ function ListView({ data }: { data: ComingUp }) {
         </li>
       )}
       {data.days.map((day) => (
-        <DayRow key={day.date} day={day} data={data} />
+        <DayRow key={day.date} day={day} data={data} name={name} />
       ))}
     </ul>
   );
@@ -69,7 +69,7 @@ function DateBadge({ date }: { date: string }) {
   );
 }
 
-function DayRow({ day, data }: { day: ComingUpDay; data: ComingUp }) {
+function DayRow({ day, data, name }: { day: ComingUpDay; data: ComingUp; name: string }) {
   const isMoney = day.date === data.moneyDay;
   const away = daysBetween(data.today, day.date);
   return (
@@ -80,7 +80,7 @@ function DayRow({ day, data }: { day: ComingUpDay; data: ComingUp }) {
         {day.items.map((item) =>
           item.kind === "money-day" ? (
             <div key="money" className="coming-item">
-              <b>{text.moneyDay}</b>
+              <b>{text.moneyDayNamed(name)}</b>
               <span className="coming-tag">{away === 0 ? text.today : away === 1 ? text.tomorrow : text.inDays(away)}</span>
             </div>
           ) : (
@@ -101,7 +101,7 @@ function DayRow({ day, data }: { day: ComingUpDay; data: ComingUp }) {
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAY_LETTERS = ["M", "T", "W", "T", "F", "S", "S"];
 
-function MonthView({ data }: { data: ComingUp }) {
+function MonthView({ data, name }: { data: ComingUp; name: string }) {
   const byDate = new Map(data.days.map((d) => [d.date, d]));
   const firstEvent = data.days.find((d) => d.date >= data.today)?.date ?? data.moneyDay;
   const [selected, setSelected] = useState<string>(byDate.has(data.today) ? data.today : firstEvent);
@@ -142,7 +142,7 @@ function MonthView({ data }: { data: ComingUp }) {
                   type="button"
                   className={classes.join(" ")}
                   aria-pressed={date === selected}
-                  aria-label={`${formatDayLong(date)}: ${day.items.map(itemLabel).join(", ")}`}
+                  aria-label={`${formatDayLong(date)}: ${day.items.map((item) => itemLabel(item, name)).join(", ")}`}
                   onClick={() => setSelected(date)}
                 >
                   {number}
@@ -154,7 +154,7 @@ function MonthView({ data }: { data: ComingUp }) {
       ))}
       <div className="month-key" aria-hidden="true">
         <span><i className="key-bill" />{text.bill}</span>
-        <span><i className="key-money" />{text.moneyDay}</span>
+        <span><i className="key-money" />{text.moneyDayNamed(name)}</span>
         <span><i className="key-today" />{text.today}</span>
       </div>
       <div className="month-details" aria-live="polite">
@@ -164,7 +164,7 @@ function MonthView({ data }: { data: ComingUp }) {
         ) : (
           chosen.items.map((item) => (
             <p key={item.kind === "money-day" ? "money" : item.id}>
-              {item.kind === "money-day" ? text.moneyDay : `${item.name} · ${item.kind === "income" ? "+" : ""}${formatMoney(item.amount)}`}
+              {item.kind === "money-day" ? text.moneyDayNamed(name) : `${item.name} · ${item.kind === "income" ? "+" : ""}${formatMoney(item.amount)}`}
             </p>
           ))
         )}

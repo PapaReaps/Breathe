@@ -179,6 +179,7 @@ export const words = {
     tomorrow: "tomorrow",
     inDays: (days: number) => `in ${days} days`,
     moneyDay: "Your money comes in",
+    moneyDayNamed: (name: string) => (name === "" ? "Your money comes in" : `${name} comes in`),
     bill: "Bill",
     moneyIn: "Money coming in",
     billTotal: (count: number, total: string) => `${count === 1 ? "1 bill" : `${count} bills`} before then · ${total}`,
@@ -415,7 +416,7 @@ export const words = {
     },
     payday: {
       question: "When does your main money next come in?",
-      intro: "Pick the date from the calendar, and how often it comes.",
+      intro: "What it is, when it next comes in, and how often.",
     },
     bills: {
       question: "Any bills before then?",
@@ -478,8 +479,10 @@ export const words = {
     balanceDateHint: "Leave this as today if you have just checked it.",
 
     paydayTitle: "Money coming in",
-    paydayDateLabel: "When your main money next comes in",
-    paydayDateHint: "Like wages, Universal Credit, a pension or PIP. Your number lasts until this day.",
+    paydayNameLabel: "What is it? (optional)",
+    paydayNameHint: "Like wages, Universal Credit, a pension or PIP.",
+    paydayDateLabel: "When it next comes in",
+    paydayDateHint: "Your number lasts until this day.",
     paydayRepeatLabel: "How often does it come?",
     paydayRepeatHint:
       "If it comes on a regular pattern, I'll move on to the next date by myself once this one has gone by.",
@@ -626,12 +629,13 @@ export function headlineFor(result: CalculatorResult): Headline {
 }
 
 /** One short line under the number: "Money comes in Fri 27 Nov · 21 days". */
-export function paydayLine(paydayDate: string, daysUntilPayday: number | null): string {
+export function paydayLine(paydayDate: string, daysUntilPayday: number | null, name = ""): string {
   const day = formatDayShort(paydayDate);
-  if (daysUntilPayday === null) return `Money comes in ${day}`;
-  if (daysUntilPayday === 0) return `Money comes in today, ${day}`;
-  if (daysUntilPayday === 1) return `Money comes in tomorrow, ${day}`;
-  return `Money comes in ${day} · ${daysUntilPayday} days`;
+  const what = name.trim() === "" ? "Money" : name.trim();
+  if (daysUntilPayday === null) return `${what} comes in ${day}`;
+  if (daysUntilPayday === 0) return `${what} comes in today, ${day}`;
+  if (daysUntilPayday === 1) return `${what} comes in tomorrow, ${day}`;
+  return `${what} comes in ${day} · ${daysUntilPayday} days`;
 }
 
 /** Plain-words notes under the number. Questions are handled separately. */

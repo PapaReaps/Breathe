@@ -55,6 +55,8 @@ export interface IncomeRow {
 export interface FormState {
   balance: string;
   balanceDate: string;
+  /** What the main money is called, if the person gave it a name: "Universal Credit", "Wages". Optional. */
+  paydayName: string;
   paydayDate: string;
   paydayRule: PaydayRule | "";
   /** "once" means the one date only. Otherwise payday rolls forward by itself. */
@@ -84,6 +86,7 @@ export function emptyForm(): FormState {
   return {
     balance: "",
     balanceDate: "",
+    paydayName: "",
     paydayDate: "",
     paydayRule: "",
     paydayRepeat: "once",
@@ -245,6 +248,8 @@ export type BuildResult =
       paidSince: DateString | null;
       /** True when a built-in bank holiday list is chosen but payday is past the dates it covers. */
       holidayListEnded: boolean;
+      /** The main money's name, or "" for none. Only for wording: the number never uses it. */
+      moneyName: string;
     };
 
 export interface BuildOptions {
@@ -423,6 +428,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
       ...(options.staleAfterDays === undefined ? {} : { staleAfterDays: options.staleAfterDays }),
     },
     paidSince: plan.paidSince,
+    moneyName: form.paydayName.trim(),
     holidayListEnded: region !== "own" && plan.resolved > BUILT_IN_LAST_DAY,
   };
 }
@@ -461,6 +467,7 @@ export function describeForm(form: FormState, today?: DateString): FormSummary {
         day = planPayday(form.paydayDate, repeat, rule, holidayDays(regionOf(form), form.bankHolidays), today, today).resolved;
       }
       payday = repeat === "once" ? formatDayLong(day) : words.paydaySummary(formatDayLong(day), repeat);
+      if (form.paydayName.trim() !== "") payday = `${form.paydayName.trim()} · ${payday}`;
     }
   }
 

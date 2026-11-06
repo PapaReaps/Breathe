@@ -128,6 +128,8 @@ export function readForm(raw: unknown): FormState | null {
   const balance = text(raw.balance, MAX_AMOUNT_TEXT);
   const balanceDate = dateText(raw.balanceDate);
   const paydayDate = dateText(raw.paydayDate);
+  // Numbers saved before the main money could have a name have none.
+  const paydayName = raw.paydayName === undefined ? "" : text(raw.paydayName, MAX_NAME);
   const paydayRule = readPaydayRule(raw.paydayRule);
   const paydayRepeat = readRepeat(raw.paydayRepeat);
   const bills = readBills(raw.bills);
@@ -140,7 +142,7 @@ export function readForm(raw: unknown): FormState | null {
   const answers = readAnswers(raw.answers);
 
   if (
-    balance === null || balanceDate === null || paydayDate === null || paydayRule === null || paydayRepeat === null ||
+    balance === null || balanceDate === null || paydayName === null || paydayDate === null || paydayRule === null || paydayRepeat === null ||
     bills === null || income === null || foodPerWeek === null || travelPerWeek === null ||
     buffer === null || bankHolidays === null || bankHolidayRegion === null || answers === null
   ) {
@@ -150,7 +152,7 @@ export function readForm(raw: unknown): FormState | null {
   const keptBills = bills.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.dueDate === ""));
   const keptIncome = income.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.date === ""));
   return {
-    balance, balanceDate, paydayDate, paydayRule, paydayRepeat, bills: keptBills, income: keptIncome,
+    balance, balanceDate, paydayName, paydayDate, paydayRule, paydayRepeat, bills: keptBills, income: keptIncome,
     foodPerWeek, travelPerWeek, buffer, bankHolidays, bankHolidayRegion, answers,
   };
 }
@@ -160,6 +162,7 @@ export function formRecord(form: FormState): FormState {
   return {
     balance: form.balance,
     balanceDate: form.balanceDate,
+    paydayName: form.paydayName,
     paydayDate: form.paydayDate,
     paydayRule: form.paydayRule,
     paydayRepeat: isRepeat(form.paydayRepeat) ? form.paydayRepeat : "once",

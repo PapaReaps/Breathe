@@ -109,6 +109,21 @@ export function PaydaySection({ form, today, api, compactRule = false }: PaydayP
   return (
     <>
       <div className="field">
+        <label htmlFor="payday-name">{ui.paydayNameLabel}</label>
+        <p className="hint" id="payday-name-hint">
+          {ui.paydayNameHint}
+        </p>
+        <input
+          id="payday-name"
+          aria-describedby="payday-name-hint"
+          type="text"
+          autoComplete="off"
+          maxLength={60}
+          value={form.paydayName}
+          onChange={(event) => api.set("paydayName", event.target.value)}
+        />
+      </div>
+      <div className="field">
         <label htmlFor="payday-date">{ui.paydayDateLabel}</label>
         <p className="hint" id="payday-date-hint">
           {ui.paydayDateHint}

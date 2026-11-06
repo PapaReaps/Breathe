@@ -161,7 +161,7 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
         <p className="home-message">{head.message}</p>
       ) : null}
       {showPayday && result.safeToSpend !== null ? (
-        <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday)}</p>
+        <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday, built.status === "ready" ? built.moneyName : "")}</p>
       ) : null}
       {potAmount !== null ? <PotBadge amount={potAmount} /> : null}
 
