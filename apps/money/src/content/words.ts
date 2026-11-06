@@ -490,7 +490,7 @@ export const words = {
     paydayNameLabel: "What is it? (optional)",
     paydayNameHint: "Like wages, Universal Credit, a pension or PIP.",
     paydayDateLabel: "When it next comes in",
-    paydayDateHint: "Your number lasts until this day.",
+    paydayDateHint: "Your number covers the days until it arrives, so you don't need to enter how much.",
     paydayRepeatLabel: "How often does it come?",
     paydayRepeatHint:
       "If it comes on a regular pattern, I'll move on to the next date by myself once this one has gone by.",
