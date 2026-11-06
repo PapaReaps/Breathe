@@ -16,5 +16,5 @@ The app never looks anything up online. The dates live in one file: `apps/money/
 
 - Only dates are stored, not names, to keep the file small and simple.
 - Dates before 2024 are left out. A balance is never that old.
-- When the list runs out, the app says so kindly on the home screen and points people to Bank holidays in the Menu, where they can type extra days.
+- When the list runs out, the app says so kindly on the home screen and points people to Bank holidays in Settings, where they can type extra days.
 - Occasionally the government adds a one-off bank holiday (for example a coronation or a jubilee). Check the GOV.UK file each time, because it will include it.
