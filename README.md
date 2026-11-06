@@ -95,7 +95,7 @@ No account, no download.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-setup-dark.png">
-    <img src="docs/images/row-setup.png" alt="Three screens: a calm hello (Let's find out how much is safe to spend until your money comes in); setting up, one question at a time (When does your main money next come in?); and bills before your money comes in, one line each with a total" width="100%">
+    <img src="docs/images/row-setup.png" alt="Three screens: a calm hello (Take a breath. You.ve got this.); setting up, one question at a time (When does your main money next come in?); and bills before your money comes in, one line each with a total" width="100%">
   </picture>
 </p>
 

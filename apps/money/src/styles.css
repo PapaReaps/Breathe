@@ -1441,9 +1441,16 @@ a.button-link {
     letter-spacing: 0.02em;
   }
 }
-.breath-line {
-  color: var(--muted);
-  margin: 0 0 1rem;
+/* The welcome heading, in the same rounded Breathe font as the word above it. */
+.welcome-heading {
+  font-family: "Breathe Nunito", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.65rem;
+  line-height: 1.2;
+  margin: 0.25rem 0 0.9rem;
+}
+.welcome-heading span {
+  color: var(--accent);
 }
 /* While the opening word is floating up: the landing spot waits, and the screen arrives softly. */
 :root.breath-arriving .breath-mark {

@@ -121,15 +121,17 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
     if (fresh) {
       return (
         <>
-          <p className="breath-line">{home.breathLine}</p>
-          <h1 className="home-title">{home.welcomeTitle}</h1>
+          <h1 className="welcome-heading">
+            {home.welcomeTitle}
+            <br />
+            <span>{home.welcomeTitleTwo}</span>
+          </h1>
           <p className="home-message">{home.welcomeMessage}</p>
           <button type="button" className="big-button" onClick={() => onOpen("setup")}>
             {home.welcomeButton}
           </button>
-          <p className="small">{home.privacyLine}</p>
           <button type="button" className="link" onClick={() => onOpen("data")}>
-            {home.howKept}
+            {home.privacyLink}
           </button>
         </>
       );
