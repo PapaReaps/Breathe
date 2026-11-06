@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { MoneyField } from "../components/MoneyField";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
@@ -22,7 +23,19 @@ interface SectionProps {
   hideHint?: boolean;
 }
 
+interface PaydayProps extends SectionProps {
+  /**
+   * Setup only: the weekend and bank holiday question becomes one line with a Change link,
+   * starting from "the working day before", so the first question stays light.
+   */
+  compactRule?: boolean;
+}
+
 export function AccountSection({ form, today, api }: SectionProps) {
+  // Most people type their balance straight after checking it, so the date only shows when it matters.
+  const fromAnotherDay = form.balanceDate !== "" && form.balanceDate !== today;
+  const [pickingDate, setPickingDate] = useState(false);
+  const showDate = fromAnotherDay || pickingDate;
   return (
     <>
       <MoneyField
@@ -32,17 +45,26 @@ export function AccountSection({ form, today, api }: SectionProps) {
         onChange={(value) => api.set("balance", value)}
         allowNegative
       />
-      <div className="field">
-        <label htmlFor="balance-date">{ui.balanceDateLabel}</label>
-        <p className="hint">{ui.balanceDateHint}</p>
-        <input
-          id="balance-date"
-          type="date"
-          max={today}
-          value={form.balanceDate || today}
-          onChange={(event) => api.set("balanceDate", event.target.value)}
-        />
-      </div>
+      {showDate ? (
+        <div className="field">
+          <label htmlFor="balance-date">{ui.balanceDateLabel}</label>
+          <p className="hint">{ui.balanceDateHint}</p>
+          <input
+            id="balance-date"
+            type="date"
+            max={today}
+            value={form.balanceDate || today}
+            onChange={(event) => api.set("balanceDate", event.target.value)}
+          />
+        </div>
+      ) : (
+        <p className="hint">
+          {ui.balanceCheckedToday}{" "}
+          <button type="button" className="link" onClick={() => setPickingDate(true)}>
+            {ui.balanceOtherDay}
+          </button>
+        </p>
+      )}
     </>
   );
 }
@@ -75,8 +97,14 @@ function RepeatField({
   );
 }
 
-export function PaydaySection({ form, today, api }: SectionProps) {
+export function PaydaySection({ form, today, api, compactRule = false }: PaydayProps) {
   const question = paydayRuleQuestion(form, today);
+  const [changing, setChanging] = useState(false);
+  const needsDefault = compactRule && question !== null && form.paydayRule === "";
+  useEffect(() => {
+    if (needsDefault) api.set("paydayRule", "working-day-before");
+  }, [needsDefault, api]);
+  const shortRule = compactRule && !changing && form.paydayRule !== "";
   const repeat: Repeat = REPEATS.includes(form.paydayRepeat) ? form.paydayRepeat : "once";
   return (
     <>
@@ -108,7 +136,15 @@ export function PaydaySection({ form, today, api }: SectionProps) {
           ))}
         </select>
       </div>
-      {question !== null ? (
+      {question !== null && shortRule ? (
+        <p className="hint">
+          {ui.paydayRuleShort(ui.paydayRulePhrases[form.paydayRule as PaydayRule])}{" "}
+          <button type="button" className="link" onClick={() => setChanging(true)}>
+            {ui.change}
+          </button>
+        </p>
+      ) : null}
+      {question !== null && !shortRule ? (
         <div className="field">
           <label htmlFor="payday-rule">{question}</label>
           <select

@@ -466,6 +466,34 @@ button.link {
   border-bottom: 1px solid var(--border);
 }
 
+.breakdown li.breakdown-group {
+  display: block;
+}
+.breakdown-group summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+}
+.breakdown-group summary > span:first-child::before {
+  content: "▸ ";
+}
+.breakdown-group details[open] summary > span:first-child::before {
+  content: "▾ ";
+}
+.breakdown-group summary::-webkit-details-marker {
+  display: none;
+}
+.breakdown-group summary {
+  list-style: none;
+}
+.breakdown-group .breakdown {
+  margin: 0.25rem 0 0 1.1rem;
+}
+.breakdown-group .breakdown li:last-child {
+  border-bottom: 0;
+}
+
 .amount {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;

@@ -8,8 +8,8 @@ describe("where the step-by-step setup starts", () => {
     expect(SETUP_STEPS[firstSetupStep(emptyForm())]).toBe("payday");
   });
 
-  it("has one page for money coming in, not a separate payday and income step", () => {
-    expect(SETUP_STEPS).toEqual(["payday", "balance", "bills", "food", "pot"]);
+  it("asks about other money coming in on its own page, so the first question stays light", () => {
+    expect(SETUP_STEPS).toEqual(["payday", "income", "balance", "bills", "food", "pot"]);
   });
 
   it("carries on from the balance once the money date is in, so nothing is asked twice", () => {

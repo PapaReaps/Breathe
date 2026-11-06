@@ -23,10 +23,12 @@ type Restore =
 
 interface DataViewProps {
   data: DataApi;
+  /** Whether anything has been typed in yet, so "nothing changed" isn't read as "nothing saved". */
+  hasNumbers: boolean;
 }
 
 /** Where the numbers live, their limits, and the ways to back up, restore or clear them. */
-export function DataView({ data }: DataViewProps) {
+export function DataView({ data, hasNumbers }: DataViewProps) {
   const [backupMade, setBackupMade] = useState(false);
   const [restore, setRestore] = useState<Restore>({ step: "none" });
   const [confirmingClear, setConfirmingClear] = useState(false);
@@ -67,26 +69,20 @@ export function DataView({ data }: DataViewProps) {
         ? text.stateSaving
         : data.saveState === "not-saved"
           ? text.stateNotSaved
-          : text.stateIdle;
+          : hasNumbers
+            ? text.stateKept
+            : text.stateIdle;
 
   const persistedLine =
     data.persisted === true ? text.persistedYes : data.persisted === false ? text.persistedNo : text.persistedUnknown;
 
   return (
     <>
-      <p>{text.intro}</p>
-
-      <div className="gentle">
-        <h3>{text.limitsTitle}</h3>
-        <ul className="plain-list">
-          {text.limits.map((line) => (
-            <li key={line}>{line}</li>
-          ))}
-        </ul>
-      </div>
-
-      <p aria-live="polite">{stateLine}</p>
-      <p className="small">{persistedLine}</p>
+      <p aria-live="polite">
+        <strong>{stateLine}</strong>
+      </p>
+      <p>{text.keepCopy}</p>
+      {data.persisted === true ? null : <p className="small">{persistedLine}</p>}
 
       <section aria-labelledby="backup-title">
         <h3 id="backup-title">{text.backupTitle}</h3>
@@ -134,6 +130,16 @@ export function DataView({ data }: DataViewProps) {
         {restore.step === "passphrase" ? <UnlockBackup content={restore.content} onDone={setRestore} /> : null}
         {restore.step === "preview" ? <RestorePreview restore={restore} data={data} onDone={setRestore} /> : null}
       </section>
+
+      <div className="gentle">
+        <h3>{text.limitsTitle}</h3>
+        <p>{text.intro}</p>
+        <ul className="plain-list">
+          {text.limits.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      </div>
 
       <section aria-labelledby="clear-title">
         <h3 id="clear-title">{text.clearTitle}</h3>

@@ -64,7 +64,7 @@ const TITLES: Record<PanelId, string> = {
 
 /** Where each page's Back button goes: the folder it lives in. */
 function parentOf(panel: PanelId): PanelId {
-  if (panel === "setup" || panel === "settings" || panel === "data" || panel === "help") return "more";
+  if (panel === "setup" || panel === "settings" || panel === "data" || panel === "help" || panel === "holidays") return "more";
   if (panel === "share" || panel === "report" || panel === "about") return "help";
   if (panel.startsWith("opt-")) return "settings";
   return "menu";
@@ -171,11 +171,11 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
             ) : null}
             {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
-            {panel === "more" ? <MoreList onPanel={onPanel} /> : null}
+            {panel === "more" ? <MoreList onPanel={onPanel} holidays={describeForm(form, today).holidays} /> : null}
             {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} /> : null}
             {groupOf(panel) !== null ? <SettingsView settings={settings} group={groupOf(panel)!} /> : null}
             {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
-            {panel === "data" ? <DataView data={data} /> : null}
+            {panel === "data" ? <DataView data={data} hasNumbers={hasNumbers(form)} /> : null}
             {panel === "share" ? <ShareView /> : null}
             {panel === "report" ? <ReportView /> : null}
             {panel === "about" ? <AboutView /> : null}
@@ -190,6 +190,12 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
       ) : null}
     </dialog>
   );
+}
+
+/** Anything typed in at all. */
+function hasNumbers(form: FormState): boolean {
+  const typed = [form.balance, form.paydayDate, form.foodPerWeek, form.travelPerWeek, form.buffer];
+  return typed.some((value) => value.trim() !== "") || form.bills.length > 0 || form.income.length > 0;
 }
 
 interface MenuListProps {
@@ -208,7 +214,6 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
     { id: "bills", title: words.menu.names.bills, sub: summary.bills },
     { id: "essentials", title: words.menu.names.essentials, sub: summary.essentials },
     { id: "pot", title: words.menu.names.pot, sub: summary.pot },
-    { id: "holidays", title: words.menu.names.holidays, sub: summary.holidays },
   ];
 
   return (
@@ -262,7 +267,7 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
 }
 
 /** The Settings folder: the less-used pages, kept together so the menu stays short. */
-function MoreList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
+function MoreList({ onPanel, holidays }: { onPanel: (panel: PanelId) => void; holidays: string }) {
   return (
     <>
       <ul className="menu-list">
@@ -274,6 +279,12 @@ function MoreList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("settings")}>
             <span className="menu-title">{words.menu.names.settings}</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="menu-item" onClick={() => onPanel("holidays")}>
+            <span className="menu-title">{words.menu.names.holidays}</span>
+            <span className="menu-sub">{holidays}</span>
           </button>
         </li>
         <li>

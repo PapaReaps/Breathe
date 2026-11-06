@@ -1,7 +1,7 @@
 import type { FormState } from "./form";
 
 /** The questions in the step-by-step setup, in order. */
-export const SETUP_STEPS = ["payday", "balance", "bills", "food", "pot"] as const;
+export const SETUP_STEPS = ["payday", "income", "balance", "bills", "food", "pot"] as const;
 export type SetupStep = (typeof SETUP_STEPS)[number];
 
 /**
@@ -11,6 +11,6 @@ export type SetupStep = (typeof SETUP_STEPS)[number];
  */
 export function firstSetupStep(form: FormState): number {
   if (form.paydayDate.trim() === "") return 0;
-  if (form.balance.trim() === "") return 1;
+  if (form.balance.trim() === "") return SETUP_STEPS.indexOf("balance");
   return 0;
 }

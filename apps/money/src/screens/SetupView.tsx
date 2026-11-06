@@ -100,13 +100,9 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
         />
       ) : null}
       {step === "payday" ? (
-        <>
-          <PaydaySection form={form} today={today} api={api} />
-          <h4 className="sub-question">{text.income.question}</h4>
-          <p className="hint">{text.income.intro}</p>
-          <IncomeSection form={form} today={today} api={api} hideHint />
-        </>
+        <PaydaySection form={form} today={today} api={api} compactRule />
       ) : null}
+      {step === "income" ? <IncomeSection form={form} today={today} api={api} hideHint /> : null}
       {step === "bills" ? <BillsSection form={form} today={today} api={api} hideHint /> : null}
       {step === "food" ? (
         <>
@@ -140,7 +136,7 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
           </button>
         ) : null}
         <button type="button" className="secondary" onClick={goNext}>
-          {step === "bills" ? text.nothingToAdd : text.skip}
+          {step === "bills" || step === "income" ? text.nothingToAdd : text.skip}
         </button>
         <button type="submit">{text.next}</button>
       </div>

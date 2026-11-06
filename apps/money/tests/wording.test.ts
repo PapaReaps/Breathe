@@ -147,8 +147,8 @@ describe("the wording stays kind", () => {
   });
 
   it("describes payday in plain words", () => {
-    expect(paydayLine("2026-11-13", 9)).toBe("Money comes in: Friday 13 November (in 9 days)");
-    expect(paydayLine("2026-11-13", 1)).toBe("Money comes in: Friday 13 November (tomorrow)");
-    expect(paydayLine("2026-11-13", 0)).toBe("Money comes in: Friday 13 November (today)");
+    expect(paydayLine("2026-11-13", 9)).toBe("Money comes in Fri 13 Nov · 9 days");
+    expect(paydayLine("2026-11-13", 1)).toBe("Money comes in tomorrow, Fri 13 Nov");
+    expect(paydayLine("2026-11-13", 0)).toBe("Money comes in today, Fri 13 Nov");
   });
 });

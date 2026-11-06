@@ -1,4 +1,4 @@
-import { formatDayLong } from "../logic/dates";
+import { formatDayShort } from "../logic/dates";
 import { formatMoney } from "../logic/money";
 import type { MoneyProblem } from "../logic/money";
 import type { BreakdownLine, CalculatorResult, Warning } from "../logic/types";
@@ -104,6 +104,8 @@ export const words = {
     stateSaved: "Your latest changes are saved on this device.",
     stateSaving: "Saving…",
     stateIdle: "Nothing to save yet.",
+    stateKept: "Your numbers are saved on this device.",
+    keepCopy: "A backup file keeps a copy somewhere safe, in case your phone or browser clears them.",
     stateNotSaved:
       "Your numbers can't be saved on this device right now. You can keep using the app, but they'll be gone when you close this page. A backup file can help.",
     backupTitle: "Save a backup file",
@@ -444,7 +446,7 @@ export const words = {
     return extra === 0 ? name : `${name} + ${extra === 1 ? "1 extra" : `${extra} extra`}`;
   },
   holidayListEnded: (until: string) =>
-    `The built-in bank holidays only go up to ${until}. You can add later ones yourself in the Menu, under Bank holidays.`,
+    `The built-in bank holidays only go up to ${until}. You can add later ones yourself in Settings, under Bank holidays.`,
   askPaydayRuleMonthly:
     "Sometimes the date will fall on a weekend or bank holiday. When does your money usually arrive then?",
   paydaySummary: (day: string, repeat: "weekly" | "fortnightly" | "four-weekly" | "monthly") =>
@@ -492,6 +494,15 @@ export const words = {
     repeatIncomeHint: "Only the ones that arrive before your main money are counted.",
     billDueRepeating: "Next due on",
     incomeDateRepeating: "Next arrives on",
+    paydayRuleShort: (phrase: string) => `If that day is a weekend or bank holiday, it comes ${phrase}.`,
+    paydayRulePhrases: {
+      "working-day-before": "the working day before",
+      "on-the-day": "on the day itself",
+      "next-working-day": "the next working day",
+    },
+    change: "Change",
+    balanceCheckedToday: "Checked today.",
+    balanceOtherDay: "Checked it on another day?",
     paydayRuleOptions: {
       "": "Choose one",
       "working-day-before": "The working day before",
@@ -544,6 +555,7 @@ export const words = {
       "Days when money doesn't move, written like 2026-12-25 and separated by spaces or commas. Weekends are already handled.",
 
     breakdownTitle: "Where this number comes from",
+    billsGroup: (count: number) => `Bills (${count})`,
     questionTitle: "A quick question",
     yes: "Yes",
     no: "No, not yet",
@@ -604,12 +616,13 @@ export function headlineFor(result: CalculatorResult): Headline {
   };
 }
 
+/** One short line under the number: "Money comes in Fri 27 Nov · 21 days". */
 export function paydayLine(paydayDate: string, daysUntilPayday: number | null): string {
-  const day = formatDayLong(paydayDate);
-  if (daysUntilPayday === null) return `Money comes in: ${day}`;
-  if (daysUntilPayday === 0) return `Money comes in: ${day} (today)`;
-  if (daysUntilPayday === 1) return `Money comes in: ${day} (tomorrow)`;
-  return `Money comes in: ${day} (in ${daysUntilPayday} days)`;
+  const day = formatDayShort(paydayDate);
+  if (daysUntilPayday === null) return `Money comes in ${day}`;
+  if (daysUntilPayday === 0) return `Money comes in today, ${day}`;
+  if (daysUntilPayday === 1) return `Money comes in tomorrow, ${day}`;
+  return `Money comes in ${day} · ${daysUntilPayday} days`;
 }
 
 /** Plain-words notes under the number. Questions are handled separately. */
