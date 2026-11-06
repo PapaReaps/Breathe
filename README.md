@@ -154,7 +154,7 @@ No account, no download.
   </picture>
 </p>
 
-- **Share Breathe Money**: copy or share the website link or the Android download page, to send to someone who might like it.
+- **Share Breathe Money**: show a friend a QR code to scan, or copy or share the link (the Android app, or the web version for iPhones and computers).
 - **Leave a tip**: Breathe is free, always. If it's helped, you can say thanks with £3, £5 or £10, on Stripe's secure page. Only if you can spare it: tips don't unlock anything, and Breathe never sees your card details.
 - **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
 - **Updates in the Android app**: tap **Check now**, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
