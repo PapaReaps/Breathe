@@ -109,7 +109,9 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
 
   const isSection = panel !== null && SECTION_PANELS.includes(panel);
 
-  let liveLine: string = words.menu.liveWaiting;
+  // When the number can't show yet, say exactly what's missing (the first thing to add).
+  let liveLine: string =
+    built.status === "needs-more" && built.messages[0] !== undefined ? built.messages[0] : words.menu.liveWaiting;
   if (outcome !== null && outcome.ok && outcome.result.safeToSpend !== null) {
     const amount = headlineFor(outcome.result).amount;
     if (amount !== null) liveLine = words.menu.liveLine(amount);
@@ -153,7 +155,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" || panel === "income" ? (
               <>
-                <PaydaySection form={form} today={today} api={api} />
+                <PaydaySection form={form} today={today} api={api} removable />
                 <h3 className="sub-question">{ui.otherIncomeTitle}</h3>
                 <IncomeSection form={form} today={today} api={api} />
               </>

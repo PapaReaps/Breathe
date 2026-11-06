@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MoneyField } from "../components/MoneyField";
+import { isNativeApp } from "../platform";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
 import { BUILT_IN_LAST_DAY, HOLIDAY_REGIONS } from "../data/bankHolidays";
@@ -29,6 +30,8 @@ interface PaydayProps extends SectionProps {
    * starting from "the working day before", so the first question stays light.
    */
   compactRule?: boolean;
+  /** Menu page only: a button to empty the main money in one go (name, date and how often). */
+  removable?: boolean;
 }
 
 export function AccountSection({ form, today, api }: SectionProps) {
@@ -73,6 +76,12 @@ export function AccountSection({ form, today, api }: SectionProps) {
  * Android's calendar has no "Clear" button, so once a date is picked it can't be emptied there.
  * This small link does it, and only shows when there's a date to clear.
  */
+/** Android shows an empty date box as a blank strip, so say what it's for. Not needed in browsers, which show dd/mm/yyyy. */
+function DateHint({ value }: { value: string }) {
+  if (value !== "" || !isNativeApp()) return null;
+  return <p className="hint date-hint">{ui.pickDate}</p>;
+}
+
 function ClearDate({ value, onClear }: { value: string; onClear: () => void }) {
   if (value === "") return null;
   return (
@@ -110,7 +119,8 @@ function RepeatField({
   );
 }
 
-export function PaydaySection({ form, today, api, compactRule = false }: PaydayProps) {
+export function PaydaySection({ form, today, api, compactRule = false, removable = false }: PaydayProps) {
+  const hasMainMoney = form.paydayName.trim() !== "" || form.paydayDate !== "" || form.paydayRepeat !== "once";
   const question = paydayRuleQuestion(form, today);
   const [changing, setChanging] = useState(false);
   const needsDefault = compactRule && question !== null && form.paydayRule === "";
@@ -141,6 +151,7 @@ export function PaydaySection({ form, today, api, compactRule = false }: PaydayP
         <p className="hint" id="payday-date-hint">
           {ui.paydayDateHint}
         </p>
+        <DateHint value={form.paydayDate} />
         <input
           id="payday-date"
           aria-describedby="payday-date-hint"
@@ -189,6 +200,22 @@ export function PaydaySection({ form, today, api, compactRule = false }: PaydayP
           </select>
         </div>
       ) : null}
+      {removable && hasMainMoney ? (
+        <div className="buttons">
+          <button
+            type="button"
+            className="secondary"
+            onClick={() => {
+              api.set("paydayName", "");
+              api.set("paydayDate", "");
+              api.set("paydayRepeat", "once");
+              api.set("paydayRule", "");
+            }}
+          >
+            {ui.removeMainMoney}
+          </button>
+        </div>
+      ) : null}
     </>
   );
 }
@@ -227,6 +254,7 @@ export function BillsSection({ form, api, hideHint = false }: SectionProps) {
             />
             <div className="field">
               <label htmlFor={`${bill.id}-due`}>{bill.repeat && bill.repeat !== "once" ? ui.billDueRepeating : ui.billDue}</label>
+              <DateHint value={bill.dueDate} />
               <input
                 id={`${bill.id}-due`}
                 type="date"
@@ -283,6 +311,7 @@ export function IncomeSection({ form, api, hideHint = false, simple = false }: S
             />
             <div className="field">
               <label htmlFor={`${item.id}-date`}>{item.repeat && item.repeat !== "once" ? ui.incomeDateRepeating : ui.incomeDate}</label>
+              <DateHint value={item.date} />
               <input
                 id={`${item.id}-date`}
                 type="date"
