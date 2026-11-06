@@ -34,7 +34,8 @@ Versions before v0.12.0 don't have the check, so update to v0.12.0 by hand once 
 - **Google Drive backup is switched off.** Android normally copies app data to your Google account, and to a new phone. Breathe turns both off, so your numbers never leave the phone. A backup file you save yourself is the way to move them.
 - **No offline helper is needed.** The app's files are already on the phone.
 - **It asks for no permissions** except the one Android needs to show web pages inside an app.
-- **It contacts nothing, unless you ask it to check for updates.** The check is off until you switch it on (or tap **Check now**). It asks GitHub one question, "what's the newest Breathe Money version?", at most once a day. It sends no numbers, no account, no cookies and nothing about you, though GitHub can see that a phone asked, from its internet address, as with visiting any website. The link it opens, and the file it downloads, are built by the app, never taken from the answer.
+- **Leave a tip** (Menu → Settings → Help and sharing) opens Stripe's secure payment page **over the app**, in a Chrome Custom Tab. Close it to come straight back to Breathe. The app only ever opens Stripe's own payment links, sends nothing to them, and never sees card details. Tips are optional and unlock nothing.
+- **It contacts nothing, unless you ask it to check for updates** (or tap a tip amount, which opens Stripe's page). The check is off until you switch it on (or tap **Check now**). It asks GitHub one question, "what's the newest Breathe Money version?", at most once a day. It sends no numbers, no account, no cookies and nothing about you, though GitHub can see that a phone asked, from its internet address, as with visiting any website. The link it opens, and the file it downloads, are built by the app, never taken from the answer.
 
 ## The opening breath
 
@@ -72,5 +73,5 @@ In the repository on GitHub: **Settings → Secrets and variables → Actions �
 
 ## Not done yet, on purpose
 
-- **Google Play Store.** It removes the "unknown apps" step and gives automatic updates, but needs a one-time $25 Google developer account. Possible later.
+- **Google Play Store.** It removes the "unknown apps" step and gives automatic updates, but needs a one-time $25 Google developer account. Possible later. Google has its own rules about tips inside apps, so those would be checked first.
 - **App Store (iPhone).** It needs a paid Apple developer account ($99 a year) and a Mac. For now, iPhones use the web link.
