@@ -147,11 +147,30 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
             {text.back}
           </button>
         ) : null}
-        <button type="button" className="secondary" onClick={goNext}>
-          {step === "bills" || step === "income" ? text.nothingToAdd : text.skip}
+        {/* One button: "Next" once something is filled in, otherwise it says it's fine to skip. */}
+        <button type="submit">
+          {stepFilled(step, form) ? text.next : step === "bills" || step === "income" ? text.nothingToAdd : text.skip}
         </button>
-        <button type="submit">{text.next}</button>
       </div>
     </form>
   );
+}
+
+/** Has anything been typed for this question yet? */
+function stepFilled(step: SetupStep, form: FormState): boolean {
+  const typed = (value: string) => value.trim() !== "";
+  switch (step) {
+    case "payday":
+      return typed(form.paydayDate) || typed(form.paydayName);
+    case "income":
+      return form.income.some((row) => typed(row.name) || typed(row.amount) || row.date !== "");
+    case "balance":
+      return typed(form.balance);
+    case "bills":
+      return form.bills.some((row) => typed(row.name) || typed(row.amount) || row.dueDate !== "");
+    case "food":
+      return typed(form.foodPerWeek) || typed(form.travelPerWeek);
+    case "pot":
+      return typed(form.buffer);
+  }
 }

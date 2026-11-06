@@ -1,5 +1,6 @@
 import { describeLine, describeWarning, questionFor, words } from "../content/words";
 import { formatMoney } from "../logic/money";
+import { formatDayShort } from "../logic/dates";
 import type { BreakdownLine } from "../logic/types";
 import type { BuildResult } from "../logic/form";
 import type { FormApi, NeedsAnswer, Outcome } from "./screenTypes";
@@ -81,6 +82,15 @@ export function ExplainView({ built, outcome, hasAnswers, api }: ExplainViewProp
           })}
         </ul>
       ) : null}
+
+      {/* The main money is the finish line, not part of the sum: say so, so it never seems missing. */}
+      <p className="gentle main-money-line">
+        <strong>
+          {words.ui.moneyLine(built.moneyName, formatDayShort(result.paydayDate), result.daysUntilPayday)}
+        </strong>
+        <br />
+        <span className="small">{words.ui.moneyLineNote}</span>
+      </p>
     </>
   );
 }

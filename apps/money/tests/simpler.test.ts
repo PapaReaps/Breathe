@@ -20,6 +20,12 @@ describe("Where this number comes from", () => {
     expect(items.map((item) => item.kind)).toEqual(["line", "line"]);
   });
 
+  it("explains the main money at the bottom, by name if it has one", () => {
+    expect(words.ui.moneyLine("PIP", "Fri 4 Dec", 28)).toBe("PIP comes in Fri 4 Dec (in 28 days)");
+    expect(words.ui.moneyLine("", "Fri 4 Dec", 1)).toBe("Your money comes in Fri 4 Dec (tomorrow)");
+    expect(words.ui.moneyLine("  ", "Fri 4 Dec", 0)).toBe("Your money comes in Fri 4 Dec (today)");
+  });
+
   it("says how many bills are inside", () => {
     expect(words.ui.billsGroup(4)).toBe("Bills (4)");
   });

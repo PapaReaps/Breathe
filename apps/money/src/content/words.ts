@@ -574,6 +574,9 @@ export const words = {
 
     breakdownTitle: "Where this number comes from",
     billsGroup: (count: number) => `Bills (${count})`,
+    moneyLine: (name: string, day: string, days: number | null) =>
+      `${name.trim() === "" ? "Your money" : name.trim()} comes in ${day}${days === null ? "" : days === 0 ? " (today)" : days === 1 ? " (tomorrow)" : ` (in ${days} days)`}`,
+    moneyLineNote: "It isn't in this list: your number is what's safe to spend until it arrives.",
     questionTitle: "A quick question",
     yes: "Yes",
     no: "No, not yet",
