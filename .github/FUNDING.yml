@@ -1,6 +1,5 @@
-# The "Sponsor" button on the GitHub page. These are the same optional tip links as in the app
-# (Menu → Settings → Help and sharing → Leave a tip): £3, £5 and £10, on Stripe's own pages.
+# The "Sponsor" button on the GitHub page. GitHub can't name custom links, so it points to one
+# readable address: the "Support Breathe" section of the README, where the £3, £5 and £10 tips
+# (the same Stripe links as in the app) are clearly labelled.
 custom:
-  - https://buy.stripe.com/bJe8wRefe6om4abfrC3cc00
-  - https://buy.stripe.com/7sYbJ35IIfYW8qr4MY3cc01
-  - https://buy.stripe.com/28E5kF6MM142bCD6V63cc02
+  - https://github.com/PapaReaps/Breathe#support-breathe
