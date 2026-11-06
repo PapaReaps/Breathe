@@ -18,6 +18,39 @@
   &nbsp;·&nbsp; Free &nbsp;·&nbsp; No sign-up &nbsp;·&nbsp; Works offline &nbsp;·&nbsp; Add it to your phone's home screen
 </p>
 
+## Get it in 3 taps
+
+Free, with no sign-up. Point your phone camera at a code, or tap the link on your phone.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="160" alt="QR code that downloads the Breathe Money Android app"></a><br>
+      <b>Android phone</b><br>
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download the app →</a>
+    </td>
+    <td align="center" width="50%">
+      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="160" alt="QR code that opens Breathe Money in your web browser"></a><br>
+      <b>iPhone or computer</b><br>
+      <a href="https://papareaps.github.io/Breathe/">Open in your browser →</a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      1. Tap the link or scan the code.<br>
+      2. Tap <b>Open</b> when it's downloaded.<br>
+      3. Allow the install once, then tap <b>Install</b>.
+    </td>
+    <td valign="top">
+      1. Tap the link or scan the code.<br>
+      2. It opens straight away.<br>
+      3. Optional: <b>Share → Add to Home Screen</b>.
+    </td>
+  </tr>
+</table>
+
+Already have it? Show a friend the code on your own phone: **Menu → Settings → Help and sharing → Share Breathe Money**.
+
 Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
 
 It is a personal project, built by someone who struggles with these things too. There is enough stress in the world already. Breathe apps should reduce stress, never add to it.
