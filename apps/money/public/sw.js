@@ -7,7 +7,8 @@
  * What it never does: it never contacts any other website, never reads or stores your
  * numbers (those live in the browser's own storage, untouched), and sends nothing anywhere.
  *
- * How it stays up to date: whenever the app is opened online it fetches the newest page,
+ * How it stays up to date: whenever the app is opened online it checks for the newest page
+ * (asking the website itself, not the browser's short-lived copy), and fetches it,
  * keeps any new files it names, and removes copies of files that are no longer used.
  * The app's own files have a fingerprint in their name, so a changed file is a new name.
  */
@@ -98,7 +99,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       (async () => {
         try {
-          const response = await fetch(request);
+          // Always ask the website whether the page has changed, rather than trusting the browser's
+          // own 10-minute copy, so a new version shows the next time the app is opened.
+          // (A navigation request can't be given options, so its address is used instead.)
+          const response = await fetch(request.url, { cache: "no-cache", credentials: "same-origin" });
           if (response.ok) {
             const cache = await caches.open(CACHE);
             await cache.put(SCOPE, response.clone());
