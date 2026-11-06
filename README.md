@@ -24,18 +24,19 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ## Breathe Money in 15 seconds
 
-<table>
-  <tr>
-    <td width="300"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode" width="280"></picture></td>
-    <td>
-      <h3>One question, one calm answer</h3>
-      <p><b>"How much can I spend until my money comes in?"</b></p>
-      <p>Type what's in your account. Breathe Money sets aside your bills, food and travel, and some savings you choose to keep aside. Then it shows what's left as one big number.</p>
-      <p>Change anything and the number updates as you type. Dark mode follows your phone's own setting.</p>
-      <p><a href="https://papareaps.github.io/Breathe/">Try it now</a>, with no account and no download.</p>
-    </td>
-  </tr>
-</table>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img align="left" width="40%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode"></picture>
+
+### One question, one calm answer
+
+**"How much can I spend until my money comes in?"**
+
+Type what's in your account. Breathe Money sets aside your bills, food and travel, and some savings you choose to keep aside. Then it shows what's left as one big number.
+
+Change anything and the number updates as you type. Dark mode follows your phone's own setting.
+
+[Try it now](https://papareaps.github.io/Breathe/), with no account and no download.
+
+<br clear="left">
 
 *All numbers in these pictures are made up.*
 
@@ -43,18 +44,12 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ### Your number, and where it comes from
 
-<table>
-  <tr>
-    <td><img src="docs/images/home-simple.png" alt="The home screen with the extras switched off: just Safe to spend until your money comes in, and £343.74" width="250"></td>
-    <td><img src="docs/images/menu.png" alt="The Menu: money coming in, your account, bills, food and travel, savings and bank holidays, each with a short summary, then Coming up, Where this number comes from, and Settings" width="250"></td>
-    <td><img src="docs/images/breakdown.png" alt="Where this number comes from: the account balance, then each bill, food, travel and your savings taken off, line by line" width="250"></td>
-  </tr>
-  <tr>
-    <td align="center">Just the number</td>
-    <td align="center">Everything else lives in the Menu</td>
-    <td align="center">Every pound explained</td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-dark.png">
+    <img src="docs/images/row-number.png" alt="Three screens: just the number (Safe to spend until your money comes in, £343.74); the Menu, where everything else lives; and Where this number comes from, with every pound explained line by line" width="100%">
+  </picture>
+</p>
 
 - Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel, and some savings kept aside.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice, and money that might not arrive is never counted.
@@ -63,18 +58,12 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ### Gentle setup, tidy lists
 
-<table>
-  <tr>
-    <td><img src="docs/images/welcome.png" alt="The welcome screen: Let's find out how much is safe to spend until your money comes in, with an Add your numbers button" width="250"></td>
-    <td><img src="docs/images/setup-first.png" alt="Setting up, question 1 of 5: When does your main money next come in? Like wages, Universal Credit, a pension or PIP. Then any other money coming in before then" width="250"></td>
-    <td><img src="docs/images/bills.png" alt="Bills before your money comes in: four bills, each one short line saying how much and how often, with a total" width="250"></td>
-  </tr>
-  <tr>
-    <td align="center">A calm hello</td>
-    <td align="center">One question at a time</td>
-    <td align="center">Bills, one line each</td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-setup-dark.png">
+    <img src="docs/images/row-setup.png" alt="Three screens: a calm hello (Let's find out how much is safe to spend until your money comes in); setting up, one question at a time (When does your main money next come in?); and bills before your money comes in, one line each with a total" width="100%">
+  </picture>
+</p>
 
 - **Step-by-step setup**: one question per screen, and every question can be skipped.
 - **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
@@ -88,36 +77,24 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ### See what's coming up
 
-<table>
-  <tr>
-    <td><img src="docs/images/coming-up.png" alt="Coming up, as a list: today, then each bill with its date and amount (Rent share, Phone, Bus pass, Streaming), and Your money comes in on Friday 27, in 23 days. Underneath: 4 bills before then, £527.99" width="250"></td>
-    <td><img src="docs/images/coming-up-month.png" alt="Coming up, as a month: November, with bill days in soft pink, money day in teal and a ring round today. Thursday 12 November is picked: Phone, £25.00" width="250"></td>
-    <td><img src="docs/images/coming-up-dark.png" alt="Coming up as a month in dark mode, with Monday 16 November picked: Bus pass, £42.00" width="250"></td>
-  </tr>
-  <tr>
-    <td align="center">A simple list first</td>
-    <td align="center">Or a month, if you'd rather</td>
-    <td align="center">In dark mode too</td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-coming-up-dark.png">
+    <img src="docs/images/row-coming-up.png" alt="Three screens of Coming up: a simple list of bills and the day your money comes in; the same as a month, with bill days in soft pink and money day in teal; and the month in dark mode" width="100%">
+  </picture>
+</p>
 
 - **Coming up** shows your bills and the day your money comes in, from today until then. Switch between **List** and **Month**, and the app remembers which you like.
 - Only money you're sure of is shown. Money that might come is left off, just as it is in your number.
 
 ### Make it yours
 
-<table>
-  <tr>
-    <td><img src="docs/images/home-dark.png" alt="The home screen in dark mode, with a teal number and a gold savings badge" width="250"></td>
-    <td><img src="docs/images/home-plum.png" alt="The home screen with a plum number and a rose savings badge" width="250"></td>
-    <td><img src="docs/images/app-options.png" alt="App options as a short list, each with the current choice: Look and colours, Text and contrast, Home screen, Balance reminder, Sounds and vibration, and Privacy screen" width="250"></td>
-  </tr>
-  <tr>
-    <td align="center">Dark mode</td>
-    <td align="center">Nine app colours, nine savings colours</td>
-    <td align="center">App options, one calm list</td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-dark.png">
+    <img src="docs/images/row-yours.png" alt="Three screens: the home screen in dark mode; the home screen with a plum number and a rose savings badge; and App options as a short, calm list" width="100%">
+  </picture>
+</p>
 
 - **App options is a short, calm list**: Look and colours, Text and contrast, Home screen, Balance reminder, Sounds and vibration, Privacy screen and Updates. Each opens its own small page.
 - **Light or dark**, or follow your device.
@@ -125,47 +102,38 @@ It is a personal project, built by someone who struggles with these things too. 
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz. All off until you choose.
 - **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. Your savings are still kept aside.
 
-<table>
-  <tr>
-    <td><picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/simple-fade-dark.gif"><img src="docs/images/simple-fade.gif" alt="A short clip that fades between two home screens: Everything explained, with the number, a short sentence, the date your money comes in and your savings, then Or just your number, with only the number" width="250"></picture></td>
-    <td align="center" width="420">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/saying-dark.png"><img src="docs/images/saying.png" alt="Take a breath. You've got this." width="360"></picture>
-      <br><br>
-      Like it simpler? Switch off the extras in<br><b>Menu → Settings → App options → Home screen</b>.
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/simple-fade-saying-dark.gif">
+    <img src="docs/images/simple-fade-saying.gif" alt="A short clip that fades between two home screens, Everything explained and Or just your number, beside the words: Take a breath. You've got this." width="100%">
+  </picture>
+</p>
+
+<p align="center">Like it simpler? Switch off the extras in <b>Menu → Settings → App options → Home screen</b>.</p>
 
 ### Share it, tell us, keep it up to date
 
-<table>
-  <tr>
-    <td><img src="docs/images/share.png" alt="Share Breathe Money: copy or share the website link, or the Android download page" width="250"></td>
-    <td>
-      <ul>
-        <li><b>Share Breathe Money</b>: copy or share the website link or the Android download page, to send to someone who might like it.</li>
-        <li><b>Report a problem</b>: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.</li>
-        <li><b>Updates in the Android app</b>: tap <b>Check now</b>, then <b>Download and install</b>. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.</li>
-      </ul>
-      <p>Share and Report a problem are in <b>Menu → Settings → Help and sharing</b>. Updates are in <b>Menu → Settings → App options → Updates</b>.</p>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-share-dark.png">
+    <img src="docs/images/row-share.png" alt="Three screens: Share Breathe Money, with links to copy or share; Help and sharing; and Report a problem" width="100%">
+  </picture>
+</p>
+
+- **Share Breathe Money**: copy or share the website link or the Android download page, to send to someone who might like it.
+- **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
+- **Updates in the Android app**: tap **Check now**, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
+
+Share and Report a problem are in **Menu → Settings → Help and sharing**. Updates are in **Menu → Settings → App options → Updates**.
 
 ### Easy to read, private by design
 
-<table>
-  <tr>
-    <td><img src="docs/images/settings-access.png" alt="App options, Text and contrast: text size (Standard, Larger, Largest) and contrast (Match my device, or Higher contrast)" width="250"></td>
-    <td><img src="docs/images/lock.png" alt="The privacy screen: Welcome back, type your PIN to open Breathe Money" width="250"></td>
-    <td><img src="docs/images/backup-protected.png" alt="Save a backup file: protected with a passphrase (recommended), with a reminder that a forgotten passphrase can't be recovered" width="250"></td>
-  </tr>
-  <tr>
-    <td align="center">Bigger text, higher contrast</td>
-    <td align="center">An optional PIN privacy screen</td>
-    <td align="center">Backups protected with a passphrase</td>
-  </tr>
-</table>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-private-dark.png">
+    <img src="docs/images/row-private.png" alt="Three screens: text size and contrast choices; the optional PIN privacy screen; and saving a backup protected with a passphrase" width="100%">
+  </picture>
+</p>
 
 - **Text size** and **higher contrast** settings, on top of your device's own. It works with the keyboard alone and is built for screen readers ([accessibility checklist](docs/STAGE-9.md#accessibility-checklist)).
 - An optional **privacy screen**: a PIN when the app opens, and again after a minute away.
