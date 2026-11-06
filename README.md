@@ -209,6 +209,20 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 
 Each app works on its own. One day you may be able to combine them in an optional "Breathe Home" dashboard.
 
+## Support Breathe
+
+Breathe will always be free, with no adverts and nothing to unlock. If it's helped you and you'd like to say thanks, you can leave a tip. Only if you can spare it.
+
+<p align="center">
+  <a href="https://buy.stripe.com/bJe8wRefe6om4abfrC3cc00"><b>Tip £3</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://buy.stripe.com/7sYbJ35IIfYW8qr4MY3cc01"><b>Tip £5</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://buy.stripe.com/28E5kF6MM142bCD6V63cc02"><b>Tip £10</b></a>
+</p>
+
+Each opens Stripe's secure payment page (card, Google Pay or Apple Pay). Tips go towards keeping Breathe going, and the Breathe apps still to come. You'll also find **Leave a tip** in the app: **Menu → Settings → Help and sharing**.
+
 ## Our principles
 
 - No accounts, no sign-up, no personal details.
