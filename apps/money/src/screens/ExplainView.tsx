@@ -10,10 +10,12 @@ interface ExplainViewProps {
   outcome: Outcome | null;
   hasAnswers: boolean;
   api: FormApi;
+  /** The main money's own name is shown only when the person chose to show it. */
+  showMoneyName: boolean;
 }
 
 /** "Where this number comes from": the breakdown, any notes, and any quick questions. */
-export function ExplainView({ built, outcome, hasAnswers, api }: ExplainViewProps) {
+export function ExplainView({ built, outcome, hasAnswers, api, showMoneyName }: ExplainViewProps) {
   if (built.status === "needs-more" || outcome === null || !outcome.ok) {
     return <p>{words.menu.liveWaiting}</p>;
   }
@@ -86,7 +88,7 @@ export function ExplainView({ built, outcome, hasAnswers, api }: ExplainViewProp
       {/* The main money is the finish line, not part of the sum: say so, so it never seems missing. */}
       <p className="gentle main-money-line">
         <strong>
-          {words.ui.moneyLine(built.moneyName, formatDayShort(result.paydayDate), result.daysUntilPayday)}
+          {words.ui.moneyLine(showMoneyName ? built.moneyName : "", formatDayShort(result.paydayDate), result.daysUntilPayday)}
         </strong>
         <br />
         <span className="small">{words.ui.moneyLineNote}</span>
