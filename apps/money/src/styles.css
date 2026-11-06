@@ -1137,6 +1137,18 @@ form > .buttons {
   height: auto;
 }
 
+/* Leave a tip: three equal amount buttons. */
+.tip-amounts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin: 1rem 0 0.75rem;
+}
+.tip-amounts button {
+  font-size: 1.25rem;
+  padding: 0.75rem 0;
+}
+
 .share-link h3 {
   font-size: 1.1rem;
 }

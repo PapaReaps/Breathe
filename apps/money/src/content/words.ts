@@ -85,6 +85,7 @@ export const words = {
     aboutTitle: "About Breathe Money",
     shareTitle: "Share Breathe Money",
     reportTitle: "Report a problem",
+    tipTitle: "Leave a tip",
     liveLine: (amount: string) => `Safe to spend now: ${amount}`,
     liveWaiting: "Your number will appear once the basics are in.",
   },
@@ -184,6 +185,14 @@ export const words = {
     noBills: "No bills before then.",
     nothing: "Nothing on this day.",
     waiting: "Once your balance and the date your money comes in are added, you'll see your bills and money days here.",
+  },
+  tip: {
+    intro: "Breathe Money is free, always. If it's helped and you'd like to say thanks, you can leave a tip.",
+    gentle: "Only if you can spare it. Tips don't unlock anything.",
+    buttonLabel: (amount: string) => `Leave a ${amount} tip`,
+    opens: "Tapping one opens Stripe's secure payment page. You can pay by card, Google Pay or Apple Pay.",
+    privacy: "Breathe never sees your card details, and nothing about your numbers is sent.",
+    thanks: "Thank you. Stripe's page is open now. When you're finished, close it to come back here.",
   },
   share: {
     intro: "Know someone who might like Breathe Money? Show them this code, or send them the link. It's free.",

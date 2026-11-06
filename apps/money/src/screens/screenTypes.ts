@@ -30,6 +30,7 @@ export type PanelId =
   | "explain"
   | "coming-up"
   | "share"
+  | "tip"
   | "report"
   | "about";
 

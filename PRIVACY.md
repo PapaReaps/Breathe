@@ -14,6 +14,7 @@
 - "Clear my numbers" in the app removes them from the device.
 - **Optional update check (Android app only, off unless you switch it on):** the app asks GitHub whether a newer version is out. Only that question is sent: never your numbers, and no account or cookies. GitHub can see that a phone asked (its internet address), as with any website. If you then tap **Download and install**, the new app file is downloaded from Breathe Money's own GitHub release page in the same way. The app checks the file is Breathe Money, and Android's own installer asks you before anything changes.
 - **Optional sounds and vibration when you tap (off unless you choose them):** the sounds are made inside the app, so nothing is downloaded. Vibration uses your phone's own vibration. In the Android app this needs the "vibrate" permission, which can do nothing else.
+- **Optional tips (Leave a tip):** tapping an amount opens **Stripe's own payment page** (stripe.com), in a new tab or over the Android app. Breathe sends nothing to it except opening the page. Your card or wallet details go to Stripe, never to Breathe, and nothing about your numbers is shared. Stripe's own privacy policy covers that page. Tips are entirely optional and unlock nothing.
 - **The Android app** keeps your numbers inside the app on your phone. Android's Google Drive backup and phone-to-phone transfer are **switched off** for it, so nothing is copied off the phone. Saving a backup opens Android's share sheet, and you choose where the file goes. See [docs/ANDROID-APP.md](docs/ANDROID-APP.md).
 
 ## Our promises
@@ -21,7 +22,7 @@
 1. **No accounts.** No username, no password, no name, no address.
 2. **Your data stays on your device.** There is no Breathe server and no cloud database.
 3. **No tracking.** No analytics, no advertising, no third-party scripts, no fonts loaded from other companies.
-4. **No bank logins. Ever.** Breathe will never ask for your real bank details. Version one has no bank connections.
+4. **No bank logins. Ever.** Breathe will never ask for your real bank details. Version one has no bank connections. (An optional tip is paid on Stripe's own page; Breathe never sees those details.)
 5. **Honest about the limits.** Information saved in a browser is **not automatically encrypted**. We explain exactly what that means in [docs/STORAGE-AND-BACKUPS.md](docs/STORAGE-AND-BACKUPS.md), and the app will say it in plain words too.
 6. **Fictional data only** in demonstrations, screenshots, tests and documentation.
 

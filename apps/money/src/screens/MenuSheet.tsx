@@ -18,6 +18,7 @@ import { SettingsView } from "./SettingsView";
 import type { OptionGroup } from "./SettingsView";
 import { SetupView } from "./SetupView";
 import { ReportView, ShareView } from "./ShareView";
+import { TipView } from "./TipView";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 interface MenuSheetProps {
@@ -59,13 +60,14 @@ const TITLES: Record<PanelId, string> = {
   "coming-up": words.comingUp.title,
   share: words.menu.shareTitle,
   report: words.menu.reportTitle,
+  tip: words.menu.tipTitle,
   about: words.menu.aboutTitle,
 };
 
 /** Where each page's Back button goes: the folder it lives in. */
 function parentOf(panel: PanelId): PanelId {
   if (panel === "setup" || panel === "settings" || panel === "data" || panel === "help" || panel === "holidays") return "more";
-  if (panel === "share" || panel === "report" || panel === "about") return "help";
+  if (panel === "share" || panel === "tip" || panel === "report" || panel === "about") return "help";
   if (panel.startsWith("opt-")) return "settings";
   return "menu";
 }
@@ -177,6 +179,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
             {panel === "data" ? <DataView data={data} hasNumbers={hasNumbers(form)} /> : null}
             {panel === "share" ? <ShareView /> : null}
+            {panel === "tip" ? <TipView /> : null}
             {panel === "report" ? <ReportView /> : null}
             {panel === "about" ? <AboutView /> : null}
           </div>
@@ -306,6 +309,7 @@ function MoreList({ onPanel, holidays }: { onPanel: (panel: PanelId) => void; ho
 function HelpList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
   const items: Array<[PanelId, string]> = [
     ["share", words.menu.shareTitle],
+    ["tip", words.menu.tipTitle],
     ["report", words.menu.reportTitle],
     ["about", words.menu.aboutTitle],
   ];
