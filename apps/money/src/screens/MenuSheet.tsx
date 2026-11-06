@@ -17,6 +17,7 @@ import { ComingUpView } from "./ComingUpView";
 import { SettingsView } from "./SettingsView";
 import type { OptionGroup } from "./SettingsView";
 import { SetupView } from "./SetupView";
+import { DEFAULT_SETTINGS } from "../storage/settings";
 import { ReportView, ShareView } from "./ShareView";
 import { TipView } from "./TipView";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -177,7 +178,9 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} /> : null}
             {groupOf(panel) !== null ? <SettingsView settings={settings} group={groupOf(panel)!} /> : null}
             {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
-            {panel === "data" ? <DataView data={data} hasNumbers={hasNumbers(form)} /> : null}
+            {panel === "data" ? (
+              <DataView data={data} hasNumbers={hasNumbers(form)} onResetSettings={() => settings.change(DEFAULT_SETTINGS)} />
+            ) : null}
             {panel === "share" ? <ShareView /> : null}
             {panel === "tip" ? <TipView /> : null}
             {panel === "report" ? <ReportView /> : null}

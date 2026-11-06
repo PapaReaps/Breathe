@@ -23,12 +23,16 @@ type Restore =
 
 interface DataViewProps {
   data: DataApi;
+  /** Puts every setting back to how it started (the PIN privacy screen is separate and stays). */
+  onResetSettings: () => void;
   /** Whether anything has been typed in yet, so "nothing changed" isn't read as "nothing saved". */
   hasNumbers: boolean;
 }
 
 /** Where the numbers live, their limits, and the ways to back up, restore or clear them. */
-export function DataView({ data, hasNumbers }: DataViewProps) {
+export function DataView({ data, hasNumbers, onResetSettings }: DataViewProps) {
+  const [resetToo, setResetToo] = useState(false);
+  const [settingsReset, setSettingsReset] = useState(false);
   const [backupMade, setBackupMade] = useState(false);
   const [restore, setRestore] = useState<Restore>({ step: "none" });
   const [confirmingClear, setConfirmingClear] = useState(false);
@@ -147,13 +151,24 @@ export function DataView({ data, hasNumbers }: DataViewProps) {
         {confirmingClear ? (
           <div className="gentle" role="group" aria-label={text.clearSure}>
             <p>{text.clearSure}</p>
+            <label className="choice">
+              <input type="checkbox" checked={resetToo} onChange={(event) => setResetToo(event.target.checked)} />
+              <span>
+                {text.resetSettingsToo}
+                <span className="hint choice-hint">{text.resetSettingsHint}</span>
+              </span>
+            </label>
             <div className="buttons">
               <button
                 type="button"
                 onClick={async () => {
                   setConfirmingClear(false);
                   setRestore({ step: "none" });
-                  setCleared(await data.clearAll());
+                  const done = await data.clearAll();
+                  if (resetToo) onResetSettings();
+                  setSettingsReset(resetToo);
+                  setResetToo(false);
+                  setCleared(done);
                 }}
               >
                 {text.clearYes}
@@ -177,7 +192,7 @@ export function DataView({ data, hasNumbers }: DataViewProps) {
         )}
         {cleared !== null ? (
           <p className="small" aria-live="polite">
-            {cleared ? text.clearedDone : text.clearedPartly}
+            {cleared ? (settingsReset ? text.clearedAll : text.clearedDone) : text.clearedPartly}
           </p>
         ) : null}
       </section>

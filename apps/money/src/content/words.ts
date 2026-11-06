@@ -163,6 +163,9 @@ export const words = {
     clearIntro: "This removes your numbers from this device. Backup files you've saved aren't affected.",
     clearButton: "Clear my numbers",
     clearSure: "Remove everything from this device?",
+    resetSettingsToo: "Also reset my settings to how they started",
+    resetSettingsHint: "Colours, text size, home screen, sounds and reminders. A privacy screen PIN stays until you switch it off.",
+    clearedAll: "Your numbers have been cleared, and your settings are back to how they started.",
     clearYes: "Yes, clear them",
     clearNo: "No, keep them",
     clearedDone: "Your numbers have been cleared from this device.",
@@ -518,6 +521,7 @@ export const words = {
       "next-working-day": "the next working day",
     },
     change: "Change",
+    clearDate: "Clear date",
     balanceCheckedToday: "Checked today.",
     balanceOtherDay: "Checked it on another day?",
     paydayRuleOptions: {

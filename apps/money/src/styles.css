@@ -1469,3 +1469,9 @@ a.button-link {
     transform: none;
   }
 }
+
+/* "Clear date" under a date box: small, so it never competes with the box itself. */
+.clear-date {
+  font-size: 0.9rem;
+  margin-top: 0.35rem;
+}

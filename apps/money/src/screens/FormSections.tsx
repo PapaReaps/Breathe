@@ -69,6 +69,19 @@ export function AccountSection({ form, today, api }: SectionProps) {
   );
 }
 
+/**
+ * Android's calendar has no "Clear" button, so once a date is picked it can't be emptied there.
+ * This small link does it, and only shows when there's a date to clear.
+ */
+function ClearDate({ value, onClear }: { value: string; onClear: () => void }) {
+  if (value === "") return null;
+  return (
+    <button type="button" className="link clear-date" onClick={onClear}>
+      {ui.clearDate}
+    </button>
+  );
+}
+
 /** "How often?" for a bill or for money coming in, with a short hint when it repeats. */
 function RepeatField({
   id,
@@ -135,6 +148,7 @@ export function PaydaySection({ form, today, api, compactRule = false }: PaydayP
           value={form.paydayDate}
           onChange={(event) => api.set("paydayDate", event.target.value)}
         />
+        <ClearDate value={form.paydayDate} onClear={() => api.set("paydayDate", "")} />
       </div>
       <div className="field">
         <label htmlFor="payday-repeat">{ui.paydayRepeatLabel}</label>
@@ -219,6 +233,7 @@ export function BillsSection({ form, api, hideHint = false }: SectionProps) {
                 value={bill.dueDate}
                 onChange={(event) => api.updateBill(bill.id, { dueDate: event.target.value })}
               />
+              <ClearDate value={bill.dueDate} onClear={() => api.updateBill(bill.id, { dueDate: "" })} />
             </div>
             <RepeatField
               id={`${bill.id}-repeat`}
@@ -274,6 +289,7 @@ export function IncomeSection({ form, api, hideHint = false, simple = false }: S
                 value={item.date}
                 onChange={(event) => api.updateIncome(item.id, { date: event.target.value })}
               />
+              <ClearDate value={item.date} onClear={() => api.updateIncome(item.id, { date: "" })} />
             </div>
             <RepeatField
               id={`${item.id}-repeat`}
