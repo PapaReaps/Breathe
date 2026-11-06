@@ -33,9 +33,9 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
     </td>
     <td align="center" valign="top">
       <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="180" alt="QR code that opens Breathe Money in your web browser"></a><br>
-      <b>iPhone or computer</b><br>
+      <b>iPhone</b><br>
       <a href="https://papareaps.github.io/Breathe/">Open →</a><br>
-      <sub>Nothing to install.</sub>
+      <sub>Or any computer.</sub>
     </td>
   </tr>
 </table>
