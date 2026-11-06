@@ -150,7 +150,7 @@ No account, no download.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-share-dark.png">
-    <img src="docs/images/row-share.png" alt="Three screens: Share Breathe Money, with a QR code a friend can scan, a switch for Android or iPhone, and the link to copy or share; Help and sharing; and Report a problem" width="100%">
+    <img src="docs/images/row-share.png" alt="Three screens: Share Breathe Money, with a QR code a friend can scan, a switch for Android or iPhone, and the link to copy or share; Help and sharing, with Share, Leave a tip, Report a problem and About; and Report a problem" width="100%">
   </picture>
 </p>
 
