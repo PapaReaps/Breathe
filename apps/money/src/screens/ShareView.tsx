@@ -1,22 +1,35 @@
 import { useState } from "react";
 import { words } from "../content/words";
 import { isNativeApp } from "../platform";
+import { QrCode } from "./QrCode";
 
 /** Where Breathe Money lives. These are only links the person chooses to copy or open: nothing is fetched. */
 export const WEB_ADDRESS = "https://papareaps.github.io/Breathe/";
-export const APK_PAGE = "https://github.com/PapaReaps/Breathe/releases/latest";
+/** Always the newest Android app: each release also uploads a copy named breathe-money.apk. Tapping it downloads straight away. */
+export const APK_DOWNLOAD = "https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk";
 /** GitHub's page for choosing a report form: "Something isn't working" or "An idea". */
 export const REPORT_PAGE = "https://github.com/PapaReaps/Breathe/issues/new/choose";
 
 const text = words.share;
 
-/** "Share Breathe Money": copy (or share) the website link or the Android download page. */
+type Kind = "android" | "web";
+const LINKS: Record<Kind, string> = { android: APK_DOWNLOAD, web: WEB_ADDRESS };
+
+/** "Share Breathe Money": a QR code a friend can point their camera at, plus the same link to copy or share. */
 export function ShareView() {
+  const [kind, setKind] = useState<Kind>("android");
   return (
     <>
       <p>{text.intro}</p>
-      <ShareLink title={text.webTitle} hint={text.webHint} url={WEB_ADDRESS} />
-      <ShareLink title={text.apkTitle} hint={text.apkHint} url={APK_PAGE} />
+      <div className="view-switch" role="radiogroup" aria-label={text.switchLabel}>
+        {(["android", "web"] as const).map((choice) => (
+          <label key={choice} className={kind === choice ? "picked" : ""}>
+            <input type="radio" name="share-kind" checked={kind === choice} onChange={() => setKind(choice)} />
+            {text.kinds[choice]}
+          </label>
+        ))}
+      </div>
+      <ShareLink key={kind} title={text.titles[kind]} hint={text.hints[kind]} url={LINKS[kind]} />
     </>
   );
 }
@@ -49,6 +62,7 @@ function ShareLink({ title, hint, url }: { title: string; hint: string; url: str
 
   return (
     <section className="share-link">
+      <QrCode text={url} label={text.qrLabel(title)} />
       <h3>{title}</h3>
       <p className="small">{hint}</p>
       <p className="share-address">{url}</p>

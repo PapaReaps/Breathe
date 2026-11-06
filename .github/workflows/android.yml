@@ -99,6 +99,9 @@ jobs:
           rm -f "$BREATHE_KEYSTORE_FILE"
           mkdir -p ../out
           cp app/build/outputs/apk/release/app-release.apk "../out/breathe-money-v${{ steps.version.outputs.name }}.apk"
+          # The same file under a name that never changes, so one link always downloads the newest:
+          # github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk (used by Share Breathe Money).
+          cp app/build/outputs/apk/release/app-release.apk "../out/breathe-money.apk"
 
       - name: Publish the GitHub Release
         if: steps.version.outputs.release == 'true'

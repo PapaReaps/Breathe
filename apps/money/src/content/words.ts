@@ -184,11 +184,16 @@ export const words = {
     waiting: "Once your balance and the date your money comes in are added, you'll see your bills and money days here.",
   },
   share: {
-    intro: "Know someone who might like Breathe Money? Copy a link and send it to them. It's free.",
-    webTitle: "The website",
-    webHint: "Works on any phone or computer, in a web browser.",
-    apkTitle: "The Android app",
-    apkHint: "The download page for Android phones. Tap the .apk file there to install it.",
+    intro: "Know someone who might like Breathe Money? Show them this code, or send them the link. It's free.",
+    switchLabel: "Which phone does your friend have?",
+    kinds: { android: "Android", web: "iPhone or computer" },
+    titles: { android: "Breathe Money for Android", web: "Breathe Money in the browser" },
+    hints: {
+      android:
+        "Your friend points their phone camera at the code, and the download starts straight away. Android asks them once to allow the install. That's normal.",
+      web: "For iPhones and computers. Your friend points their camera at the code, and it opens straight away, with nothing to install.",
+    },
+    qrLabel: (title: string) => `QR code for ${title}. The same link is written below.`,
     copy: "Copy link",
     share: "Share",
     copied: "Link copied. You can paste it into a message.",

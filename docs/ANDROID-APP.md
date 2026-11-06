@@ -14,7 +14,7 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 
 ## Installing the APK
 
-1. On your Android phone, open the [latest release](https://github.com/PapaReaps/Breathe/releases/latest) and tap the file ending in `.apk`.
+1. On your Android phone, tap **[this download link](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)** (or point the camera at the QR code on a friend's phone: **Menu → Settings → Help and sharing → Share Breathe Money**). The download starts straight away, then tap **Open**. You can also pick the file ending in `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).
 2. Android asks whether your browser may "install unknown apps". That's Android's standard check for anything that doesn't come from the Play Store. Allow it for this one install (you can switch it off again afterwards).
 3. Tap **Install**, then **Open**.
 

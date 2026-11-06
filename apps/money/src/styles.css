@@ -1094,6 +1094,21 @@ form > .buttons {
   margin: 0 0 1.5rem;
 }
 
+/* The QR code: dark squares on white in every theme, so any camera can read it. */
+.qr-card {
+  width: min(15rem, 100%);
+  margin: 0.5rem auto 1rem;
+  padding: 0.75rem;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.qr-card svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .share-link h3 {
   font-size: 1.1rem;
 }
