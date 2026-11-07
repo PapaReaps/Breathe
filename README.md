@@ -57,7 +57,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 **"How much can I spend until my money comes in?"**
 
-Type what's in your account. Breathe Money sets aside your bills, food and travel, and any savings you want to keep. What's left is one big number.
+Type what's in your account. Breathe Money sets aside your bills, food and travel. What's left is one big number.
 
 **In the clip:**
 
@@ -85,7 +85,7 @@ No account, no download.
   </picture>
 </p>
 
-- Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel, and some savings kept aside.
+- Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice.
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
 - Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
@@ -134,8 +134,8 @@ No account, no download.
 - Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz. All off until you choose.
 - **A calm opening:** "breathe" takes one deep breath, slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
-- **Add to your savings or take some out** with one tap. Your savings and balance move together, so your number stays steady.
-- **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. Your savings are still kept aside. What your money is called (like "Universal Credit") stays off the home screen unless you choose to show it.
+- **Keep track of your savings** separately: type what you've saved, then add to it or take some out with one tap. Savings never change your number.
+- **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. What your money is called (like "Universal Credit") stays off the home screen unless you choose to show it.
 
 <p align="center">
   <picture>

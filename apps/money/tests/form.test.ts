@@ -32,7 +32,7 @@ describe("turning the form into calculator input", () => {
     expect(messagesOf(result)).toEqual([words.needBalance, words.needPayday]);
   });
 
-  it("a realistic month adds up (£168.00)", () => {
+  it("a realistic month adds up (£218.00), and savings never change it", () => {
     const bill = { ...newBillRow(), name: "Phone", amount: "18", dueDate: "2026-11-10" };
     const input = ready(
       buildInput(
@@ -40,8 +40,9 @@ describe("turning the form into calculator input", () => {
         TODAY,
       ),
     );
-    // 16 days to payday. 420 - 18 - food (63 a week = 144) - travel (17.50 a week = 40) - buffer 50 (one-off)
-    expect(calculateSafeToSpend(input).safeToSpend).toBe(16800);
+    // 16 days to payday. 420 - 18 - food (63 a week = 144) - travel (17.50 a week = 40).
+    // Savings (50) are a separate tracker, so they are not taken off.
+    expect(calculateSafeToSpend(input).safeToSpend).toBe(21800);
   });
 
   it("blank rows are ignored, and half-filled rows get a gentle nudge", () => {

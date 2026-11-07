@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { InvalidInputError } from "../logic/errors";
 import { buildInput, newBillRow, newIncomeRow, withBalance } from "../logic/form";
+import { savingsNow } from "../logic/savings";
 import { calculateSafeToSpend } from "../logic/safeToSpend";
 import { localToday } from "../logic/today";
 import { HomeView } from "./HomeView";
@@ -116,10 +117,11 @@ export default function CalculatorScreen() {
     }
   }, [built]);
 
-  // The savings pot, shown as one quiet line when there is one.
+  // Savings, shown as one quiet line when there are some. They're tracked separately, so read from the form.
+  const savingsTotal = savingsNow(form.buffer);
   const potAmount =
-    built.status === "ready" && outcome !== null && outcome.ok && outcome.result.safeToSpend !== null && built.input.buffer > 0
-      ? formatMoney(built.input.buffer)
+    built.status === "ready" && outcome !== null && outcome.ok && outcome.result.safeToSpend !== null && savingsTotal !== null && savingsTotal > 0
+      ? formatMoney(savingsTotal)
       : null;
 
   // "Fresh" means nothing important has been typed yet, so we say a proper hello.

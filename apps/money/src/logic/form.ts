@@ -402,12 +402,8 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
       essentials.push({ id: "travel", name: "Travel", kind: "per-week", amount: parsed.pence });
     }
   }
-  let buffer = 0;
-  if (!blank(form.buffer)) {
-    const parsed = parseMoney(form.buffer);
-    if (!parsed.ok) messages.push(words.cantReadAmount("your savings"));
-    else buffer = parsed.pence;
-  }
+  // Savings are a separate tracker (v0.25.0): they never change the safe-to-spend number.
+  const buffer = 0;
 
   if (messages.length > 0 || balance === null || plan === null) {
     return { status: "needs-more", messages };

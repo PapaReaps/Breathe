@@ -10,7 +10,6 @@ export function PotBadge({ amount }: { amount: string }) {
       </svg>
       <span className="pot-label">{home.potLabel}</span>
       <span className="pot-amount">{amount}</span>
-      <span className="pot-label">{home.potKept}</span>
     </p>
   );
 }

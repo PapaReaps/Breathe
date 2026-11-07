@@ -57,7 +57,8 @@ describe("pounds and pence together", () => {
         continue;
       }
       const expected =
-        balancePence - bills - ceilDiv(food * 100 * days, 7) - ceilDiv(travel * 100 * days, 7) - pot * 100;
+        // Savings ("pot") are tracked separately and never taken off the number.
+        balancePence - bills - ceilDiv(food * 100 * days, 7) - ceilDiv(travel * 100 * days, 7);
       if (calculateSafeToSpend(built.input).safeToSpend !== expected) mismatches += 1;
     }
     expect(mismatches).toBe(0);
