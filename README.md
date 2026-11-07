@@ -10,7 +10,7 @@
 > **Breathe will never be about making money. It will always be about helping people.**
 
 <p align="center">
-  <img src="docs/images/hero.png" alt="Breathe Money: How much can I spend until my money comes in? One calm number, after your bills, food, travel and savings. Shown on three phones in light, dark and plum colours" width="100%">
+  <img src="docs/images/hero.png" alt="Breathe Money: How much can I spend until my money comes in? One calm number, after your bills, food and travel. Shown on three phones in light, dark and plum colours" width="100%">
 </p>
 
 <p align="center">
@@ -51,7 +51,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ## Breathe Money in 15 seconds
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img align="left" width="36%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £343.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £509.14, then the app switches to dark mode"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img align="left" width="36%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode"></picture>
 
 ### One question, one calm answer
 
@@ -81,7 +81,7 @@ No account, no download.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-dark.png">
-    <img src="docs/images/row-number.png" alt="Three screens: just the number (Safe to spend until your money comes in, £343.74); the Menu, where everything else lives; and Where this number comes from, with every pound explained line by line" width="100%">
+    <img src="docs/images/row-number.png" alt="Three screens: just the number (Safe to spend until your money comes in, £493.74); the Menu, where everything else lives; and Where this number comes from, with every pound explained line by line" width="100%">
   </picture>
 </p>
 
