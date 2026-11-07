@@ -52,7 +52,7 @@ It is a personal project, built by someone who struggles with these things too. 
 ## Breathe Money in 15 seconds
 
 <p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-words-dark.gif"><img width="100%" src="docs/images/demo-words.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-words-dark.gif"><img width="80%" src="docs/images/demo-words.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
 </p>
 
 <p align="center"><a href="https://papareaps.github.io/Breathe/"><b>Try it now →</b></a> No account, no download.</p>
