@@ -138,6 +138,17 @@ function MonthView({ data, name }: { data: ComingUp; name: string }) {
                   </span>
                 );
               }
+              // A small "in" or "out" under the date, the same words as the list.
+              const hasOut = day.items.some((x) => x.kind === "bill");
+              const hasIn = day.items.some((x) => x.kind === "income");
+              const mark =
+                date === data.moneyDay
+                  ? text.payWord
+                  : hasOut && hasIn
+                    ? `${text.inWord}·${text.outWord}`
+                    : hasOut
+                      ? text.outWord
+                      : text.inWord;
               return (
                 <button
                   key={date}
@@ -148,6 +159,9 @@ function MonthView({ data, name }: { data: ComingUp; name: string }) {
                   onClick={() => setSelected(date)}
                 >
                   {number}
+                  <span className="month-mark" aria-hidden="true">
+                    {mark}
+                  </span>
                 </button>
               );
             })}
@@ -155,7 +169,8 @@ function MonthView({ data, name }: { data: ComingUp; name: string }) {
         </section>
       ))}
       <div className="month-key" aria-hidden="true">
-        <span><i className="key-bill" />{text.bill}</span>
+        <span><i className="key-bill" />{text.keyOut}</span>
+        <span><i className="key-in" />{text.keyIn}</span>
         <span><i className="key-money" />{text.moneyDayNamed(name)}</span>
         <span><i className="key-today" />{text.today}</span>
       </div>
@@ -164,13 +179,23 @@ function MonthView({ data, name }: { data: ComingUp; name: string }) {
         {chosen === undefined ? (
           <p>{text.nothing}</p>
         ) : (
-          chosen.items.map((item) => (
-            <p key={item.kind === "money-day" ? "money" : item.id}>
-              {item.kind === "money-day"
-                ? text.moneyDayNamed(name)
-                : `${item.name} · ${formatMoney(item.amount)} ${item.kind === "income" ? text.inWord : text.outWord}`}
-            </p>
-          ))
+          chosen.items.map((item) =>
+            item.kind === "money-day" ? (
+              <div key="money" className="coming-item month-row">
+                <b className="coming-in">{text.moneyDayNamed(name)}</b>
+              </div>
+            ) : (
+              <div key={item.id} className="coming-item month-row">
+                <span>{item.name}</span>
+                <b className="coming-amount">
+                  {formatMoney(item.amount)}
+                  <span className={item.kind === "income" ? "coming-way coming-in" : "coming-way coming-out"}>
+                    {item.kind === "income" ? text.inWord : text.outWord}
+                  </span>
+                </b>
+              </div>
+            ),
+          )
         )}
       </div>
     </>
