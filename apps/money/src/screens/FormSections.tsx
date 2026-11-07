@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { MoneyField } from "../components/MoneyField";
 import { isNativeApp } from "../platform";
+import { changeSavings, savingsNow } from "../logic/savings";
+import { formatMoney } from "../logic/money";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
 import { BUILT_IN_LAST_DAY, HOLIDAY_REGIONS } from "../data/bankHolidays";
@@ -378,14 +380,112 @@ export function EssentialsSection({ form, api }: SectionProps) {
   );
 }
 
+/**
+ * Savings: the total kept aside, with Add and Take out so nobody has to work out a new total.
+ * The money stays in the everyday account; only the amount kept aside changes.
+ */
 export function PotSection({ form, api }: SectionProps) {
+  const s = words.savings;
+  const now = savingsNow(form.buffer);
+  const [mode, setMode] = useState<"add" | "take" | "type" | null>(null);
+  const [amount, setAmount] = useState("");
+  const [problem, setProblem] = useState<string | null>(null);
+  const [last, setLast] = useState<{ kind: "add" | "take"; amount: string; before: string } | null>(null);
+
+  // Something that can't be read, or "type a new total": the plain box, as before.
+  if (now === null || mode === "type") {
+    return (
+      <>
+        <MoneyField label={ui.bufferLabel} hint={ui.bufferHint} value={form.buffer} onChange={(value) => api.set("buffer", value)} />
+        {now !== null ? (
+          <button type="button" className="link" onClick={() => setMode(null)}>
+            {s.backToButtons}
+          </button>
+        ) : null}
+      </>
+    );
+  }
+
+  function start(kind: "add" | "take") {
+    setMode(kind);
+    setAmount("");
+    setProblem(null);
+    setLast(null);
+  }
+
+  function confirm(kind: "add" | "take") {
+    const result = changeSavings(form.buffer, amount, kind);
+    if (!result.ok) {
+      setProblem(result.reason === "more-than-saved" ? s.moreThanSaved(formatMoney(now ?? 0)) : s.cantRead);
+      return;
+    }
+    setLast({ kind, amount: formatMoney(savingsNow(amount) ?? 0), before: form.buffer });
+    api.set("buffer", result.text);
+    setMode(null);
+    setAmount("");
+    setProblem(null);
+  }
+
+  const typed = savingsNow(amount);
+  const amountText = typed !== null && typed > 0 ? formatMoney(typed) : "";
+
   return (
-    <MoneyField
-      label={ui.bufferLabel}
-      hint={ui.bufferHint}
-      value={form.buffer}
-      onChange={(value) => api.set("buffer", value)}
-    />
+    <>
+      <p className="hint">{s.intro}</p>
+      <div className="savings-card">
+        <span className="small">{s.keptAside}</span>
+        <strong>{formatMoney(now)}</strong>
+      </div>
+
+      {mode === "add" || mode === "take" ? (
+        <>
+          <MoneyField label={mode === "add" ? s.howMuchAdd : s.howMuchTake} value={amount} onChange={setAmount} />
+          {problem ? <p className="gentle small">{problem}</p> : null}
+          <div className="buttons">
+            <button type="button" onClick={() => confirm(mode)}>
+              {mode === "add" ? s.addButton(amountText) : s.takeButton(amountText)}
+            </button>
+            <button type="button" className="secondary" onClick={() => setMode(null)}>
+              {s.cancel}
+            </button>
+          </div>
+          {amountText ? <p className="gentle small">{mode === "add" ? s.addNote(amountText) : s.takeNote(amountText)}</p> : null}
+        </>
+      ) : (
+        <>
+          <div className="buttons savings-buttons">
+            <button type="button" onClick={() => start("add")}>
+              {s.add}
+            </button>
+            {now > 0 ? (
+              <button type="button" className="secondary" onClick={() => start("take")}>
+                {s.take}
+              </button>
+            ) : null}
+          </div>
+          <p className="small" aria-live="polite">
+            {last ? (
+              <>
+                {last.kind === "add" ? s.added(last.amount) : s.tookOut(last.amount)}{" "}
+                <button
+                  type="button"
+                  className="link"
+                  onClick={() => {
+                    api.set("buffer", last.before);
+                    setLast(null);
+                  }}
+                >
+                  {s.undo}
+                </button>
+              </>
+            ) : null}
+          </p>
+          <button type="button" className="link" onClick={() => setMode("type")}>
+            {s.typeTotal}
+          </button>
+        </>
+      )}
+    </>
   );
 }
 

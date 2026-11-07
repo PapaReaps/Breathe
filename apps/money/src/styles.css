@@ -1475,3 +1475,23 @@ a.button-link {
   font-size: 0.9rem;
   margin-top: 0.35rem;
 }
+
+/* Savings: the total kept aside, in the savings colour. */
+.savings-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  margin: 0.5rem 0 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: var(--joy-bg);
+  color: var(--joy);
+}
+.savings-card strong {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+.savings-buttons button {
+  min-width: 8rem;
+}
