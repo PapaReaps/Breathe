@@ -1288,14 +1288,15 @@ a.button-link {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-/* "in" or "out" after the amount, in its own narrow column so the amounts stay lined up. */
+/* "in" or "out", small under the amount, so the amounts themselves stay lined up. */
+.coming-amount {
+  text-align: right;
+}
 .coming-way {
-  display: inline-block;
-  width: 1.9em;
-  margin-left: 0.4em;
-  text-align: left;
-  font-size: 0.85em;
+  display: block;
+  font-size: 0.8em;
   font-weight: 600;
+  line-height: 1.1;
 }
 .coming-in {
   color: var(--accent);
