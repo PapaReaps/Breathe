@@ -19,9 +19,9 @@ describe("one line per bill", () => {
     expect(summary.unfinished).toBe(true);
   });
 
-  it("marks money that might not come", () => {
+  it("no longer adds a 'might come' note, now that all extra money counts", () => {
     const row = { ...newIncomeRow(), name: "Refund", amount: "30", date: "2026-11-12", reliability: "uncertain" as const };
-    expect(summariseIncome(row).detail).toBe("£30.00 · Thu 12 Nov · might come");
+    expect(summariseIncome(row).detail).toBe("£30.00 · Thu 12 Nov");
   });
 
   it("keeps what was typed if an amount can't be read yet", () => {
@@ -196,9 +196,9 @@ describe("list lines for things that repeat", () => {
     expect(summariseBill(row).detail).toBe("£100.00 · Fri 13 Nov");
   });
 
-  it("repeating money coming in keeps its 'might come' note", () => {
+  it("repeating money coming in reads simply", () => {
     const row = { ...newIncomeRow(), name: "Shifts", amount: "80", date: "2026-11-13", repeat: "weekly" as const, reliability: "uncertain" as const };
-    expect(summariseIncome(row).detail).toBe("£80.00 · every week from Fri 13 Nov · might come");
+    expect(summariseIncome(row).detail).toBe("£80.00 · every week from Fri 13 Nov");
   });
 
   it("without a date yet it still reads sensibly", () => {

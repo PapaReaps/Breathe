@@ -293,11 +293,11 @@ describe("money coming in that repeats", () => {
     expect(calculateSafeToSpend(built.input).safeToSpend).toBe(62000);
   });
 
-  it("repeating money that might not come is listed, never added", () => {
+  it("repeating money saved as 'not sure' before that choice was removed now counts", () => {
     const built = ready(buildInput(filled({ income: [income("50", "2026-11-06", "weekly", "uncertain")] }), TODAY));
     const result = calculateSafeToSpend(built.input);
-    expect(result.safeToSpend).toBe(42000);
-    expect(result.uncertainIncome.total).toBe(10000);
+    expect(result.safeToSpend).toBe(42000 + 10000);
+    expect(result.uncertainIncome.total).toBe(0);
   });
 
   it("money arriving on the day the balance was entered asks, and is not added until answered", () => {

@@ -86,7 +86,7 @@ No account, no download.
 </p>
 
 - Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel, and some savings kept aside.
-- Counts every pound **once**. Bills already taken from your balance aren't taken off twice, and money that might not arrive is never counted.
+- Counts every pound **once**. Bills already taken from your balance aren't taken off twice.
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
 - Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
 
@@ -119,7 +119,6 @@ No account, no download.
 </p>
 
 - **Coming up** shows your bills and the day your money comes in, from today until then. Switch between **List** and **Month**, and the app remembers which you like.
-- Only money you're sure of is shown. Money that might come is left off, just as it is in your number.
 
 ### Make it yours
 

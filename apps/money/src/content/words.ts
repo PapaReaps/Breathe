@@ -524,6 +524,7 @@ export const words = {
     clearDate: "Clear date",
     pickDate: "Tap the box below to pick a date.",
     removeMainMoney: "Remove main money",
+    mainMoneyTitle: "Your main money",
     balanceCheckedToday: "Checked today.",
     balanceOtherDay: "Checked it on another day?",
     paydayRuleOptions: {

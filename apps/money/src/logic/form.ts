@@ -379,7 +379,8 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
         name,
         amount: parsed.pence,
         date: item.date,
-        reliability: row.reliability,
+        // Every extra money counts: "how sure" was removed (v0.23.9). Older "not sure" rows count too.
+        reliability: "reliable",
         ...(answer === undefined ? {} : { alreadyInBalance: answer }),
       });
     }

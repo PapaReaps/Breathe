@@ -112,7 +112,7 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
               <strong>{describeForm(form, today).payday}</strong>
             </p>
           ) : null}
-          <IncomeSection form={form} today={today} api={api} hideHint simple />
+          <IncomeSection form={form} today={today} api={api} hideHint />
         </>
       ) : null}
       {step === "bills" ? <BillsSection form={form} today={today} api={api} hideHint /> : null}

@@ -52,10 +52,9 @@ export function summariseBill(row: BillRow): RowSummary {
 export function summariseIncome(row: IncomeRow): RowSummary {
   const amount = amountText(row.amount);
   const date = dateText(row.date);
-  const maybe = row.reliability === "uncertain" ? ` · ${words.rows.mightCome}` : "";
   return {
     title: row.name.trim() === "" ? words.rows.unnamedIncome : row.name.trim(),
-    detail: `${amount.text} · ${whenText(repeatOf(row.repeat), date)}${maybe}`,
+    detail: `${amount.text} · ${whenText(repeatOf(row.repeat), date)}`,
     unfinished: !amount.ok || !date.ok,
   };
 }

@@ -4,7 +4,7 @@ import { isNativeApp } from "../platform";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
 import { BUILT_IN_LAST_DAY, HOLIDAY_REGIONS } from "../data/bankHolidays";
-import { paydayRuleQuestion, regionOf } from "../logic/form";
+import { describeForm, paydayRuleQuestion, regionOf } from "../logic/form";
 import type { FormState } from "../logic/form";
 import { billsTotalLine, incomeTotalLine, isBlankBill, isBlankIncome, summariseBill, summariseIncome } from "../logic/rows";
 import { REPEATS } from "../logic/repeat";
@@ -129,7 +129,23 @@ export function PaydaySection({ form, today, api, compactRule = false, removable
   }, [needsDefault, api]);
   const shortRule = compactRule && !changing && form.paydayRule !== "";
   const repeat: Repeat = REPEATS.includes(form.paydayRepeat) ? form.paydayRepeat : "once";
-  return (
+  // Menu page only: once the date is in, the main money folds into one line, like bills and other money.
+  const [open, setOpen] = useState(form.paydayDate === "");
+  if (removable && !open && form.paydayDate !== "") {
+    const summary = describeForm({ ...form, paydayName: "" }, today).payday;
+    return (
+      <ul className="menu-list">
+        <li>
+          <button type="button" className="menu-item" aria-expanded={false} onClick={() => setOpen(true)}>
+            <span className="menu-title">{form.paydayName.trim() === "" ? ui.mainMoneyTitle : form.paydayName.trim()}</span>
+            <span className="menu-sub">{summary}</span>
+            <span className="visually-hidden">{`, ${ui.change}`}</span>
+          </button>
+        </li>
+      </ul>
+    );
+  }
+  const fields = (
     <>
       <div className="field">
         <label htmlFor="payday-name">{ui.paydayNameLabel}</label>
@@ -200,8 +216,19 @@ export function PaydaySection({ form, today, api, compactRule = false, removable
           </select>
         </div>
       ) : null}
-      {removable && hasMainMoney ? (
-        <div className="buttons">
+    </>
+  );
+  if (!removable) return fields;
+  return (
+    <div className="row-editor main-money-editor">
+      {fields}
+      <div className="buttons">
+        {form.paydayDate !== "" ? (
+          <button type="button" onClick={() => setOpen(false)}>
+            {words.rows.done}
+          </button>
+        ) : null}
+        {hasMainMoney ? (
           <button
             type="button"
             className="secondary"
@@ -214,9 +241,9 @@ export function PaydaySection({ form, today, api, compactRule = false, removable
           >
             {ui.removeMainMoney}
           </button>
-        </div>
-      ) : null}
-    </>
+        ) : null}
+      </div>
+    </div>
   );
 }
 
@@ -276,8 +303,7 @@ export function BillsSection({ form, api, hideHint = false }: SectionProps) {
   );
 }
 
-/** In setup, extra money is simply counted as sure: "might not arrive" stays on the Menu page. */
-export function IncomeSection({ form, api, hideHint = false, simple = false }: SectionProps & { simple?: boolean }) {
+export function IncomeSection({ form, api, hideHint = false }: SectionProps) {
   return (
     <>
       {hideHint ? null : <p className="hint">{ui.incomeHint}</p>}
@@ -326,23 +352,6 @@ export function IncomeSection({ form, api, hideHint = false, simple = false }: S
               hint={ui.repeatIncomeHint}
               onChange={(value) => api.updateIncome(item.id, { repeat: value })}
             />
-            {simple ? null : (
-            <div className="field">
-              <label htmlFor={`${item.id}-reliability`}>How sure are you?</label>
-              <select
-                id={`${item.id}-reliability`}
-                value={item.reliability}
-                onChange={(event) =>
-                  api.updateIncome(item.id, {
-                    reliability: event.target.value === "uncertain" ? "uncertain" : "reliable",
-                  })
-                }
-              >
-                <option value="reliable">{ui.incomeSure}</option>
-                <option value="uncertain">{ui.incomeMaybe}</option>
-              </select>
-            </div>
-            )}
           </>
         )}
       />

@@ -121,11 +121,11 @@ describe("turning the form into calculator input", () => {
     expect(no.safeToSpend).toBe(32000);
   });
 
-  it("money coming in can be sure or only maybe", () => {
+  it("all extra money counts, including any saved as 'not sure' before that choice was removed", () => {
     const sure = { ...newIncomeRow(), name: "Refund", amount: "30", date: "2026-11-10" };
-    const maybe = { ...newIncomeRow(), name: "Extra shift", amount: "80", date: "2026-11-12", reliability: "uncertain" as const };
-    const result = calculateSafeToSpend(ready(buildInput(filled({ income: [sure, maybe] }), TODAY)));
-    expect(result.safeToSpend).toBe(42000 + 3000);
-    expect(result.uncertainIncome.total).toBe(8000);
+    const older = { ...newIncomeRow(), name: "Extra shift", amount: "80", date: "2026-11-12", reliability: "uncertain" as const };
+    const result = calculateSafeToSpend(ready(buildInput(filled({ income: [sure, older] }), TODAY)));
+    expect(result.safeToSpend).toBe(42000 + 3000 + 8000);
+    expect(result.uncertainIncome.total).toBe(0);
   });
 });
