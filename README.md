@@ -114,11 +114,11 @@ No account, no download.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-coming-up-dark.png">
-    <img src="docs/images/row-coming-up.png" alt="Three screens of Coming up: a simple list of bills and the day your money comes in; the same as a month, with bill days in soft pink and money day in teal; and the month in dark mode" width="100%">
+    <img src="docs/images/row-coming-up.png" alt="Three screens of Coming up: a simple list of bills and the day your money comes in; the same as a month, where each bill day says out, money coming in says in, and money day says pay; and the month in dark mode" width="100%">
   </picture>
 </p>
 
-- **Coming up** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like.
+- **Coming up** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, each day says **in**, **out** or **pay** under the date.
 
 ### Make it yours
 
