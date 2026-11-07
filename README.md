@@ -113,8 +113,8 @@ No account, no download.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-coming-up-dark.png">
-    <img src="docs/images/row-coming-up.png" alt="Three screens of Coming up: a simple list of bills and the day your money comes in; the same as a month, where each bill day says out, money coming in says in, and money day says pay; and the month in dark mode" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-coming-up-dark-v2.png">
+    <img src="docs/images/row-coming-up-v2.png" alt="Three screens of Coming up: a simple list of bills and the day your money comes in; the same as a month, where each bill day says out, money coming in says in, and money day says pay; and the month in dark mode" width="100%">
   </picture>
 </p>
 
