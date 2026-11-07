@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MoneyField } from "../components/MoneyField";
 import { isNativeApp } from "../platform";
-import { changeSavings, savingsNow } from "../logic/savings";
+import { changeSavings, moveBalance, savingsNow } from "../logic/savings";
 import { formatMoney } from "../logic/money";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
@@ -390,7 +390,7 @@ export function PotSection({ form, api }: SectionProps) {
   const [mode, setMode] = useState<"add" | "take" | "type" | null>(null);
   const [amount, setAmount] = useState("");
   const [problem, setProblem] = useState<string | null>(null);
-  const [last, setLast] = useState<{ kind: "add" | "take"; amount: string; before: string } | null>(null);
+  const [last, setLast] = useState<{ kind: "add" | "take"; amount: string; before: string; balanceBefore: string } | null>(null);
 
   // Something that can't be read, or "type a new total": the plain box, as before.
   if (now === null || mode === "type") {
@@ -419,8 +419,12 @@ export function PotSection({ form, api }: SectionProps) {
       setProblem(result.reason === "more-than-saved" ? s.moreThanSaved(formatMoney(now ?? 0)) : s.cantRead);
       return;
     }
-    setLast({ kind, amount: formatMoney(savingsNow(amount) ?? 0), before: form.buffer });
+    const pence = savingsNow(amount) ?? 0;
+    setLast({ kind, amount: formatMoney(pence), before: form.buffer, balanceBefore: form.balance });
     api.set("buffer", result.text);
+    // The balance moves by the same amount, so the safe-to-spend number stays the same.
+    const balance = moveBalance(form.balance, pence, kind);
+    if (balance !== null) api.adjustBalance(balance);
     setMode(null);
     setAmount("");
     setProblem(null);
@@ -472,6 +476,7 @@ export function PotSection({ form, api }: SectionProps) {
                   className="link"
                   onClick={() => {
                     api.set("buffer", last.before);
+                    api.adjustBalance(last.balanceBefore);
                     setLast(null);
                   }}
                 >

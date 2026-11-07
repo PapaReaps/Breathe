@@ -57,6 +57,7 @@ export default function CalculatorScreen() {
           ? withBalance(current, value as string, today)
           : { ...current, [key]: value },
       ),
+    adjustBalance: (value) => update((current) => ({ ...current, balance: value })),
     updateBill: (id, patch) =>
       update((current) => ({
         ...current,

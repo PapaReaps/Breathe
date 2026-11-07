@@ -1,10 +1,26 @@
-import { formatMoney, parseMoney } from "./money";
+import { parseMoney } from "./money";
 import type { Pence } from "./types";
 
 /*
- * Adding to, or taking from, the savings kept aside. The money stays in the everyday account:
- * only the amount kept aside changes, so the safe-to-spend number moves the other way.
+ * Adding to, or taking from, the savings kept aside. Savings and the everyday balance move
+ * together: adding is new money coming in to save, taking out is money spent from savings.
+ * So the safe-to-spend number stays the same, whatever is done with savings.
  */
+
+/** Pence as plain text a money box can read back: 1274.6 → "1274.60", overdrawn → "-12.00". */
+export function plainMoney(pence: Pence): string {
+  const sign = pence < 0 ? "-" : "";
+  const a = Math.abs(pence);
+  return `${sign}${Math.floor(a / 100)}.${String(a % 100).padStart(2, "0")}`;
+}
+
+/** The balance after the same amount goes in or out with savings. Null if the balance can't be read (left as it is). */
+export function moveBalance(balance: string, amountPence: Pence, kind: "add" | "take"): string | null {
+  if (balance.trim() === "") return null;
+  const parsed = parseMoney(balance, { allowNegative: true });
+  if (!parsed.ok) return null;
+  return plainMoney(kind === "add" ? parsed.pence + amountPence : parsed.pence - amountPence);
+}
 
 export type SavingsChange =
   | { ok: true; total: Pence; text: string }
@@ -25,5 +41,5 @@ export function changeSavings(buffer: string, amountText: string, kind: "add" | 
   if (amount.pence === 0) return { ok: false, reason: "zero" };
   if (kind === "take" && amount.pence > now) return { ok: false, reason: "more-than-saved" };
   const total = kind === "add" ? now + amount.pence : now - amount.pence;
-  return { ok: true, total, text: total === 0 ? "" : formatMoney(total).replace("£", "").replace(/,/g, "") };
+  return { ok: true, total, text: total === 0 ? "" : plainMoney(total) };
 }

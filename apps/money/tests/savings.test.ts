@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { changeSavings, savingsNow } from "../src/logic/savings";
+import { changeSavings, moveBalance, plainMoney, savingsNow } from "../src/logic/savings";
 
 describe("adding to and taking from savings", () => {
   it("adds to what is kept aside", () => {
@@ -24,5 +24,32 @@ describe("adding to and taking from savings", () => {
   it("keeps big totals plain, without commas, so the box can read them back", () => {
     expect(changeSavings("1500", "100", "add")).toEqual({ ok: true, total: 160000, text: "1600.00" });
     expect(savingsNow("1600.00")).toBe(160000);
+  });
+});
+
+describe("savings and the balance move together", () => {
+  it("adding puts the same amount on the balance, taking out takes it off", () => {
+    expect(moveBalance("1284.60", 2000, "add")).toBe("1304.60");
+    expect(moveBalance("1284.60", 1000, "take")).toBe("1274.60");
+  });
+
+  it("take out £10 then put £5 back: both end £5 lower, so the number is unchanged", () => {
+    let savings = "150";
+    let balance = "300";
+    const out = changeSavings(savings, "10", "take");
+    if (out.ok) savings = out.text;
+    balance = moveBalance(balance, 1000, "take") ?? balance;
+    const back = changeSavings(savings, "5", "add");
+    if (back.ok) savings = back.text;
+    balance = moveBalance(balance, 500, "add") ?? balance;
+    expect(savings).toBe("145.00");
+    expect(balance).toBe("295.00");
+  });
+
+  it("can go overdrawn, and leaves a missing or unreadable balance alone", () => {
+    expect(moveBalance("5", 1000, "take")).toBe("-5.00");
+    expect(moveBalance("", 1000, "take")).toBeNull();
+    expect(moveBalance("lots", 1000, "add")).toBeNull();
+    expect(plainMoney(-1200)).toBe("-12.00");
   });
 });

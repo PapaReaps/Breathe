@@ -40,6 +40,8 @@ export type NeedsAnswer = Extract<Warning, { kind: "needs-answer" }>;
 /** Everything the menu pages can do to the form. */
 export interface FormApi {
   set: <K extends keyof FormState>(key: K, value: FormState[K]) => void;
+  /** Changes the balance by a known amount (from Savings) without marking it as freshly checked. */
+  adjustBalance: (value: string) => void;
   updateBill: (id: string, patch: Partial<BillRow>) => void;
   updateIncome: (id: string, patch: Partial<IncomeRow>) => void;
   /** Add an empty row and return its id, so the page can open it for typing. */
