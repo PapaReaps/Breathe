@@ -31,6 +31,12 @@ export const words = {
     privacyLink: "Your numbers stay on this device",
     updateReady: (version: string) => `Version ${version} of Breathe Money is ready.`,
     updateLink: "Get it",
+    updateButton: "Update ready · Get it",
+    updatesAskTitle: "Hear about new versions?",
+    updatesAskText:
+      "Breathe can check GitHub once a day when you open it, and show a button here when there's an update. Nothing about you or your numbers is sent.",
+    updatesAskYes: "Yes, check for me",
+    updatesAskNo: "Not now",
     loading: "Opening your numbers…",
     potLabel: "Savings",
     potKept: "",

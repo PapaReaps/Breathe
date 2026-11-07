@@ -1536,3 +1536,44 @@ a.button-link {
 .savings-buttons button {
   min-width: 8rem;
 }
+
+/* "Update ready · Get it": a clear button under the number when a new Android version is out. */
+.update-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 1rem 0 0;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+}
+
+/* Android app, once: "Hear about new versions?" at the bottom of the home screen. */
+.updates-ask {
+  margin: 0 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.updates-ask h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.35rem;
+}
+.updates-ask p {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.updates-ask-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.updates-ask-buttons button {
+  padding: 0.55rem 1rem;
+}
+/* While the question shows, the number moves up a little so everything fits on one screen. */
+.home-asking .home-main {
+  padding-bottom: 1rem;
+}

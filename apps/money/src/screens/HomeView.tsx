@@ -20,6 +20,9 @@ interface HomeViewProps {
   readProblem: boolean;
   /** A newer Android version is out (only when the person chose to check). */
   updateNote: { version: string; page: string } | null;
+  /** Android app only, once: ask whether to check for new versions. */
+  askUpdates: boolean;
+  onUpdatesAnswer: (yes: boolean) => void;
   onOpen: (panel: PanelId) => void;
 }
 
@@ -38,10 +41,12 @@ export function HomeView({
   notSaved,
   readProblem,
   updateNote,
+  askUpdates,
+  onUpdatesAnswer,
   onOpen,
 }: HomeViewProps) {
   return (
-    <div className="home">
+    <div className={askUpdates && !loading ? "home home-asking" : "home"}>
       <header className="topbar">
         <span className="app-name">{home.appName}</span>
         <button
@@ -85,19 +90,20 @@ export function HomeView({
             />
             {readProblem ? <p className="small">{home.readProblemLine}</p> : null}
             {updateNote ? (
-              <p className="small">
-                {home.updateReady(updateNote.version)}{" "}
-                <button
-                  type="button"
-                  className="link"
-                  onClick={() => {
-                    openUpdatesNext();
-                    onOpen("opt-updates");
-                  }}
-                >
-                  {home.updateLink}
-                </button>
-              </p>
+              <button
+                type="button"
+                className="update-button"
+                aria-label={`${home.updateReady(updateNote.version)} ${home.updateLink}`}
+                onClick={() => {
+                  openUpdatesNext();
+                  onOpen("opt-updates");
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                  <path d="M10 3v9m0 0-3.5-3.5M10 12l3.5-3.5M4 16h12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {home.updateButton}
+              </button>
             ) : null}
             {notSaved ? (
               <p className="small">
@@ -110,6 +116,20 @@ export function HomeView({
           </>
         )}
       </main>
+      {askUpdates && !loading ? (
+        <section className="updates-ask" aria-labelledby="updates-ask-title">
+          <h2 id="updates-ask-title">{home.updatesAskTitle}</h2>
+          <p>{home.updatesAskText}</p>
+          <div className="updates-ask-buttons">
+            <button type="button" onClick={() => onUpdatesAnswer(true)}>
+              {home.updatesAskYes}
+            </button>
+            <button type="button" className="secondary" onClick={() => onUpdatesAnswer(false)}>
+              {home.updatesAskNo}
+            </button>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

@@ -162,6 +162,14 @@ export default function CalculatorScreen() {
         notSaved={saved.saveState === "not-saved"}
         readProblem={saved.readProblem}
         updateNote={updateNote}
+        askUpdates={
+          updates.available &&
+          !appearance.settings.checkForUpdates &&
+          !appearance.settings.updatesAsked &&
+          outcome !== null &&
+          outcome.ok
+        }
+        onUpdatesAnswer={(yes) => appearance.change(yes ? { checkForUpdates: true, updatesAsked: true } : { updatesAsked: true })}
         onOpen={setPanel}
       />
       <MenuSheet

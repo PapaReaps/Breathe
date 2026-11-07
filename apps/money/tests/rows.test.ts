@@ -93,6 +93,7 @@ describe("look and colour settings", () => {
       textSize: "standard",
       contrast: "system",
       checkForUpdates: false,
+      updatesAsked: false,
       clickSound: "off",
       vibration: "off",
       calendarView: "list",
@@ -143,6 +144,7 @@ describe("look and colour settings", () => {
       textSize: "largest" as const,
       contrast: "more" as const,
       checkForUpdates: true,
+      updatesAsked: true,
       clickSound: "drop" as const,
       vibration: "gentle" as const,
       calendarView: "month" as const,
@@ -158,6 +160,15 @@ describe("the money's name and the breathing word", () => {
     expect(readSettings({}).showMoneyName).toBe(false);
     expect(readSettings({}).breathMotion).toBe(true);
     expect(readSettings({ showMoneyName: "yes", breathMotion: 0 }).showMoneyName).toBe(false);
+  });
+});
+
+describe("the one-time question about updates", () => {
+  it("hasn't been asked yet, unless it was answered", () => {
+    expect(DEFAULT_SETTINGS.updatesAsked).toBe(false);
+    expect(readSettings({}).updatesAsked).toBe(false);
+    expect(readSettings({ updatesAsked: "yes" }).updatesAsked).toBe(false);
+    expect(readSettings({ updatesAsked: true }).updatesAsked).toBe(true);
   });
 });
 

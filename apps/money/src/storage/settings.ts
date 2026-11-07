@@ -40,6 +40,8 @@ export interface Settings {
   contrast: Contrast;
   /** Android app only: ask GitHub once a day whether a newer version is out. Off unless switched on. */
   checkForUpdates: boolean;
+  /** Android app only: the one-time "Hear about new versions?" note has been answered, so it never shows again. */
+  updatesAsked: boolean;
   /** A soft sound when a button is tapped. Off unless chosen. */
   clickSound: ClickSound;
   /** A small vibration when a button is tapped, where the phone allows it. Off unless chosen. */
@@ -61,6 +63,7 @@ export const DEFAULT_SETTINGS: Settings = {
   textSize: "standard",
   contrast: "system",
   checkForUpdates: false,
+  updatesAsked: false,
   clickSound: "off",
   vibration: "off",
   calendarView: "list",
@@ -136,6 +139,7 @@ export function readSettings(raw: unknown): Settings {
     textSize: pick(record.textSize, TEXT_SIZES, DEFAULT_SETTINGS.textSize),
     contrast: pick(record.contrast, CONTRASTS, DEFAULT_SETTINGS.contrast),
     checkForUpdates: record.checkForUpdates === true,
+    updatesAsked: record.updatesAsked === true,
     clickSound: pick(record.clickSound, CLICK_SOUNDS, DEFAULT_SETTINGS.clickSound),
     vibration: pick(record.vibration, VIBRATIONS, DEFAULT_SETTINGS.vibration),
     calendarView: pick(record.calendarView, CALENDAR_VIEWS, DEFAULT_SETTINGS.calendarView),
@@ -157,6 +161,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     textSize: settings.textSize,
     contrast: settings.contrast,
     checkForUpdates: settings.checkForUpdates,
+    updatesAsked: settings.updatesAsked,
     clickSound: settings.clickSound,
     vibration: settings.vibration,
     calendarView: settings.calendarView,
