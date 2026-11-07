@@ -51,26 +51,20 @@ It is a personal project, built by someone who struggles with these things too. 
 
 ## Breathe Money in 15 seconds
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img align="left" width="36%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode"></picture>
-
-### One question, one calm answer
-
-**"How much can I spend until my money comes in?"**
-
-Type what's in your account. Breathe Money sets aside your bills, food and travel. What's left is one big number.
-
-**In the clip:**
-
-1. Open the **Menu**.
-2. Change what's in your account.
-3. Watch the number update as you type.
-4. Back home, the new number is waiting.
-5. Dark mode follows your phone.
-
-**[Try it now →](https://papareaps.github.io/Breathe/)**<br>
-No account, no download.
-
-<br clear="left">
+<table>
+<tr>
+<td width="40%" align="center">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-dark.gif"><img width="100%" src="docs/images/demo.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode"></picture>
+</td>
+<td valign="middle">
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/heading-one-question-dark.png"><img width="380" src="docs/images/heading-one-question.png" alt="One question, one calm answer"></picture>
+<br><br>
+<picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/heading-question-dark.png"><img width="230" src="docs/images/heading-question.png" alt="How much can I spend until my money comes in?"></picture>
+<p>Type what's in your account. Your bills, food and travel are set aside. What's left is one big number.</p>
+<p><a href="https://papareaps.github.io/Breathe/"><b>Try it now →</b></a> No account, no download.</p>
+</td>
+</tr>
+</table>
 
 *All numbers in these pictures are made up.*
 
