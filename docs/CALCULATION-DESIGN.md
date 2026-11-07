@@ -82,6 +82,8 @@ When you type in your balance, the app records **the amount and the moment you e
 
 **R21. Bank holidays can be built in (Stage 7c).** The days money does not move (R7, R8, R18) are the weekends plus a list of bank holidays. That list is now either the person's own typed days, or the official GOV.UK list for England and Wales, Scotland or Northern Ireland, plus any extra days they type. The calculation is not changed: it is given one combined list. The built-in list has a last day it covers. Past that day the app says so and does not pretend the days are ordinary.
 
+**R22. Safe to spend right now (v0.27.0).** Money coming in before payday is only spendable from the day it arrives. So the home screen shows the **lowest** the money gets on the way to payday: just before each day money comes in, everything going out up to and including that day (a bill on the same day is taken first, to be safe), the money that has already come in, and food and travel for the days until then. The lowest of those and the full figure is *safe to spend right now*. Spending it today still leaves enough for everything, all the way to payday. The full figure is unchanged and is still what the breakdown adds up to. When some of it is waiting, the home screen shows the next money coming in as a small badge ("+£140.00 on Mon 9 Nov"), and *Where this number comes from* says how much waits for it. Tested in `tests/safeNow.test.ts`, including 2,000 random months against a slow day-by-day walk.
+
 ## Test plan (written in Stage 2, before the calculation code)
 
 All examples use fictional people and figures.

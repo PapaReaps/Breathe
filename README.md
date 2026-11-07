@@ -87,6 +87,7 @@ No account, no download.
 
 - Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice.
+- Never counts money that isn't here yet. Money coming in before your main money only counts from the day it arrives, and a small badge says when (like **+£140.00 on Mon 9 Nov**).
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
 - Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
 

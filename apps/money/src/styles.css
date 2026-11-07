@@ -1577,3 +1577,18 @@ a.button-link {
 .home-asking .home-main {
   padding-bottom: 1rem;
 }
+
+/* Money still to come before payday ("+£140.00 on Mon 9 Nov"): a calm badge, like Savings, in the app colour. */
+.coming-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0.5rem 0 0;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: var(--gentle);
+  color: var(--accent);
+  font-weight: 600;
+}
+.held-back-line {
+  margin-top: 1rem;
+}

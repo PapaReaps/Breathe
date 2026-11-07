@@ -131,7 +131,18 @@ export interface CalculatorResult {
   daysUntilPayday: number | null;
   /** Days of planned food, travel and so on that were included (from the balance date to payday). */
   daysCovered: number | null;
-  /** Every number used. Adding up the amounts gives safeToSpend. */
+  /**
+   * What is safe to spend RIGHT NOW. Money coming in before payday is only counted from the day it
+   * arrives, so this is the lowest the money gets on the way to payday. It is never more than
+   * safeToSpend, and is the same unless money is still to come. null when safeToSpend is null.
+   */
+  safeNow: Pence | null;
+  /**
+   * When safeNow is less than safeToSpend: how much is waiting for money that isn't here yet,
+   * and the next money coming in (its date and amount). Otherwise null.
+   */
+  heldBack: { amount: Pence; nextIncome: { date: DateString; amount: Pence } } | null;
+  /** Every number used. Adding up the amounts gives safeToSpend (not safeNow). */
   lines: BreakdownLine[];
   uncertainIncome: { items: UncertainIncomeItem[]; total: Pence };
   warnings: Warning[];

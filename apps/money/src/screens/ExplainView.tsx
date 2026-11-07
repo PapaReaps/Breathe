@@ -83,6 +83,17 @@ export function ExplainView({ built, outcome, hasAnswers, api }: ExplainViewProp
         </ul>
       ) : null}
 
+      {result.heldBack !== null && result.safeNow !== null ? (
+        <p className="gentle held-back-line">
+          {words.ui.heldBackNote(
+            formatMoney(result.heldBack.nextIncome.amount),
+            formatDayShort(result.heldBack.nextIncome.date),
+            formatMoney(result.heldBack.amount),
+            formatMoney(result.safeNow),
+          )}
+        </p>
+      ) : null}
+
       {/* The main money is the finish line, not part of the sum: say so, so it never seems missing. */}
       <p className="gentle main-money-line">
         <strong>

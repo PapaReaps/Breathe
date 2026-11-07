@@ -22,6 +22,9 @@ export const words = {
   noneAdded: "None yet",
 
   home: {
+    /** Money still to come before payday: a small badge under the number. */
+    moneyOnTheWay: (amount: string, day: string) => `+${amount} on ${day}`,
+    moneyOnTheWayLabel: (amount: string, day: string) => `${amount} more comes in on ${day}. It isn't in your number until then.`,
     appName: "Breathe Money",
     menuButton: "Menu",
     welcomeTitle: "Take a breath.",
@@ -613,6 +616,8 @@ export const words = {
     moneyLine: (name: string, day: string, days: number | null) =>
       `${name.trim() === "" ? "Your money" : name.trim()} comes in ${day}${days === null ? "" : days === 0 ? " (today)" : days === 1 ? " (tomorrow)" : ` (in ${days} days)`}`,
     moneyLineNote: "It isn't in this list: your number is what's safe to spend until it arrives.",
+    heldBackNote: (income: string, day: string, waiting: string, now: string) =>
+      `${income} comes in on ${day}, but it isn't here yet. So ${waiting} of this waits for it, and ${now} is safe to spend right now.`,
     questionTitle: "A quick question",
     yes: "Yes",
     no: "No, not yet",
@@ -642,7 +647,8 @@ export interface Headline {
 }
 
 export function headlineFor(result: CalculatorResult): Headline {
-  const safe = result.safeToSpend;
+  // What is safe RIGHT NOW: money still to come only counts from the day it arrives.
+  const safe = result.safeToSpend === null ? null : (result.safeNow ?? result.safeToSpend);
   if (safe === null) {
     return {
       title: "Let's check when your money comes in",
@@ -663,6 +669,14 @@ export function headlineFor(result: CalculatorResult): Headline {
       title: "Safe to spend until your money comes in",
       amount: formatMoney(0),
       message: "There is nothing spare until your money comes in, but everything you listed is covered.",
+    };
+  }
+  if (result.heldBack !== null) {
+    return {
+      title: `Things are tight until ${formatDayShort(result.heldBack.nextIncome.date)}`,
+      amount: `${formatMoney(-safe)} short`,
+      message:
+        "Some of what's due comes out before your next money arrives. Here is where it all goes, so you can see the whole picture.",
     };
   }
   return {

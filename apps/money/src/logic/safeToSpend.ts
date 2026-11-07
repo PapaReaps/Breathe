@@ -188,6 +188,8 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
     warnings.push({ kind: "payday-passed" });
     return {
       safeToSpend: null,
+      safeNow: null,
+      heldBack: null,
       paydayDate,
       daysUntilPayday: null,
       daysCovered: null,
@@ -198,6 +200,11 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
   }
 
   const lines: BreakdownLine[] = [{ kind: "balance", amount: input.balance.amount }];
+  // When each counted line happens, for "safe right now": null means it is already counted now.
+  const when = new Map<BreakdownLine, DateString | null>();
+  const today = input.today;
+  const at = (date: DateString): DateString | null => (date <= today ? null : date);
+  const inWindow = (date: DateString): boolean => date <= paydayDate;
 
   // Pending payments. One that is linked to a bill stands in for that bill,
   // so the same payment is never counted twice.
@@ -219,7 +226,10 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
     const decision = decide(billDates(bill, nonWorking), "money-out", bill.alreadyInBalance, period);
     if (decision === "ignore") continue;
     if (decision === "ask") warnings.push(needsAnswer("bill", bill));
-    lines.push({ kind: "bill", id: bill.id, name: bill.name, amount: -bill.amount });
+    const billLine: BreakdownLine = { kind: "bill", id: bill.id, name: bill.name, amount: -bill.amount };
+    lines.push(billLine);
+    // Cautious: the earliest date it could go out.
+    when.set(billLine, at(billDates(bill, nonWorking).filter(inWindow).sort()[0] ?? bill.dueDate));
   }
 
   // Income. Uncertain income is never added, only listed.
@@ -238,7 +248,9 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
       warnings.push(needsAnswer("income", item));
       continue;
     }
-    lines.push({ kind: "income", id: item.id, name: item.name, amount: item.amount });
+    const incomeLine: BreakdownLine = { kind: "income", id: item.id, name: item.name, amount: item.amount };
+    lines.push(incomeLine);
+    when.set(incomeLine, at(item.date));
   }
 
   // Planned essentials: daily amounts for each day from the balance date up to
@@ -279,7 +291,9 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
     const decision = decide([transfer.date], "money-out", transfer.alreadyInBalance, period);
     if (decision === "ignore") continue;
     if (decision === "ask") warnings.push(needsAnswer("savings", transfer));
-    lines.push({ kind: "savings", id: transfer.id, name: transfer.name, amount: -transfer.amount });
+    const savingsLine: BreakdownLine = { kind: "savings", id: transfer.id, name: transfer.name, amount: -transfer.amount };
+    lines.push(savingsLine);
+    when.set(savingsLine, at(transfer.date));
   }
 
   let safeToSpend: Pence = 0;
@@ -289,6 +303,8 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
       throw new InvalidInputError("The amounts add up to too large a number.");
     }
   }
+
+  const { safeNow, heldBack } = safeRightNow(input, lines, when, asOf, safeToSpend);
 
   const uncertainTotal = uncertainItems.reduce((sum, item) => sum + item.amount, 0);
   if (uncertainTotal > 0) {
@@ -300,6 +316,8 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
 
   return {
     safeToSpend,
+    safeNow,
+    heldBack,
     paydayDate,
     daysUntilPayday: daysBetween(input.today, paydayDate),
     daysCovered,
@@ -307,4 +325,49 @@ export function calculateSafeToSpend(input: CalculatorInput): CalculatorResult {
     uncertainIncome: { items: uncertainItems, total: uncertainTotal },
     warnings,
   };
+}
+
+// ---------------------------------------------------------------- safe right now
+
+/**
+ * Money coming in is only spendable from the day it arrives. So, just before each day that money
+ * comes in, work out what would be left: everything going out up to and including that day
+ * (cautious: a bill on the same day is taken first), the money that has already come in, and
+ * food and travel for the days until then. The lowest of those, and the full figure, is what is
+ * safe to spend right now. Spending it today still leaves enough for everything, all the way
+ * to payday.
+ */
+function safeRightNow(
+  input: CalculatorInput,
+  lines: readonly BreakdownLine[],
+  when: ReadonlyMap<BreakdownLine, DateString | null>,
+  asOf: DateString,
+  total: Pence,
+): { safeNow: Pence; heldBack: CalculatorResult["heldBack"] } {
+  const arrivals = [...new Set(lines.filter((line) => line.kind === "income").map((line) => when.get(line) ?? null))]
+    .filter((date): date is DateString => date !== null)
+    .sort();
+  let safeNow = total;
+  for (const day of arrivals) {
+    let left = 0;
+    for (const line of lines) {
+      if (line.kind === "essential") continue;
+      const date = when.get(line) ?? null;
+      const counts = date === null || (line.kind === "income" ? date < day : date <= day);
+      if (counts) left += line.amount;
+    }
+    const days = daysBetween(asOf, day);
+    for (const essential of input.essentials) {
+      if (essential.kind === "per-day") left -= essential.amount * days;
+      else if (essential.kind === "per-week") left -= spreadOverDays(essential.amount, days, "An essential");
+      else left -= essential.amount;
+    }
+    if (left < safeNow) safeNow = left;
+  }
+  if (safeNow >= total || arrivals.length === 0) return { safeNow: total, heldBack: null };
+  const next = arrivals[0] as DateString;
+  const amount = lines
+    .filter((line) => line.kind === "income" && when.get(line) === next)
+    .reduce((sum, line) => sum + line.amount, 0);
+  return { safeNow, heldBack: { amount: total - safeNow, nextIncome: { date: next, amount } } };
 }

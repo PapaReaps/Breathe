@@ -1,7 +1,8 @@
 import { PotBadge } from "../components/PotBadge";
 import { describeWarning, headlineFor, paydayLine, words } from "../content/words";
 import { BUILT_IN_LAST_DAY } from "../data/bankHolidays";
-import { formatDayLong } from "../logic/dates";
+import { formatDayLong, formatDayShort } from "../logic/dates";
+import { formatMoney } from "../logic/money";
 import type { BuildResult } from "../logic/form";
 import type { NeedsAnswer, Outcome, PanelId } from "./screenTypes";
 import { openUpdatesNext } from "../useUpdates";
@@ -194,11 +195,19 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
       <h1 className="home-title">{head.title}</h1>
       {head.amount !== null ? <p className="big-number">{head.amount}</p> : null}
       {/* The sentence can be hidden, but only when things are comfortable: tight or unusual cases always explain themselves. */}
-      {showExplanation || result.safeToSpend === null || result.safeToSpend <= 0 ? (
+      {showExplanation || result.safeNow === null || result.safeNow <= 0 ? (
         <p className="home-message">{head.message}</p>
       ) : null}
       {showPayday && result.safeToSpend !== null ? (
         <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday, showMoneyName && built.status === "ready" ? built.moneyName : "")}</p>
+      ) : null}
+      {result.heldBack !== null && (result.safeNow ?? 0) >= 0 ? (
+        <p
+          className="coming-badge"
+          aria-label={home.moneyOnTheWayLabel(formatMoney(result.heldBack.nextIncome.amount), formatDayLong(result.heldBack.nextIncome.date))}
+        >
+          {home.moneyOnTheWay(formatMoney(result.heldBack.nextIncome.amount), formatDayShort(result.heldBack.nextIncome.date))}
+        </p>
       ) : null}
       {potAmount !== null ? <PotBadge amount={potAmount} /> : null}
 
