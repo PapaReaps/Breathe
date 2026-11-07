@@ -118,7 +118,7 @@ No account, no download.
   </picture>
 </p>
 
-- **Coming up** shows your bills and the day your money comes in, from today until then. Switch between **List** and **Month**, and the app remembers which you like.
+- **Coming up** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like.
 
 ### Make it yours
 

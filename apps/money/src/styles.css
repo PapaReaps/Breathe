@@ -1288,6 +1288,21 @@ a.button-link {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+/* "in" or "out" after the amount, in its own narrow column so the amounts stay lined up. */
+.coming-way {
+  display: inline-block;
+  width: 1.9em;
+  margin-left: 0.4em;
+  text-align: left;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+.coming-in {
+  color: var(--accent);
+}
+.coming-out {
+  color: var(--bill);
+}
 .coming-today {
   color: var(--accent);
   font-weight: 700;

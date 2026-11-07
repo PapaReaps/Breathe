@@ -184,6 +184,8 @@ export const words = {
     moneyDay: "Your money comes in",
     moneyDayNamed: (name: string) => (name === "" ? "Your money comes in" : `${name} comes in`),
     bill: "Bill",
+    inWord: "in",
+    outWord: "out",
     moneyIn: "Money coming in",
     billTotal: (count: number, total: string) => `${count === 1 ? "1 bill" : `${count} bills`} before then · ${total}`,
     noBills: "No bills before then.",

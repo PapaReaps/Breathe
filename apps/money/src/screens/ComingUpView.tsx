@@ -85,11 +85,13 @@ function DayRow({ day, data, name }: { day: ComingUpDay; data: ComingUp; name: s
             </div>
           ) : (
             <div key={item.id} className="coming-item">
-              <span>
-                {item.name}
-                <span className="coming-tag">{item.kind === "bill" ? text.bill : text.moneyIn}</span>
-              </span>
-              <b className="coming-amount">{item.kind === "income" ? `+${formatMoney(item.amount)}` : formatMoney(item.amount)}</b>
+              <span>{item.name}</span>
+              <b className="coming-amount">
+                {formatMoney(item.amount)}
+                <span className={item.kind === "income" ? "coming-way coming-in" : "coming-way coming-out"}>
+                  {item.kind === "income" ? text.inWord : text.outWord}
+                </span>
+              </b>
             </div>
           ),
         )}
@@ -164,7 +166,9 @@ function MonthView({ data, name }: { data: ComingUp; name: string }) {
         ) : (
           chosen.items.map((item) => (
             <p key={item.kind === "money-day" ? "money" : item.id}>
-              {item.kind === "money-day" ? text.moneyDayNamed(name) : `${item.name} · ${item.kind === "income" ? "+" : ""}${formatMoney(item.amount)}`}
+              {item.kind === "money-day"
+                ? text.moneyDayNamed(name)
+                : `${item.name} · ${formatMoney(item.amount)} ${item.kind === "income" ? text.inWord : text.outWord}`}
             </p>
           ))
         )}
