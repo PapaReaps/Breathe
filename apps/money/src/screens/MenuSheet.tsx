@@ -217,8 +217,9 @@ interface MenuListProps {
 function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
   const summary = describeForm(form, today);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
-    { id: "income", title: words.menu.names.income, sub: summary.payday },
+    // Your account first, then money in, then bills. Money coming in is just its name: the list is inside.
     { id: "account", title: words.menu.names.account, sub: summary.account },
+    { id: "income", title: words.menu.names.income, sub: "" },
     { id: "bills", title: words.menu.names.bills, sub: summary.bills },
     { id: "essentials", title: words.menu.names.essentials, sub: summary.essentials },
     { id: "pot", title: words.menu.names.pot, sub: summary.pot },
@@ -242,9 +243,11 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
           <li key={item.id}>
             <button type="button" className="menu-item" onClick={() => onPanel(item.id)}>
               <span className={item.id === "pot" ? "menu-title pot-word" : "menu-title"}>{item.title}</span>
-              <span className={item.id === "pot" && item.sub !== words.notSetYet ? "menu-sub pot-amount" : "menu-sub"}>
-                {item.sub}
-              </span>
+              {item.sub === "" ? null : (
+                <span className={item.id === "pot" && item.sub !== words.notSetYet ? "menu-sub pot-amount" : "menu-sub"}>
+                  {item.sub}
+                </span>
+              )}
             </button>
           </li>
         ))}
