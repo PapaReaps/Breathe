@@ -52,7 +52,7 @@ It is a personal project, built by someone who struggles with these things too. 
 ## Breathe Money in 15 seconds
 
 <p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-clip-dark.gif"><img width="80%" src="docs/images/demo-clip.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-clip-v2-dark.gif"><img width="80%" src="docs/images/demo-clip-v2.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
 </p>
 
 <p align="center"><a href="https://papareaps.github.io/Breathe/"><b>Try it now →</b></a> No account, no download.</p>
@@ -112,11 +112,11 @@ It is a personal project, built by someone who struggles with these things too. 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v2-dark.png">
-    <img src="docs/images/row-yours-v2.png" alt="Three screens: the home screen in dark mode; the home screen with a plum number and a rose savings badge (22 app colours, and jet black); and App options as a short, calm list" width="100%">
+    <img src="docs/images/row-yours-v2.png" alt="Three screens: the home screen in dark mode; the home screen with a plum number and a rose savings badge (22 app colours, and jet black); and Settings, all on one page" width="100%">
   </picture>
 </p>
 
-- **App options is a short, calm list**: Look and colours, Text and contrast, Home screen, Balance reminder, Sounds and vibration, Privacy screen and Updates. Each opens its own small page.
+- **Settings is one calm page**: Look and colours, Text and contrast, Home screen, Sounds and vibration, Balance reminder, Privacy screen and Updates, plus your setup, bank holidays and backups. Each opens its own small page.
 - **Light, dark or jet black**, or follow your device.
 - Pick from **22 app colours** (soft or deep) and a **savings colour**, each from a simple list, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz, each with a button to try it first. All off until you choose.
@@ -131,7 +131,7 @@ It is a personal project, built by someone who struggles with these things too. 
   </picture>
 </p>
 
-<p align="center">Like it simpler? Switch off the extras in <b>Menu → Settings → App options → Home screen</b>.</p>
+<p align="center">Like it simpler? Switch off the extras in <b>Menu → Settings → Home screen</b>.</p>
 
 ### Share it, tell us, keep it up to date
 
@@ -147,7 +147,7 @@ It is a personal project, built by someone who struggles with these things too. 
 - **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
 - **Updates in the Android app**: the first time, the app asks once whether to check for new versions. Say yes, and a clear **Update ready** button shows under your number whenever there is one. Or tap **Check now** yourself, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
 
-Share, Leave a tip and Report a problem are in **Menu → Settings → Help and sharing**. Updates are in **Menu → Settings → App options → Updates**.
+Share, Leave a tip and Report a problem are in **Menu → Settings → Help and sharing**. Updates are in **Menu → Settings → Updates**.
 
 ### Easy to read, private by design
 

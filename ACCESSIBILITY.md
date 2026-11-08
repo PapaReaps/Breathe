@@ -14,7 +14,7 @@ Breathe Money is made for people who find everyday organisation hard, including 
 **Less to take in**
 - **One question at a time** in the step-by-step setup, and every question can be skipped.
 - **A quiet home screen**: you can hide everything except your number.
-- **Short pages**: App options is a list, and each part opens on its own.
+- **Short pages**: Settings is one list, and each part opens on its own.
 - **Movement is switched off** for people who ask for reduced motion.
 
 **Works with**

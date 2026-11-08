@@ -34,41 +34,17 @@ interface PlanUntilProps extends SectionProps {
   compactRule?: boolean;
 }
 
-export function AccountSection({ form, today, api }: SectionProps) {
-  // Most people type their balance straight after checking it, so the date only shows when it matters.
-  const fromAnotherDay = form.balanceDate !== "" && form.balanceDate !== today;
-  const [pickingDate, setPickingDate] = useState(false);
-  const showDate = fromAnotherDay || pickingDate;
+export function AccountSection({ form, api }: SectionProps) {
+  // Typing a balance always means "this is what's in my account now" (it takes today's date),
+  // so there's no date to ask about (v0.31.0).
   return (
-    <>
-      <MoneyField
-        label={ui.balanceLabel}
-        hint={ui.balanceHint}
-        value={form.balance}
-        onChange={(value) => api.set("balance", value)}
-        allowNegative
-      />
-      {showDate ? (
-        <div className="field">
-          <label htmlFor="balance-date">{ui.balanceDateLabel}</label>
-          <p className="hint">{ui.balanceDateHint}</p>
-          <input
-            id="balance-date"
-            type="date"
-            max={today}
-            value={form.balanceDate || today}
-            onChange={(event) => api.set("balanceDate", event.target.value)}
-          />
-        </div>
-      ) : (
-        <p className="hint">
-          {ui.balanceCheckedToday}{" "}
-          <button type="button" className="link" onClick={() => setPickingDate(true)}>
-            {ui.balanceOtherDay}
-          </button>
-        </p>
-      )}
-    </>
+    <MoneyField
+      label={ui.balanceLabel}
+      hint={ui.balanceHint}
+      value={form.balance}
+      onChange={(value) => api.set("balance", value)}
+      allowNegative
+    />
   );
 }
 
@@ -126,6 +102,7 @@ function RepeatField({
 export function PlanUntilSection({ form, today, api, compactRule = false }: PlanUntilProps) {
   const question = paydayRuleQuestion(form, today);
   const [changing, setChanging] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const needsDefault = compactRule && question !== null && form.paydayRule === "";
   useEffect(() => {
     if (needsDefault) api.set("paydayRule", "working-day-before");
@@ -176,6 +153,17 @@ export function PlanUntilSection({ form, today, api, compactRule = false }: Plan
   }
 
   if (choices.length === 0) return <p className="hint">{ui.planUntilNothingYet}</p>;
+  // The automatic choice is right for almost everyone, so the choices wait behind "More options".
+  if (!showMore) {
+    return (
+      <>
+        {stop !== null ? <p className="hint">{ui.planUntilLine(nameOf(stop))}</p> : null}
+        <button type="button" className="link" onClick={() => setShowMore(true)}>
+          {ui.moreOptions}
+        </button>
+      </>
+    );
+  }
   return (
     <>
       <div className="field">
@@ -198,6 +186,9 @@ export function PlanUntilSection({ form, today, api, compactRule = false }: Plan
         </select>
       </div>
       {rule}
+      <button type="button" className="link" onClick={() => setShowMore(false)}>
+        {ui.fewerOptions}
+      </button>
     </>
   );
 }
@@ -385,7 +376,6 @@ export function PotSection({ form, api }: SectionProps) {
 
   return (
     <>
-      <p className="hint">{s.intro}</p>
       <div className="savings-card">
         <span className="small">{s.keptAside}</span>
         <strong>{formatMoney(now)}</strong>
@@ -434,6 +424,7 @@ export function PotSection({ form, api }: SectionProps) {
               </>
             ) : null}
           </p>
+          <p className="hint">{s.intro}</p>
           <button type="button" className="link" onClick={() => setMode("type")}>
             {s.typeTotal}
           </button>

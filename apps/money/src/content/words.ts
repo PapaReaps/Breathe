@@ -60,10 +60,15 @@ export const words = {
     done: "Done",
     back: "Back to the menu",
     backToMore: "Back to Settings",
-    backToOptions: "Back to App options",
+    backToOptions: "Back to Settings",
     backToHelp: "Back to Help and sharing",
     helpTitle: "Help and sharing",
     optionsIntro: "Tap one to change it. Your choice shows on the right.",
+    settingsGroups: {
+      feel: "How it looks and feels",
+      reminders: "Reminders and privacy",
+      numbers: "Your numbers",
+    },
     optionGroups: {
       look: "Look and colours",
       text: "Text and contrast",
@@ -207,7 +212,7 @@ export const words = {
     waiting: "Once your balance and the date your money comes in are added, you'll see your bills and money days here.",
   },
   savings: {
-    intro: "Keep track of what you've saved. It's kept separate, so it never changes your number.",
+    intro: "Kept separate, so it never changes your number.",
     keptAside: "Saved",
     add: "+ Add",
     take: "− Take out",
@@ -221,7 +226,7 @@ export const words = {
     added: (amount: string) => `Added ${amount} to savings.`,
     tookOut: (amount: string) => `Took ${amount} out of savings.`,
     undo: "Undo",
-    typeTotal: "Or type a new total",
+    typeTotal: "Type a new total",
     backToButtons: "Back to Add and Take out",
     cantRead: "That amount can't be read yet. Try something like 20 or 12.50.",
     moreThanSaved: (saved: string) => `You have ${saved} saved, so you can take out up to that.`,
@@ -276,7 +281,7 @@ export const words = {
     billsNone: "No bills added yet.",
     incomeNone: "Nothing added yet.",
     totalBills: (count: number, total: string) =>
-      `${count === 1 ? "1 bill" : `${count} bills`} \u00b7 ${total} in total`,
+      `${count === 1 ? "1 bill" : `${count} bills`} \u00b7 ${total}`,
     // Just how many: adding one of each payment together (weekly and monthly) would be confusing.
     totalIncome: (count: number, _total: string) => (count === 1 ? "1 payment" : `${count} payments`),
     someUnreadable: "Some amounts still need a look, so they aren't in the total.",
@@ -597,9 +602,8 @@ export const words = {
       "next-working-day": "The next working day",
     },
 
-    billsTitle: "Bills before your money comes in",
-    billsHint:
-      "Add anything that will leave your account before your money comes in. Bills after that can wait.",
+    billsTitle: "Bills",
+    billsHint: "Anything that leaves your account before your money comes in.",
     billName: "What is it?",
     billAmount: "Amount (£)",
     billDue: "Due on",
@@ -607,7 +611,10 @@ export const words = {
     remove: "Remove",
 
     incomeTitle: "Money coming in",
-    incomeHint: "All the money you have coming in: wages, benefits, a pension, a refund. Your number plans until your biggest regular one.",
+    incomeHint: "Wages, benefits, anything that comes in.",
+    planUntilLine: (name: string) => `Your number plans until your biggest regular money${name === "" ? "" : `, ${name}`}.`,
+    moreOptions: "More options",
+    fewerOptions: "Fewer options",
     planUntilTitle: "Plan until",
     planUntilLabel: "Your number plans until",
     planUntilHint: "Usually your biggest regular money. Pick a different one if you plan around another.",

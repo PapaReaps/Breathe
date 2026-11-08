@@ -1764,3 +1764,14 @@ a.button-link {
 .month-num.month-today {
   outline: none;
 }
+
+/* Settings on one page (v0.31.0): small headings above each group. */
+.settings-heading {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 1rem 0 0.4rem;
+}
+.settings-heading:first-of-type {
+  margin-top: 0.25rem;
+}

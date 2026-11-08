@@ -69,7 +69,8 @@ const TITLES: Record<PanelId, string> = {
 function parentOf(panel: PanelId): PanelId {
   if (panel === "setup" || panel === "settings" || panel === "data" || panel === "help" || panel === "holidays") return "more";
   if (panel === "share" || panel === "tip" || panel === "report" || panel === "about") return "help";
-  if (panel.startsWith("opt-")) return "settings";
+  // v0.31.0: the option pages open straight from Settings (no separate App options page).
+  if (panel.startsWith("opt-")) return "more";
   return "menu";
 }
 const BACK_LABEL: Partial<Record<PanelId, string>> = {
@@ -156,7 +157,6 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "payday" || panel === "income" ? (
               <>
                 <IncomeSection form={form} today={today} api={api} />
-                <h3 className="sub-question">{ui.planUntilTitle}</h3>
                 <PlanUntilSection form={form} today={today} api={api} />
               </>
             ) : null}
@@ -176,7 +176,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
             ) : null}
             {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
-            {panel === "more" ? <MoreList onPanel={onPanel} holidays={describeForm(form, today).holidays} /> : null}
+            {panel === "more" ? <MoreList onPanel={onPanel} holidays={describeForm(form, today).holidays} settings={settings} /> : null}
             {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} /> : null}
             {groupOf(panel) !== null ? <SettingsView settings={settings} group={groupOf(panel)!} /> : null}
             {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
@@ -278,37 +278,54 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
 }
 
 /** The Settings folder: the less-used pages, kept together so the menu stays short. */
-function MoreList({ onPanel, holidays }: { onPanel: (panel: PanelId) => void; holidays: string }) {
+function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) => void; holidays: string; settings: SettingsApi }) {
+  const s = settings.settings;
+  const t = words.settings;
+  const m = words.menu;
+  const shown = [s.showExplanation, s.showPayday, s.showSavings].filter(Boolean).length;
+  const sound = s.clickSound === "off" ? null : t.sounds[s.clickSound];
+  const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
+  const now: Record<OptionGroup, string> = {
+    look: `${t.options[s.appearance]} · ${t.accents[s.accent]}`,
+    text: t.textSizes[s.textSize],
+    home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
+    reminder: t.reminderOptions[s.balanceReminder],
+    sounds: sound === null && buzz === null ? m.off : [sound, buzz].filter(Boolean).join(" · "),
+    privacy: settings.lock.isOn ? m.on : m.off,
+    updates: settings.updates.installed ?? "",
+  };
+  const option = (g: OptionGroup) => (
+    <li key={g}>
+      <button type="button" className="menu-item" onClick={() => onPanel(`opt-${g}` as PanelId)}>
+        <span className="menu-title">{m.optionGroups[g]}</span>
+        <span className="menu-sub">{now[g]}</span>
+      </button>
+    </li>
+  );
+  const page = (id: PanelId, title: string, sub?: string) => (
+    <li key={id}>
+      <button type="button" className="menu-item" onClick={() => onPanel(id)}>
+        <span className="menu-title">{title}</span>
+        {sub === undefined ? null : <span className="menu-sub">{sub}</span>}
+      </button>
+    </li>
+  );
+  // v0.31.0: everything on one page, in three small groups (no separate App options page).
   return (
     <>
+      <h3 className="settings-heading">{m.settingsGroups.feel}</h3>
+      <ul className="menu-list">{(["look", "text", "home", "sounds"] as const).map(option)}</ul>
+      <h3 className="settings-heading">{m.settingsGroups.reminders}</h3>
       <ul className="menu-list">
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("setup")}>
-            <span className="menu-title">{words.setup.menuItem}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("settings")}>
-            <span className="menu-title">{words.menu.names.settings}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("holidays")}>
-            <span className="menu-title">{words.menu.names.holidays}</span>
-            <span className="menu-sub">{holidays}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("data")}>
-            <span className="menu-title">{words.menu.names.data}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => onPanel("help")}>
-            <span className="menu-title">{words.menu.helpTitle}</span>
-          </button>
-        </li>
+        {(["reminder", "privacy", "updates"] as const).filter((g) => g !== "updates" || settings.updates.available).map(option)}
       </ul>
+      <h3 className="settings-heading">{m.settingsGroups.numbers}</h3>
+      <ul className="menu-list">
+        {page("setup", words.setup.menuItem)}
+        {page("holidays", m.names.holidays, holidays)}
+        {page("data", m.names.data)}
+      </ul>
+      <ul className="menu-list">{page("help", m.helpTitle)}</ul>
     </>
   );
 }

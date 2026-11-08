@@ -62,8 +62,8 @@ describe("totals and order", () => {
       { ...newBillRow(), amount: "100" },
       { ...newBillRow(), amount: "240" },
     ];
-    expect(billsTotalLine(rows)).toBe("2 bills · £340.00 in total");
-    expect(billsTotalLine([rows[0]!])).toBe("1 bill · £100.00 in total");
+    expect(billsTotalLine(rows)).toBe("2 bills · £340.00");
+    expect(billsTotalLine([rows[0]!])).toBe("1 bill · £100.00");
   });
 
   it("puts the earliest date first, undated rows last, and keeps typed order for ties", () => {
