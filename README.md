@@ -52,7 +52,7 @@ It is a personal project, built by someone who struggles with these things too. 
 ## Breathe Money in 15 seconds
 
 <p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-words-dark.gif"><img width="80%" src="docs/images/demo-words.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-clip-dark.gif"><img width="80%" src="docs/images/demo-clip.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
 </p>
 
 <p align="center"><a href="https://papareaps.github.io/Breathe/"><b>Try it now →</b></a> No account, no download.</p>
@@ -96,16 +96,16 @@ It is a personal project, built by someone who struggles with these things too. 
 >
 > And you never have to do it alone. Ask someone you trust, like a friend, family member or support worker, to sit with you while you set it up.
 
-### See what's coming up
+### Your calendar
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-coming-up-dark-v2.png">
-    <img src="docs/images/row-coming-up-v2.png" alt="Three screens of Coming up: a simple list of bills and the day your money comes in; the same as a month, where each bill day says out, money coming in says in, and money day says pay; and the month in dark mode" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-dark.png">
+    <img src="docs/images/row-calendar.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, where each bill day says out, money coming in says in, and money day says pay; and the month in dark mode" width="100%">
   </picture>
 </p>
 
-- **Coming up** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, each day says **in**, **out** or **pay** under the date.
+- **Calendar** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, each day says **in**, **out** or **pay** under the date.
 
 ### Make it yours
 

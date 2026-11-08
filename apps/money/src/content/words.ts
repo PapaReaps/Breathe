@@ -182,7 +182,7 @@ export const words = {
       "Your numbers are cleared from the screen, but we couldn't confirm the saved copy on this device was removed.",
   },
   comingUp: {
-    title: "Coming up",
+    title: "Calendar",
     menuSub: "Bills and money days",
     intro: "From today until your money comes in.",
     viewLabel: "Show as",
