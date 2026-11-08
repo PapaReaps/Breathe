@@ -100,12 +100,12 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-dark.png">
-    <img src="docs/images/row-calendar.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, where each bill day says out, money coming in says in, and money day says pay; and the month in dark mode" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-v2-dark.png">
+    <img src="docs/images/row-calendar-v2.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, with a small rose dot under each bill day, a teal dot for money coming in, two teal dots for your main money, today in a filled circle, and every amount listed underneath; and the month in dark mode" width="100%">
   </picture>
 </p>
 
-- **Calendar** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, each day says **in**, **out** or **pay** under the date.
+- **Calendar** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, small dots show each day's money (teal in, rose out, two dots for your main money), today is circled, and every amount is listed underneath.
 
 ### Make it yours
 

@@ -329,6 +329,8 @@ export type BuildResult =
       holidayListEnded: boolean;
       /** The main money's name, or "" for none. Only for wording: the number never uses it. */
       moneyName: string;
+      /** The main money's amount in pence, if it has one. Only for showing: the number never uses it. */
+      moneyAmount: number | null;
     };
 
 export interface BuildOptions {
@@ -507,6 +509,11 @@ export function buildInput(original: FormState, today: DateString, options: Buil
     },
     paidSince: plan.paidSince,
     moneyName: stop === null ? "" : stop.name.trim(),
+    moneyAmount: (() => {
+      if (stop === null) return null;
+      const parsed = parseMoney(stop.amount);
+      return parsed.ok && parsed.pence > 0 ? parsed.pence : null;
+    })(),
     holidayListEnded: region !== "own" && plan.resolved > BUILT_IN_LAST_DAY,
   };
 }

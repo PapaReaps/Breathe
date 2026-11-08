@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { words } from "../content/words";
 import { comingUp, monthGrid, monthsBetween } from "../logic/comingUp";
-import type { ComingUp, ComingUpDay, ComingUpItem } from "../logic/comingUp";
-import { daysBetween, formatDayLong, weekdayName } from "../logic/dates";
+import type { ComingUp, ComingUpDay } from "../logic/comingUp";
+import { daysBetween, formatDayLong, formatDayShort, weekdayName } from "../logic/dates";
 import type { BuildResult } from "../logic/form";
 import { formatMoney } from "../logic/money";
 import type { CalendarView } from "../storage/settings";
@@ -30,15 +29,10 @@ export function ComingUpView({ built, outcome, settings }: { built: BuildResult;
           </label>
         ))}
       </div>
-      {view === "month" ? <MonthView data={data} name={built.moneyName} /> : <ListView data={data} name={built.moneyName} />}
+      {view === "month" ? <MonthView data={data} name={built.moneyName} amount={built.moneyAmount} /> : <ListView data={data} name={built.moneyName} />}
       <p className="coming-total">{data.billCount === 0 ? text.noBills : text.billTotal(data.billCount, formatMoney(data.billTotal))}</p>
     </>
   );
-}
-
-function itemLabel(item: ComingUpItem, name: string): string {
-  if (item.kind === "money-day") return text.moneyDayNamed(name);
-  return item.name;
 }
 
 function ListView({ data, name }: { data: ComingUp; name: string }) {
@@ -103,101 +97,78 @@ function DayRow({ day, data, name }: { day: ComingUpDay; data: ComingUp; name: s
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAY_LETTERS = ["M", "T", "W", "T", "F", "S", "S"];
 
-function MonthView({ data, name }: { data: ComingUp; name: string }) {
+/**
+ * The month (v0.30.0): small dots under each day (teal for money in, rose for money out,
+ * two teal for your main money), today in a filled circle, and every amount in a list below.
+ */
+function MonthView({ data, name, amount }: { data: ComingUp; name: string; amount: number | null }) {
   const byDate = new Map(data.days.map((d) => [d.date, d]));
-  const firstEvent = data.days.find((d) => d.date >= data.today)?.date ?? data.moneyDay;
-  const [selected, setSelected] = useState<string>(byDate.has(data.today) ? data.today : firstEvent);
-  const chosen = byDate.get(selected);
+  const mainName = name === "" ? text.mainMoneyShort : name;
+  const dotsFor = (day: ComingUpDay | undefined): Array<"in" | "out"> =>
+    (day?.items ?? []).flatMap((item): Array<"in" | "out"> =>
+      item.kind === "bill" ? ["out"] : item.kind === "income" ? ["in"] : ["in", "in"],
+    );
+  const rows = data.days.flatMap((day) =>
+    day.items.map((item) => ({ date: day.date, item, key: item.kind === "money-day" ? `money-${day.date}` : item.id })),
+  );
 
   return (
     <>
       {monthsBetween(data.today, data.moneyDay).map(({ year, month }) => (
         <section key={`${year}-${month}`} className="month" aria-label={`${MONTHS[month - 1]} ${year}`}>
-          <h3 className="month-name">{MONTHS[month - 1]}</h3>
-          <div className="month-grid">
+          <h3 className="month-name">
+            <span>{MONTHS[month - 1]}</span>
+          </h3>
+          <div className="month-grid" aria-hidden="true">
             {DAY_LETTERS.map((letter, i) => (
-              <span key={i} className="month-dow" aria-hidden="true">
+              <span key={i} className="month-dow">
                 {letter}
               </span>
             ))}
             {monthGrid(year, month).map((date, i) => {
               if (date === null) return <span key={`b${i}`} />;
-              const day = byDate.get(date);
-              const classes = ["month-day"];
-              if (date < data.today || date > data.moneyDay) classes.push("month-quiet");
-              if (date === data.today) classes.push("month-today");
-              if (day?.items.some((x) => x.kind === "bill")) classes.push("month-bill");
-              if (day?.items.some((x) => x.kind === "income")) classes.push("month-in");
-              if (date === data.moneyDay) classes.push("month-money");
-              if (date === selected) classes.push("month-selected");
-              const number = Number(date.slice(8, 10));
-              if (day === undefined) {
-                return (
-                  <span key={date} className={classes.join(" ")}>
-                    {number}
-                  </span>
-                );
-              }
-              // A small "in" or "out" under the date, the same words as the list.
-              const hasOut = day.items.some((x) => x.kind === "bill");
-              const hasIn = day.items.some((x) => x.kind === "income");
-              const mark =
-                date === data.moneyDay
-                  ? text.payWord
-                  : hasOut && hasIn
-                    ? `${text.inWord}·${text.outWord}`
-                    : hasOut
-                      ? text.outWord
-                      : text.inWord;
+              const quiet = date < data.today || date > data.moneyDay;
+              const dots = dotsFor(byDate.get(date));
               return (
-                <button
-                  key={date}
-                  type="button"
-                  className={classes.join(" ")}
-                  aria-pressed={date === selected}
-                  aria-label={`${formatDayLong(date)}: ${day.items.map((item) => itemLabel(item, name)).join(", ")}`}
-                  onClick={() => setSelected(date)}
-                >
-                  {number}
-                  <span className="month-mark" aria-hidden="true">
-                    {mark}
-                  </span>
-                </button>
+                <span key={date} className={quiet ? "month-day month-quiet" : "month-day"}>
+                  <span className={date === data.today ? "month-num month-today" : "month-num"}>{Number(date.slice(8, 10))}</span>
+                  {dots.length > 0 ? (
+                    <span className="month-dots">
+                      {dots.map((way, k) => (
+                        <i key={k} className={way === "in" ? "month-dot dot-in" : "month-dot dot-out"} />
+                      ))}
+                    </span>
+                  ) : null}
+                </span>
               );
             })}
           </div>
         </section>
       ))}
       <div className="month-key" aria-hidden="true">
-        <span><i className="key-bill" />{text.keyOut}</span>
-        <span><i className="key-in" />{text.keyIn}</span>
-        <span><i className="key-money" />{text.moneyDayNamed(name)}</span>
+        <span><i className="month-dot dot-in" />{text.keyIn}</span>
+        <span><i className="month-dot dot-out" />{text.keyOut}</span>
+        <span><i className="month-dot dot-in" /><i className="month-dot dot-in" />{text.keyMain}</span>
         <span><i className="key-today" />{text.today}</span>
       </div>
-      <div className="month-details" aria-live="polite">
-        <b>{formatDayLong(selected)}</b>
-        {chosen === undefined ? (
-          <p>{text.nothing}</p>
-        ) : (
-          chosen.items.map((item) =>
-            item.kind === "money-day" ? (
-              <div key="money" className="coming-item month-row">
-                <b className="coming-in">{text.moneyDayNamed(name)}</b>
-              </div>
-            ) : (
-              <div key={item.id} className="coming-item month-row">
-                <span>{item.name}</span>
-                <b className="coming-amount">
-                  {formatMoney(item.amount)}
-                  <span className={item.kind === "income" ? "coming-way coming-in" : "coming-way coming-out"}>
-                    {item.kind === "income" ? text.inWord : text.outWord}
-                  </span>
-                </b>
-              </div>
-            ),
-          )
-        )}
-      </div>
+      <ul className="plain-list month-list">
+        {rows.map(({ date, item, key }) => {
+          const label = item.kind === "money-day" ? mainName : item.name;
+          const way = item.kind === "bill" ? "out" : "in";
+          const value = item.kind === "money-day" ? amount : item.amount;
+          return (
+            <li key={key} className="coming-item">
+              <span>
+                {formatDayShort(date)} · {label}
+              </span>
+              <b className={way === "in" ? "coming-in" : "coming-out"}>
+                {value === null ? "" : `${formatMoney(value)} `}
+                {way === "in" ? text.inWord : text.outWord}
+              </b>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }

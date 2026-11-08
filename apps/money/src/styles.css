@@ -1688,3 +1688,79 @@ a.button-link {
 :root[data-theme="dark"][data-accent="forest"] { --accent: #4fbf5a; --on-accent: #082a0c; --gentle: #18301a; }
 :root[data-theme="dark"][data-accent="deep-orange"] { --accent: #f08a3c; --on-accent: #2e1200; --gentle: #3a2414; }
 :root[data-black][data-accent] { --gentle: #121a1a; }
+
+/* The month (v0.30.0): dots under each day, today in a filled circle, every amount listed below. */
+.month-day {
+  justify-content: flex-start;
+  padding-top: 0.25rem;
+  min-height: 2.9rem;
+}
+.month-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+}
+/* Today: a filled circle on the number only, so the dots underneath never overlap it.
+   White in dark mode, black in light mode, so it never looks like a teal "in" dot. */
+.month-today {
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 700;
+}
+.month-dots {
+  display: flex;
+  gap: 3px;
+  margin-top: 3px;
+}
+.month-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.dot-in {
+  background: var(--accent);
+}
+.dot-out {
+  background: var(--bill);
+}
+.month-key .month-dot + .month-dot {
+  margin-left: -0.25rem;
+}
+.month-key .key-today {
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  background: var(--text);
+  outline: none;
+}
+.month-list {
+  margin-top: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0 0.9rem;
+}
+.month-list .coming-item {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.month-list .coming-item:last-child {
+  border-bottom: none;
+}
+.month-list b {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* Keep the key's dots round and today's circle plain (older month styles used squares and a ring). */
+.month-key i.month-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: none;
+}
+.month-num.month-today {
+  outline: none;
+}
