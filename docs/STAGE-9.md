@@ -34,7 +34,7 @@ Checked for this stage:
 Still worth checking by hand on real devices (we can't fully test these automatically):
 
 - [ ] VoiceOver on iPhone: open the app, set up, read the number, use the menu.
-- [ ] TalkBack on Android: the same.
+- [x] TalkBack on Android: the same. Done on a real phone over several days in November 2026, including by someone with very low vision, with no problems.
 - [ ] NVDA or Narrator on Windows: the same.
 - [ ] 200% browser zoom plus **Largest** text size: nothing is cut off.
 - [ ] Higher contrast in both light and dark mode, with each app colour.

@@ -24,7 +24,7 @@ Breathe Money is made for people who find everyday organisation hard, including 
 
 ## Known limits, honestly
 
-- **Not yet tested by hand with screen readers** (TalkBack on Android, VoiceOver on iPhone, NVDA or Narrator on Windows). It's built for them, but real-device checks are still to do. This is planned before version 1.0 or soon after.
+- **Tested with TalkBack on Android** on a real phone, over several days, including by someone with very low vision: no problems found. **VoiceOver on iPhone and NVDA or Narrator on Windows are not yet tested by hand.** It's built for them, but those real-device checks are still to do.
 - **Not yet checked at 200% browser zoom combined with Largest text.**
 - **Vibration** isn't available on iPhones or computers, because they don't allow websites to vibrate.
 - **Sounds** play at the phone's media volume, and may still play when the phone is on silent. They're off unless you choose one.
