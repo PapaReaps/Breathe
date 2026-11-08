@@ -72,7 +72,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 - Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice.
-- Never counts money that isn't here yet. Money coming in before your main money only counts from the day it arrives, and a small badge says when (like **+£140.00 on Mon 9 Nov**).
+- Never counts money that isn't here yet. Each payment only counts from the day it arrives, and a small badge says when (like **+£140.00 on Mon 9 Nov**).
 - Explains **where the number comes from**, line by line, so you never have to just trust it.
 - Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
 
@@ -81,11 +81,12 @@ It is a personal project, built by someone who struggles with these things too. 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-setup-dark.png">
-    <img src="docs/images/row-setup.png" alt="Three screens: a calm hello (Take a breath. You.ve got this.); setting up, one question at a time (When does your main money next come in?); and bills before your money comes in, one line each with a total" width="100%">
+    <img src="docs/images/row-setup.png" alt="Three screens: a calm hello (Take a breath. You.ve got this.); setting up, one question at a time (What money comes in? Universal Credit, £850.00 every month, and your number plans until it); and bills before your money comes in, one line each with a total" width="100%">
   </picture>
 </p>
 
 - **Step-by-step setup**: one question per screen, and every question can be skipped.
+- **Just add all your money coming in**: wages, Universal Credit, PIP, Child Benefit, a pension. There's no "main" one to pick: your number plans until your biggest regular payment by itself, and you can change it in the Menu.
 - **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
 - **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
 - A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.

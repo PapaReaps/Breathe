@@ -55,6 +55,16 @@ export interface IncomeRow {
 export interface FormState {
   balance: string;
   balanceDate: string;
+  /**
+   * Which money coming in the number plans until (an income row id), or "" to pick
+   * automatically: the biggest regular payment. (v0.28.0: there is no separate "main money".)
+   */
+  planUntil: string;
+  /**
+   * OLD (before v0.28.0): the separate main money (name, date, how often). Only read so it can
+   * be moved into the money coming in list (migrateMainMoney); always empty after that.
+   * paydayRule is still used: it is the weekend answer for the payment the number plans until.
+   */
   /** What the main money is called, if the person gave it a name: "Universal Credit", "Wages". Optional. */
   paydayName: string;
   paydayDate: string;
@@ -86,6 +96,7 @@ export function emptyForm(): FormState {
   return {
     balance: "",
     balanceDate: "",
+    planUntil: "",
     paydayName: "",
     paydayDate: "",
     paydayRule: "",
@@ -165,13 +176,81 @@ function repeatOf(value: unknown): Repeat {
   return isRepeat(value) ? value : "once";
 }
 
+/** The id given to a main money moved into the list, so moving it twice changes nothing. */
+export const MOVED_MAIN_MONEY_ID = "income-main";
+
+/**
+ * Before v0.28.0 there was a separate "main money" (just a name, date and how often).
+ * Now all money is money coming in. This moves an old main money into the list, keeps
+ * planning until it (so nobody's number changes), and empties the old fields.
+ * It needs no amount: the number never counts the payment it plans until.
+ */
+export function migrateMainMoney(form: FormState): FormState {
+  const oldDate = typeof form.paydayDate === "string" ? form.paydayDate.trim() : "";
+  const oldName = typeof form.paydayName === "string" ? form.paydayName.trim() : "";
+  const base: FormState = { ...form, planUntil: typeof form.planUntil === "string" ? form.planUntil : "" };
+  if (oldDate === "" && oldName === "") return base;
+  const moved: IncomeRow = {
+    id: MOVED_MAIN_MONEY_ID,
+    name: oldName,
+    amount: "",
+    date: oldDate,
+    reliability: "reliable",
+    repeat: repeatOf(form.paydayRepeat),
+  };
+  const others = base.income.filter((row) => row.id !== MOVED_MAIN_MONEY_ID);
+  return {
+    ...base,
+    income: [moved, ...others],
+    planUntil: base.planUntil === "" ? MOVED_MAIN_MONEY_ID : base.planUntil,
+    paydayName: "",
+    paydayDate: "",
+    paydayRepeat: "once",
+  };
+}
+
+/** The next time a row of money comes in, on or after today (or its one date). */
+function nextDateOf(row: IncomeRow, today: DateString): DateString {
+  const repeat = repeatOf(row.repeat);
+  if (repeat === "once") return row.date;
+  return nextOccurrenceOnOrAfter(row.date, repeat, today) ?? row.date;
+}
+
+/**
+ * The money coming in that the number plans until.
+ *  - If the person chose one (Plan until), that one.
+ *  - Otherwise the biggest single payment that repeats. If two are the same size, the one
+ *    that comes later (the more cautious). If nothing repeats, the biggest one-off still to come.
+ * Rows need a date to count; the automatic choice also needs an amount.
+ */
+export function stopRow(form: FormState, today: DateString): IncomeRow | null {
+  const dated = form.income.filter((row) => isRealDay(row.date));
+  const chosen = dated.find((row) => row.id === form.planUntil);
+  if (chosen !== undefined) return chosen;
+  const priced = dated.flatMap((row) => {
+    const parsed = parseMoney(row.amount);
+    return parsed.ok && parsed.pence > 0 ? [{ row, pence: parsed.pence, next: nextDateOf(row, today) }] : [];
+  });
+  if (priced.length === 0) return null;
+  const repeating = priced.filter((item) => repeatOf(item.row.repeat) !== "once");
+  const upcoming = priced.filter((item) => item.next >= today);
+  const pool = repeating.length > 0 ? repeating : upcoming.length > 0 ? upcoming : priced;
+  pool.sort((a, b) => b.pence - a.pence || (a.next < b.next ? 1 : a.next > b.next ? -1 : 0));
+  return pool[0]!.row;
+}
+
 /**
  * The weekend question for payday, or null when there is nothing to ask.
  *  - One date only: ask if that date is a weekend or bank holiday (as always).
  *  - Every month: always ask, because some months will land on a weekend.
  *  - Every week / 2 / 4 weeks: ask if the first date or the next one is a weekend or bank holiday.
  */
-export function paydayRuleQuestion(form: FormState, today: DateString): string | null {
+export function paydayRuleQuestion(original: FormState, today: DateString): string | null {
+  const moved = migrateMainMoney(original);
+  const stop = stopRow(moved, today);
+  if (stop === null) return null;
+  // The weekend question is about the payment the number plans until.
+  const form: FormState = { ...moved, paydayDate: stop.date, paydayRepeat: repeatOf(stop.repeat) };
   if (!isRealDay(form.paydayDate)) return null;
   const repeat = repeatOf(form.paydayRepeat);
   const region = regionOf(form);
@@ -279,7 +358,8 @@ function occurrencesOf(
   return occurrencesBetween(firstDate, repeat, from, to).map((date) => ({ id: `${rowId}@${date}`, date }));
 }
 
-export function buildInput(form: FormState, today: DateString, options: BuildOptions = {}): BuildResult {
+export function buildInput(original: FormState, today: DateString, options: BuildOptions = {}): BuildResult {
+  const form = migrateMainMoney(original);
   const messages: string[] = [];
 
   // Balance
@@ -306,20 +386,19 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
   // Payday
   const region = regionOf(form);
   const allHolidays = holidayDays(region, form.bankHolidays);
-  const paydayRepeat = repeatOf(form.paydayRepeat);
   const paydayRule: PaydayRule = form.paydayRule === "" ? "on-the-day" : form.paydayRule;
+  // The money coming in that the number plans until (chosen, or the biggest regular payment).
+  const stop = stopRow(form, today);
   let plan: PaydayPlan | null = null;
-  if (blank(form.paydayDate)) {
+  if (stop === null) {
     messages.push(words.needPayday);
-  } else if (!isRealDay(form.paydayDate)) {
-    messages.push(words.cantReadDate("the date your money comes in"));
   } else {
     const question = paydayRuleQuestion(form, today);
     if (question !== null && form.paydayRule === "") {
       messages.push(question);
     } else {
       const from = isRealDay(balanceDate) && balanceDate <= today ? balanceDate : today;
-      plan = planPayday(form.paydayDate, paydayRepeat, paydayRule, allHolidays, today, from);
+      plan = planPayday(stop.date, repeatOf(stop.repeat), paydayRule, allHolidays, today, from);
     }
   }
   const windowStart = isRealDay(balanceDate) && balanceDate <= today ? balanceDate : today;
@@ -357,6 +436,8 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
   // Money coming in
   const income: Income[] = [];
   for (const row of form.income) {
+    // The payment the number plans until is the finish line, not part of the sum.
+    if (stop !== null && row.id === stop.id) continue;
     if (blank(row.name) && blank(row.amount) && row.date === "") continue;
     const name = blank(row.name) ? "Money coming in" : row.name.trim();
     if (blank(row.amount) || row.date === "") {
@@ -425,7 +506,7 @@ export function buildInput(form: FormState, today: DateString, options: BuildOpt
       ...(options.staleAfterDays === undefined ? {} : { staleAfterDays: options.staleAfterDays }),
     },
     paidSince: plan.paidSince,
-    moneyName: form.paydayName.trim(),
+    moneyName: stop === null ? "" : stop.name.trim(),
     holidayListEnded: region !== "own" && plan.resolved > BUILT_IN_LAST_DAY,
   };
 }
@@ -445,7 +526,8 @@ function plural(count: number, one: string, many: string): string {
 }
 
 /** A few words about each part of the form, shown in the menu so people know where things are. */
-export function describeForm(form: FormState, today?: DateString): FormSummary {
+export function describeForm(original: FormState, today?: DateString): FormSummary {
+  const form = migrateMainMoney(original);
   let account: string = words.notSetYet;
   if (!blank(form.balance)) {
     const parsed = parseMoney(form.balance, { allowNegative: true });
@@ -453,20 +535,22 @@ export function describeForm(form: FormState, today?: DateString): FormSummary {
   }
 
   let payday: string = words.notSetYet;
-  if (!blank(form.paydayDate)) {
-    if (!isRealDay(form.paydayDate)) {
-      payday = words.needsALook;
-    } else {
-      const repeat = repeatOf(form.paydayRepeat);
-      let day = form.paydayDate;
+  const stop = stopRow(form, today ?? "1970-01-01");
+  if (stop !== null) {
+    {
+      const repeat = repeatOf(stop.repeat);
+      let day = stop.date;
       if (repeat !== "once" && today !== undefined) {
         const rule: PaydayRule = form.paydayRule === "" ? "on-the-day" : form.paydayRule;
-        day = planPayday(form.paydayDate, repeat, rule, holidayDays(regionOf(form), form.bankHolidays), today, today).resolved;
+        day = planPayday(stop.date, repeat, rule, holidayDays(regionOf(form), form.bankHolidays), today, today).resolved;
       }
       payday = repeat === "once" ? formatDayLong(day) : words.paydaySummary(formatDayLong(day), repeat);
-      if (form.paydayName.trim() !== "") payday = `${form.paydayName.trim()} · ${payday}`;
+      if (stop.name.trim() !== "") payday = `${stop.name.trim()} · ${payday}`;
     }
   }
+
+  // A date that can't be read on the money it would plan until: say it needs a look.
+  if (stop === null && form.income.some((row) => row.date !== "" && !isRealDay(row.date))) payday = words.needsALook;
 
   const billCount = form.bills.filter((row) => !(blank(row.name) && blank(row.amount) && row.dueDate === "")).length;
   const incomeCount = form.income.filter((row) => !(blank(row.name) && blank(row.amount) && row.date === "")).length;
@@ -492,7 +576,7 @@ export function describeForm(form: FormState, today?: DateString): FormSummary {
     account,
     payday,
     bills: billCount === 0 ? words.noneAdded : plural(billCount, "bill", "bills"),
-    income: incomeCount === 0 ? words.noneAdded : plural(incomeCount, "item", "items"),
+    income: incomeCount === 0 ? words.noneAdded : plural(incomeCount, "payment", "payments"),
     essentials,
     pot,
     holidays:

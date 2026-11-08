@@ -143,3 +143,4 @@ Each of these was asked for by the person who uses Breathe Money every day, and 
 - **A safety check (after v0.17.0).** Nothing serious found. Fixed: PIN pauses now survive reopening the app, and the downloaded update file is tidied away.
 
 Founding promise check: everything is optional or off by default where it does something new, nothing about the person is sent, and every new permission is used for one thing and explained. Result: **in line with the promise.**
+- **All money is money coming in (v0.28.0).** People asked why Universal Credit had to be "the main" one. Now everyone just lists all their money, and the number plans until the biggest regular payment by itself (changeable under *Plan until*). Simpler for people with several payments, and just as cautious.

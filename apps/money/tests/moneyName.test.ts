@@ -14,8 +14,10 @@ describe("a name for the main money", () => {
   });
 
   it("is saved and read back", () => {
+    // v0.28.0: the old main money is moved into the money coming in list, name and all.
     const read = fromSaved(toSaved({ ...emptyForm(), paydayName: "Universal Credit" }));
-    expect(read?.paydayName).toBe("Universal Credit");
+    expect(read?.paydayName).toBe("");
+    expect(read?.income[0]?.name).toBe("Universal Credit");
   });
 
   it("shows in the Menu summary, before the date", () => {

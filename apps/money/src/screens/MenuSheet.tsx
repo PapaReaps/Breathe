@@ -9,7 +9,7 @@ import {
   EssentialsSection,
   HolidaysSection,
   IncomeSection,
-  PaydaySection,
+  PlanUntilSection,
   PotSection,
 } from "./FormSections";
 import { DataView } from "./DataView";
@@ -155,9 +155,9 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
             {panel === "payday" || panel === "income" ? (
               <>
-                <PaydaySection form={form} today={today} api={api} removable />
-                <h3 className="sub-question">{ui.otherIncomeTitle}</h3>
                 <IncomeSection form={form} today={today} api={api} />
+                <h3 className="sub-question">{ui.planUntilTitle}</h3>
+                <PlanUntilSection form={form} today={today} api={api} />
               </>
             ) : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
@@ -202,7 +202,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
 
 /** Anything typed in at all. */
 function hasNumbers(form: FormState): boolean {
-  const typed = [form.balance, form.paydayDate, form.foodPerWeek, form.travelPerWeek, form.buffer];
+  const typed = [form.balance, form.foodPerWeek, form.travelPerWeek, form.buffer];
   return typed.some((value) => value.trim() !== "") || form.bills.length > 0 || form.income.length > 0;
 }
 

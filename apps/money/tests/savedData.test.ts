@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emptyForm, newBillRow, newIncomeRow, nextId, withBalance } from "../src/logic/form";
+import { emptyForm, migrateMainMoney, newBillRow, newIncomeRow, nextId, withBalance } from "../src/logic/form";
 import type { FormState } from "../src/logic/form";
 import {
   backupFileName,
@@ -33,12 +33,12 @@ function sample(): FormState {
 describe("saving on the device", () => {
   it("what is saved comes back exactly", () => {
     const form = sample();
-    expect(fromSaved(toSaved(form))).toEqual(form);
+    expect(fromSaved(toSaved(form))).toEqual(migrateMainMoney(form));
   });
 
   it("an empty form saves and comes back too", () => {
     const form = emptyForm();
-    expect(fromSaved(toSaved(form))).toEqual(form);
+    expect(fromSaved(toSaved(form))).toEqual(migrateMainMoney(form));
   });
 
   it("a new form starts with no bills or money coming in", () => {
@@ -49,7 +49,7 @@ describe("saving on the device", () => {
   it("rows with nothing in them are dropped when numbers are loaded", () => {
     const form = sample();
     const withBlanks = { ...form, bills: [...form.bills, newBillRow()], income: [newIncomeRow(), ...form.income] };
-    expect(fromSaved(toSaved(withBlanks))).toEqual(form);
+    expect(fromSaved(toSaved(withBlanks))).toEqual(migrateMainMoney(form));
   });
 
   it("only the known fields are saved", () => {
@@ -92,8 +92,8 @@ describe("repeating items are saved and read back", () => {
 
   it("how often comes back exactly, including answers about one date of a repeating item", () => {
     const form = repeating();
-    expect(fromSaved(toSaved(form))).toEqual(form);
-    expect(parseBackupText(makeBackupText(form, "2026-11-04"))).toEqual({ ok: true, form, savedOn: "2026-11-04" });
+    expect(fromSaved(toSaved(form))).toEqual(migrateMainMoney(form));
+    expect(parseBackupText(makeBackupText(form, "2026-11-04"))).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04" });
   });
 
   it("numbers saved before repeats existed still open, as one date only", () => {
@@ -101,7 +101,7 @@ describe("repeating items are saved and read back", () => {
     const oldForm = JSON.parse(JSON.stringify(toSaved(form).form));
     delete oldForm.paydayRepeat;
     for (const row of [...oldForm.bills, ...oldForm.income]) delete row.repeat;
-    expect(fromSaved({ format: 1, form: oldForm })).toEqual(form);
+    expect(fromSaved({ format: 1, form: oldForm })).toEqual(migrateMainMoney(form));
   });
 
   it("an old backup file (format 1) can be used", () => {
@@ -147,7 +147,7 @@ describe("backup files", () => {
   it("a backup restores exactly what went in", () => {
     const form = sample();
     const parsed = parseBackupText(makeBackupText(form, "2026-11-04"));
-    expect(parsed).toEqual({ ok: true, form, savedOn: "2026-11-04" });
+    expect(parsed).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04" });
   });
 
   it("says inside the file that it is not encrypted", () => {
@@ -171,7 +171,7 @@ describe("backup files", () => {
     expect(parseBackupText(text([1, 2]))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ app: "something-else", format: 1, form: good.form }))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ app: "breathe-money", form: good.form }))).toEqual({ ok: false, reason: "not-ours" });
-    expect(parseBackupText(text({ ...good, format: 4 }))).toEqual({ ok: false, reason: "newer" });
+    expect(parseBackupText(text({ ...good, format: 5 }))).toEqual({ ok: false, reason: "newer" });
     expect(parseBackupText(text({ ...good, format: 0 }))).toEqual({ ok: false, reason: "not-ours" });
     expect(parseBackupText(text({ ...good, form: { ...good.form, balance: 5 } }))).toEqual({ ok: false, reason: "unreadable" });
     expect(parseBackupText("x".repeat(1_000_001))).toEqual({ ok: false, reason: "too-big" });
@@ -212,7 +212,7 @@ describe("backup files", () => {
 
   it("readForm only trusts a complete form", () => {
     const form = sample();
-    expect(readForm(form)).toEqual(form);
+    expect(readForm(form)).toEqual(migrateMainMoney(form));
     expect(readForm({})).toBeNull();
     expect(readForm(undefined)).toBeNull();
   });

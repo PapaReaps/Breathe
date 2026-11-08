@@ -198,9 +198,7 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
       {showExplanation || result.safeNow === null || result.safeNow <= 0 ? (
         <p className="home-message">{head.message}</p>
       ) : null}
-      {showPayday && result.safeToSpend !== null ? (
-        <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday, showMoneyName && built.status === "ready" ? built.moneyName : "")}</p>
-      ) : null}
+      {/* Money still to come arrives first, so its badge comes before the "money comes in" line. */}
       {result.heldBack !== null && (result.safeNow ?? 0) >= 0 ? (
         <p
           className="coming-badge"
@@ -208,6 +206,9 @@ function HomeContent({ built, outcome, fresh, potAmount, showExplanation, showPa
         >
           {home.moneyOnTheWay(formatMoney(result.heldBack.nextIncome.amount), formatDayShort(result.heldBack.nextIncome.date))}
         </p>
+      ) : null}
+      {showPayday && result.safeToSpend !== null ? (
+        <p className="small">{paydayLine(result.paydayDate, result.daysUntilPayday, showMoneyName && built.status === "ready" ? built.moneyName : "")}</p>
       ) : null}
       {potAmount !== null ? <PotBadge amount={potAmount} /> : null}
 

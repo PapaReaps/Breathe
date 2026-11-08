@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { MoneyField } from "../components/MoneyField";
 import { words } from "../content/words";
-import { describeForm } from "../logic/form";
 import type { BuildResult, FormState } from "../logic/form";
 import { SETUP_STEPS, firstSetupStep } from "../logic/setup";
 import type { SetupStep } from "../logic/setup";
-import { BillsSection, IncomeSection, PaydaySection } from "./FormSections";
+import { BillsSection, IncomeSection, PlanUntilSection } from "./FormSections";
 import type { FormApi } from "./screenTypes";
 
 const text = words.setup;
@@ -100,19 +99,10 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
           allowNegative
         />
       ) : null}
-      {step === "payday" ? (
-        <PaydaySection form={form} today={today} api={api} compactRule />
-      ) : null}
       {step === "income" ? (
         <>
-          {form.paydayDate.trim() !== "" ? (
-            <p className="main-money">
-              <span className="small">{text.mainMoney}</span>
-              <br />
-              <strong>{describeForm(form, today).payday}</strong>
-            </p>
-          ) : null}
           <IncomeSection form={form} today={today} api={api} hideHint />
+          <PlanUntilSection form={form} today={today} api={api} compactRule />
         </>
       ) : null}
       {step === "bills" ? <BillsSection form={form} today={today} api={api} hideHint /> : null}
@@ -160,8 +150,6 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
 function stepFilled(step: SetupStep, form: FormState): boolean {
   const typed = (value: string) => value.trim() !== "";
   switch (step) {
-    case "payday":
-      return typed(form.paydayDate) || typed(form.paydayName);
     case "income":
       return form.income.some((row) => typed(row.name) || typed(row.amount) || row.date !== "");
     case "balance":

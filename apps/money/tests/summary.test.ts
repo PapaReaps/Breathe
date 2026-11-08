@@ -33,7 +33,7 @@ describe("the short summaries shown in the menu", () => {
       account: "£420.00",
       payday: "Friday 20 November",
       bills: "1 bill",
-      income: "2 items",
+      income: "3 payments",
       essentials: "Food",
       pot: "£50.00",
       holidays: "2 dates",

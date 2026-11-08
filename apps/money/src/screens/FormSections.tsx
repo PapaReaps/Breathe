@@ -6,7 +6,7 @@ import { formatMoney } from "../logic/money";
 import { RowList } from "../components/RowList";
 import { words } from "../content/words";
 import { BUILT_IN_LAST_DAY, HOLIDAY_REGIONS } from "../data/bankHolidays";
-import { describeForm, paydayRuleQuestion, regionOf } from "../logic/form";
+import { paydayRuleQuestion, regionOf, stopRow } from "../logic/form";
 import type { FormState } from "../logic/form";
 import { billsTotalLine, incomeTotalLine, isBlankBill, isBlankIncome, summariseBill, summariseIncome } from "../logic/rows";
 import { REPEATS } from "../logic/repeat";
@@ -26,14 +26,12 @@ interface SectionProps {
   hideHint?: boolean;
 }
 
-interface PaydayProps extends SectionProps {
+interface PlanUntilProps extends SectionProps {
   /**
-   * Setup only: the weekend and bank holiday question becomes one line with a Change link,
-   * starting from "the working day before", so the first question stays light.
+   * Setup only: one line saying which money the number plans until, and the weekend
+   * question as one line with a Change link (starting from "the working day before").
    */
   compactRule?: boolean;
-  /** Menu page only: a button to empty the main money in one go (name, date and how often). */
-  removable?: boolean;
 }
 
 export function AccountSection({ form, today, api }: SectionProps) {
@@ -121,8 +119,11 @@ function RepeatField({
   );
 }
 
-export function PaydaySection({ form, today, api, compactRule = false, removable = false }: PaydayProps) {
-  const hasMainMoney = form.paydayName.trim() !== "" || form.paydayDate !== "" || form.paydayRepeat !== "once";
+/**
+ * Which money coming in the number plans until. Chosen automatically (the biggest regular
+ * payment) unless the person picks one, plus the weekend question for that payment.
+ */
+export function PlanUntilSection({ form, today, api, compactRule = false }: PlanUntilProps) {
   const question = paydayRuleQuestion(form, today);
   const [changing, setChanging] = useState(false);
   const needsDefault = compactRule && question !== null && form.paydayRule === "";
@@ -130,70 +131,13 @@ export function PaydaySection({ form, today, api, compactRule = false, removable
     if (needsDefault) api.set("paydayRule", "working-day-before");
   }, [needsDefault, api]);
   const shortRule = compactRule && !changing && form.paydayRule !== "";
-  const repeat: Repeat = REPEATS.includes(form.paydayRepeat) ? form.paydayRepeat : "once";
-  // Menu page only: once the date is in, the main money folds into one line, like bills and other money.
-  const [open, setOpen] = useState(form.paydayDate === "");
-  if (removable && !open && form.paydayDate !== "") {
-    const summary = describeForm({ ...form, paydayName: "" }, today).payday;
-    return (
-      <ul className="menu-list">
-        <li>
-          <button type="button" className="menu-item" aria-expanded={false} onClick={() => setOpen(true)}>
-            <span className="menu-title">{form.paydayName.trim() === "" ? ui.mainMoneyTitle : form.paydayName.trim()}</span>
-            <span className="menu-sub">{summary}</span>
-            <span className="visually-hidden">{`, ${ui.change}`}</span>
-          </button>
-        </li>
-      </ul>
-    );
-  }
-  const fields = (
+  const stop = stopRow(form, today);
+  const autoStop = stopRow({ ...form, planUntil: "" }, today);
+  const nameOf = (row: { name: string } | null) => (row === null ? "" : row.name.trim());
+  const choices = form.income.filter((row) => row.date !== "");
+
+  const rule = (
     <>
-      <div className="field">
-        <label htmlFor="payday-name">{ui.paydayNameLabel}</label>
-        <p className="hint" id="payday-name-hint">
-          {ui.paydayNameHint}
-        </p>
-        <input
-          id="payday-name"
-          aria-describedby="payday-name-hint"
-          type="text"
-          autoComplete="off"
-          maxLength={60}
-          value={form.paydayName}
-          onChange={(event) => api.set("paydayName", event.target.value)}
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="payday-date">{ui.paydayDateLabel}</label>
-        <p className="hint" id="payday-date-hint">
-          {ui.paydayDateHint}
-        </p>
-        <DateHint value={form.paydayDate} />
-        <input
-          id="payday-date"
-          aria-describedby="payday-date-hint"
-          type="date"
-          value={form.paydayDate}
-          onChange={(event) => api.set("paydayDate", event.target.value)}
-        />
-        <ClearDate value={form.paydayDate} onClear={() => api.set("paydayDate", "")} />
-      </div>
-      <div className="field">
-        <label htmlFor="payday-repeat">{ui.paydayRepeatLabel}</label>
-        {repeat === "once" ? null : <p className="hint">{ui.paydayRepeatHint}</p>}
-        <select
-          id="payday-repeat"
-          value={repeat}
-          onChange={(event) => api.set("paydayRepeat", event.target.value as Repeat)}
-        >
-          {REPEATS.map((choice) => (
-            <option key={choice} value={choice}>
-              {ui.paydayRepeatOptions[choice]}
-            </option>
-          ))}
-        </select>
-      </div>
       {question !== null && shortRule ? (
         <p className="hint">
           {ui.paydayRuleShort(ui.paydayRulePhrases[form.paydayRule as PaydayRule])}{" "}
@@ -220,32 +164,41 @@ export function PaydaySection({ form, today, api, compactRule = false, removable
       ) : null}
     </>
   );
-  if (!removable) return fields;
-  return (
-    <div className="row-editor main-money-editor">
-      {fields}
-      <div className="buttons">
-        {form.paydayDate !== "" ? (
-          <button type="button" onClick={() => setOpen(false)}>
-            {words.rows.done}
-          </button>
-        ) : null}
-        {hasMainMoney ? (
-          <button
-            type="button"
-            className="secondary"
-            onClick={() => {
-              api.set("paydayName", "");
-              api.set("paydayDate", "");
-              api.set("paydayRepeat", "once");
-              api.set("paydayRule", "");
-            }}
-          >
-            {ui.removeMainMoney}
-          </button>
-        ) : null}
+
+  if (compactRule) {
+    if (stop === null) return null;
+    return (
+      <div className="plan-until-note">
+        <p className="hint">{ui.planUntilSetup(nameOf(stop))}</p>
+        {rule}
       </div>
-    </div>
+    );
+  }
+
+  if (choices.length === 0) return <p className="hint">{ui.planUntilNothingYet}</p>;
+  return (
+    <>
+      <div className="field">
+        <label htmlFor="plan-until">{ui.planUntilLabel}</label>
+        <p className="hint" id="plan-until-hint">
+          {ui.planUntilHint}
+        </p>
+        <select
+          id="plan-until"
+          aria-describedby="plan-until-hint"
+          value={choices.some((row) => row.id === form.planUntil) ? form.planUntil : ""}
+          onChange={(event) => api.set("planUntil", event.target.value)}
+        >
+          <option value="">{ui.planUntilAuto(nameOf(autoStop))}</option>
+          {choices.map((row) => (
+            <option key={row.id} value={row.id}>
+              {row.name.trim() === "" ? words.rows.unnamedIncome : row.name.trim()}
+            </option>
+          ))}
+        </select>
+      </div>
+      {rule}
+    </>
   );
 }
 

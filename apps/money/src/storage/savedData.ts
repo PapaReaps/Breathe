@@ -4,6 +4,7 @@ import { isRepeat } from "../logic/repeat";
 import type { Repeat } from "../logic/repeat";
 import { PAYDAY_RULES } from "../logic/types";
 import type { PaydayRule } from "../logic/types";
+import { migrateMainMoney } from "../logic/form";
 import type { BillRow, FormState, IncomeRow } from "../logic/form";
 
 /*
@@ -20,7 +21,8 @@ import type { BillRow, FormState, IncomeRow } from "../logic/form";
  * Formats 1 and 2 are still read: no "how often" means "one date only", and no list means "my own".
  * An older version of the app refuses a format 2 file as "newer" instead of guessing.
  */
-export const SAVE_FORMAT = 3;
+/** 4 (v0.28.0): no separate main money; "planUntil" names the money coming in the number plans until. */
+export const SAVE_FORMAT = 4;
 const OLDEST_READABLE_FORMAT = 1;
 export const BACKUP_APP = "breathe-money";
 
@@ -127,6 +129,8 @@ export function readForm(raw: unknown): FormState | null {
   if (!isRecord(raw)) return null;
   const balance = text(raw.balance, MAX_AMOUNT_TEXT);
   const balanceDate = dateText(raw.balanceDate);
+  // Numbers saved before v0.28.0 have no "planUntil": that means "pick automatically".
+  const planUntil = raw.planUntil === undefined ? "" : text(raw.planUntil, MAX_NAME);
   const paydayDate = dateText(raw.paydayDate);
   // Numbers saved before the main money could have a name have none.
   const paydayName = raw.paydayName === undefined ? "" : text(raw.paydayName, MAX_NAME);
@@ -142,7 +146,7 @@ export function readForm(raw: unknown): FormState | null {
   const answers = readAnswers(raw.answers);
 
   if (
-    balance === null || balanceDate === null || paydayName === null || paydayDate === null || paydayRule === null || paydayRepeat === null ||
+    balance === null || balanceDate === null || planUntil === null || paydayName === null || paydayDate === null || paydayRule === null || paydayRepeat === null ||
     bills === null || income === null || foodPerWeek === null || travelPerWeek === null ||
     buffer === null || bankHolidays === null || bankHolidayRegion === null || answers === null
   ) {
@@ -151,10 +155,11 @@ export function readForm(raw: unknown): FormState | null {
   // A row with nothing in it carries no information (it was just opened and never filled in).
   const keptBills = bills.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.dueDate === ""));
   const keptIncome = income.filter((row) => !(row.name.trim() === "" && row.amount.trim() === "" && row.date === ""));
-  return {
-    balance, balanceDate, paydayName, paydayDate, paydayRule, paydayRepeat, bills: keptBills, income: keptIncome,
+  // An old separate main money is moved into the money coming in list (nothing is lost).
+  return migrateMainMoney({
+    balance, balanceDate, planUntil, paydayName, paydayDate, paydayRule, paydayRepeat, bills: keptBills, income: keptIncome,
     foodPerWeek, travelPerWeek, buffer, bankHolidays, bankHolidayRegion, answers,
-  };
+  });
 }
 
 /** A plain copy of the form with exactly the fields we save, and nothing else. */
@@ -162,6 +167,7 @@ export function formRecord(form: FormState): FormState {
   return {
     balance: form.balance,
     balanceDate: form.balanceDate,
+    planUntil: typeof form.planUntil === "string" ? form.planUntil : "",
     paydayName: form.paydayName,
     paydayDate: form.paydayDate,
     paydayRule: form.paydayRule,

@@ -1,23 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { emptyForm } from "../src/logic/form";
+import { emptyForm, newIncomeRow } from "../src/logic/form";
 import { SETUP_STEPS, firstSetupStep } from "../src/logic/setup";
 
+const withMoney = (date: string) => ({ ...emptyForm(), income: [{ ...newIncomeRow(), name: "Wages", amount: "900", date, repeat: "monthly" as const }] });
+
 describe("where the step-by-step setup starts", () => {
-  it("starts with the money coming in", () => {
-    expect(SETUP_STEPS[0]).toBe("payday");
-    expect(SETUP_STEPS[firstSetupStep(emptyForm())]).toBe("payday");
+  it("starts with all the money coming in (v0.28.0: no separate main money)", () => {
+    expect(SETUP_STEPS[0]).toBe("income");
+    expect(SETUP_STEPS[firstSetupStep(emptyForm())]).toBe("income");
   });
 
-  it("asks about other money coming in on its own page, so the first question stays light", () => {
-    expect(SETUP_STEPS).toEqual(["payday", "income", "balance", "bills", "food", "pot"]);
+  it("asks the questions in a calm order", () => {
+    expect(SETUP_STEPS).toEqual(["income", "balance", "bills", "food", "pot"]);
   });
 
-  it("carries on from the balance once the money date is in, so nothing is asked twice", () => {
+  it("carries on from the balance once money coming in is added, so nothing is asked twice", () => {
+    expect(SETUP_STEPS[firstSetupStep(withMoney("2026-11-13"))]).toBe("balance");
+  });
+
+  it("an old main money date counts too", () => {
     expect(SETUP_STEPS[firstSetupStep({ ...emptyForm(), paydayDate: "2026-11-13" })]).toBe("balance");
   });
 
   it("starts from the top again when both are already answered", () => {
-    expect(firstSetupStep({ ...emptyForm(), balance: "420", paydayDate: "2026-11-13" })).toBe(0);
+    expect(firstSetupStep({ ...withMoney("2026-11-13"), balance: "420" })).toBe(0);
   });
 
   it("a date of only spaces counts as nothing typed", () => {

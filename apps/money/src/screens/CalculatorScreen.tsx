@@ -125,7 +125,7 @@ export default function CalculatorScreen() {
       : null;
 
   // "Fresh" means nothing important has been typed yet, so we say a proper hello.
-  const fresh = built.status === "needs-more" && form.balance.trim() === "" && form.paydayDate === "";
+  const fresh = built.status === "needs-more" && form.balance.trim() === "" && form.income.length === 0;
 
   if (lock.status === "checking") {
     return (

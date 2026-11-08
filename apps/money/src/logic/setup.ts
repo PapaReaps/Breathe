@@ -1,7 +1,7 @@
 import type { FormState } from "./form";
 
 /** The questions in the step-by-step setup, in order. */
-export const SETUP_STEPS = ["payday", "income", "balance", "bills", "food", "pot"] as const;
+export const SETUP_STEPS = ["income", "balance", "bills", "food", "pot"] as const;
 export type SetupStep = (typeof SETUP_STEPS)[number];
 
 /**
@@ -10,7 +10,8 @@ export type SetupStep = (typeof SETUP_STEPS)[number];
  * (Index into SETUP_STEPS.)
  */
 export function firstSetupStep(form: FormState): number {
-  if (form.paydayDate.trim() === "") return 0;
+  const hasMoney = form.income.some((row) => row.date !== "") || form.paydayDate.trim() !== "";
+  if (!hasMoney) return 0;
   if (form.balance.trim() === "") return SETUP_STEPS.indexOf("balance");
   return 0;
 }

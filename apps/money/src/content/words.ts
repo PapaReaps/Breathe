@@ -264,7 +264,7 @@ export const words = {
 
   rows: {
     unnamedBill: "Unnamed bill",
-    unnamedIncome: "Unnamed item",
+    unnamedIncome: "Money coming in",
     noAmount: "no amount yet",
     noDate: "no date yet",
     every: words_every,
@@ -275,8 +275,8 @@ export const words = {
     incomeNone: "Nothing added yet.",
     totalBills: (count: number, total: string) =>
       `${count === 1 ? "1 bill" : `${count} bills`} \u00b7 ${total} in total`,
-    totalIncome: (count: number, total: string) =>
-      `${count === 1 ? "1 item" : `${count} items`} \u00b7 ${total} in total`,
+    // Just how many: adding one of each payment together (weekly and monthly) would be confusing.
+    totalIncome: (count: number, _total: string) => (count === 1 ? "1 payment" : `${count} payments`),
     someUnreadable: "Some amounts still need a look, so they aren't in the total.",
     tapToEdit: "Tap one to change it.",
   },
@@ -465,8 +465,8 @@ export const words = {
       intro: "Add anything that will leave your account before your money comes in. If there's nothing, just carry on.",
     },
     income: {
-      question: "Any other money coming in before then?",
-      intro: "Like a refund, or money you're owed. If there's nothing, just carry on.",
+      question: "What money comes in?",
+      intro: "Wages, benefits, a pension, anything that comes in. Add each one, with how much and how often.",
     },
     food: {
       question: "What do you usually spend on food and travel each week?",
@@ -486,7 +486,7 @@ export const words = {
 
   waitingTitle: "Your safe-to-spend number will appear here",
   needBalance: "Add what is in your everyday account right now.",
-  needPayday: "Add the date your money next comes in.",
+  needPayday: "Add the money you have coming in, with how much and when.",
   balanceDateFuture: "The date for your balance can't be in the future. Pick today, or an earlier day.",
   askPaydayRule: (phrase: string) =>
     `Your money is due on ${phrase}. When does it usually arrive then?`,
@@ -545,7 +545,7 @@ export const words = {
       monthly: "Every month",
     },
     repeatBillHint: "Only the ones that come round before your money comes in are counted.",
-    repeatIncomeHint: "Only the ones that arrive before your main money are counted.",
+    repeatIncomeHint: "It comes round by itself. Each one counts from the day it arrives.",
     billDueRepeating: "Next due on",
     incomeDateRepeating: "Next arrives on",
     paydayRuleShort: (phrase: string) => `If that day is a weekend or bank holiday, it comes ${phrase}.`,
@@ -578,7 +578,14 @@ export const words = {
     remove: "Remove",
 
     incomeTitle: "Money coming in",
-    incomeHint: "Only things that arrive before your main money, like a refund or money you're owed.",
+    incomeHint: "All the money you have coming in: wages, benefits, a pension, a refund. Your number plans until your biggest regular one.",
+    planUntilTitle: "Plan until",
+    planUntilLabel: "Your number plans until",
+    planUntilHint: "Usually your biggest regular money. Pick a different one if you plan around another.",
+    planUntilAuto: (name: string) => (name === "" ? "The biggest regular one" : `The biggest regular one (${name})`),
+    planUntilSetup: (name: string) =>
+      `Your number plans until your biggest regular money${name === "" ? "" : `, ${name}`}. You can change this in the Menu.`,
+    planUntilNothingYet: "Once you add money coming in, with how much, your number plans until the biggest regular one.",
     incomeName: "What is it?",
     incomeAmount: "Amount (£)",
     incomeDate: "Arrives on",

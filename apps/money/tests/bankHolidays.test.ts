@@ -1,3 +1,4 @@
+import { migrateMainMoney } from "../src/logic/form";
 import { describe, expect, it } from "vitest";
 import {
   BUILT_IN_FIRST_YEAR,
@@ -201,8 +202,8 @@ describe("the menu summary", () => {
 describe("saving the region", () => {
   it("is saved and comes back, in saves and in backup files", () => {
     const form = filled({ bankHolidayRegion: "northern-ireland", bankHolidays: "2026-11-12" });
-    expect(fromSaved(toSaved(form))).toEqual(form);
-    expect(parseBackupText(makeBackupText(form, TODAY))).toEqual({ ok: true, form, savedOn: TODAY });
+    expect(fromSaved(toSaved(form))).toEqual(migrateMainMoney(form));
+    expect(parseBackupText(makeBackupText(form, TODAY))).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: TODAY });
   });
 
   it("an older save without a region opens as 'my own'", () => {
@@ -210,7 +211,7 @@ describe("saving the region", () => {
     const record = JSON.parse(JSON.stringify(toSaved(form)));
     delete record.form.bankHolidayRegion;
     record.format = 2;
-    expect(fromSaved(record)).toEqual({ ...form, bankHolidayRegion: "own" });
+    expect(fromSaved(record)).toEqual(migrateMainMoney({ ...form, bankHolidayRegion: "own" }));
   });
 
   it("refuses a region it does not know", () => {
