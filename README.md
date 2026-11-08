@@ -111,15 +111,15 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-dark.png">
-    <img src="docs/images/row-yours.png" alt="Three screens: the home screen in dark mode; the home screen with a plum number and a rose savings badge; and App options as a short, calm list" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v2-dark.png">
+    <img src="docs/images/row-yours-v2.png" alt="Three screens: the home screen in dark mode; the home screen with a plum number and a rose savings badge (22 app colours, and jet black); and App options as a short, calm list" width="100%">
   </picture>
 </p>
 
 - **App options is a short, calm list**: Look and colours, Text and contrast, Home screen, Balance reminder, Sounds and vibration, Privacy screen and Updates. Each opens its own small page.
-- **Light or dark**, or follow your device.
-- Pick an **app colour** and a **savings colour**, because what feels calm is different for everyone.
-- **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz. All off until you choose.
+- **Light, dark or jet black**, or follow your device.
+- Pick from **22 app colours** (soft or deep) and a **savings colour**, each from a simple list, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
+- **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz, each with a button to try it first. All off until you choose.
 - **A calm opening:** "breathe" takes one deep breath, slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
 - **Keep track of your savings** separately: type what you've saved, then add to it or take some out with one tap. Savings never change your number.
 - **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. What your money is called (like "Universal Credit") stays off the home screen unless you choose to show it.

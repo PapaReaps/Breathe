@@ -14,10 +14,10 @@ export function isNativeApp(): boolean {
  * own light or dark colours, even when the person chose a different look in Settings from
  * the phone's. On the web this does nothing.
  */
-export function matchSystemBars(appearance: "system" | "light" | "dark"): void {
+export function matchSystemBars(appearance: "system" | "light" | "dark" | "black"): void {
   if (!isNativeApp()) return;
   const style =
-    appearance === "dark" ? SystemBarsStyle.Dark : appearance === "light" ? SystemBarsStyle.Light : SystemBarsStyle.Default;
+    appearance === "dark" || appearance === "black" ? SystemBarsStyle.Dark : appearance === "light" ? SystemBarsStyle.Light : SystemBarsStyle.Default;
   SystemBars.setStyle({ style }).catch(() => {
     /* Older phones: the icons keep the phone's own colours. */
   });

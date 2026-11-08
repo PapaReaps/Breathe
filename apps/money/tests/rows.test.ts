@@ -6,9 +6,9 @@ import { BALANCE_REMINDERS, DEFAULT_SETTINGS, readSettings, reminderDays, toSave
 
 // Everything here is fictional.
 describe("one line per bill", () => {
-  it("shows the name, amount and date in a short line", () => {
+  it("shows the name and amount with out in the list, and keeps the date for changing it", () => {
     const row = { ...newBillRow(), name: "Mum", amount: "100", dueDate: "2026-11-13" };
-    expect(summariseBill(row)).toEqual({ title: "Mum", detail: "£100.00 · Fri 13 Nov", unfinished: false });
+    expect(summariseBill(row)).toEqual({ title: "Mum", detail: "£100.00 · Fri 13 Nov", unfinished: false, short: "£100.00", way: "out" });
   });
 
   it("says kindly what is still missing", () => {
@@ -94,6 +94,7 @@ describe("look and colour settings", () => {
       contrast: "system",
       checkForUpdates: false,
       updatesAsked: false,
+      outline: "soft",
       clickSound: "off",
       vibration: "off",
       calendarView: "list",
@@ -145,6 +146,7 @@ describe("look and colour settings", () => {
       contrast: "more" as const,
       checkForUpdates: true,
       updatesAsked: true,
+      outline: "accent" as const,
       clickSound: "drop" as const,
       vibration: "gentle" as const,
       calendarView: "month" as const,
@@ -217,5 +219,16 @@ describe("list lines for things that repeat", () => {
     const line = summariseBill(row);
     expect(line.detail).toBe("£10.00 · every week · no date yet");
     expect(line.unfinished).toBe(true);
+  });
+});
+
+describe("jet black, more colours and box outlines (v0.29.0)", () => {
+  it("keeps the new choices, and falls back safely on anything unknown", () => {
+    expect(readSettings({ appearance: "black" }).appearance).toBe("black");
+    expect(readSettings({ accent: "navy" }).accent).toBe("navy");
+    expect(readSettings({ accent: "deep-teal" }).accent).toBe("deep-teal");
+    expect(readSettings({ outline: "gold" }).outline).toBe("gold");
+    expect(readSettings({ outline: "purple-ish" }).outline).toBe("soft");
+    expect(readSettings({}).outline).toBe("soft");
   });
 });

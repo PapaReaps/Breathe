@@ -115,8 +115,14 @@ export function RowList<T extends { id: string }>({
                     onClick={() => openRow(row.id)}
                   >
                     <span className="menu-title">{summary.title}</span>
-                    <span className={summary.unfinished ? "menu-sub needs-a-look" : "menu-sub"}>
-                      {summary.detail}
+                    <span className={summary.unfinished ? "menu-sub needs-a-look" : "menu-sub row-amount"}>
+                      {summary.short ?? summary.detail}
+                      {summary.way !== undefined ? (
+                        <span className={summary.way === "in" ? "row-way coming-in" : "row-way coming-out"}>
+                          {" "}
+                          {summary.way === "in" ? words.comingUp.inWord : words.comingUp.outWord}
+                        </span>
+                      ) : null}
                     </span>
                     <span className="visually-hidden">{`, change ${itemName} ${index + 1}`}</span>
                   </button>

@@ -1592,3 +1592,99 @@ a.button-link {
 .held-back-line {
   margin-top: 1rem;
 }
+
+/*
+ * Jet black (v0.29.0): dark mode with a true black background. Every dark colour
+ * (and every app colour's dark shade) still applies; only the backgrounds change.
+ */
+:root[data-black] {
+  --bg: #000000;
+  --surface: #0b0f10;
+  --gentle: #121a1a;
+  --backdrop: rgba(0, 0, 0, 0.75);
+}
+
+/* More app colours (v0.29.0). Light shades are dark enough for white writing; dark shades light enough for dark writing. */
+:root[data-accent="indigo"] { --accent: #3f3fa0; --on-accent: #ffffff; --gentle: #ececf8; }
+:root[data-accent="coral"] { --accent: #a6402c; --on-accent: #ffffff; --gentle: #f8ebe7; }
+:root[data-accent="sage"] { --accent: #4f6b2e; --on-accent: #ffffff; --gentle: #edf1e6; }
+:root[data-accent="lavender"] { --accent: #5e4a9a; --on-accent: #ffffff; --gentle: #efebf7; }
+:root[data-accent="sky"] { --accent: #1d5f86; --on-accent: #ffffff; --gentle: #e7f1f7; }
+:root[data-accent="berry"] { --accent: #8a1f4f; --on-accent: #ffffff; --gentle: #f6e8ee; }
+:root[data-accent="gold"] { --accent: #7a5a00; --on-accent: #ffffff; --gentle: #f7f1df; }
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="indigo"]:not([data-theme="light"]) { --accent: #a9acf5; --on-accent: #12123a; --gentle: #23233a; }
+  :root[data-accent="coral"]:not([data-theme="light"]) { --accent: #f4a090; --on-accent: #3a140c; --gentle: #3a2622; }
+  :root[data-accent="sage"]:not([data-theme="light"]) { --accent: #b5cf8f; --on-accent: #1a260c; --gentle: #273021; }
+  :root[data-accent="lavender"]:not([data-theme="light"]) { --accent: #c7b8f0; --on-accent: #211a3a; --gentle: #2a2638; }
+  :root[data-accent="sky"]:not([data-theme="light"]) { --accent: #8fd0f0; --on-accent: #0c2230; --gentle: #1f2e38; }
+  :root[data-accent="berry"]:not([data-theme="light"]) { --accent: #f08fb8; --on-accent: #3a0c20; --gentle: #36202a; }
+  :root[data-accent="gold"]:not([data-theme="light"]) { --accent: #f0c95a; --on-accent: #2e2200; --gentle: #332b17; }
+}
+:root[data-theme="dark"][data-accent="indigo"] { --accent: #a9acf5; --on-accent: #12123a; --gentle: #23233a; }
+:root[data-theme="dark"][data-accent="coral"] { --accent: #f4a090; --on-accent: #3a140c; --gentle: #3a2622; }
+:root[data-theme="dark"][data-accent="sage"] { --accent: #b5cf8f; --on-accent: #1a260c; --gentle: #273021; }
+:root[data-theme="dark"][data-accent="lavender"] { --accent: #c7b8f0; --on-accent: #211a3a; --gentle: #2a2638; }
+:root[data-theme="dark"][data-accent="sky"] { --accent: #8fd0f0; --on-accent: #0c2230; --gentle: #1f2e38; }
+:root[data-theme="dark"][data-accent="berry"] { --accent: #f08fb8; --on-accent: #3a0c20; --gentle: #36202a; }
+:root[data-theme="dark"][data-accent="gold"] { --accent: #f0c95a; --on-accent: #2e2200; --gentle: #332b17; }
+/* On jet black, the soft panels stay near-black whatever the app colour. */
+:root[data-black][data-accent] { --gentle: #121a1a; }
+
+/* Box outlines (v0.29.0): the lines around boxes and between rows. */
+:root[data-outline="accent"] { --border: var(--accent); }
+:root[data-outline="bright"] { --border: var(--text); }
+:root[data-outline="gold"] { --border: #e0a800; }
+:root[data-outline="rose"] { --border: #e07a9a; }
+:root[data-outline="sky"] { --border: #4fb3d9; }
+:root[data-outline="none"] { --border: transparent; }
+
+/* Lists of money and bills: the amount, then a small "in" or "out". */
+.row-amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.row-way {
+  font-size: 0.85em;
+}
+
+/* Colour and sound choices as drop-down lists, with a dot or a button beside them. */
+.pick-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.pick-row select {
+  flex: 1;
+}
+.pick-dot {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  border: 1px solid var(--field-border);
+}
+
+/* Deeper app colours (v0.29.0). */
+:root[data-accent="deep-teal"] { --accent: #0d4a45; --on-accent: #ffffff; --gentle: #e3eeec; }
+:root[data-accent="navy"] { --accent: #16306b; --on-accent: #ffffff; --gentle: #e6eaf4; }
+:root[data-accent="deep-purple"] { --accent: #4a1f78; --on-accent: #ffffff; --gentle: #eee7f6; }
+:root[data-accent="burgundy"] { --accent: #6e1630; --on-accent: #ffffff; --gentle: #f4e6ea; }
+:root[data-accent="forest"] { --accent: #1e4d22; --on-accent: #ffffff; --gentle: #e5efe5; }
+:root[data-accent="deep-orange"] { --accent: #8a3600; --on-accent: #ffffff; --gentle: #f7ebe2; }
+@media (prefers-color-scheme: dark) {
+  :root[data-accent="deep-teal"]:not([data-theme="light"]) { --accent: #26b3a6; --on-accent: #00201d; --gentle: #14302d; }
+  :root[data-accent="navy"]:not([data-theme="light"]) { --accent: #5b8cf0; --on-accent: #06142e; --gentle: #1a2540; }
+  :root[data-accent="deep-purple"]:not([data-theme="light"]) { --accent: #a777f0; --on-accent: #1d0b33; --gentle: #2a1d3d; }
+  :root[data-accent="burgundy"]:not([data-theme="light"]) { --accent: #e0607f; --on-accent: #2e0712; --gentle: #3a1a22; }
+  :root[data-accent="forest"]:not([data-theme="light"]) { --accent: #4fbf5a; --on-accent: #082a0c; --gentle: #18301a; }
+  :root[data-accent="deep-orange"]:not([data-theme="light"]) { --accent: #f08a3c; --on-accent: #2e1200; --gentle: #3a2414; }
+}
+:root[data-theme="dark"][data-accent="deep-teal"] { --accent: #26b3a6; --on-accent: #00201d; --gentle: #14302d; }
+:root[data-theme="dark"][data-accent="navy"] { --accent: #5b8cf0; --on-accent: #06142e; --gentle: #1a2540; }
+:root[data-theme="dark"][data-accent="deep-purple"] { --accent: #a777f0; --on-accent: #1d0b33; --gentle: #2a1d3d; }
+:root[data-theme="dark"][data-accent="burgundy"] { --accent: #e0607f; --on-accent: #2e0712; --gentle: #3a1a22; }
+:root[data-theme="dark"][data-accent="forest"] { --accent: #4fbf5a; --on-accent: #082a0c; --gentle: #18301a; }
+:root[data-theme="dark"][data-accent="deep-orange"] { --accent: #f08a3c; --on-accent: #2e1200; --gentle: #3a2414; }
+:root[data-black][data-accent] { --gentle: #121a1a; }

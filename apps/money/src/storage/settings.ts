@@ -7,8 +7,23 @@ import type { ClickSound, Vibration } from "../feedback";
  * "Clear my numbers" never resets them and backups never carry them.
  */
 
-export type Appearance = "system" | "light" | "dark";
-export type Accent = "teal" | "blue" | "plum" | "rose" | "green" | "ocean" | "terracotta" | "slate" | "amber";
+/** "black" (v0.29.0) is dark mode with a true black background. */
+export type Appearance = "system" | "light" | "dark" | "black";
+export type Accent =
+  | "teal" | "blue" | "plum" | "rose" | "green" | "ocean" | "terracotta" | "slate" | "amber"
+  | "indigo" | "coral" | "sage" | "lavender" | "sky" | "berry" | "gold"
+  | "deep-teal" | "navy" | "deep-purple" | "burgundy" | "forest" | "deep-orange";
+/** The colour of the lines around boxes (v0.29.0). "soft" is the usual grey. */
+export type Outline = "soft" | "accent" | "bright" | "gold" | "rose" | "sky" | "none";
+export const OUTLINES: ReadonlyArray<{ id: Outline; swatch: string }> = [
+  { id: "soft", swatch: "#8a979c" },
+  { id: "accent", swatch: "#2fa59b" },
+  { id: "bright", swatch: "#e6eaea" },
+  { id: "gold", swatch: "#e0a800" },
+  { id: "rose", swatch: "#e07a9a" },
+  { id: "sky", swatch: "#4fb3d9" },
+  { id: "none", swatch: "transparent" },
+];
 export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac" | "peach" | "mint" | "sand" | "silver";
 
 export type BalanceReminder = "daily" | "three-days" | "weekly" | "never";
@@ -23,6 +38,8 @@ export interface Settings {
   appearance: Appearance;
   accent: Accent;
   potColour: PotColour;
+  /** The lines around boxes. */
+  outline: Outline;
   /** The short sentence under the number, when things are comfortable. */
   showExplanation: boolean;
   /** The payday date under the number. */
@@ -54,6 +71,7 @@ export const DEFAULT_SETTINGS: Settings = {
   appearance: "system",
   accent: "teal",
   potColour: "gold",
+  outline: "soft",
   showExplanation: true,
   showPayday: true,
   showSavings: true,
@@ -90,7 +108,7 @@ export function reminderDays(choice: BalanceReminder): number {
   }
 }
 
-export const APPEARANCES: readonly Appearance[] = ["system", "light", "dark"];
+export const APPEARANCES: readonly Appearance[] = ["system", "light", "dark", "black"];
 export const TEXT_SIZES: readonly TextSize[] = ["standard", "large", "largest"];
 export const CONTRASTS: readonly Contrast[] = ["system", "more"];
 
@@ -105,6 +123,19 @@ export const ACCENTS: ReadonlyArray<{ id: Accent; swatch: string }> = [
   { id: "terracotta", swatch: "#9a4523" },
   { id: "slate", swatch: "#44525c" },
   { id: "amber", swatch: "#855300" },
+  { id: "indigo", swatch: "#3f3fa0" },
+  { id: "coral", swatch: "#a6402c" },
+  { id: "sage", swatch: "#4f6b2e" },
+  { id: "lavender", swatch: "#5e4a9a" },
+  { id: "sky", swatch: "#1d5f86" },
+  { id: "berry", swatch: "#8a1f4f" },
+  { id: "gold", swatch: "#7a5a00" },
+  { id: "deep-teal", swatch: "#0d4a45" },
+  { id: "navy", swatch: "#16306b" },
+  { id: "deep-purple", swatch: "#4a1f78" },
+  { id: "burgundy", swatch: "#6e1630" },
+  { id: "forest", swatch: "#1e4d22" },
+  { id: "deep-orange", swatch: "#8a3600" },
 ];
 
 export const POT_COLOURS: ReadonlyArray<{ id: PotColour; swatch: string }> = [
@@ -130,6 +161,7 @@ export function readSettings(raw: unknown): Settings {
     appearance: pick(record.appearance, APPEARANCES, DEFAULT_SETTINGS.appearance),
     accent: pick(record.accent, ACCENTS.map((a) => a.id), DEFAULT_SETTINGS.accent),
     potColour: pick(record.potColour, POT_COLOURS.map((p) => p.id), DEFAULT_SETTINGS.potColour),
+    outline: pick(record.outline, OUTLINES.map((o) => o.id), DEFAULT_SETTINGS.outline),
     showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
     showPayday: typeof record.showPayday === "boolean" ? record.showPayday : DEFAULT_SETTINGS.showPayday,
     showSavings: typeof record.showSavings === "boolean" ? record.showSavings : DEFAULT_SETTINGS.showSavings,
@@ -152,6 +184,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     appearance: settings.appearance,
     accent: settings.accent,
     potColour: settings.potColour,
+    outline: settings.outline,
     showExplanation: settings.showExplanation,
     showPayday: settings.showPayday,
     showSavings: settings.showSavings,
@@ -185,7 +218,10 @@ export function applySettings(settings: Settings): void {
     if (isDefault) root.removeAttribute(name);
     else root.setAttribute(name, value);
   };
-  set("data-theme", settings.appearance, settings.appearance === "system");
+  // Jet black is dark mode (so every colour choice works) with a true black background on top.
+  set("data-theme", settings.appearance === "black" ? "dark" : settings.appearance, settings.appearance === "system");
+  set("data-black", "", settings.appearance !== "black");
+  set("data-outline", settings.outline, settings.outline === DEFAULT_SETTINGS.outline);
   rememberAppearance(settings.appearance);
   set("data-accent", settings.accent, settings.accent === DEFAULT_SETTINGS.accent);
   set("data-pot", settings.potColour, settings.potColour === DEFAULT_SETTINGS.potColour);

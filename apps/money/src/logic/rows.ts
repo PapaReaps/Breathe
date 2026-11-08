@@ -15,6 +15,13 @@ export interface RowSummary {
   detail: string;
   /** True when something is still missing (the detail then says what). */
   unfinished: boolean;
+  /**
+   * The list line (v0.29.0): just the amount when the row is complete ("£140.00"),
+   * otherwise the full detail, so what's missing is still said.
+   */
+  short?: string;
+  /** "in" or "out", shown after the amount in the list. Only when the row is complete. */
+  way?: "in" | "out";
 }
 
 function amountText(amount: string): { text: string; ok: boolean } {
@@ -46,6 +53,7 @@ export function summariseBill(row: BillRow): RowSummary {
     title: row.name.trim() === "" ? words.rows.unnamedBill : row.name.trim(),
     detail: `${amount.text} · ${whenText(repeatOf(row.repeat), date)}`,
     unfinished: !amount.ok || !date.ok,
+    ...shortLine(amount, date, "out"),
   };
 }
 
@@ -56,7 +64,17 @@ export function summariseIncome(row: IncomeRow): RowSummary {
     title: row.name.trim() === "" ? words.rows.unnamedIncome : row.name.trim(),
     detail: `${amount.text} · ${whenText(repeatOf(row.repeat), date)}`,
     unfinished: !amount.ok || !date.ok,
+    ...shortLine(amount, date, "in"),
   };
+}
+
+/** The list line: the amount and "in"/"out" once complete; otherwise nothing extra (the detail is shown). */
+function shortLine(
+  amount: { text: string; ok: boolean },
+  date: { text: string; ok: boolean },
+  way: "in" | "out",
+): Pick<RowSummary, "short" | "way"> {
+  return amount.ok && date.ok ? { short: amount.text, way } : {};
 }
 
 /** Adds up the amounts that can be read. `unreadable` counts the ones that couldn't. */

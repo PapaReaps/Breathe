@@ -15,6 +15,10 @@
       try {
         var theme = localStorage.getItem("breathe-appearance");
         if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
+        if (theme === "black") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          document.documentElement.setAttribute("data-black", "");
+        }
       } catch (e) {}
     </script>
     <link rel="preload" href="/fonts/nunito.woff2" as="font" type="font/woff2" crossorigin />
@@ -49,6 +53,7 @@
         :root:not([data-theme="light"]) #splash { --splash-bg: #151b1e; --splash-ink: #7cc4bd; --splash-shadow: rgba(124, 196, 189, 0.2); }
       }
       :root[data-theme="dark"] #splash { --splash-bg: #151b1e; --splash-ink: #7cc4bd; --splash-shadow: rgba(124, 196, 189, 0.2); }
+      :root[data-black] #splash { --splash-bg: #000000; }
       #splash.splash-out { opacity: 0; pointer-events: none; }
       /* After the breath, the background softly clears and the word floats up to its place above the number. */
       #splash.splash-float { background-color: transparent; pointer-events: none; transition: background-color 1400ms ease-out; }

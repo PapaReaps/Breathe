@@ -8,7 +8,7 @@ Breathe Money is made for people who find everyday organisation hard, including 
 - **Text size** (Standard, Larger or Largest), on top of your phone or browser's own text size. Everything grows together, buttons included.
 - **Higher contrast**: darker writing and stronger outlines, in light and dark mode. "Match my device" switches it on by itself if your device asks for it.
 - **Light or dark**, or follow your device.
-- **Nine app colours and nine savings colours**, each tested to stay easy to read in light and dark (an automatic check runs on every change).
+- **22 app colours and nine savings colours**, each tested to stay easy to read in light and dark (an automatic check runs on every change). There's also **jet black**, and a choice of **box outline** colour, including White for the strongest outlines.
 - **Calm, plain wording**, with no jargon, shame or pressure. An automatic check stops words like "overdue", "failed" or "you must".
 
 **Less to take in**
