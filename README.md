@@ -192,7 +192,7 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 | **Breathe Money** | Knowing how much you have to spend until your money comes in | **In progress** |
 | Breathe Medication | Medication reminders and tracking | Later |
 | Breathe Travel | Making independent travel easier | Later |
-| Breathe Daily | Routines and reminders | Later |
+| Breathe Reminders | Routines and reminders | Later |
 
 Each app works on its own. One day you may be able to combine them in an optional "Breathe Home" dashboard.
 

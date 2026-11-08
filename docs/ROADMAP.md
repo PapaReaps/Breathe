@@ -41,4 +41,4 @@ At the end of each stage we ask: did anything in this stage move away from "alwa
 
 ## Later
 
-Breathe Medication, Breathe Travel, Breathe Daily, and an optional Breathe Home dashboard. Each is a separate project, started only after Breathe Money is in good shape.
+Breathe Medication, Breathe Travel, Breathe Reminders, and an optional Breathe Home dashboard. Each is a separate project, started only after Breathe Money is in good shape.
