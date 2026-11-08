@@ -77,6 +77,9 @@
         background: radial-gradient(closest-side, var(--splash-shadow), transparent);
         opacity: 0;
       }
+      /* Tiny dots drift gently upward around the word while it breathes, like air bubbles (v0.32.0). */
+      .splash-dots { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: -1; }
+      .splash-dot { position: absolute; border-radius: 50%; background: var(--splash-ink); opacity: 0; }
       #splash.splash-go .splash-word { animation: splash-breathe 2600ms both; }
       #splash.splash-go .splash-shadow { animation: splash-chest 2600ms both; }
       /* In (1.3s), hold (0.26s), out (1.04s). Each step eases on its own, like a real breath. */
@@ -190,10 +193,39 @@
           if (!appReady || started === null) return;
           setTimeout(remove, Math.max(0, breath - (Date.now() - started)));
         }
+        // A few tiny dots drift up around the word while it breathes. They never add time: they start
+        // during the breath and fade out during the float. Off with reduce motion or a still "breathe".
+        function drift() {
+          if (calm || still || typeof Element.prototype.animate !== "function") return;
+          var mark = splash.querySelector(".splash-mark");
+          if (!mark) return;
+          var box = document.createElement("div");
+          box.className = "splash-dots";
+          for (var i = 0; i < 14; i++) {
+            var dot = document.createElement("div");
+            dot.className = "splash-dot";
+            var size = 0.05 + Math.random() * 0.04;
+            dot.style.width = size + "em";
+            dot.style.height = size + "em";
+            dot.style.left = (Math.random() * 3.4 - 1.7) + "em";
+            dot.style.top = (0.25 + Math.random() * 0.45) + "em";
+            box.appendChild(dot);
+            dot.animate(
+              [
+                { transform: "translateY(0)", opacity: 0 },
+                { opacity: 0.6, offset: 0.3 },
+                { transform: "translateY(-" + (1.4 + Math.random() * 0.9) + "em)", opacity: 0 }
+              ],
+              { duration: 2600 + Math.random() * 1400, delay: Math.random() * 2400, easing: "ease-out", fill: "both" }
+            );
+          }
+          mark.appendChild(box);
+        }
         function go() {
           if (started !== null) return;
           started = Date.now();
           splash.classList.add("splash-go");
+          try { drift(); } catch (e) { /* the breath carries on without dots */ }
           maybeRemove();
         }
         try {

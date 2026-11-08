@@ -120,7 +120,7 @@ It is a personal project, built by someone who struggles with these things too. 
 - **Light, dark or jet black**, or follow your device.
 - Pick from **22 app colours** (soft or deep) and a **savings colour**, each from a simple list, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz, each with a button to try it first. All off until you choose.
-- **A calm opening:** "breathe" takes one deep breath, slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
+- **A calm opening:** "breathe" takes one deep breath while tiny dots drift up around it, then slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
 - **Keep track of your savings** separately: type what you've saved, then add to it or take some out with one tap. Savings never change your number.
 - **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. What your money is called (like "Universal Credit") stays off the home screen unless you choose to show it.
 
