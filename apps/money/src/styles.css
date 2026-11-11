@@ -1960,3 +1960,31 @@ dialog.update-pop::backdrop {
   font-size: 0.85rem;
   color: var(--muted, inherit);
 }
+
+/*
+ * No coloured tap rectangle (v1.0.2). Android draws one over anything tapped unless the app
+ * turns it off. Buttons still respond with a soft press instead, and keyboard focus keeps its
+ * clear outline (:focus-visible above).
+ */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+button:active:not(:disabled),
+.choice:active,
+.circle-pick:active,
+.view-switch label:active {
+  opacity: 0.8;
+}
+
+/*
+ * Settings rows (v1.0.2): the grey words stay on one line, to the right of the title, so every
+ * row lines up. With very big text the title wraps in its own space instead of pushing the
+ * grey words underneath.
+ */
+.settings-list .menu-item {
+  flex-wrap: nowrap;
+}
+.settings-list .menu-sub {
+  flex: none;
+  white-space: nowrap;
+}

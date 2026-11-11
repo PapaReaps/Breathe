@@ -398,6 +398,20 @@ export const words = {
       weekly: "Once a week",
       never: "Don't remind me",
     },
+    /** Short versions for the Settings list (v1.0.2), so every row fits on one line. */
+    reminderShort: {
+      daily: "Daily",
+      "three-days": "Every 3 days",
+      weekly: "Weekly",
+      never: "Off",
+    },
+    /** Short look names for the Settings list (v1.0.2). */
+    optionsShort: {
+      system: "Auto",
+      light: "Light",
+      dark: "Dark",
+      black: "Jet black",
+    },
     reminderDefaultHint: "This is the usual choice.",
     homeTitle: "Home screen",
     homeIntro:

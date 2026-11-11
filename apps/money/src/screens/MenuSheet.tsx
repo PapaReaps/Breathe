@@ -297,10 +297,10 @@ function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) =
   const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
   const now: Record<OptionGroup, string> = {
     currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
-    look: `${t.options[s.appearance]} · ${t.accents[s.accent]}`,
+    look: `${t.optionsShort[s.appearance]} · ${t.accents[s.accent]}`,
     text: t.textSizes[s.textSize],
     home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
-    reminder: t.reminderOptions[s.balanceReminder],
+    reminder: t.reminderShort[s.balanceReminder],
     sounds: sound === null && buzz === null ? m.off : [sound, buzz].filter(Boolean).join(" · "),
     privacy: settings.lock.isOn ? m.on : m.off,
     updates: settings.updates.installed ?? "",
@@ -325,19 +325,19 @@ function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) =
   return (
     <>
       <h3 className="settings-heading">{m.settingsGroups.feel}</h3>
-      <ul className="menu-list">{(["look", "text", "home", "sounds"] as const).map(option)}</ul>
+      <ul className="menu-list settings-list">{(["look", "text", "home", "sounds"] as const).map(option)}</ul>
       <h3 className="settings-heading">{m.settingsGroups.reminders}</h3>
-      <ul className="menu-list">
+      <ul className="menu-list settings-list">
         {(["reminder", "privacy", "updates"] as const).filter((g) => g !== "updates" || settings.updates.available).map(option)}
       </ul>
       <h3 className="settings-heading">{m.settingsGroups.numbers}</h3>
-      <ul className="menu-list">
+      <ul className="menu-list settings-list">
         {option("currency")}
         {page("setup", words.setup.menuItem)}
         {page("holidays", m.names.holidays, holidays)}
         {page("data", m.names.data)}
       </ul>
-      <ul className="menu-list">{page("help", m.helpTitle)}</ul>
+      <ul className="menu-list settings-list">{page("help", m.helpTitle)}</ul>
     </>
   );
 }
@@ -396,10 +396,10 @@ function OptionsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (p
   const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
   const now: Record<OptionGroup, string> = {
     currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
-    look: `${t.options[s.appearance]} · ${t.accents[s.accent]}`,
+    look: `${t.optionsShort[s.appearance]} · ${t.accents[s.accent]}`,
     text: t.textSizes[s.textSize],
     home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
-    reminder: t.reminderOptions[s.balanceReminder],
+    reminder: t.reminderShort[s.balanceReminder],
     sounds: sound === null && buzz === null ? m.off : [sound, buzz].filter(Boolean).join(" · "),
     privacy: settings.lock.isOn ? m.on : m.off,
     updates: settings.updates.installed ?? "",
@@ -410,7 +410,7 @@ function OptionsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (p
     <>
       <p className="hint">{m.optionsIntro}</p>
       {sets.map((set) => (
-        <ul key={set.join()} className="menu-list">
+        <ul key={set.join()} className="menu-list settings-list">
           {set
             .filter((g) => g !== "updates" || settings.updates.available)
             .map((g) => (
