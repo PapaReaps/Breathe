@@ -71,6 +71,8 @@ export interface Settings {
   calendarView: CalendarView;
   /** The money used (v0.35.0). Null until chosen: the pound, so anyone already using the app sees no change. */
   currency: CurrencyCode | null;
+  /** The one-time "Breathe Money is ready" note (v1.0.0) has been seen, or wasn't needed. */
+  readyNoteSeen: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -92,6 +94,7 @@ export const DEFAULT_SETTINGS: Settings = {
   vibration: "off",
   calendarView: "list",
   currency: null,
+  readyNoteSeen: false,
 };
 
 export const SETTINGS_KEY = "settings";
@@ -196,6 +199,7 @@ export function readSettings(raw: unknown): Settings {
     vibration: pick(record.vibration, VIBRATIONS, DEFAULT_SETTINGS.vibration),
     calendarView: pick(record.calendarView, CALENDAR_VIEWS, DEFAULT_SETTINGS.calendarView),
     currency: isCurrency(record.currency) ? record.currency : null,
+    readyNoteSeen: record.readyNoteSeen === true,
   };
 }
 
@@ -220,6 +224,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     vibration: settings.vibration,
     calendarView: settings.calendarView,
     currency: settings.currency,
+    readyNoteSeen: settings.readyNoteSeen,
   };
 }
 

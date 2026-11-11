@@ -20,16 +20,20 @@ The big change from the first plan: **you can try a working (plain-looking) calc
 
 All ten stages are done. Since then (November 2026, versions 0.13.0 to 0.17.0), Breathe Money has grown with the things its first user asked for: money coming in instead of payday, Savings, a tidier menu, updates that download inside the Android app, the app icon, more colours, sounds and vibration, and Coming up. The details are in `docs/DECISIONS.md` and each release's notes in `docs/releases/`.
 
-## Next: getting ready for version 1.0
+## Version 1.0 (November 2026): done
 
-Version 1.0 means "ready for anyone to rely on". Before then:
+Version 1.0 means "ready for anyone to rely on". Everything on the list was done first:
 
-1. A test on a real phone: Download and install, the screen fit, sounds and vibration, and Coming up.
-2. Everyday use for a while, with no problems.
-3. A safety check of the code (done in November 2026; an independent review would be a welcome extra).
-4. A test with the phone's own screen reader (TalkBack on Android).
+1. A test on a real phone: Download and install, the screen fit, sounds and vibration, and the Calendar.
+2. Everyday use by family and friends, with no problems reported.
+3. A safety check of the code (an independent review would be a welcome extra).
+4. A test with the phone's own screen reader (TalkBack on Android), including by someone with very low vision.
 
-Then: version 1.0.0, with a short "Breathe Money is ready" note.
+Version 1.0.0 came with a short "Breathe Money is ready" note, shown once to everyone already using it.
+
+## After 1.0
+
+Small, calm improvements, each shown as a preview first: optional phone reminders, a savings goal, sending your numbers to another device, and a listing on Google Play.
 
 ## Running alongside the stages: branding
 

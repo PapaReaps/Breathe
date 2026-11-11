@@ -185,13 +185,13 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 
 ## Status
 
-**An early test version, built one small stage at a time.** It works and is tested, but it isn't finished, and things will change. Follow the plan in the [Roadmap](docs/ROADMAP.md). Each stage has a short write-up in [`docs/`](docs/).
+**Version 1.0: ready for anyone to rely on.** Breathe Money was built one small stage at a time, tested on real phones by family and friends (including with TalkBack, the Android screen reader), and checked for safety. It will keep getting small, calm improvements. What's next is in the [Roadmap](docs/ROADMAP.md), and each release has short notes in [`docs/releases/`](docs/releases/).
 
 ## The Breathe family
 
 | App | What it will help with | Status |
 |---|---|---|
-| **Breathe Money** | Knowing how much you have to spend until your money comes in | **In progress** |
+| **Breathe Money** | Knowing how much you have to spend until your money comes in | **Version 1.0** |
 | Breathe Medication | Medication reminders and tracking | Later |
 | Breathe Travel | Making independent travel easier | Later |
 | Breathe Reminders | Routines and reminders | Later |

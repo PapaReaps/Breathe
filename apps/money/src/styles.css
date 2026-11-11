@@ -1936,3 +1936,11 @@ dialog.update-pop::backdrop {
   display: block;
   margin-bottom: 0.35rem;
 }
+
+/* "Breathe Money is ready" (v1.0.0): the same calm pop-up as Update ready, with three small dots. */
+.ready-pop-dots {
+  color: var(--accent);
+  letter-spacing: 0.5em;
+  margin: 0 0 0.2rem;
+  font-weight: 700;
+}

@@ -18,6 +18,7 @@ import { hideSplash } from "../splash";
 import { useUpdates } from "../useUpdates";
 import { putOffUpdate, updatePutOff } from "../updates";
 import { UpdatePopup } from "./UpdatePopup";
+import { ReadyPopup } from "./ReadyPopup";
 import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney, setMoneyStyle } from "../logic/money";
 import { deviceLocale } from "../logic/currency";
@@ -133,6 +134,14 @@ export default function CalculatorScreen() {
   // "Fresh" means nothing important has been typed yet, so we say a proper hello.
   const fresh = built.status === "needs-more" && form.balance.trim() === "" && form.income.length === 0;
 
+  // "Breathe Money is ready" (v1.0.0): once, for people who already had numbers. Someone starting
+  // fresh gets the welcome instead, so for them it's marked as seen straight away.
+  const settingsReady = appearance.loaded && saved.loaded;
+  useEffect(() => {
+    if (settingsReady && fresh && !appearance.settings.readyNoteSeen) appearance.change({ readyNoteSeen: true });
+  }, [settingsReady, fresh, appearance]);
+  const showReady = settingsReady && !fresh && !appearance.settings.readyNoteSeen && panel === null;
+
   if (lock.status === "checking") {
     return (
       <main className="home-main">
@@ -161,6 +170,7 @@ export default function CalculatorScreen() {
     outcome !== null &&
     outcome.ok;
 
+
   return (
     <>
       <HomeView
@@ -179,7 +189,9 @@ export default function CalculatorScreen() {
         onUpdatesAnswer={(yes) => appearance.change(yes ? { checkForUpdates: true, updatesAsked: true } : { updatesAsked: true })}
         onOpen={setPanel}
       />
+      {showReady ? <ReadyPopup onDone={() => appearance.change({ readyNoteSeen: true })} /> : null}
       {updateNote !== null &&
+      !showReady &&
       saved.loaded &&
       panel === null &&
       !askUpdates &&

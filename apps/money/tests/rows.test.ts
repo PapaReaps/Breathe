@@ -99,6 +99,7 @@ describe("look and colour settings", () => {
       vibration: "off",
       calendarView: "list",
       currency: null,
+      readyNoteSeen: false,
     });
   });
 
@@ -152,6 +153,7 @@ describe("look and colour settings", () => {
       vibration: "gentle" as const,
       calendarView: "month" as const,
       currency: "EUR" as const,
+      readyNoteSeen: true,
       showMoneyName: true,
       breathMotion: false,
     };

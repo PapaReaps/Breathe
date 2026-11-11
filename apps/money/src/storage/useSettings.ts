@@ -9,6 +9,8 @@ import { setTapFeedback } from "../feedback";
 /** How the app looks (light or dark, and the colours). Applied straight away and remembered on this device. */
 export function useSettings(store: DeviceStore = indexedDbStore) {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  /** True once the saved settings have been read (or there were none to read). */
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -21,9 +23,11 @@ export function useSettings(store: DeviceStore = indexedDbStore) {
         applySettings(saved);
         matchSystemBars(saved.appearance);
         setTapFeedback(saved.clickSound, saved.vibration);
+        setLoaded(true);
       })
       .catch(() => {
         /* No storage: keep the defaults. */
+        if (!cancelled) setLoaded(true);
       });
     return () => {
       cancelled = true;
@@ -46,5 +50,5 @@ export function useSettings(store: DeviceStore = indexedDbStore) {
     [store],
   );
 
-  return { settings, change };
+  return { settings, change, loaded };
 }
