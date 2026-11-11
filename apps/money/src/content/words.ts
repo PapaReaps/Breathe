@@ -35,6 +35,10 @@ export const words = {
     updateReady: (version: string) => `Version ${version} of Breathe Money is ready.`,
     updateLink: "Get it",
     updateButton: "Update ready · Get it",
+    updatePopTitle: "Update ready",
+    updatePopText: (version: string) => `Version ${version} of Breathe Money is ready. Your numbers stay.`,
+    updatePopNow: "Update now",
+    updatePopLater: "Later",
     updatesAskTitle: "Hear about new versions?",
     updatesAskText:
       "Breathe can check GitHub once a day when you open it, and show a button here when there's an update. Nothing about you or your numbers is sent.",

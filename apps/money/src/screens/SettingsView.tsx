@@ -10,6 +10,7 @@ import type { CSSProperties } from "react";
 import type { LockApi } from "../storage/useAppLock";
 import type { UpdatesApi } from "../useUpdates";
 import { takeShowUpdates } from "../useUpdates";
+import { InstallUpdate } from "./InstallUpdate";
 import { CLICK_SOUNDS, VIBRATIONS, canVibrate, playSound, vibrate } from "../feedback";
 import type { SettingsApi } from "./screenTypes";
 
@@ -362,80 +363,6 @@ function UpdatesSettings({ updates, on, onChange }: { updates: UpdatesApi; on: b
         ) : null}
       </div>
     </section>
-  );
-}
-
-type InstallStep =
-  | { step: "ready" }
-  | { step: "downloading"; percent: number | null }
-  | { step: "needs-permission" }
-  | { step: "installing" }
-  | { step: "not-downloaded" };
-
-/**
- * "Download and install": the Android code fetches the file from Breathe Money's own GitHub
- * release, checks it, then Android's installer asks the person. The GitHub page stays as a
- * fallback link.
- */
-function InstallUpdate({ apk, page }: { apk: string; page: string }) {
-  const [state, setState] = useState<InstallStep>({ step: "ready" });
-
-  const install = async () => {
-    const { ApkInstaller } = await import("../apkInstaller");
-    const answer = await ApkInstaller.install();
-    setState(answer.needsPermission ? { step: "needs-permission" } : { step: "installing" });
-  };
-
-  const downloadAndInstall = async () => {
-    setState({ step: "downloading", percent: null });
-    const { ApkInstaller } = await import("../apkInstaller");
-    const listener = await ApkInstaller.addListener("progress", ({ percent }) => setState({ step: "downloading", percent }));
-    try {
-      await ApkInstaller.download({ url: apk });
-      await install();
-    } catch {
-      setState({ step: "not-downloaded" });
-    } finally {
-      void listener.remove();
-    }
-  };
-
-  const openPermission = async () => {
-    const { ApkInstaller } = await import("../apkInstaller");
-    await ApkInstaller.openInstallSettings();
-  };
-
-  return (
-    <div aria-live="polite">
-      {state.step === "downloading" ? <p>{text.updatesDownloading(state.percent)}</p> : null}
-      {state.step === "installing" ? <p>{text.updatesInstalling}</p> : null}
-      {state.step === "not-downloaded" ? <p>{text.updatesNotDownloaded}</p> : null}
-      {state.step === "needs-permission" ? (
-        <>
-          <p>{text.updatesPermission}</p>
-          <div className="buttons">
-            <button type="button" className="secondary" onClick={() => void openPermission()}>
-              {text.updatesOpenPermission}
-            </button>
-            <button type="button" onClick={() => void install().catch(() => setState({ step: "not-downloaded" }))}>
-              {text.updatesInstallNow}
-            </button>
-          </div>
-        </>
-      ) : null}
-      {state.step === "ready" || state.step === "not-downloaded" || state.step === "installing" ? (
-        <div className="buttons">
-          <button type="button" onClick={() => void downloadAndInstall()}>
-            {text.updatesInstall}
-          </button>
-        </div>
-      ) : null}
-      <p className="small">
-        <a href={page} target="_blank" rel="noopener noreferrer">
-          {text.updatesOrGithub}
-        </a>
-      </p>
-    </div>
   );
 }
 

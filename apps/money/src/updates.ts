@@ -21,6 +21,25 @@ export function apkAddress(version: string): string {
 /** Checking on opening happens at most once a day. */
 export const CHECK_EVERY_MS = 24 * 60 * 60 * 1000;
 const LAST_CHECK_KEY = "breathe-last-update-check";
+const LATER_KEY = "breathe-update-later";
+
+/** "Later" on the Update ready pop-up: don't pop up again for this version. */
+export function putOffUpdate(version: string): void {
+  try {
+    localStorage.setItem(LATER_KEY, version);
+  } catch {
+    /* Nothing to do: it may pop up again next time, which is fine. */
+  }
+}
+
+/** True if Later was tapped for this exact version. */
+export function updatePutOff(version: string): boolean {
+  try {
+    return localStorage.getItem(LATER_KEY) === version;
+  } catch {
+    return false;
+  }
+}
 
 export type Version = [number, number, number];
 

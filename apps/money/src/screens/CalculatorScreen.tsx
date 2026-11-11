@@ -16,6 +16,8 @@ import { words } from "../content/words";
 import { LockScreen } from "./LockScreen";
 import { hideSplash } from "../splash";
 import { useUpdates } from "../useUpdates";
+import { putOffUpdate, updatePutOff } from "../updates";
+import { UpdatePopup } from "./UpdatePopup";
 import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney } from "../logic/money";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -103,6 +105,7 @@ export default function CalculatorScreen() {
   const updates = useUpdates(appearance.settings.checkForUpdates);
   const settings: SettingsApi = { settings: appearance.settings, change: appearance.change, lock, updates };
   const updateNote = updates.result?.state === "newer" ? updates.result : null;
+  const [laterFor, setLaterFor] = useState<string | null>(null);
 
   const staleAfterDays = reminderDays(appearance.settings.balanceReminder);
   const built = useMemo(() => buildInput(form, today, { staleAfterDays }), [form, today, staleAfterDays]);
@@ -148,6 +151,13 @@ export default function CalculatorScreen() {
     );
   }
 
+  const askUpdates =
+    updates.available &&
+    !appearance.settings.checkForUpdates &&
+    !appearance.settings.updatesAsked &&
+    outcome !== null &&
+    outcome.ok;
+
   return (
     <>
       <HomeView
@@ -162,16 +172,26 @@ export default function CalculatorScreen() {
         notSaved={saved.saveState === "not-saved"}
         readProblem={saved.readProblem}
         updateNote={updateNote}
-        askUpdates={
-          updates.available &&
-          !appearance.settings.checkForUpdates &&
-          !appearance.settings.updatesAsked &&
-          outcome !== null &&
-          outcome.ok
-        }
+        askUpdates={askUpdates}
         onUpdatesAnswer={(yes) => appearance.change(yes ? { checkForUpdates: true, updatesAsked: true } : { updatesAsked: true })}
         onOpen={setPanel}
       />
+      {updateNote !== null &&
+      saved.loaded &&
+      panel === null &&
+      !askUpdates &&
+      laterFor !== updateNote.version &&
+      !updatePutOff(updateNote.version) ? (
+        <UpdatePopup
+          version={updateNote.version}
+          apk={updateNote.apk}
+          page={updateNote.page}
+          onLater={() => {
+            putOffUpdate(updateNote.version);
+            setLaterFor(updateNote.version);
+          }}
+        />
+      ) : null}
       <MenuSheet
         panel={panel}
         onPanel={setPanel}

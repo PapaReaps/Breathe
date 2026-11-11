@@ -1877,3 +1877,40 @@ a.button-link {
 :root[data-theme="dark"][data-pot="orchid"] { --joy: #f08fd6; --joy-bg: #4a1340; --joy-label: #f4d2ec; }
 /* "None" needs something to see: a dashed circle. */
 :root .circle-pick input[value="none"] + .circle-dot.outline-dot { border-style: dashed; border-width: 2px; }
+
+/* "Update ready" (v0.34.0): a calm pop-up in the middle of the home screen. */
+dialog.update-pop {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.4rem 1.25rem 1rem;
+  width: min(22rem, calc(100% - 2.5rem));
+  background: var(--surface);
+  color: var(--text);
+  text-align: center;
+}
+dialog.update-pop::backdrop {
+  background: var(--backdrop);
+}
+.update-pop-icon {
+  color: var(--accent);
+}
+.update-pop h2 {
+  font-size: 1.2rem;
+  margin: 0.3rem 0 0.4rem;
+}
+.update-pop p {
+  margin: 0 0 0.9rem;
+  line-height: 1.45;
+}
+.update-pop .buttons {
+  justify-content: center;
+}
+.update-pop .buttons button {
+  min-width: 10rem;
+  border-radius: 999px;
+}
+.update-pop-later {
+  display: block;
+  margin: 0.6rem auto 0;
+  padding: 0.5rem 1rem;
+}

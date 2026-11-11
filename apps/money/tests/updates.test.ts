@@ -97,3 +97,36 @@ describe("asking GitHub", () => {
     expect(asked).toBe(false);
   });
 });
+
+describe("Later on the Update ready pop-up", () => {
+  it("hides the pop-up for that version only", async () => {
+    const { vi } = await import("vitest");
+    const store = new Map<string, string>();
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => void store.set(key, value),
+    });
+    const { putOffUpdate, updatePutOff } = await import("../src/updates");
+    expect(updatePutOff("0.34.0")).toBe(false);
+    putOffUpdate("0.34.0");
+    expect(updatePutOff("0.34.0")).toBe(true);
+    expect(updatePutOff("0.35.0")).toBe(false);
+    vi.unstubAllGlobals();
+  });
+
+  it("never breaks if storage can't be used", async () => {
+    const { vi } = await import("vitest");
+    vi.stubGlobal("localStorage", {
+      getItem: () => {
+        throw new Error("blocked");
+      },
+      setItem: () => {
+        throw new Error("blocked");
+      },
+    });
+    const { putOffUpdate, updatePutOff } = await import("../src/updates");
+    expect(() => putOffUpdate("0.34.0")).not.toThrow();
+    expect(updatePutOff("0.34.0")).toBe(false);
+    vi.unstubAllGlobals();
+  });
+});

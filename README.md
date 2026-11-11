@@ -145,7 +145,7 @@ It is a personal project, built by someone who struggles with these things too. 
 - **Share Breathe Money**: show a friend a QR code to scan, or copy or share the link (the Android app, or the web version for iPhones and computers).
 - **Leave a tip**: Breathe is free, always. If it's helped, you can say thanks with £3, £5 or £10, on Stripe's secure page. Only if you can spare it: tips don't unlock anything, and Breathe never sees your card details.
 - **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
-- **Updates in the Android app**: the first time, the app asks once whether to check for new versions. Say yes, and a clear **Update ready** button shows under your number whenever there is one. Or tap **Check now** yourself, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
+- **Updates in the Android app**: the first time, the app asks once whether to check for new versions. Say yes, and an **Update ready** pop-up shows whenever there is one: tap **Update now** to download and install it, or **Later** to leave it until the next version (a small button stays under your number). Or tap **Check now** yourself, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
 
 Share, Leave a tip and Report a problem are in **Menu → Settings → Help and sharing**. Updates are in **Menu → Settings → Updates**.
 
