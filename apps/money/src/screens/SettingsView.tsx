@@ -5,7 +5,8 @@ import type { FormEvent } from "react";
 import { checkNewPin } from "../storage/appLock";
 import type { PinProblem } from "../storage/appLock";
 import { ACCENTS, APPEARANCES, BALANCE_REMINDERS, CONTRASTS, DEFAULT_SETTINGS, OUTLINES, POT_COLOURS, TEXT_SIZES } from "../storage/settings";
-import type { Accent, Appearance, Outline, PotColour } from "../storage/settings";
+import type { Appearance } from "../storage/settings";
+import type { CSSProperties } from "react";
 import type { LockApi } from "../storage/useAppLock";
 import type { UpdatesApi } from "../useUpdates";
 import { takeShowUpdates } from "../useUpdates";
@@ -91,38 +92,48 @@ export function SettingsView({ settings, group }: { settings: SettingsApi; group
       <fieldset className="choice-group settings-group">
         <legend>{text.accentTitle}</legend>
         <p className="hint">{text.accentIntro}</p>
-        <div className="pick-row">
-          <span className="pick-dot" style={{ background: "var(--accent)" }} aria-hidden="true" />
-          <select
-            aria-label={text.accentTitle}
-            value={current.accent}
-            onChange={(event) => change({ accent: event.target.value as Accent })}
-          >
-            {ACCENTS.map((option) => (
-              <option key={option.id} value={option.id}>
-                {text.accents[option.id]}
-              </option>
-            ))}
-          </select>
+        <div className="circle-picks" role="radiogroup" aria-label={text.accentTitle}>
+          {ACCENTS.map((option) => (
+            <label key={option.id} className="circle-pick">
+              <input
+                type="radio"
+                name="accent"
+                value={option.id}
+                checked={current.accent === option.id}
+                onChange={() => change({ accent: option.id })}
+              />
+              <span
+                className={"circle-dot"}
+                style={{ "--sw-light": option.swatch, "--sw-dark": option.dark } as CSSProperties}
+                aria-hidden="true"
+              />
+              {text.accents[option.id]}
+            </label>
+          ))}
         </div>
       </fieldset>
 
       <fieldset className="choice-group settings-group">
         <legend>{text.potTitle}</legend>
         <p className="hint">{text.potIntro}</p>
-        <div className="pick-row">
-          <span className="pick-dot" style={{ background: POT_COLOURS.find((p) => p.id === current.potColour)?.swatch }} aria-hidden="true" />
-          <select
-            aria-label={text.potTitle}
-            value={current.potColour}
-            onChange={(event) => change({ potColour: event.target.value as PotColour })}
-          >
-            {POT_COLOURS.map((option) => (
-              <option key={option.id} value={option.id}>
-                {text.potColours[option.id]}
-              </option>
-            ))}
-          </select>
+        <div className="circle-picks" role="radiogroup" aria-label={text.potTitle}>
+          {POT_COLOURS.map((option) => (
+            <label key={option.id} className="circle-pick">
+              <input
+                type="radio"
+                name="pot-colour"
+                value={option.id}
+                checked={current.potColour === option.id}
+                onChange={() => change({ potColour: option.id })}
+              />
+              <span
+                className={"circle-dot"}
+                style={{ "--sw-light": option.swatch, "--sw-dark": option.dark } as CSSProperties}
+                aria-hidden="true"
+              />
+              {text.potColours[option.id]}
+            </label>
+          ))}
         </div>
         <p className="hint">{text.potPreview}</p>
         <PotBadge amount={text.potPreviewAmount} />
@@ -131,19 +142,24 @@ export function SettingsView({ settings, group }: { settings: SettingsApi; group
       <fieldset className="choice-group settings-group">
         <legend>{text.outlineTitle}</legend>
         <p className="hint">{text.outlineIntro}</p>
-        <div className="pick-row">
-          <span className="pick-dot" style={{ background: "transparent", border: "3px solid var(--border)" }} aria-hidden="true" />
-          <select
-            aria-label={text.outlineTitle}
-            value={current.outline}
-            onChange={(event) => change({ outline: event.target.value as Outline })}
-          >
-            {OUTLINES.map((option) => (
-              <option key={option.id} value={option.id}>
-                {text.outlines[option.id]}
-              </option>
-            ))}
-          </select>
+        <div className="circle-picks" role="radiogroup" aria-label={text.outlineTitle}>
+          {OUTLINES.map((option) => (
+            <label key={option.id} className="circle-pick">
+              <input
+                type="radio"
+                name="outline"
+                value={option.id}
+                checked={current.outline === option.id}
+                onChange={() => change({ outline: option.id })}
+              />
+              <span
+                className={"circle-dot outline-dot"}
+                style={{ "--sw-light": option.swatch, "--sw-dark": option.dark } as CSSProperties}
+                aria-hidden="true"
+              />
+              {text.outlines[option.id]}
+            </label>
+          ))}
         </div>
       </fieldset>
         </>

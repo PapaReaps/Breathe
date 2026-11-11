@@ -52,7 +52,7 @@ It is a personal project, built by someone who struggles with these things too. 
 ## Breathe Money in 15 seconds
 
 <p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-clip-v2-dark.gif"><img width="80%" src="docs/images/demo-clip-v2.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-clip-v3-dark.gif"><img width="80%" src="docs/images/demo-clip-v3.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
 </p>
 
 <p align="center"><a href="https://papareaps.github.io/Breathe/"><b>Try it now →</b></a> No account, no download.</p>
@@ -65,15 +65,15 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-dark.png">
-    <img src="docs/images/row-number.png" alt="Three screens: just the number (Safe to spend until your money comes in, £493.74); the Menu, where everything else lives; and Where this number comes from, with every pound explained line by line" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-v2-dark.png">
+    <img src="docs/images/row-number-v2.png" alt="Three screens: just the number (Safe to spend until your money comes in, £493.74); the Menu, where everything else lives; and Your money, with money coming in, bills, food and travel, and savings all on one page" width="100%">
   </picture>
 </p>
 
 - Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel.
 - Counts every pound **once**. Bills already taken from your balance aren't taken off twice.
 - Never counts money that isn't here yet. Each payment only counts from the day it arrives, and a small badge says when (like **+£140.00 on Mon 9 Nov**).
-- Explains **where the number comes from**, line by line, so you never have to just trust it.
+- **Your money is all on one page**: money coming in, bills, food and travel, and savings, each with its own **in** or **out**.
 - Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
 
 ### Gentle setup, tidy lists
@@ -100,12 +100,12 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-v2-dark.png">
-    <img src="docs/images/row-calendar-v2.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, with a small rose dot under each bill day, a teal dot for money coming in, two teal dots for your main money, today in a filled circle, and every amount listed underneath; and the month in dark mode" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-v3-dark.png">
+    <img src="docs/images/row-calendar-v3.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, with a small rose dot under each bill day, a teal dot for money coming in, a gold dot for your main money, today in a filled circle, and every amount listed underneath; and the month in dark mode" width="100%">
   </picture>
 </p>
 
-- **Calendar** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, small dots show each day's money (teal in, rose out, two dots for your main money), today is circled, and every amount is listed underneath.
+- **Calendar** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, small dots show each day's money (teal in, rose out, gold for your main money), today is circled, and every amount is listed underneath.
 
 ### Make it yours
 
@@ -118,7 +118,7 @@ It is a personal project, built by someone who struggles with these things too. 
 
 - **Settings is one calm page**: Look and colours, Text and contrast, Home screen, Sounds and vibration, Balance reminder, Privacy screen and Updates, plus your setup, bank holidays and backups. Each opens its own small page.
 - **Light, dark or jet black**, or follow your device.
-- Pick from **22 app colours** (soft or deep) and a **savings colour**, each from a simple list, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
+- Pick from **22 app colours** (soft or deep) and **21 savings colours**, shown as colour circles so you can see exactly what you're choosing, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz, each with a button to try it first. All off until you choose.
 - **A calm opening:** "breathe" takes one deep breath while tiny dots drift up around it, then slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
 - **Keep track of your savings** separately: type what you've saved, then add to it or take some out with one tap. Savings never change your number.
@@ -195,7 +195,7 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 | Breathe Travel | Making independent travel easier | Later |
 | Breathe Reminders | Routines and reminders | Later |
 
-Each app works on its own. One day you may be able to combine them in an optional "Breathe Home" dashboard.
+Breathe Money is the home for the whole family: tap the little logo at the top of the app to see the Breathe apps. As each new one is ready, it will open from there.
 
 ## Support Breathe
 

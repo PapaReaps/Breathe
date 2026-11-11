@@ -1775,3 +1775,105 @@ a.button-link {
 .settings-heading:first-of-type {
   margin-top: 0.25rem;
 }
+
+/* Your main money in gold on the Calendar (v0.33.0). */
+:root { --main-money: #8a5a00; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --main-money: #ffd479; } }
+:root[data-theme="dark"] { --main-money: #ffd479; }
+.dot-main { background: var(--main-money); }
+.coming-main { color: var(--main-money); }
+
+/* The top bar: the little logo and "Breathe Money ▾" open the Breathe apps list. */
+.app-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  color: var(--muted);
+  font: inherit;
+}
+.app-logo { width: 22px; height: 22px; border-radius: 6px; flex: none; }
+.app-caret { font-size: 0.8em; color: var(--muted); }
+.app-row { cursor: default; }
+.app-here .menu-sub { color: var(--accent); font-weight: 600; }
+
+/* Your money: one page, four small headings. */
+.money-heading { font-size: 1.05rem; margin: 1.4rem 0 0.5rem; }
+.money-heading:first-of-type { margin-top: 0.25rem; }
+
+/* Colour choices as circles you can see (v0.33.0). */
+.circle-picks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4.4rem, 1fr));
+  gap: 0.75rem 0.4rem;
+  margin: 0.5rem 0 0;
+}
+.circle-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.15;
+  cursor: pointer;
+}
+.circle-pick input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.circle-dot {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--sw-light);
+  border: 1px solid var(--border);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .circle-dot { background: var(--sw-dark); } }
+:root[data-theme="dark"] .circle-dot { background: var(--sw-dark); }
+.circle-dot.outline-dot { background: transparent; border: 4px solid var(--sw-light); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .circle-dot.outline-dot { background: transparent; border-color: var(--sw-dark); } }
+:root[data-theme="dark"] .circle-dot.outline-dot { background: transparent; border-color: var(--sw-dark); }
+.circle-pick input:checked + .circle-dot { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--text); }
+.circle-pick input:focus-visible + .circle-dot { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+/* Deeper savings colours (v0.33.0). */
+:root[data-pot="deep-gold"] { --joy: #6b3d00; --joy-bg: #ffd98a; --joy-label: #4a3a1f; }
+:root[data-pot="ruby"] { --joy: #7a0f2c; --joy-bg: #ffc2d1; --joy-label: #4d2a33; }
+:root[data-pot="emerald"] { --joy: #0b5530; --joy-bg: #b6ecc9; --joy-label: #22412f; }
+:root[data-pot="sapphire"] { --joy: #17327f; --joy-bg: #c3d4ff; --joy-label: #26324f; }
+:root[data-pot="amethyst"] { --joy: #4a1d7a; --joy-bg: #e0c8fb; --joy-label: #3a2a4d; }
+:root[data-pot="copper"] { --joy: #7a3010; --joy-bg: #ffcfb5; --joy-label: #4d3224; }
+:root[data-pot="jade"] { --joy: #0a5244; --joy-bg: #b3ece0; --joy-label: #223f39; }
+:root[data-pot="bronze"] { --joy: #5a3a10; --joy-bg: #ecd2a8; --joy-label: #45351f; }
+:root[data-pot="graphite"] { --joy: #232c33; --joy-bg: #ccd5db; --joy-label: #2f383f; }
+:root[data-pot="crimson"] { --joy: #7d1212; --joy-bg: #ffc4c4; --joy-label: #4d2828; }
+:root[data-pot="ocean-deep"] { --joy: #0b4058; --joy-bg: #b3e2f4; --joy-label: #223b47; }
+:root[data-pot="orchid"] { --joy: #701858; --joy-bg: #f8c4ea; --joy-label: #4a2a42; }
+@media (prefers-color-scheme: dark) {
+  :root[data-pot="deep-gold"]:not([data-theme="light"]) { --joy: #ffcf5c; --joy-bg: #4a3405; --joy-label: #f1e2bd; }
+  :root[data-pot="ruby"]:not([data-theme="light"]) { --joy: #ff8fae; --joy-bg: #4d1020; --joy-label: #f5d0da; }
+  :root[data-pot="emerald"]:not([data-theme="light"]) { --joy: #6fe3a0; --joy-bg: #0f3a22; --joy-label: #c9efd8; }
+  :root[data-pot="sapphire"]:not([data-theme="light"]) { --joy: #8fb0ff; --joy-bg: #152650; --joy-label: #d3defa; }
+  :root[data-pot="amethyst"]:not([data-theme="light"]) { --joy: #c79bf7; --joy-bg: #2e1650; --joy-label: #e5d6f8; }
+  :root[data-pot="copper"]:not([data-theme="light"]) { --joy: #ff9f70; --joy-bg: #4a200d; --joy-label: #f6d9c9; }
+  :root[data-pot="jade"]:not([data-theme="light"]) { --joy: #5fdcc0; --joy-bg: #0e3a31; --joy-label: #c8efe6; }
+  :root[data-pot="bronze"]:not([data-theme="light"]) { --joy: #e0b066; --joy-bg: #3d2a10; --joy-label: #efdcbf; }
+  :root[data-pot="graphite"]:not([data-theme="light"]) { --joy: #b3c1ca; --joy-bg: #2a333a; --joy-label: #dce3e8; }
+  :root[data-pot="crimson"]:not([data-theme="light"]) { --joy: #ff8a8a; --joy-bg: #4d1212; --joy-label: #f6d0d0; }
+  :root[data-pot="ocean-deep"]:not([data-theme="light"]) { --joy: #6fcbee; --joy-bg: #0f3445; --joy-label: #c8e8f4; }
+  :root[data-pot="orchid"]:not([data-theme="light"]) { --joy: #f08fd6; --joy-bg: #4a1340; --joy-label: #f4d2ec; }
+}
+:root[data-theme="dark"][data-pot="deep-gold"] { --joy: #ffcf5c; --joy-bg: #4a3405; --joy-label: #f1e2bd; }
+:root[data-theme="dark"][data-pot="ruby"] { --joy: #ff8fae; --joy-bg: #4d1020; --joy-label: #f5d0da; }
+:root[data-theme="dark"][data-pot="emerald"] { --joy: #6fe3a0; --joy-bg: #0f3a22; --joy-label: #c9efd8; }
+:root[data-theme="dark"][data-pot="sapphire"] { --joy: #8fb0ff; --joy-bg: #152650; --joy-label: #d3defa; }
+:root[data-theme="dark"][data-pot="amethyst"] { --joy: #c79bf7; --joy-bg: #2e1650; --joy-label: #e5d6f8; }
+:root[data-theme="dark"][data-pot="copper"] { --joy: #ff9f70; --joy-bg: #4a200d; --joy-label: #f6d9c9; }
+:root[data-theme="dark"][data-pot="jade"] { --joy: #5fdcc0; --joy-bg: #0e3a31; --joy-label: #c8efe6; }
+:root[data-theme="dark"][data-pot="bronze"] { --joy: #e0b066; --joy-bg: #3d2a10; --joy-label: #efdcbf; }
+:root[data-theme="dark"][data-pot="graphite"] { --joy: #b3c1ca; --joy-bg: #2a333a; --joy-label: #dce3e8; }
+:root[data-theme="dark"][data-pot="crimson"] { --joy: #ff8a8a; --joy-bg: #4d1212; --joy-label: #f6d0d0; }
+:root[data-theme="dark"][data-pot="ocean-deep"] { --joy: #6fcbee; --joy-bg: #0f3445; --joy-label: #c8e8f4; }
+:root[data-theme="dark"][data-pot="orchid"] { --joy: #f08fd6; --joy-bg: #4a1340; --joy-label: #f4d2ec; }
+/* "None" needs something to see: a dashed circle. */
+:root .circle-pick input[value="none"] + .circle-dot.outline-dot { border-style: dashed; border-width: 2px; }

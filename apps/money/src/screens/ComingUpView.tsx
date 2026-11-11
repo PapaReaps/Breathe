@@ -104,9 +104,9 @@ const DAY_LETTERS = ["M", "T", "W", "T", "F", "S", "S"];
 function MonthView({ data, name, amount }: { data: ComingUp; name: string; amount: number | null }) {
   const byDate = new Map(data.days.map((d) => [d.date, d]));
   const mainName = name === "" ? text.mainMoneyShort : name;
-  const dotsFor = (day: ComingUpDay | undefined): Array<"in" | "out"> =>
-    (day?.items ?? []).flatMap((item): Array<"in" | "out"> =>
-      item.kind === "bill" ? ["out"] : item.kind === "income" ? ["in"] : ["in", "in"],
+  const dotsFor = (day: ComingUpDay | undefined): Array<"in" | "out" | "main"> =>
+    (day?.items ?? []).map((item): "in" | "out" | "main" =>
+      item.kind === "bill" ? "out" : item.kind === "income" ? "in" : "main",
     );
   const rows = data.days.flatMap((day) =>
     day.items.map((item) => ({ date: day.date, item, key: item.kind === "money-day" ? `money-${day.date}` : item.id })),
@@ -135,7 +135,7 @@ function MonthView({ data, name, amount }: { data: ComingUp; name: string; amoun
                   {dots.length > 0 ? (
                     <span className="month-dots">
                       {dots.map((way, k) => (
-                        <i key={k} className={way === "in" ? "month-dot dot-in" : "month-dot dot-out"} />
+                        <i key={k} className={`month-dot dot-${way}`} />
                       ))}
                     </span>
                   ) : null}
@@ -148,7 +148,7 @@ function MonthView({ data, name, amount }: { data: ComingUp; name: string; amoun
       <div className="month-key" aria-hidden="true">
         <span><i className="month-dot dot-in" />{text.keyIn}</span>
         <span><i className="month-dot dot-out" />{text.keyOut}</span>
-        <span><i className="month-dot dot-in" /><i className="month-dot dot-in" />{text.keyMain}</span>
+        <span><i className="month-dot dot-main" />{text.keyMain}</span>
         <span><i className="key-today" />{text.today}</span>
       </div>
       <ul className="plain-list month-list">
@@ -161,7 +161,7 @@ function MonthView({ data, name, amount }: { data: ComingUp; name: string; amoun
               <span>
                 {formatDayShort(date)} · {label}
               </span>
-              <b className={way === "in" ? "coming-in" : "coming-out"}>
+              <b className={item.kind === "money-day" ? "coming-main" : way === "in" ? "coming-in" : "coming-out"}>
                 {value === null ? "" : `${formatMoney(value)} `}
                 {way === "in" ? text.inWord : text.outWord}
               </b>

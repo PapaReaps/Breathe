@@ -15,16 +15,18 @@ export type Accent =
   | "deep-teal" | "navy" | "deep-purple" | "burgundy" | "forest" | "deep-orange";
 /** The colour of the lines around boxes (v0.29.0). "soft" is the usual grey. */
 export type Outline = "soft" | "accent" | "bright" | "gold" | "rose" | "sky" | "none";
-export const OUTLINES: ReadonlyArray<{ id: Outline; swatch: string }> = [
-  { id: "soft", swatch: "#8a979c" },
-  { id: "accent", swatch: "#2fa59b" },
-  { id: "bright", swatch: "#e6eaea" },
-  { id: "gold", swatch: "#e0a800" },
-  { id: "rose", swatch: "#e07a9a" },
-  { id: "sky", swatch: "#4fb3d9" },
-  { id: "none", swatch: "transparent" },
+export const OUTLINES: ReadonlyArray<{ id: Outline; swatch: string; dark: string }> = [
+  { id: "soft", swatch: "#d5d9d6", dark: "#36434a" },
+  { id: "accent", swatch: "#1f5f5b", dark: "#7cc4bd" },
+  { id: "bright", swatch: "#1f2a30", dark: "#e8eeee" },
+  { id: "gold", swatch: "#e0a800", dark: "#e0a800" },
+  { id: "rose", swatch: "#e07a9a", dark: "#e07a9a" },
+  { id: "sky", swatch: "#4fb3d9", dark: "#4fb3d9" },
+  { id: "none", swatch: "#8a979c", dark: "#8a979c" },
 ];
-export type PotColour = "gold" | "rose" | "green" | "blue" | "lilac" | "peach" | "mint" | "sand" | "silver";
+export type PotColour =
+  | "gold" | "rose" | "green" | "blue" | "lilac" | "peach" | "mint" | "sand" | "silver"
+  | "deep-gold" | "ruby" | "emerald" | "sapphire" | "amethyst" | "copper" | "jade" | "bronze" | "graphite" | "crimson" | "ocean-deep" | "orchid";
 
 export type BalanceReminder = "daily" | "three-days" | "weekly" | "never";
 export type TextSize = "standard" | "large" | "largest";
@@ -113,41 +115,54 @@ export const TEXT_SIZES: readonly TextSize[] = ["standard", "large", "largest"];
 export const CONTRASTS: readonly Contrast[] = ["system", "more"];
 
 /** The colour choices. `swatch` is only the little circle shown in Settings. */
-export const ACCENTS: ReadonlyArray<{ id: Accent; swatch: string }> = [
-  { id: "teal", swatch: "#1f5f5b" },
-  { id: "blue", swatch: "#1f4f8f" },
-  { id: "plum", swatch: "#6b3a8a" },
-  { id: "rose", swatch: "#9b2f55" },
-  { id: "green", swatch: "#2f6b2f" },
-  { id: "ocean", swatch: "#1a5670" },
-  { id: "terracotta", swatch: "#9a4523" },
-  { id: "slate", swatch: "#44525c" },
-  { id: "amber", swatch: "#855300" },
-  { id: "indigo", swatch: "#3f3fa0" },
-  { id: "coral", swatch: "#a6402c" },
-  { id: "sage", swatch: "#4f6b2e" },
-  { id: "lavender", swatch: "#5e4a9a" },
-  { id: "sky", swatch: "#1d5f86" },
-  { id: "berry", swatch: "#8a1f4f" },
-  { id: "gold", swatch: "#7a5a00" },
-  { id: "deep-teal", swatch: "#0d4a45" },
-  { id: "navy", swatch: "#16306b" },
-  { id: "deep-purple", swatch: "#4a1f78" },
-  { id: "burgundy", swatch: "#6e1630" },
-  { id: "forest", swatch: "#1e4d22" },
-  { id: "deep-orange", swatch: "#8a3600" },
+/** Each colour's light shade (swatch) and dark shade, so the circles show what you'll get. */
+export const ACCENTS: ReadonlyArray<{ id: Accent; swatch: string; dark: string }> = [
+  { id: "teal", swatch: "#1f5f5b", dark: "#7cc4bd" },
+  { id: "blue", swatch: "#1f4f8f", dark: "#8ab4f0" },
+  { id: "plum", swatch: "#6b3a8a", dark: "#c9a0e6" },
+  { id: "rose", swatch: "#9b2f55", dark: "#f0a3bf" },
+  { id: "green", swatch: "#2f6b2f", dark: "#9fd49a" },
+  { id: "ocean", swatch: "#1a5670", dark: "#86c5db" },
+  { id: "terracotta", swatch: "#9a4523", dark: "#f0a888" },
+  { id: "slate", swatch: "#44525c", dark: "#b9c6ce" },
+  { id: "amber", swatch: "#855300", dark: "#f2c46d" },
+  { id: "indigo", swatch: "#3f3fa0", dark: "#a9acf5" },
+  { id: "coral", swatch: "#a6402c", dark: "#f4a090" },
+  { id: "sage", swatch: "#4f6b2e", dark: "#b5cf8f" },
+  { id: "lavender", swatch: "#5e4a9a", dark: "#c7b8f0" },
+  { id: "sky", swatch: "#1d5f86", dark: "#8fd0f0" },
+  { id: "berry", swatch: "#8a1f4f", dark: "#f08fb8" },
+  { id: "gold", swatch: "#7a5a00", dark: "#f0c95a" },
+  { id: "deep-teal", swatch: "#0d4a45", dark: "#26b3a6" },
+  { id: "navy", swatch: "#16306b", dark: "#5b8cf0" },
+  { id: "deep-purple", swatch: "#4a1f78", dark: "#a777f0" },
+  { id: "burgundy", swatch: "#6e1630", dark: "#e0607f" },
+  { id: "forest", swatch: "#1e4d22", dark: "#4fbf5a" },
+  { id: "deep-orange", swatch: "#8a3600", dark: "#f08a3c" },
 ];
 
-export const POT_COLOURS: ReadonlyArray<{ id: PotColour; swatch: string }> = [
-  { id: "gold", swatch: "#f2b705" },
-  { id: "rose", swatch: "#f08aab" },
-  { id: "green", swatch: "#6cc070" },
-  { id: "blue", swatch: "#6aa5ee" },
-  { id: "lilac", swatch: "#b98ae0" },
-  { id: "peach", swatch: "#f7a072" },
-  { id: "mint", swatch: "#6fd1b8" },
-  { id: "sand", swatch: "#d9bd84" },
-  { id: "silver", swatch: "#b8c2c8" },
+export const POT_COLOURS: ReadonlyArray<{ id: PotColour; swatch: string; dark: string }> = [
+  { id: "gold", swatch: "#f2b705", dark: "#ffd479" },
+  { id: "rose", swatch: "#f08aab", dark: "#ffb3cd" },
+  { id: "green", swatch: "#6cc070", dark: "#a8e6a0" },
+  { id: "blue", swatch: "#6aa5ee", dark: "#9cc7ff" },
+  { id: "lilac", swatch: "#b98ae0", dark: "#d9b3f5" },
+  { id: "peach", swatch: "#f7a072", dark: "#ffc29e" },
+  { id: "mint", swatch: "#6fd1b8", dark: "#96e0cf" },
+  { id: "sand", swatch: "#d9bd84", dark: "#e8cf98" },
+  { id: "silver", swatch: "#b8c2c8", dark: "#c9d4da" },
+  { id: "deep-gold", swatch: "#6b3d00", dark: "#ffcf5c" },
+  { id: "ruby", swatch: "#7a0f2c", dark: "#ff8fae" },
+  { id: "emerald", swatch: "#0b5530", dark: "#6fe3a0" },
+  { id: "sapphire", swatch: "#17327f", dark: "#8fb0ff" },
+  { id: "amethyst", swatch: "#4a1d7a", dark: "#c79bf7" },
+  { id: "copper", swatch: "#7a3010", dark: "#ff9f70" },
+  { id: "jade", swatch: "#0a5244", dark: "#5fdcc0" },
+  { id: "bronze", swatch: "#5a3a10", dark: "#e0b066" },
+  { id: "graphite", swatch: "#232c33", dark: "#b3c1ca" },
+  { id: "crimson", swatch: "#7d1212", dark: "#ff8a8a" },
+  { id: "ocean-deep", swatch: "#0b4058", dark: "#6fcbee" },
+  { id: "orchid", swatch: "#701858", dark: "#f08fd6" },
 ];
 
 function pick<T extends string>(value: unknown, allowed: ReadonlyArray<T>, fallback: T): T {

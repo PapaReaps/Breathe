@@ -49,7 +49,13 @@ export function HomeView({
   return (
     <div className={askUpdates && !loading ? "home home-asking" : "home"}>
       <header className="topbar">
-        <span className="app-name">{home.appName}</span>
+        <button type="button" className="app-switch" aria-label={`${home.appName}. ${words.menu.appsOpen}`} onClick={() => onOpen("apps")}>
+          <img className="app-logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
+          <span className="app-name">{home.appName}</span>
+          <span className="app-caret" aria-hidden="true">
+            ▾
+          </span>
+        </button>
         <button
           type="button"
           className="menu-button"

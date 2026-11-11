@@ -59,6 +59,8 @@ const TITLES: Record<PanelId, string> = {
   "opt-updates": words.menu.optionGroups.updates,
   explain: ui.breakdownTitle,
   "coming-up": words.comingUp.title,
+  money: words.menu.names.money,
+  apps: words.menu.appsTitle,
   share: words.menu.shareTitle,
   report: words.menu.reportTitle,
   tip: words.menu.tipTitle,
@@ -82,7 +84,7 @@ const BACK_LABEL: Partial<Record<PanelId, string>> = {
 const groupOf = (panel: PanelId): OptionGroup | null =>
   panel.startsWith("opt-") ? (panel.slice(4) as OptionGroup) : null;
 
-const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "essentials", "pot", "holidays"];
+const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "money", "essentials", "pot", "holidays"];
 
 /**
  * The menu. It is a full-screen panel on a phone and a card on a bigger screen.
@@ -161,6 +163,20 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               </>
             ) : null}
             {panel === "bills" ? <BillsSection form={form} today={today} api={api} /> : null}
+            {panel === "money" ? (
+              <>
+                <h3 className="money-heading">{ui.incomeTitle}</h3>
+                <IncomeSection form={form} today={today} api={api} hideHint />
+                <PlanUntilSection form={form} today={today} api={api} />
+                <h3 className="money-heading">{ui.billsTitle}</h3>
+                <BillsSection form={form} today={today} api={api} hideHint />
+                <h3 className="money-heading">{ui.essentialsTitle}</h3>
+                <EssentialsSection form={form} today={today} api={api} />
+                <h3 className="money-heading">{ui.potTitle}</h3>
+                <PotSection form={form} today={today} api={api} />
+              </>
+            ) : null}
+            {panel === "apps" ? <AppsList /> : null}
             {panel === "essentials" ? <EssentialsSection form={form} today={today} api={api} /> : null}
             {panel === "pot" ? <PotSection form={form} today={today} api={api} /> : null}
             {panel === "holidays" ? <HolidaysSection form={form} today={today} api={api} /> : null}
@@ -214,15 +230,12 @@ interface MenuListProps {
   onPanel: (panel: PanelId) => void;
 }
 
-function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
+function MenuList({ form, today, built, onPanel }: MenuListProps) {
   const summary = describeForm(form, today);
   const items: Array<{ id: PanelId; title: string; sub: string }> = [
-    // Your account first, then money in, then bills. Money coming in is just its name: the list is inside.
+    // v0.33.0: Your account, then everything else about your money on one page.
     { id: "account", title: words.menu.names.account, sub: summary.account },
-    { id: "income", title: words.menu.names.income, sub: "" },
-    { id: "bills", title: words.menu.names.bills, sub: summary.bills },
-    { id: "essentials", title: words.menu.names.essentials, sub: summary.essentials },
-    { id: "pot", title: words.menu.names.pot, sub: summary.pot },
+    { id: "money", title: words.menu.names.money, sub: words.menu.moneySub },
   ];
 
   return (
@@ -260,13 +273,6 @@ function MenuList({ form, today, built, outcome, onPanel }: MenuListProps) {
             <span className="menu-sub">{words.comingUp.menuSub}</span>
           </button>
         </li>
-        {outcome !== null && outcome.ok ? (
-          <li>
-            <button type="button" className="menu-item" onClick={() => onPanel("explain")}>
-              <span className="menu-title">{ui.breakdownTitle}</span>
-            </button>
-          </li>
-        ) : null}
         <li>
           <button type="button" className="menu-item" onClick={() => onPanel("more")}>
             <span className="menu-title">{words.menu.moreTitle}</span>
@@ -397,6 +403,26 @@ function AboutView() {
       <p className="about-promise">{words.about.promise}</p>
       <p>{words.about.privacy}</p>
       <p>{words.about.advice}</p>
+    </>
+  );
+}
+
+/** The Breathe family. Breathe Money is the home; the others will open from here when they exist. */
+function AppsList() {
+  const m = words.menu;
+  return (
+    <>
+      <p className="hint">{m.appsIntro}</p>
+      <ul className="menu-list">
+        {m.appsList.map((name, i) => (
+          <li key={name}>
+            <div className={i === 0 ? "menu-item app-row app-here" : "menu-item app-row"}>
+              <span className="menu-title">{name}</span>
+              <span className="menu-sub">{i === 0 ? m.appsHere : m.appsLater}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

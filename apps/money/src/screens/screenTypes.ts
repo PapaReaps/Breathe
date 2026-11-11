@@ -12,6 +12,8 @@ export type PanelId =
   | "payday"
   | "bills"
   | "income"
+  | "money"
+  | "apps"
   | "essentials"
   | "pot"
   | "holidays"
