@@ -112,8 +112,8 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v3-dark.png">
-    <img src="docs/images/row-yours-v3.png" alt="Three screens: the home screen in dark mode; Look and colours, with the 22 app colours shown as colour circles, each named underneath; and Settings, all on one page, including Currency" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v4-dark.png">
+    <img src="docs/images/row-yours-v4.png" alt="Three screens: the home screen in dark mode; Look and colours, with the 22 app colours shown as colour circles, each named underneath; and Settings, all on one page, including Currency" width="100%">
   </picture>
 </p>
 
