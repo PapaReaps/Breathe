@@ -15,3 +15,14 @@ describe("Leave a tip", () => {
     expect(isTipLink("https://buy.stripe.com/abc/../../evil")).toBe(false);
   });
 });
+
+describe("Follow Breathe", () => {
+  it("only opens the family's own X and Instagram pages", async () => {
+    const { FOLLOW_LINKS, isFollowLink } = await import("../src/content/support");
+    expect(FOLLOW_LINKS.map((l) => l.url)).toEqual(["https://x.com/breatheapps", "https://www.instagram.com/breatheapps/"]);
+    for (const l of FOLLOW_LINKS) expect(isFollowLink(l.url)).toBe(true);
+    expect(isFollowLink("https://x.com/someoneelse")).toBe(false);
+    expect(isFollowLink("http://x.com/breatheapps")).toBe(false);
+    expect(isFollowLink("https://x.com.example.com/breatheapps")).toBe(false);
+  });
+});

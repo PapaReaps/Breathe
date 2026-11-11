@@ -1,3 +1,5 @@
+import { FOLLOW_LINKS, isFollowLink } from "../content/support";
+import { openOutside } from "../openOutside";
 import { moneySymbol } from "../logic/money";
 import { useEffect, useRef } from "react";
 import { headlineFor, words } from "../content/words";
@@ -348,16 +350,39 @@ function HelpList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
     ["report", words.menu.reportTitle],
     ["about", words.menu.aboutTitle],
   ];
+  const follow = words.menu.follow;
   return (
-    <ul className="menu-list">
-      {items.map(([id, title]) => (
-        <li key={id}>
-          <button type="button" className="menu-item" onClick={() => onPanel(id)}>
-            <span className="menu-title">{title}</span>
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="menu-list">
+        {items.map(([id, title]) => (
+          <li key={id}>
+            <button type="button" className="menu-item" onClick={() => onPanel(id)}>
+              <span className="menu-title">{title}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {/* v1.0.1: quiet follow links underneath. Only the two checked addresses can open. */}
+      <p className="follow-line">
+        {follow.label}{" "}
+        {FOLLOW_LINKS.map((link, i) => (
+          <span key={link.name}>
+            {i > 0 ? " · " : ""}
+            <button
+              type="button"
+              className="link"
+              aria-label={follow.open(link.name)}
+              onClick={() => {
+                if (isFollowLink(link.url)) void openOutside(link.url);
+              }}
+            >
+              {link.name}
+            </button>
+          </span>
+        ))}
+      </p>
+      <p className="follow-handle">{follow.handle}</p>
+    </>
   );
 }
 

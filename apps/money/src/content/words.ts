@@ -78,6 +78,11 @@ export const words = {
       reminders: "Reminders and privacy",
       numbers: "Your numbers",
     },
+    follow: {
+      label: "Follow Breathe:",
+      handle: "@breatheapps",
+      open: (site: string) => `Follow Breathe on ${site} (opens in your browser)`,
+    },
     optionGroups: {
       currency: "Currency",
       look: "Look and colours",

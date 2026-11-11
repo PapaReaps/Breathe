@@ -16,3 +16,16 @@ export const TIP_LINKS = [
 export function isTipLink(url: string): boolean {
   return /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9]{10,40}$/.test(url);
 }
+
+/**
+ * Follow Breathe (v1.0.1): the family's X and Instagram pages. Only these two exact
+ * addresses are ever opened from Help and sharing. Nothing about the person is sent.
+ */
+export const FOLLOW_LINKS = [
+  { name: "X", url: "https://x.com/breatheapps" },
+  { name: "Instagram", url: "https://www.instagram.com/breatheapps/" },
+] as const;
+
+export function isFollowLink(url: string): boolean {
+  return FOLLOW_LINKS.some((link) => link.url === url);
+}

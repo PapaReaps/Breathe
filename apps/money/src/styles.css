@@ -1944,3 +1944,19 @@ dialog.update-pop::backdrop {
   margin: 0 0 0.2rem;
   font-weight: 700;
 }
+
+/* Help and sharing (v1.0.1): quiet follow links under the list. */
+.follow-line {
+  margin: 1.25rem 0 0.1rem;
+  text-align: center;
+  color: var(--muted, inherit);
+}
+.follow-line .link {
+  padding: 0.4rem 0.2rem;
+}
+.follow-handle {
+  margin: 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted, inherit);
+}
