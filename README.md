@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-dark.gif">
-    <img src="docs/images/breathe-light.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath: it fills out and rises a little, then settles, with a soft shadow beneath it" width="600">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-dark-v2.gif">
+    <img src="docs/images/breathe-light-v2.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath: it fills out and rises a little while tiny dots drift up around it like air bubbles, then settles, with a soft shadow beneath it" width="600">
   </picture>
 </p>
 
@@ -65,8 +65,8 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-v2-dark.png">
-    <img src="docs/images/row-number-v2.png" alt="Three screens: just the number (Safe to spend until your money comes in, £493.74); the Menu, where everything else lives; and Your money, with money coming in, bills, food and travel, and savings all on one page" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-v3-dark.png">
+    <img src="docs/images/row-number-v3.png" alt="Three screens: just the number (Safe to spend until your money comes in, £493.74); the Menu, where everything else lives; and Your money, with money coming in, bills, food and travel, and savings all on one page" width="100%">
   </picture>
 </p>
 
@@ -80,8 +80,8 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-setup-dark.png">
-    <img src="docs/images/row-setup.png" alt="Three screens: a calm hello (Take a breath. You.ve got this.); setting up, one question at a time (What money comes in? Universal Credit, £850.00 every month, and your number plans until it); and bills before your money comes in, one line each with a total" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-setup-v2-dark.png">
+    <img src="docs/images/row-setup-v2.png" alt="Three screens: a calm hello (Take a breath. You've got this.); the first setup question, Which money do you use?, with Pound, Euro and US dollar and more currencies; and the next question, What money comes in?, with Universal Credit, £850.00, and your number plans until it" width="100%">
   </picture>
 </p>
 
@@ -101,8 +101,8 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-v3-dark.png">
-    <img src="docs/images/row-calendar-v3.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, with a small rose dot under each bill day, a teal dot for money coming in, a gold dot for your main money, today in a filled circle, and every amount listed underneath; and the month in dark mode" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-v4-dark.png">
+    <img src="docs/images/row-calendar-v4.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, with a small rose dot under each bill day, a teal dot for money coming in, a gold dot for your main money, and today in a filled circle; and further down the month, every amount listed with in or out, and the total of the bills" width="100%">
   </picture>
 </p>
 
@@ -112,8 +112,8 @@ It is a personal project, built by someone who struggles with these things too. 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v2-dark.png">
-    <img src="docs/images/row-yours-v2.png" alt="Three screens: the home screen in dark mode; the home screen with a plum number and a rose savings badge (22 app colours, and jet black); and Settings, all on one page" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v3-dark.png">
+    <img src="docs/images/row-yours-v3.png" alt="Three screens: the home screen in dark mode; Look and colours, with the 22 app colours shown as colour circles, each named underneath; and Settings, all on one page, including Currency" width="100%">
   </picture>
 </p>
 
@@ -154,8 +154,8 @@ Share, Leave a tip and Report a problem are in **Menu → Settings → Help and 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-private-dark.png">
-    <img src="docs/images/row-private.png" alt="Three screens: text size and contrast choices; the optional PIN privacy screen; and saving a backup protected with a passphrase" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-private-v2-dark.png">
+    <img src="docs/images/row-private-v2.png" alt="Three screens: text size and contrast choices; the optional PIN privacy screen; and saving a backup protected with a passphrase" width="100%">
   </picture>
 </p>
 
