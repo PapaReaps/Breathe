@@ -144,7 +144,7 @@ It is a personal project, built by someone who struggles with these things too. 
 </p>
 
 - **Share Breathe Money**: show a friend a QR code to scan, or copy or share the link (the Android app, or the web version for iPhones and computers).
-- **Leave a tip**: Breathe is free, always. If it's helped, you can say thanks with £3, £5 or £10, on Stripe's secure page. Only if you can spare it: tips don't unlock anything, and Breathe never sees your card details.
+- **Leave a tip**: Breathe Money is free, always. If it's helped, you can say thanks with £3, £5 or £10, on Stripe's secure page. Only if you can spare it: tips don't unlock anything, and Breathe never sees your card details.
 - **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
 - **Updates in the Android app**: the first time, the app asks once whether to check for new versions. Say yes, and an **Update ready** pop-up shows whenever there is one: tap **Update now** to download and install it, or **Later** to leave it until the next version (a small button stays under your number). Or tap **Check now** yourself, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
 
@@ -198,9 +198,19 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 
 Breathe Money is the home for the whole family: tap the little logo at the top of the app to see the Breathe apps. As each new one is ready, it will open from there.
 
+## Follow Breathe
+
+News, new apps and calm tips, in the same gentle style as the app.
+
+<p align="center">
+  <a href="https://x.com/breatheapps"><b>X: @breatheapps</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://www.instagram.com/breatheapps/"><b>Instagram: @breatheapps</b></a>
+</p>
+
 ## Support Breathe
 
-Breathe will always be free, with no adverts and nothing to unlock. If it's helped you and you'd like to say thanks, you can leave a tip. Only if you can spare it.
+Breathe Money will always be free, with no adverts and nothing to unlock. If it's helped you and you'd like to say thanks, you can leave a tip. Only if you can spare it.
 
 <p align="center">
   <a href="https://buy.stripe.com/bJe8wRefe6om4abfrC3cc00"><b>Tip £3</b></a>
