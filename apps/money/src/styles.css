@@ -1914,3 +1914,25 @@ dialog.update-pop::backdrop {
   margin: 0.6rem auto 0;
   padding: 0.5rem 1rem;
 }
+
+/* Currency (v0.35.0): pound, euro and dollar as rows, the rest in a list underneath. */
+.currency-row {
+  align-items: center;
+}
+.currency-sign {
+  min-width: 1.8rem;
+  text-align: center;
+  font-weight: 700;
+}
+.currency-more-link {
+  margin: 0.25rem 0 0.5rem;
+  padding: 0.5rem 0;
+}
+.currency-more {
+  display: block;
+  margin-top: 0.75rem;
+}
+.currency-more span {
+  display: block;
+  margin-bottom: 0.35rem;
+}

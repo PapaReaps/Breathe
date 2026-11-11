@@ -11,13 +11,14 @@ import type { LockApi } from "../storage/useAppLock";
 import type { UpdatesApi } from "../useUpdates";
 import { takeShowUpdates } from "../useUpdates";
 import { InstallUpdate } from "./InstallUpdate";
+import { CurrencyPicker } from "../components/CurrencyPicker";
 import { CLICK_SOUNDS, VIBRATIONS, canVibrate, playSound, vibrate } from "../feedback";
 import type { SettingsApi } from "./screenTypes";
 
 const text = words.settings;
 
 /** The groups in App options. Each opens its own small page, so no page is long. */
-export const OPTION_GROUPS = ["look", "text", "home", "reminder", "sounds", "privacy", "updates"] as const;
+export const OPTION_GROUPS = ["currency", "look", "text", "home", "reminder", "sounds", "privacy", "updates"] as const;
 export type OptionGroup = (typeof OPTION_GROUPS)[number];
 
 /** One group of App options: light or dark and colours, text and contrast, and so on. */
@@ -26,6 +27,14 @@ export function SettingsView({ settings, group }: { settings: SettingsApi; group
   const show = (part: OptionGroup | "look-colours") => (part === "look-colours" ? group === "look" : group === part);
   return (
     <>
+      {show("currency") ? (
+        <fieldset className="choice-group settings-group">
+          <legend className="visually-hidden">{words.currency.title}</legend>
+          <p className="hint">{words.currency.intro}</p>
+          <CurrencyPicker name="currency" value={current.currency ?? "GBP"} onChange={(code) => change({ currency: code })} />
+        </fieldset>
+      ) : null}
+
       {show("look") ? (
         <>
       <fieldset className="choice-group">

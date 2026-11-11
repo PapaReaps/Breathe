@@ -98,6 +98,7 @@ describe("look and colour settings", () => {
       clickSound: "off",
       vibration: "off",
       calendarView: "list",
+      currency: null,
     });
   });
 
@@ -150,6 +151,7 @@ describe("look and colour settings", () => {
       clickSound: "drop" as const,
       vibration: "gentle" as const,
       calendarView: "month" as const,
+      currency: "EUR" as const,
       showMoneyName: true,
       breathMotion: false,
     };

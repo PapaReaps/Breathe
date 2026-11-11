@@ -22,6 +22,7 @@ export type PanelId =
   | "more"
   | "settings"
   | "help"
+  | "opt-currency"
   | "opt-look"
   | "opt-text"
   | "opt-home"

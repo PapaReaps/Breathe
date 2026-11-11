@@ -65,3 +65,39 @@ describe("showing money", () => {
     }
   });
 });
+
+describe("other currencies (v0.35.0)", () => {
+  it("writes the chosen currency in the phone's style, then goes back to the pound", async () => {
+    const { setMoneyStyle, moneySymbol } = await import("../src/logic/money");
+    setMoneyStyle("EUR", "en-GB");
+    expect(formatMoney(123456)).toBe("€1,234.56");
+    expect(moneySymbol()).toBe("€");
+    setMoneyStyle("EUR", "de-DE");
+    expect(formatMoney(-123456).replace(/\s/g, " ")).toBe("−1.234,56 €");
+    setMoneyStyle("USD", "en-US");
+    expect(formatMoney(5)).toBe("$0.05");
+    setMoneyStyle("GBP", "en-GB");
+    expect(formatMoney(123456)).toBe("£1,234.56");
+  });
+
+  it("reads amounts typed with other signs or the European style", () => {
+    expect(parseMoney("€12.50")).toEqual({ ok: true, pence: 1250 });
+    expect(parseMoney("12 kr")).toEqual({ ok: true, pence: 1200 });
+    expect(parseMoney("$1,234.56")).toEqual({ ok: true, pence: 123456 });
+    expect(parseMoney("1.234,56")).toEqual({ ok: true, pence: 123456 });
+    expect(parseMoney("R 20")).toEqual({ ok: true, pence: 2000 });
+    expect(parseMoney("12abc").ok).toBe(false);
+    expect(parseMoney("1.234").ok).toBe(false);
+  });
+
+  it("guesses the currency from the phone, and the pound when unsure", async () => {
+    const { guessCurrency } = await import("../src/logic/currency");
+    expect(guessCurrency(["de-DE"])).toBe("EUR");
+    expect(guessCurrency(["en-US"])).toBe("USD");
+    expect(guessCurrency(["en-IE", "en-GB"])).toBe("EUR");
+    expect(guessCurrency(["en-AU"])).toBe("AUD");
+    expect(guessCurrency(["en"])).toBe("GBP");
+    expect(guessCurrency([])).toBe("GBP");
+    expect(guessCurrency(["zh-Hant-TW"])).toBe("GBP");
+  });
+});

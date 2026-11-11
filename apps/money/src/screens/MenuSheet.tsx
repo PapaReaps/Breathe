@@ -1,3 +1,4 @@
+import { moneySymbol } from "../logic/money";
 import { useEffect, useRef } from "react";
 import { headlineFor, words } from "../content/words";
 import { describeForm } from "../logic/form";
@@ -50,6 +51,7 @@ const TITLES: Record<PanelId, string> = {
   more: words.menu.moreTitle,
   settings: words.menu.names.settings,
   help: words.menu.helpTitle,
+  "opt-currency": words.menu.optionGroups.currency,
   "opt-look": words.menu.optionGroups.look,
   "opt-text": words.menu.optionGroups.text,
   "opt-home": words.menu.optionGroups.home,
@@ -189,7 +191,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               />
             ) : null}
             {panel === "setup" ? (
-              <SetupView form={form} today={today} built={built} api={api} onClose={() => onPanel(null)} />
+              <SetupView form={form} today={today} built={built} api={api} settings={settings} onClose={() => onPanel(null)} />
             ) : null}
             {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
             {panel === "more" ? <MoreList onPanel={onPanel} holidays={describeForm(form, today).holidays} settings={settings} /> : null}
@@ -292,6 +294,7 @@ function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) =
   const sound = s.clickSound === "off" ? null : t.sounds[s.clickSound];
   const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
   const now: Record<OptionGroup, string> = {
+    currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
     look: `${t.options[s.appearance]} · ${t.accents[s.accent]}`,
     text: t.textSizes[s.textSize],
     home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
@@ -327,6 +330,7 @@ function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) =
       </ul>
       <h3 className="settings-heading">{m.settingsGroups.numbers}</h3>
       <ul className="menu-list">
+        {option("currency")}
         {page("setup", words.setup.menuItem)}
         {page("holidays", m.names.holidays, holidays)}
         {page("data", m.names.data)}
@@ -366,6 +370,7 @@ function OptionsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (p
   const sound = s.clickSound === "off" ? null : t.sounds[s.clickSound];
   const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
   const now: Record<OptionGroup, string> = {
+    currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
     look: `${t.options[s.appearance]} · ${t.accents[s.accent]}`,
     text: t.textSizes[s.textSize],
     home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,

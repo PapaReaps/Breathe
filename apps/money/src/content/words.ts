@@ -1,3 +1,5 @@
+import { moneySymbol } from "../logic/money";
+import type { CurrencyCode } from "../logic/currency";
 import { formatDayShort } from "../logic/dates";
 import { formatMoney } from "../logic/money";
 import type { MoneyProblem } from "../logic/money";
@@ -74,6 +76,7 @@ export const words = {
       numbers: "Your numbers",
     },
     optionGroups: {
+      currency: "Currency",
       look: "Look and colours",
       text: "Text and contrast",
       home: "Home screen",
@@ -228,8 +231,12 @@ export const words = {
     keptAside: "Saved",
     add: "+ Add",
     take: "− Take out",
-    howMuchAdd: "How much to add? (£)",
-    howMuchTake: "How much to take out? (£)",
+    get howMuchAdd() {
+      return `How much to add? (${moneySymbol()})`;
+    },
+    get howMuchTake() {
+      return `How much to take out? (${moneySymbol()})`;
+    },
     addButton: (amount: string) => (amount === "" ? "Add" : `Add ${amount}`),
     takeButton: (amount: string) => (amount === "" ? "Take out" : `Take out ${amount}`),
     cancel: "Cancel",
@@ -392,7 +399,7 @@ export const words = {
     showSavings: "Show my savings under the number",
     showSavingsHint: "This only hides it from the home screen.",
     showMoneyName: "Show what your money is called",
-    showMoneyNameHint: "Like \"Universal Credit comes in…\". Off, so anyone glancing at your screen can't see it.",
+    showMoneyNameHint: "Like \"Wages come in…\". Off, so anyone glancing at your screen can't see it.",
     breathMotion: "Let \"breathe\" breathe",
     breathMotionHint: "The word above your number breathes slowly. Switch off to keep it still.",
     soundTitle: "Sound when I tap",
@@ -421,7 +428,9 @@ export const words = {
       firm: "Firm",
     },
     potPreview: "Preview",
-    potPreviewAmount: "£100.00",
+    get potPreviewAmount() {
+      return formatMoney(10000);
+    },
     textSizeTitle: "Text size",
     textSizeIntro: "Makes all the writing in Breathe Money bigger. Your phone or browser's own text size works too, and adds to this.",
     textSizes: {
@@ -500,6 +509,35 @@ export const words = {
     forgotNo: "Go back",
     forgotProblem: "That didn't work just now. Please try again.",
   },
+  currency: {
+    title: "Currency",
+    intro: "Choose the money you use. It only changes the symbol and how amounts are written. Nothing is converted, and your numbers stay the same.",
+    more: "More currencies",
+    moreLabel: "Another currency",
+    choose: "Choose…",
+    names: {
+      GBP: "Pound",
+      EUR: "Euro",
+      USD: "US dollar",
+      CAD: "Canadian dollar",
+      AUD: "Australian dollar",
+      NZD: "New Zealand dollar",
+      CHF: "Swiss franc",
+      SEK: "Swedish krona",
+      NOK: "Norwegian krone",
+      DKK: "Danish krone",
+      PLN: "Polish złoty",
+      CZK: "Czech koruna",
+      INR: "Indian rupee",
+      ZAR: "South African rand",
+      SGD: "Singapore dollar",
+      HKD: "Hong Kong dollar",
+      MXN: "Mexican peso",
+      BRL: "Brazilian real",
+      PHP: "Philippine peso",
+      NGN: "Nigerian naira",
+    } satisfies Record<CurrencyCode, string>,
+  },
   setup: {
     title: "Setting up",
     progress: (step: number, total: number) => `Question ${step} of ${total}`,
@@ -509,10 +547,16 @@ export const words = {
     nothingToAdd: "Nothing to add",
     mainMoney: "Your main money",
     menuItem: "Step-by-step setup",
+    currency: {
+      question: "Which money do you use?",
+      intro: "We guessed from your phone. You can pick another one. It only changes the symbol: nothing is converted.",
+    },
     balance: {
       question: "What's in your everyday account right now?",
       intro: "Check your banking app and type what you see. You can change it any time.",
-      label: "Everyday account balance (£)",
+      get label() {
+        return `Everyday account balance (${moneySymbol()})`;
+      },
     },
     payday: {
       question: "When does your main money next come in?",
@@ -573,14 +617,16 @@ export const words = {
 
   ui: {
     accountTitle: "Your account",
-    balanceLabel: "What is in your everyday account now (£)",
+    get balanceLabel() {
+      return `What is in your everyday account now (${moneySymbol()})`;
+    },
     balanceHint: "Use a minus sign if you are overdrawn.",
     balanceDateLabel: "This balance is from",
     balanceDateHint: "Leave this as today if you have just checked it.",
 
     paydayTitle: "Money coming in",
     paydayNameLabel: "What is it? (optional)",
-    paydayNameHint: "Like wages, Universal Credit, a pension or PIP.",
+    paydayNameHint: "Like wages, benefits or a pension.",
     paydayDateLabel: "When it next comes in",
     paydayDateHint: "Your number covers the days until it arrives, so you don't need to enter how much.",
     paydayRepeatLabel: "How often does it come?",
@@ -629,7 +675,9 @@ export const words = {
     billsTitle: "Bills",
     billsHint: "Anything that leaves your account before your money comes in.",
     billName: "What is it?",
-    billAmount: "Amount (£)",
+    get billAmount() {
+      return `Amount (${moneySymbol()})`;
+    },
     billDue: "Due on",
     addBill: "Add a bill",
     remove: "Remove",
@@ -647,7 +695,9 @@ export const words = {
       `Your number plans until your biggest regular money${name === "" ? "" : `, ${name}`}. You can change this in the Menu.`,
     planUntilNothingYet: "Once you add money coming in, with how much, your number plans until the biggest regular one.",
     incomeName: "What is it?",
-    incomeAmount: "Amount (£)",
+    get incomeAmount() {
+      return `Amount (${moneySymbol()})`;
+    },
     incomeDate: "Arrives on",
     incomeSure: "I'm sure it is coming",
     incomeMaybe: "It might come",
@@ -655,19 +705,25 @@ export const words = {
 
     essentialsTitle: "Food and travel",
     potTitle: "Savings",
-    foodLabel: "Food and everyday spending, per week (£)",
+    get foodLabel() {
+      return `Food and everyday spending, per week (${moneySymbol()})`;
+    },
     foodHint: "I will spread it evenly across the days until your money comes in.",
-    travelLabel: "Travel, per week (£)",
+    get travelLabel() {
+      return `Travel, per week (${moneySymbol()})`;
+    },
     travelHint: "A monthly travel pass counts as a bill, so add that under Bills.",
-    bufferLabel: "Savings (£)",
+    get bufferLabel() {
+      return `Savings (${moneySymbol()})`;
+    },
     bufferHint: "What you've saved so far. It's kept separate, so it never changes your number. Leave it empty for none.",
 
     holidaysSummary: "Bank holidays",
     holidaysRegionLabel: "Where do you live?",
     holidaysRegionHint:
-      "I'll use the official bank holidays for that part of the UK, so you don't have to type them. Weekends are already handled.",
+      "In the UK, I'll use the official bank holidays for your part of it, so you don't have to type them. Anywhere else, pick the first choice and add your own public holidays if you like. Weekends are already handled.",
     holidaysRegionOptions: {
-      own: "I'll type my own",
+      own: "Outside the UK, or I'll type my own",
       "england-and-wales": "England and Wales",
       scotland: "Scotland",
       "northern-ireland": "Northern Ireland",

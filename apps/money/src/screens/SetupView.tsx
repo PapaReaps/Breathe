@@ -6,7 +6,9 @@ import type { BuildResult, FormState } from "../logic/form";
 import { SETUP_STEPS, firstSetupStep } from "../logic/setup";
 import type { SetupStep } from "../logic/setup";
 import { BillsSection, IncomeSection, PlanUntilSection } from "./FormSections";
-import type { FormApi } from "./screenTypes";
+import type { FormApi, SettingsApi } from "./screenTypes";
+import { CurrencyPicker } from "../components/CurrencyPicker";
+import { deviceLocales, guessCurrency } from "../logic/currency";
 
 const text = words.setup;
 const ui = words.ui;
@@ -16,6 +18,7 @@ interface SetupViewProps {
   today: string;
   built: BuildResult;
   api: FormApi;
+  settings: SettingsApi;
   onClose: () => void;
 }
 
@@ -24,7 +27,7 @@ interface SetupViewProps {
  * It uses the same boxes as the Menu pages, and everything is saved as it goes,
  * so stopping halfway loses nothing.
  */
-export function SetupView({ form, today, built, api, onClose }: SetupViewProps) {
+export function SetupView({ form, today, built, api, settings, onClose }: SetupViewProps) {
   const [index, setIndex] = useState(() => firstSetupStep(form));
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
@@ -72,8 +75,13 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
   }
 
   const step: SetupStep = SETUP_STEPS[index] ?? "balance";
+  const shownCurrency = settings.settings.currency ?? guessCurrency(deviceLocales());
   const words2 = text[step];
-  const goNext = () => setIndex((current) => current + 1);
+  const goNext = () => {
+    // Leaving the currency question keeps what's shown (the guess, unless changed).
+    if (step === "currency" && settings.settings.currency === null) settings.change({ currency: shownCurrency });
+    setIndex((current) => current + 1);
+  };
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -90,6 +98,9 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
       </h3>
       <p className="hint">{words2.intro}</p>
 
+      {step === "currency" ? (
+        <CurrencyPicker name="setup-currency" value={shownCurrency} onChange={(code) => settings.change({ currency: code })} />
+      ) : null}
       {step === "balance" ? (
         <MoneyField
           label={text.balance.label}
@@ -139,7 +150,7 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
         ) : null}
         {/* One button: "Next" once something is filled in, otherwise it says it's fine to skip. */}
         <button type="submit">
-          {stepFilled(step, form) ? text.next : step === "bills" || step === "income" ? text.nothingToAdd : text.skip}
+          {step === "currency" || stepFilled(step, form) ? text.next : step === "bills" || step === "income" ? text.nothingToAdd : text.skip}
         </button>
       </div>
     </form>
@@ -150,6 +161,8 @@ export function SetupView({ form, today, built, api, onClose }: SetupViewProps) 
 function stepFilled(step: SetupStep, form: FormState): boolean {
   const typed = (value: string) => value.trim() !== "";
   switch (step) {
+    case "currency":
+      return true;
     case "income":
       return form.income.some((row) => typed(row.name) || typed(row.amount) || row.date !== "");
     case "balance":

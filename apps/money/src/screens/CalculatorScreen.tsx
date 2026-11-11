@@ -19,7 +19,8 @@ import { useUpdates } from "../useUpdates";
 import { putOffUpdate, updatePutOff } from "../updates";
 import { UpdatePopup } from "./UpdatePopup";
 import { useSavedForm } from "../storage/useSavedForm";
-import { formatMoney } from "../logic/money";
+import { formatMoney, setMoneyStyle } from "../logic/money";
+import { deviceLocale } from "../logic/currency";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 /**
@@ -32,6 +33,8 @@ export default function CalculatorScreen() {
   const saved = useSavedForm();
   const { form, update } = saved;
   const appearance = useSettings();
+  // Amounts are written in the chosen currency, in the phone's own style (pound until chosen).
+  setMoneyStyle(appearance.settings.currency ?? "GBP", deviceLocale());
   const lock = useAppLock();
 
   // Once the numbers (and any lock) are read, the opening breath can fade away.

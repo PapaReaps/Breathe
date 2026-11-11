@@ -1,3 +1,5 @@
+import { isCurrency } from "../logic/currency";
+import type { CurrencyCode } from "../logic/currency";
 import { rememberAppearance } from "../splash";
 import { CLICK_SOUNDS, VIBRATIONS } from "../feedback";
 import type { ClickSound, Vibration } from "../feedback";
@@ -67,6 +69,8 @@ export interface Settings {
   vibration: Vibration;
   /** Coming up: list first, unless the person picked the month. */
   calendarView: CalendarView;
+  /** The money used (v0.35.0). Null until chosen: the pound, so anyone already using the app sees no change. */
+  currency: CurrencyCode | null;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -87,6 +91,7 @@ export const DEFAULT_SETTINGS: Settings = {
   clickSound: "off",
   vibration: "off",
   calendarView: "list",
+  currency: null,
 };
 
 export const SETTINGS_KEY = "settings";
@@ -190,6 +195,7 @@ export function readSettings(raw: unknown): Settings {
     clickSound: pick(record.clickSound, CLICK_SOUNDS, DEFAULT_SETTINGS.clickSound),
     vibration: pick(record.vibration, VIBRATIONS, DEFAULT_SETTINGS.vibration),
     calendarView: pick(record.calendarView, CALENDAR_VIEWS, DEFAULT_SETTINGS.calendarView),
+    currency: isCurrency(record.currency) ? record.currency : null,
   };
 }
 
@@ -213,6 +219,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     clickSound: settings.clickSound,
     vibration: settings.vibration,
     calendarView: settings.calendarView,
+    currency: settings.currency,
   };
 }
 

@@ -1,11 +1,11 @@
 import type { FormState } from "./form";
 
 /** The questions in the step-by-step setup, in order. */
-export const SETUP_STEPS = ["income", "balance", "bills", "food", "pot"] as const;
+export const SETUP_STEPS = ["currency", "income", "balance", "bills", "food", "pot"] as const;
 export type SetupStep = (typeof SETUP_STEPS)[number];
 
 /**
- * Where the setup starts. It begins with the money coming in. Someone who has already
+ * Where the setup starts. It begins with the currency, then the money coming in. Someone who has already
  * given that date but not their balance carries on from the balance question.
  * (Index into SETUP_STEPS.)
  */

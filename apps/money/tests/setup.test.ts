@@ -6,12 +6,12 @@ const withMoney = (date: string) => ({ ...emptyForm(), income: [{ ...newIncomeRo
 
 describe("where the step-by-step setup starts", () => {
   it("starts with all the money coming in (v0.28.0: no separate main money)", () => {
-    expect(SETUP_STEPS[0]).toBe("income");
-    expect(SETUP_STEPS[firstSetupStep(emptyForm())]).toBe("income");
+    expect(SETUP_STEPS[0]).toBe("currency");
+    expect(SETUP_STEPS[firstSetupStep(emptyForm())]).toBe("currency");
   });
 
   it("asks the questions in a calm order", () => {
-    expect(SETUP_STEPS).toEqual(["income", "balance", "bills", "food", "pot"]);
+    expect(SETUP_STEPS).toEqual(["currency", "income", "balance", "bills", "food", "pot"]);
   });
 
   it("carries on from the balance once money coming in is added, so nothing is asked twice", () => {

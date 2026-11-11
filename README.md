@@ -71,7 +71,7 @@ It is a personal project, built by someone who struggles with these things too. 
 </p>
 
 - Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel.
-- Counts every pound **once**. Bills already taken from your balance aren't taken off twice.
+- Counts every penny **once**. Bills already taken from your balance aren't taken off twice.
 - Never counts money that isn't here yet. Each payment only counts from the day it arrives, and a small badge says when (like **+£140.00 on Mon 9 Nov**).
 - **Your money is all on one page**: money coming in, bills, food and travel, and savings, each with its own **in** or **out**.
 - Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
@@ -88,7 +88,8 @@ It is a personal project, built by someone who struggles with these things too. 
 - **Step-by-step setup**: one question per screen, and every question can be skipped.
 - **Just add all your money coming in**: wages, Universal Credit, PIP, Child Benefit, a pension. There's no "main" one to pick: your number plans until your biggest regular payment by itself, and you can change it in the Menu.
 - **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
-- **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Nothing is looked up online.
+- **Works in 20 currencies**: pound, euro, US, Canadian, Australian and New Zealand dollars, and more. Setup guesses yours from your phone, amounts are written your country's way (like 1.234,56 € in Germany), and you can change it any time in Settings. Only the symbol changes: nothing is converted or looked up.
+- **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Anywhere else, weekends are already handled and you can add your own public holidays. Nothing is looked up online.
 - A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.
 
 > [!TIP]
@@ -116,7 +117,7 @@ It is a personal project, built by someone who struggles with these things too. 
   </picture>
 </p>
 
-- **Settings is one calm page**: Look and colours, Text and contrast, Home screen, Sounds and vibration, Balance reminder, Privacy screen and Updates, plus your setup, bank holidays and backups. Each opens its own small page.
+- **Settings is one calm page**: Look and colours, Text and contrast, Home screen, Sounds and vibration, Balance reminder, Privacy screen and Updates, plus your currency, setup, bank holidays and backups. Each opens its own small page.
 - **Light, dark or jet black**, or follow your device.
 - Pick from **22 app colours** (soft or deep) and **21 savings colours**, shown as colour circles so you can see exactly what you're choosing, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
 - **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz, each with a button to try it first. All off until you choose.
