@@ -43,7 +43,7 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
 
 **On a computer?** Open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) in Chrome or Edge and click **Install** at the right of the address bar. It opens in its own window, works offline and updates itself.
 
-**Use Obtainium?** In [Obtainium](https://github.com/ImranR98/Obtainium), tap **Add app** and paste `https://github.com/PapaReaps/Breathe`. It installs Breathe Money straight from these releases and keeps it up to date. Each release has two copies of the same app: either is fine, or pick `breathe-money.apk`.
+**Use Obtainium?** On your phone, tap **[Add to Obtainium →](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.papareaps.breathe.money%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FPapaReaps%2FBreathe%22%2C%22author%22%3A%22PapaReaps%22%2C%22name%22%3A%22Breathe%20Money%22%7D)**. Or in [Obtainium](https://github.com/ImranR98/Obtainium), tap **Add app** and paste `https://github.com/PapaReaps/Breathe`. It installs Breathe Money straight from these releases and keeps it up to date. Each release has two copies of the same app: either is fine, or pick `breathe-money.apk`.
 
 Already have it? Show a friend the code on your own phone: **Menu → Settings → Help and sharing → Share Breathe Money**.
 
