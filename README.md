@@ -43,6 +43,8 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
 
 **On a computer?** Open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) in Chrome or Edge and click **Install** at the right of the address bar. It opens in its own window, works offline and updates itself.
 
+**Use Obtainium?** In [Obtainium](https://github.com/ImranR98/Obtainium), tap **Add app** and paste `https://github.com/PapaReaps/Breathe`. It installs Breathe Money straight from these releases and keeps it up to date. Each release has two copies of the same app: either is fine, or pick `breathe-money.apk`.
+
 Already have it? Show a friend the code on your own phone: **Menu → Settings → Help and sharing → Share Breathe Money**.
 
 Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
