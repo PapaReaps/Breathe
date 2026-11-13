@@ -49,7 +49,7 @@ Already have it? Show a friend the code on your own phone: **Menu â†’ Settings â
 
 Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
 
-It is a personal project, built by someone who struggles with these things too. There is enough stress in the world already. Breathe apps should reduce stress, never add to it.
+It is a personal project, built by someone who struggles with these things too, with help from Claude, an AI assistant. Every change is planned together, tested, tried on real phones, and published openly here on GitHub. There is enough stress in the world already. Breathe apps should reduce stress, never add to it.
 
 ## Breathe Money in 15 seconds
 
