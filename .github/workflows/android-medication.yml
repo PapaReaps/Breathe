@@ -1,0 +1,65 @@
+# Builds the Breathe Medication Android app (an APK).
+#
+# - Every push to main that changes apps/medication: the tests run, then a TEST copy is built and
+#   kept for 30 days (Actions tab → "Build Breathe Medication" → the run → "Artifacts"). It's signed
+#   with a throwaway key, so it's for trying out only. Nothing is published as a release.
+# - Real releases (tags like medication-v0.1.0) come later, and are never marked "latest", so
+#   Breathe Money's update check and download links keep pointing at Breathe Money.
+# If any test fails, nothing is built.
+name: Build Breathe Medication
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/medication/**"
+      - ".github/workflows/android-medication.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-medication-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/medication
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install
+        run: npm ci
+      - name: Check the tests pass
+        run: npm test
+      - name: Build the app
+        run: npm run build
+      - name: Put the app inside the Android project
+        run: npx cap sync android
+
+      - name: Build a test copy
+        working-directory: apps/medication/android
+        run: |
+          name="0.0.0-test.${GITHUB_RUN_NUMBER}"
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug \
+            -PbreatheVersionCode=1 \
+            -PbreatheVersionName="$name"
+          mkdir -p ../out
+          cp app/build/outputs/apk/debug/app-debug.apk "../out/breathe-medication-test-${name}.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: breathe-medication-test-apk
+          path: apps/medication/out/*.apk
+          retention-days: 30

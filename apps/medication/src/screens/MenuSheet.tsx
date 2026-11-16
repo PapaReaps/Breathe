@@ -2,19 +2,35 @@ import { useState } from "react";
 import { words } from "../content/words";
 import { timeLabel, type Medicine } from "../logic/medicines";
 import Sheet from "./Sheet";
+import { ReminderSettings } from "./ReminderNotes";
+import type { Reminders } from "../storage/useReminders";
 
 const menu = words.menu;
 
 interface Props {
   medicines: Medicine[];
+  reminders: Reminders;
   onAdd: () => void;
   onEdit: (id: string) => void;
   onClose: () => void;
 }
 
 /** The menu: your medicines (tap one to change it), add another, and about. */
-export default function MenuSheet({ medicines, onAdd, onEdit, onClose }: Props) {
+export default function MenuSheet({ medicines, reminders, onAdd, onEdit, onClose }: Props) {
   const [about, setAbout] = useState(false);
+  const [remindersPage, setRemindersPage] = useState(false);
+  const rem = words.reminders;
+
+  if (remindersPage) {
+    return (
+      <Sheet title={rem.panelTitle} onClose={onClose} key="reminders">
+        <ReminderSettings reminders={reminders} />
+        <button type="button" className="link" onClick={() => setRemindersPage(false)}>
+          {menu.back}
+        </button>
+      </Sheet>
+    );
+  }
 
   if (about) {
     return (
@@ -52,6 +68,12 @@ export default function MenuSheet({ medicines, onAdd, onEdit, onClose }: Props) 
         </li>
       </ul>
       <ul className="menu-list">
+        <li>
+          <button type="button" className="menu-item" onClick={() => setRemindersPage(true)}>
+            <span className="menu-title">{rem.menuRow}</span>
+            <span className="menu-sub">{!reminders.possible ? rem.menuWeb : reminders.settings.on ? rem.menuOn : rem.menuOff}</span>
+          </button>
+        </li>
         <li>
           <button type="button" className="menu-item" onClick={() => setAbout(true)}>
             <span className="menu-title">{menu.about}</span>

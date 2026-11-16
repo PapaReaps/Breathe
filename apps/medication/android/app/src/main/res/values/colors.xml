@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The same colours as the web app's opening "breath" (index.html), light mode. -->
+    <color name="splash_background">#F6F5F1</color>
+    <color name="splash_dot">#45615A</color>
+    <color name="colorPrimary">#45615A</color>
+    <color name="colorPrimaryDark">#45615A</color>
+    <color name="colorAccent">#45615A</color>
+</resources>

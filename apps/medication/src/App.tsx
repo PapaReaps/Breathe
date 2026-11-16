@@ -15,6 +15,8 @@ import MedicineSheet from "./screens/MedicineSheet";
 import MenuSheet from "./screens/MenuSheet";
 import { hideSplash } from "./splash";
 import { useMedications } from "./storage/useMedications";
+import { useReminders } from "./storage/useReminders";
+import { ReminderNotes } from "./screens/ReminderNotes";
 
 type Panel = null | { kind: "menu" } | { kind: "medicine"; id: string | null };
 
@@ -37,6 +39,7 @@ export default function App() {
   const { data, loading, notSaved, readProblem, update } = useMedications();
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
+  const reminders = useReminders(data, loading, update);
 
   useEffect(() => {
     if (!loading) hideSplash();
@@ -92,6 +95,7 @@ export default function App() {
                     ? words.nothingLater
                     : ""}
             </p>
+            <ReminderNotes reminders={reminders} hasMedicines={data.medicines.length > 0} />
             <div className="dose-groups">
               {groupByPart(doses).map((group) => (
                 <section className="dose-group" key={group.part} aria-labelledby={`part-${group.part}`}>
@@ -133,6 +137,7 @@ export default function App() {
       {panel?.kind === "menu" ? (
         <MenuSheet
           medicines={data.medicines}
+          reminders={reminders}
           onAdd={() => setPanel({ kind: "medicine", id: null })}
           onEdit={(id) => setPanel({ kind: "medicine", id })}
           onClose={() => setPanel(null)}

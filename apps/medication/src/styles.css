@@ -622,3 +622,43 @@ button:active:not(:disabled) {
   border-color: var(--border);
   border-radius: 999px;
 }
+
+/* Reminders: the calm note on Today, and the switches in the menu. */
+.reminder-note {
+  width: 100%;
+  text-align: left;
+  background: var(--gentle);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin: 0 0 1rem;
+}
+.reminder-note h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.25rem;
+}
+.reminder-note p {
+  margin: 0 0 0.5rem;
+}
+.reminder-note .sheet-buttons {
+  margin-top: 0.75rem;
+}
+.switch-row {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+.switch-row input[type="checkbox"] {
+  width: 1.5rem;
+  min-height: 1.5rem;
+  height: 1.5rem;
+  margin: 0.15rem 0 0;
+  flex: none;
+  accent-color: var(--accent);
+}
+.switch-row label {
+  margin: 0;
+}
+.switch-row .hint {
+  margin: 0.1rem 0 0;
+}
