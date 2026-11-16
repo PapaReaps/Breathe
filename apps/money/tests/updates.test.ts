@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { RELEASES_API, apkAddress, checkForUpdate, isNewer, parseVersion, readLatestRelease } from "../src/updates";
+import { RELEASES_API, apkAddress, checkForUpdate, isNewer, parseVersion, readLatestRelease, readNewestMoneyRelease } from "../src/updates";
 
 const appDir = fileURLToPath(new URL("../", import.meta.url));
 
@@ -60,12 +60,37 @@ describe("reading GitHub's answer", () => {
   });
 });
 
+describe("other Breathe apps share the releases list (v1.0.3)", () => {
+  it("picks the newest Breathe Money release, ignoring Medication and test versions", () => {
+    const list = [
+      { tag_name: "medication-v0.2.0" },
+      { tag_name: "v1.1.0", prerelease: true },
+      { tag_name: "v1.0.4" },
+      { tag_name: "medication-v9.0.0" },
+      { tag_name: "v1.0.3" },
+      { tag_name: "v2.0.0", draft: true },
+    ];
+    expect(readNewestMoneyRelease(list, [1, 0, 3])).toMatchObject({ state: "newer", version: "1.0.4" });
+    expect(readNewestMoneyRelease(list, [1, 0, 4])).toEqual({ state: "up-to-date", version: "1.0.4" });
+  });
+
+  it("can't tell when the list has no Money release, or isn't a list of releases", () => {
+    expect(readNewestMoneyRelease([{ tag_name: "medication-v0.1.0" }], [1, 0, 3])).toEqual({ state: "unknown" });
+    expect(readNewestMoneyRelease([null, 5, "v9.0.0", { tag_name: "0.9.9" }], [1, 0, 3])).toEqual({ state: "unknown" });
+    expect(readNewestMoneyRelease([], [1, 0, 3])).toEqual({ state: "unknown" });
+  });
+
+  it("asks for the list, not just the single latest release", () => {
+    expect(RELEASES_API).toBe("https://api.github.com/repos/PapaReaps/Breathe/releases?per_page=30");
+  });
+});
+
 describe("asking GitHub", () => {
   it("sends one plain request: no cookies, no referrer, nothing about you", async () => {
     const calls: Array<[string, RequestInit | undefined]> = [];
     const fake = (async (url: string, init?: RequestInit) => {
       calls.push([url, init]);
-      return new Response(JSON.stringify({ tag_name: "v0.12.0" }), { status: 200 });
+      return new Response(JSON.stringify([{ tag_name: "medication-v0.1.0" }, { tag_name: "v0.12.0" }]), { status: 200 });
     }) as unknown as typeof fetch;
     const result = await checkForUpdate(fake, [0, 11, 0]);
     expect(result.state).toBe("newer");

@@ -4,7 +4,9 @@ import { isNativeApp } from "./platform";
  * The optional "check for updates" in the Android app (the web version updates by itself).
  *
  * Off unless the person switches it on in Settings, or taps "Check now".
- * It asks GitHub one question: "what is the newest Breathe Money release?"
+ * It asks GitHub one question: "what are the newest releases?", then picks the newest Breathe Money
+ * one. (v1.0.3: other Breathe apps, like Breathe Medication, will share the same releases list,
+ * with their own names such as "medication-v0.1.0", so the plain "latest" answer can't be trusted.)
  * Nothing about the person or their numbers is sent: no account, no cookies, no device details
  * beyond what any web request carries (GitHub can see a phone asked, from its internet address).
  *
@@ -12,7 +14,7 @@ import { isNativeApp } from "./platform";
  * and the link the app opens is built here, never taken from the answer.
  */
 
-export const RELEASES_API = "https://api.github.com/repos/PapaReaps/Breathe/releases/latest";
+export const RELEASES_API = "https://api.github.com/repos/PapaReaps/Breathe/releases?per_page=30";
 export const RELEASES_PAGE = "https://github.com/PapaReaps/Breathe/releases/tag/";
 /** The Android file for a version, as the release recipe names it. Built here, never taken from GitHub's answer. */
 export function apkAddress(version: string): string {
@@ -81,6 +83,28 @@ export function readLatestRelease(raw: unknown, current: Version | null): Update
   return { state: "up-to-date", version: versionText(current) };
 }
 
+/** Breathe Money's own release names: exactly "v1.2.3". Other Breathe apps use their own prefix. */
+const MONEY_TAG = /^v\d{1,4}\.\d{1,4}\.\d{1,4}$/;
+
+/**
+ * Reads GitHub's list of releases and keeps only finished Breathe Money ones, newest version first.
+ * Anything odd in the list is skipped, never trusted.
+ */
+export function readNewestMoneyRelease(raw: unknown, current: Version | null): UpdateResult {
+  if (!Array.isArray(raw)) return readLatestRelease(raw, current);
+  let best: Version | null = null;
+  for (const item of raw) {
+    if (typeof item !== "object" || item === null) continue;
+    const record = item as Record<string, unknown>;
+    if (record.draft === true || record.prerelease === true) continue;
+    if (typeof record.tag_name !== "string" || !MONEY_TAG.test(record.tag_name)) continue;
+    const version = parseVersion(record.tag_name);
+    if (version !== null && (best === null || isNewer(version, best))) best = version;
+  }
+  if (best === null) return { state: "unknown" };
+  return readLatestRelease({ tag_name: "v" + versionText(best) }, current);
+}
+
 /** The version installed on this phone (from Android itself). Null on the web, or if Android won't say. */
 export async function installedVersion(): Promise<Version | null> {
   if (!isNativeApp()) return null;
@@ -110,7 +134,7 @@ export async function checkForUpdate(fetcher: typeof fetch = fetch, current?: Ve
     });
     clearTimeout(timer);
     if (!response.ok) return { state: "unknown" };
-    return readLatestRelease(await response.json(), mine);
+    return readNewestMoneyRelease(await response.json(), mine);
   } catch {
     return { state: "unknown" };
   }
