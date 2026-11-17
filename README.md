@@ -1,8 +1,5 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-dark-v2.gif">
-    <img src="docs/images/breathe-light-v2.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath, then settling" width="420">
-  </picture>
+  <img src="docs/images/breathe-black.gif" alt="The word breathe in soft rounded teal letters on black. Every letter breathes at the same time: each one swells, fills out and softly glows for two seconds, then settles back for two seconds, with a gentle shadow beneath." width="100%">
 </p>
 
 <h1 align="center">Breathe</h1>
