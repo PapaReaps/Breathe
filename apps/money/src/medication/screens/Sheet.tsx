@@ -2,7 +2,18 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { words } from "../content/words";
 
 /** A full-screen panel (a <dialog>), the same as Breathe Money's menu. Back or Escape closes it. */
-export default function Sheet({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+export default function Sheet({
+  title,
+  onClose,
+  onBack,
+  children,
+}: {
+  title: string;
+  onClose: () => void;
+  /** Inner pages go back to the menu, like Breathe Money's. The menu itself has no Back. */
+  onBack?: () => void;
+  children: ReactNode;
+}) {
   const ref = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
 
@@ -28,8 +39,14 @@ export default function Sheet({ title, onClose, children }: { title: string; onC
     >
       <div className="sheet-inner">
         <div className="sheet-header">
-          <span className="app-title">{words.appName}</span>
-          <button type="button" className="close-button" onClick={onClose}>
+          {onBack ? (
+            <button type="button" className="secondary" onClick={onBack}>
+              {words.menu.back}
+            </button>
+          ) : (
+            <span />
+          )}
+          <button type="button" onClick={onClose}>
             {words.menu.close}
           </button>
         </div>

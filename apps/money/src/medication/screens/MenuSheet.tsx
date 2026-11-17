@@ -28,35 +28,26 @@ export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, o
 
   if (historyPage) {
     return (
-      <Sheet title={words.history.title} onClose={onClose} key="history">
+      <Sheet title={words.history.title} onClose={onClose} onBack={() => setHistoryPage(false)} key="history">
         <HistoryView data={data} today={new Date()} />
-        <button type="button" className="link" onClick={() => setHistoryPage(false)}>
-          {menu.back}
-        </button>
       </Sheet>
     );
   }
 
   if (remindersPage) {
     return (
-      <Sheet title={rem.panelTitle} onClose={onClose} key="reminders">
+      <Sheet title={rem.panelTitle} onClose={onClose} onBack={() => setRemindersPage(false)} key="reminders">
         <ReminderSettings reminders={reminders} />
-        <button type="button" className="link" onClick={() => setRemindersPage(false)}>
-          {menu.back}
-        </button>
       </Sheet>
     );
   }
 
   if (about) {
     return (
-      <Sheet title={menu.about} onClose={onClose} key="about">
+      <Sheet title={menu.about} onClose={onClose} onBack={() => setAbout(false)} key="about">
         {menu.aboutText.map((line) => (
           <p key={line}>{line}</p>
         ))}
-        <button type="button" className="link" onClick={() => setAbout(false)}>
-          {menu.back}
-        </button>
       </Sheet>
     );
   }

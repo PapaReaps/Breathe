@@ -12,10 +12,12 @@ interface Props {
   onSave: (medicine: Medicine) => void;
   onRemove: (id: string) => void;
   onClose: () => void;
+  /** Opened from the menu: Back goes there. */
+  onBack?: () => void;
 }
 
 /** Add a medicine, or change one. Its name, an optional amount, and the times each day. */
-export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClose }: Props) {
+export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClose, onBack }: Props) {
   const [name, setName] = useState(medicine?.name ?? "");
   const [amount, setAmount] = useState(medicine?.amount ?? "");
   const [times, setTimes] = useState<string[]>(medicine?.times.length ? [...medicine.times] : ["08:00"]);
@@ -51,7 +53,7 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
   }
 
   return (
-    <Sheet title={medicine ? form.editTitle : form.addTitle} onClose={onClose}>
+    <Sheet title={medicine ? form.editTitle : form.addTitle} onClose={onClose} onBack={onBack}>
       <form
         noValidate
         onSubmit={(event) => {

@@ -20,7 +20,7 @@ import { ReminderNotes } from "./screens/ReminderNotes";
 import type { Medications } from "./storage/useMedications";
 import type { Reminders } from "./storage/useReminders";
 
-type Panel = null | { kind: "menu" } | { kind: "medicine"; id: string | null };
+type Panel = null | { kind: "menu" } | { kind: "medicine"; id: string | null; fromMenu?: boolean };
 
 /** The time, refreshed every half minute, so "Next" and the day move on by themselves. */
 function useNow(): Date {
@@ -168,8 +168,8 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
           medicines={data.medicines}
           data={data}
           reminders={reminders}
-          onAdd={() => setPanel({ kind: "medicine", id: null })}
-          onEdit={(id) => setPanel({ kind: "medicine", id })}
+          onAdd={() => setPanel({ kind: "medicine", id: null, fromMenu: true })}
+          onEdit={(id) => setPanel({ kind: "medicine", id, fromMenu: true })}
           onSettings={() => {
             setPanel(null);
             onSettings();
@@ -195,6 +195,7 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
             setPanel(null);
           }}
           onClose={() => setPanel(null)}
+          onBack={panel.fromMenu ? () => setPanel({ kind: "menu" }) : undefined}
         />
       ) : null}
     </div>
