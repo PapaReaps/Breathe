@@ -21,6 +21,7 @@ import { SettingsView } from "./SettingsView";
 import type { OptionGroup } from "./SettingsView";
 import { SetupView } from "./SetupView";
 import { DEFAULT_SETTINGS } from "../storage/settings";
+import type { BreathePart } from "../storage/settings";
 import { ReportView, ShareView } from "./ShareView";
 import { TipView } from "./TipView";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
@@ -35,6 +36,10 @@ interface MenuSheetProps {
   api: FormApi;
   data: DataApi;
   settings: SettingsApi;
+  /** v1.1.0: which part of Breathe is open, and switching between them. */
+  part: BreathePart;
+  medicationAdded: boolean;
+  onSwitch: (part: BreathePart) => void;
 }
 
 const ui = words.ui;
@@ -95,7 +100,7 @@ const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "mone
  * It uses the browser's own <dialog>, which already handles the Escape key,
  * keeps keyboard focus inside, and hands focus back to the Menu button on close.
  */
-export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings }: MenuSheetProps) {
+export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings, part, medicationAdded, onSwitch }: MenuSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -138,7 +143,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
       {panel !== null ? (
         <div className="sheet-inner">
           <div className="sheet-header">
-            {panel === "menu" ? (
+            {panel === "menu" || panel === "apps" ? (
               <span />
             ) : (
               <button
@@ -180,7 +185,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
                 <PotSection form={form} today={today} api={api} />
               </>
             ) : null}
-            {panel === "apps" ? <AppsList /> : null}
+            {panel === "apps" ? <AppsList part={part} medicationAdded={medicationAdded} onSwitch={onSwitch} /> : null}
             {panel === "essentials" ? <EssentialsSection form={form} today={today} api={api} /> : null}
             {panel === "pot" ? <PotSection form={form} today={today} api={api} /> : null}
             {panel === "holidays" ? <HolidaysSection form={form} today={today} api={api} /> : null}
@@ -438,17 +443,49 @@ function AboutView() {
 }
 
 /** The Breathe family. Breathe Money is the home; the others will open from here when they exist. */
-function AppsList() {
+/**
+ * "Your Breathe apps" (v1.1.0): switch between Money and Medication, or add Medication.
+ * Apps still to come are listed quietly underneath.
+ */
+function AppsList({ part, medicationAdded, onSwitch }: { part: BreathePart; medicationAdded: boolean; onSwitch: (part: BreathePart) => void }) {
   const m = words.menu;
+  const rows: Array<{ id: BreathePart; name: string; icon: string; sub: string }> = [
+    { id: "money", name: m.appsMoney, icon: "favicon.svg", sub: part === "money" ? m.appsHere : m.appsOpenRow },
+    {
+      id: "medication",
+      name: m.appsMedication,
+      icon: "medication-icon.svg",
+      sub: part === "medication" ? m.appsHere : medicationAdded ? m.appsOpenRow : m.appsAdd,
+    },
+  ];
   return (
     <>
       <p className="hint">{m.appsIntro}</p>
       <ul className="menu-list">
-        {m.appsList.map((name, i) => (
+        {rows.map((row) => (
+          <li key={row.id}>
+            <button
+              type="button"
+              className={row.id === part ? "menu-item app-row app-here" : "menu-item app-row"}
+              aria-current={row.id === part ? "page" : undefined}
+              onClick={() => onSwitch(row.id)}
+            >
+              <span className="menu-title app-row-title">
+                <img className="app-logo" src={`${import.meta.env.BASE_URL}${row.icon}`} alt="" width="22" height="22" />
+                {row.name}
+              </span>
+              <span className="menu-sub">{row.sub}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {!medicationAdded ? <p className="hint">{m.appsAddHint}</p> : null}
+      <h3>{m.appsLater}</h3>
+      <ul className="menu-list">
+        {m.appsComing.map((name) => (
           <li key={name}>
-            <div className={i === 0 ? "menu-item app-row app-here" : "menu-item app-row"}>
+            <div className="menu-item app-row app-later">
               <span className="menu-title">{name}</span>
-              <span className="menu-sub">{i === 0 ? m.appsHere : m.appsLater}</span>
             </div>
           </li>
         ))}

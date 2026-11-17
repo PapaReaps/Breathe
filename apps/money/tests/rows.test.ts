@@ -100,6 +100,8 @@ describe("look and colour settings", () => {
       calendarView: "list",
       currency: null,
       readyNoteSeen: false,
+      part: "money",
+      medicationAdded: false,
     });
   });
 
@@ -154,6 +156,8 @@ describe("look and colour settings", () => {
       calendarView: "month" as const,
       currency: "EUR" as const,
       readyNoteSeen: true,
+      part: "medication" as const,
+      medicationAdded: true,
       showMoneyName: true,
       breathMotion: false,
     };
@@ -166,6 +170,17 @@ describe("the money's name and the breathing word", () => {
     expect(readSettings({}).showMoneyName).toBe(false);
     expect(readSettings({}).breathMotion).toBe(true);
     expect(readSettings({ showMoneyName: "yes", breathMotion: 0 }).showMoneyName).toBe(false);
+  });
+});
+
+describe("which part of Breathe opens (v1.1.0)", () => {
+  it("opens on Money until Medication has been added, then on the last part used", () => {
+    expect(readSettings({}).part).toBe("money");
+    expect(readSettings({}).medicationAdded).toBe(false);
+    expect(readSettings({ part: "medication" }).part).toBe("money");
+    expect(readSettings({ part: "medication", medicationAdded: true }).part).toBe("medication");
+    expect(readSettings({ part: "travel", medicationAdded: true }).part).toBe("money");
+    expect(readSettings({ medicationAdded: "yes" }).medicationAdded).toBe(false);
   });
 });
 

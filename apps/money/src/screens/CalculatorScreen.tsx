@@ -23,6 +23,10 @@ import { useSavedForm } from "../storage/useSavedForm";
 import { formatMoney, setMoneyStyle } from "../logic/money";
 import { deviceLocale } from "../logic/currency";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
+import MedicationScreen from "../medication/MedicationScreen";
+import { useMedications } from "../medication/storage/useMedications";
+import { useReminders } from "../medication/storage/useReminders";
+import type { BreathePart } from "../storage/settings";
 
 /**
  * Holds everything that is typed, works out the number, and decides what to show:
@@ -38,10 +42,27 @@ export default function CalculatorScreen() {
   setMoneyStyle(appearance.settings.currency ?? "GBP", deviceLocale());
   const lock = useAppLock();
 
-  // Once the numbers (and any lock) are read, the opening breath can fade away.
+  // Breathe Medication (v1.1.0): only read and set up once it's been added from the switcher.
+  // Its reminders keep working whichever part is open.
+  const medicationOn = appearance.loaded && appearance.settings.medicationAdded;
+  const medications = useMedications(medicationOn);
+  const reminders = useReminders(medications.data, medications.loading, medications.update, medicationOn);
+  const part: BreathePart = medicationOn ? appearance.settings.part : "money";
+  const switchTo = (next: BreathePart) => {
+    appearance.change(next === "medication" ? { part: next, medicationAdded: true } : { part: next });
+    setPanel(null);
+  };
+
+  // The browser tab and the phone's recent-apps list say which part is open.
   useEffect(() => {
-    if (saved.loaded && lock.status !== "checking") hideSplash();
-  }, [saved.loaded, lock.status]);
+    document.title = part === "medication" ? "Breathe Medication" : "Breathe Money";
+  }, [part]);
+
+  // Once the numbers (and any lock) are read, the opening breath can fade away.
+  const partReady = appearance.loaded && (part === "money" || !medications.loading);
+  useEffect(() => {
+    if (saved.loaded && partReady && lock.status !== "checking") hideSplash();
+  }, [saved.loaded, partReady, lock.status]);
 
   // Locking closes the menu, so nothing is left showing behind the privacy screen.
   useEffect(() => {
@@ -173,6 +194,14 @@ export default function CalculatorScreen() {
 
   return (
     <>
+      {part === "medication" ? (
+        <MedicationScreen
+          medications={medications}
+          reminders={reminders}
+          onSwitch={() => setPanel("apps")}
+          onSettings={() => setPanel("settings")}
+        />
+      ) : (
       <HomeView
         built={built}
         outcome={outcome}
@@ -189,7 +218,8 @@ export default function CalculatorScreen() {
         onUpdatesAnswer={(yes) => appearance.change(yes ? { checkForUpdates: true, updatesAsked: true } : { updatesAsked: true })}
         onOpen={setPanel}
       />
-      {showReady ? <ReadyPopup onDone={() => appearance.change({ readyNoteSeen: true })} /> : null}
+      )}
+      {showReady && part === "money" ? <ReadyPopup onDone={() => appearance.change({ readyNoteSeen: true })} /> : null}
       {updateNote !== null &&
       !showReady &&
       saved.loaded &&
@@ -217,6 +247,9 @@ export default function CalculatorScreen() {
         api={api}
         data={data}
         settings={settings}
+        part={part}
+        medicationAdded={medicationOn}
+        onSwitch={switchTo}
       />
     </>
   );

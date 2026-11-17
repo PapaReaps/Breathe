@@ -14,6 +14,13 @@ const config: CapacitorConfig = {
     captureInput: false,
     webContentsDebuggingEnabled: false,
   },
+  plugins: {
+    // Breathe Medication's reminders (v1.1.0): the Breathe rings as the small icon, in sage.
+    LocalNotifications: {
+      smallIcon: "ic_stat_breathe",
+      iconColor: "#45615A",
+    },
+  },
 };
 
 export default config;

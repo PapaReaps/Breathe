@@ -73,7 +73,15 @@ export interface Settings {
   currency: CurrencyCode | null;
   /** The one-time "Breathe Money is ready" note (v1.0.0) has been seen, or wasn't needed. */
   readyNoteSeen: boolean;
+  /** v1.1.0: which part of Breathe was open last, so it opens there next time. */
+  part: BreathePart;
+  /** v1.1.0: Breathe Medication has been added from the switcher. Until then it isn't shown or set up. */
+  medicationAdded: boolean;
 }
+
+/** The parts of Breathe (v1.1.0). */
+export type BreathePart = "money" | "medication";
+export const PARTS: readonly BreathePart[] = ["money", "medication"];
 
 export const DEFAULT_SETTINGS: Settings = {
   appearance: "system",
@@ -95,6 +103,8 @@ export const DEFAULT_SETTINGS: Settings = {
   calendarView: "list",
   currency: null,
   readyNoteSeen: false,
+  part: "money",
+  medicationAdded: false,
 };
 
 export const SETTINGS_KEY = "settings";
@@ -200,6 +210,9 @@ export function readSettings(raw: unknown): Settings {
     calendarView: pick(record.calendarView, CALENDAR_VIEWS, DEFAULT_SETTINGS.calendarView),
     currency: isCurrency(record.currency) ? record.currency : null,
     readyNoteSeen: record.readyNoteSeen === true,
+    medicationAdded: record.medicationAdded === true,
+    // Medication only opens first once it's been added.
+    part: record.medicationAdded === true ? pick(record.part, PARTS, DEFAULT_SETTINGS.part) : "money",
   };
 }
 
@@ -225,6 +238,8 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     calendarView: settings.calendarView,
     currency: settings.currency,
     readyNoteSeen: settings.readyNoteSeen,
+    part: settings.part,
+    medicationAdded: settings.medicationAdded,
   };
 }
 

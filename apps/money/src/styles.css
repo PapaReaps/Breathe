@@ -1796,7 +1796,10 @@ a.button-link {
 }
 .app-logo { width: 22px; height: 22px; border-radius: 6px; flex: none; }
 .app-caret { font-size: 0.8em; color: var(--muted); }
-.app-row { cursor: default; }
+/* The switcher (v1.1.0): Money and Medication are buttons; apps still to come are quiet rows. */
+button.app-row { cursor: pointer; }
+.app-later { cursor: default; color: var(--muted); }
+.app-row-title { display: inline-flex; align-items: center; gap: 0.6rem; }
 .app-here .menu-sub { color: var(--accent); font-weight: 600; }
 
 /* Your money: one page, four small headings. */
@@ -1987,4 +1990,168 @@ button:active:not(:disabled),
 .settings-list .menu-sub {
   flex: none;
   white-space: nowrap;
+}
+
+/* ---------- Breathe Medication (v1.1.0) ----------
+ * Medication lives inside Breathe in its own sage green, so you always know where you are.
+ * Only these few colours change; everything else (light or dark, text size, contrast) is shared.
+ */
+.part-medication {
+  --accent: #45615a;
+  --on-accent: #ffffff;
+  --gentle: #eef3ef;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .part-medication {
+    --accent: #8fae96;
+    --on-accent: #0f1a1a;
+    --gentle: #222d27;
+  }
+}
+:root[data-theme="dark"] .part-medication {
+  --accent: #8fae96;
+  --on-accent: #0f1a1a;
+  --gentle: #222d27;
+}
+
+/* Today: the list sits at the top of the screen rather than in the middle. */
+.home-main.today {
+  justify-content: flex-start;
+  padding-top: 1.5rem;
+}
+.today-date {
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+}
+.today-next {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0.4rem 0 1.25rem;
+  text-wrap: balance;
+}
+.dose-groups {
+  width: 100%;
+  text-align: left;
+}
+.dose-group h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 1rem 0.25rem 0.5rem;
+}
+.dose-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.dose {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.7rem 0.9rem;
+}
+.dose-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.dose-sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.dose button {
+  flex: none;
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+}
+/* Taken: quiet words in the app colour, still tappable to undo. */
+.dose button.taken {
+  background: none;
+  border-color: transparent;
+  color: var(--accent);
+  padding: 0.4rem 0.6rem;
+}
+.dose.is-taken .dose-name {
+  color: var(--muted);
+}
+
+.not-advice {
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 2rem auto 1rem;
+  max-width: 26rem;
+}
+
+/* Add a medicine: the list of times. */
+.time-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.time-row input {
+  max-width: 11rem;
+}
+.time-row button {
+  flex: none;
+}
+.sheet-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.remove-line {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Reminders: the calm note on Today, and the switches in the menu. */
+.reminder-note {
+  width: 100%;
+  text-align: left;
+  background: var(--gentle);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin: 0 0 1rem;
+}
+.reminder-note h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.25rem;
+}
+.reminder-note p {
+  margin: 0 0 0.5rem;
+}
+.reminder-note .sheet-buttons {
+  margin-top: 0.75rem;
+}
+.switch-row {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+.switch-row input[type="checkbox"] {
+  width: 1.5rem;
+  min-height: 1.5rem;
+  height: 1.5rem;
+  margin: 0.15rem 0 0;
+  flex: none;
+  accent-color: var(--accent);
+}
+.switch-row label {
+  margin: 0;
+}
+.switch-row .hint {
+  margin: 0.1rem 0 0;
 }
