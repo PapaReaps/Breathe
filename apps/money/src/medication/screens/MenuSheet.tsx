@@ -16,11 +16,12 @@ interface Props {
   onEdit: (id: string) => void;
   onSettings: () => void;
   onData: () => void;
+  onHelp: () => void;
   onClose: () => void;
 }
 
 /** The menu: your medicines (tap one to change it), add another, and about. */
-export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onSettings, onData, onClose }: Props) {
+export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onSettings, onData, onHelp, onClose }: Props) {
   const [about, setAbout] = useState(false);
   const [remindersPage, setRemindersPage] = useState(false);
   const [historyPage, setHistoryPage] = useState(false);
@@ -99,6 +100,11 @@ export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, o
         <li>
           <button type="button" className="menu-item" onClick={onData}>
             <span className="menu-title">{menu.data}</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="menu-item" onClick={onHelp}>
+            <span className="menu-title">{menu.help}</span>
           </button>
         </li>
         <li>

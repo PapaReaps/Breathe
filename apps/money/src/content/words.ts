@@ -294,7 +294,7 @@ export const words = {
     intro: "Something not working as you expected, or an idea to make Breathe better? We'd love to hear it.",
     how: "This opens a page on GitHub, where Breathe is made. You'll need a free GitHub account to send it.",
     privacy:
-      "Nothing is sent from the app itself. Please don't include your real numbers: a rough description is plenty.",
+      "Nothing is sent from the app itself. Please don't include your real numbers or medicines: a rough description is plenty.",
     button: "Open the report page",
   },
   about: {

@@ -96,7 +96,7 @@ const BACK_LABEL: Partial<Record<PanelId, string>> = {
  */
 function medicationParentOf(panel: PanelId): PanelId | null {
   if (panel.startsWith("opt-")) return "settings";
-  if (panel === "settings" || panel === "data") return null;
+  if (panel === "settings" || panel === "data" || panel === "help") return null;
   return parentOf(panel);
 }
 
@@ -213,9 +213,9 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             ) : null}
             {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
             {panel === "more" ? <MoreList onPanel={onPanel} holidays={describeForm(form, today).holidays} settings={settings} /> : null}
-            {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} /> : null}
+            {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} part={part} /> : null}
             {groupOf(panel) !== null ? <SettingsView settings={settings} group={groupOf(panel)!} /> : null}
-            {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
+            {panel === "help" ? <HelpList onPanel={onPanel} part={part} /> : null}
             {panel === "data" ? (
               <DataView data={data} hasNumbers={hasNumbers(form)} onResetSettings={() => settings.change(DEFAULT_SETTINGS)} />
             ) : null}
@@ -359,13 +359,15 @@ function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) =
 }
 
 /** Help and sharing: Share, Report a problem and About, kept together. */
-function HelpList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
+function HelpList({ onPanel, part }: { onPanel: (panel: PanelId) => void; part: BreathePart }) {
   const items: Array<[PanelId, string]> = [
     ["share", words.menu.shareTitle],
     ["tip", words.menu.tipTitle],
     ["report", words.menu.reportTitle],
     ["about", words.menu.aboutTitle],
   ];
+  // Breathe Medication has its own About in its menu.
+  if (part === "medication") items.pop();
   const follow = words.menu.follow;
   return (
     <>
@@ -403,7 +405,7 @@ function HelpList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
 }
 
 /** App options: a short list of groups. Each shows the current choice, and opens its own small page. */
-function OptionsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (panel: PanelId) => void }) {
+function OptionsList({ settings, onPanel, part }: { settings: SettingsApi; onPanel: (panel: PanelId) => void; part: BreathePart }) {
   const s = settings.settings;
   const t = words.settings;
   const m = words.menu;
@@ -429,6 +431,8 @@ function OptionsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (p
         <ul key={set.join()} className="menu-list settings-list">
           {set
             .filter((g) => g !== "updates" || settings.updates.available)
+            // Home screen and Balance reminder are about Breathe Money only.
+            .filter((g) => part !== "medication" || (g !== "home" && g !== "reminder"))
             .map((g) => (
               <li key={g}>
                 <button type="button" className="menu-item" onClick={() => onPanel(`opt-${g}` as PanelId)}>
