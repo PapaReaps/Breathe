@@ -103,7 +103,7 @@ export function SettingsView({ settings, group }: { settings: SettingsApi; group
         <legend>{text.accentTitle}</legend>
         <p className="hint">{text.accentIntro}</p>
         <div className="circle-picks" role="radiogroup" aria-label={text.accentTitle}>
-          {ACCENTS.map((option) => (
+          {ACCENTS.filter((option) => option.id !== "medication").map((option) => (
             <label key={option.id} className="circle-pick">
               <input
                 type="radio"
@@ -148,6 +148,32 @@ export function SettingsView({ settings, group }: { settings: SettingsApi; group
         <p className="hint">{text.potPreview}</p>
         <PotBadge amount={text.potPreviewAmount} />
       </fieldset>
+
+      {current.medicationAdded ? (
+        <fieldset className="choice-group settings-group">
+          <legend>{text.medicationAccentTitle}</legend>
+          <p className="hint">{text.medicationAccentIntro}</p>
+          <div className="circle-picks" role="radiogroup" aria-label={text.medicationAccentTitle}>
+            {[...ACCENTS.filter((o) => o.id === "medication"), ...ACCENTS.filter((o) => o.id !== "medication")].map((option) => (
+              <label key={option.id} className="circle-pick">
+                <input
+                  type="radio"
+                  name="medication-accent"
+                  value={option.id}
+                  checked={current.medicationAccent === option.id}
+                  onChange={() => change({ medicationAccent: option.id })}
+                />
+                <span
+                  className={"circle-dot"}
+                  style={{ "--sw-light": option.swatch, "--sw-dark": option.dark } as CSSProperties}
+                  aria-hidden="true"
+                />
+                {text.accents[option.id]}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ) : null}
 
       <fieldset className="choice-group settings-group">
         <legend>{text.outlineTitle}</legend>

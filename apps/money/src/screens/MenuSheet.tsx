@@ -329,7 +329,7 @@ function optionNow(settings: SettingsApi): Record<OptionGroup, string> {
   const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
   return {
     currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
-    look: `${t.optionsShort[s.appearance]} · ${t.accents[s.accent]}`,
+    look: `${t.optionsShort[s.appearance]} · ${t.accents[s.part === "medication" ? s.medicationAccent : s.accent]}`,
     text: t.textSizes[s.textSize],
     home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
     reminder: t.reminderShort[s.balanceReminder],

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import type { PickerControl } from "./AppPicker";
 import { InvalidInputError } from "../logic/errors";
 import { buildInput, newBillRow, newIncomeRow, withBalance } from "../logic/form";
 import { savingsNow } from "../logic/savings";
@@ -51,6 +52,19 @@ export default function CalculatorScreen() {
   const switchTo = (next: BreathePart) => {
     appearance.change(next === "medication" ? { part: next, medicationAdded: true } : { part: next });
     setPanel(null);
+  };
+
+  // v1.3.0: the name at the top left slides open to pick a part. It stays open a moment after a pick,
+  // so the new part's colours show, then slides closed. The state lives here, so it survives the switch.
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const picker: PickerControl = {
+    open: pickerOpen,
+    setOpen: setPickerOpen,
+    medicationAdded: medicationOn,
+    onPick: (next) => {
+      if (next !== part) switchTo(next);
+      window.setTimeout(() => setPickerOpen(false), next !== part ? 500 : 0);
+    },
   };
 
   // The browser tab and the phone's recent-apps list say which part is open.
@@ -211,11 +225,12 @@ export default function CalculatorScreen() {
         <MedicationScreen
           medications={medications}
           reminders={reminders}
-          onSwitch={() => setPanel("apps")}
+          picker={picker}
           onSettings={() => setPanel("settings")}
         />
       ) : (
       <HomeView
+        picker={picker}
         built={built}
         outcome={outcome}
         fresh={fresh}

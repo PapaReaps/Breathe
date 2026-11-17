@@ -173,33 +173,76 @@ h3 {
   text-overflow: ellipsis;
 }
 
+/* v1.3.0: Menu on the right, and the gear just under it, in the app colour. The gear sits outside the
+   bar's height, so the page doesn't move down. */
 .topbar-buttons {
+  position: relative;
   display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
   flex: none;
 }
 /* v1.2.0: the name on the left gives way first, so the gear and Menu always fit. */
-.topbar { gap: 0.25rem; }
-.topbar .app-switch { min-width: 0; }
-@media (max-width: 389px) {
-  .topbar .app-name { font-size: 0.92rem; }
-  .topbar .menu-button { padding: 0.5rem 0.75rem; }
-}
+.topbar { gap: 0.5rem; }
+.topbar .app-switch { min-width: 0; max-width: 100%; }
 
 /* v1.2.0: the gear. Round, the same height as the Menu button, with no word (screen readers hear "Settings"). */
 .settings-button {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0.15rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--border);
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--accent);
   border-radius: 999px;
   padding: 0;
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.75rem;
+  height: 2.75rem;
 }
+.settings-button:hover { background: var(--gentle); }
+
+/* v1.3.0: the app picker. The name opens a small panel that slides down slowly underneath it. */
+.app-picker { position: relative; min-width: 0; }
+.app-caret { display: inline-block; transition: transform 1.2s ease; }
+.app-caret-open { transform: rotate(180deg); }
+.app-picker-panel {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 20;
+  width: min(17rem, calc(100vw - 2rem));
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  background: var(--surface);
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px var(--border), 0 10px 30px rgba(0, 0, 0, 0.12);
+  transition: max-height 1.25s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s ease;
+}
+.app-picker-panel.open { max-height: 20rem; opacity: 1; }
+.app-picker-panel ul { list-style: none; margin: 0; padding: 0; }
+.app-picker-panel li + li { border-top: 1px solid var(--border); }
+.app-picker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+}
+.app-picker-row.later { color: var(--muted); font-weight: 500; }
+.app-picker-sub { color: var(--muted); font-weight: 500; font-size: 0.9rem; }
+.app-picker-row.here .app-picker-sub { color: var(--accent); font-weight: 600; }
 
 .menu-button {
   display: inline-flex;
@@ -2027,19 +2070,20 @@ button:active:not(:disabled),
  * Medication lives inside Breathe in its own sage green, so you always know where you are.
  * Only these few colours change; everything else (light or dark, text size, contrast) is shared.
  */
-.part-medication {
+/* Breathe Medication's own soft sage (v1.3.0: a colour choice like the others, set on the whole page). */
+:root[data-accent="medication"] {
   --accent: #45615a;
   --on-accent: #ffffff;
   --gentle: #eef3ef;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .part-medication {
+  :root[data-accent="medication"]:not([data-theme="light"]) {
     --accent: #8fae96;
     --on-accent: #0f1a1a;
     --gentle: #222d27;
   }
 }
-:root[data-theme="dark"] .part-medication {
+:root[data-theme="dark"][data-accent="medication"] {
   --accent: #8fae96;
   --on-accent: #0f1a1a;
   --gentle: #222d27;

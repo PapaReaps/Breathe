@@ -11,6 +11,8 @@ export async function listenForPhoneBack(): Promise<void> {
   try {
     const { App } = await import("@capacitor/app");
     await App.addListener("backButton", () => {
+      // Anything open that isn't a panel (the app picker) closes first, by cancelling this event.
+      if (!window.dispatchEvent(new Event("breathe:back", { cancelable: true }))) return;
       const open = [...document.querySelectorAll<HTMLDialogElement>("dialog[open]")];
       const top = open[open.length - 1];
       if (top) {

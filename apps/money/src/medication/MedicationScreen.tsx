@@ -14,6 +14,7 @@ import {
   shortTimeLabel,
   timeLabel,
 } from "./logic/medicines";
+import { AppPicker, type PickerControl } from "../screens/AppPicker";
 import MedicineSheet from "./screens/MedicineSheet";
 import MenuSheet from "./screens/MenuSheet";
 import { ReminderNotes } from "./screens/ReminderNotes";
@@ -40,8 +41,8 @@ function useNow(): Date {
 interface Props {
   medications: Medications;
   reminders: Reminders;
-  /** Opens Breathe's switcher ("Your Breathe apps"). */
-  onSwitch: () => void;
+  /** The name at the top left, which slides open to pick a part of Breathe. */
+  picker: PickerControl;
   /** Opens Breathe's shared Settings (the gear in the top bar). */
   onSettings: () => void;
 }
@@ -50,7 +51,7 @@ interface Props {
  * Breathe Medication, inside Breathe: today's calm list, in its own sage colour.
  * Breathe's privacy screen, updates and switcher stay in charge around it.
  */
-export default function MedicationScreen({ medications, reminders, onSwitch, onSettings }: Props) {
+export default function MedicationScreen({ medications, reminders, picker, onSettings }: Props) {
   const { data, loading, notSaved, readProblem, update } = medications;
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
@@ -63,25 +64,19 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
   return (
     <div className="home part-medication">
       <header className="topbar">
-        <button type="button" className="app-switch" aria-label={`${words.appName}. ${words.switchApp}`} onClick={onSwitch}>
-          <img className="app-logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
-          <span className="app-name">{words.appName}</span>
-          <span className="app-caret" aria-hidden="true">
-            ▾
-          </span>
-        </button>
+        <AppPicker part="medication" name={words.appName} label={words.switchApp} picker={picker} />
         <div className="topbar-buttons">
-        <button type="button" className="settings-button" aria-label={words.settingsButton} onClick={onSettings} aria-haspopup="dialog" disabled={loading}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-        </button>
         <button type="button" className="menu-button" onClick={() => setPanel({ kind: "menu" })} aria-haspopup="dialog" disabled={loading}>
           <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
             <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
           <span>{words.menuButton}</span>
+        </button>
+        <button type="button" className="settings-button" aria-label={words.settingsButton} onClick={onSettings} aria-haspopup="dialog" disabled={loading}>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
         </button>
         </div>
       </header>

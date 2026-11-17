@@ -14,7 +14,9 @@ export type Appearance = "system" | "light" | "dark" | "black";
 export type Accent =
   | "teal" | "blue" | "plum" | "rose" | "green" | "ocean" | "terracotta" | "slate" | "amber"
   | "indigo" | "coral" | "sage" | "lavender" | "sky" | "berry" | "gold"
-  | "deep-teal" | "navy" | "deep-purple" | "burgundy" | "forest" | "deep-orange";
+  | "deep-teal" | "navy" | "deep-purple" | "burgundy" | "forest" | "deep-orange"
+  /** Breathe Medication's own soft sage (v1.3.0), its colour until the person picks another. */
+  | "medication";
 /** The colour of the lines around boxes (v0.29.0). "soft" is the usual grey. */
 export type Outline = "soft" | "accent" | "bright" | "gold" | "rose" | "sky" | "none";
 export const OUTLINES: ReadonlyArray<{ id: Outline; swatch: string; dark: string }> = [
@@ -41,6 +43,8 @@ export type Contrast = "system" | "more";
 export interface Settings {
   appearance: Appearance;
   accent: Accent;
+  /** v1.3.0: Breathe Medication's colour, chosen apart from Breathe Money's. */
+  medicationAccent: Accent;
   potColour: PotColour;
   /** The lines around boxes. */
   outline: Outline;
@@ -86,6 +90,7 @@ export const PARTS: readonly BreathePart[] = ["money", "medication"];
 export const DEFAULT_SETTINGS: Settings = {
   appearance: "system",
   accent: "teal",
+  medicationAccent: "medication",
   potColour: "gold",
   outline: "soft",
   showExplanation: true,
@@ -157,6 +162,7 @@ export const ACCENTS: ReadonlyArray<{ id: Accent; swatch: string; dark: string }
   { id: "burgundy", swatch: "#6e1630", dark: "#e0607f" },
   { id: "forest", swatch: "#1e4d22", dark: "#4fbf5a" },
   { id: "deep-orange", swatch: "#8a3600", dark: "#f08a3c" },
+  { id: "medication", swatch: "#45615a", dark: "#8fae96" },
 ];
 
 export const POT_COLOURS: ReadonlyArray<{ id: PotColour; swatch: string; dark: string }> = [
@@ -193,6 +199,7 @@ export function readSettings(raw: unknown): Settings {
   return {
     appearance: pick(record.appearance, APPEARANCES, DEFAULT_SETTINGS.appearance),
     accent: pick(record.accent, ACCENTS.map((a) => a.id), DEFAULT_SETTINGS.accent),
+    medicationAccent: pick(record.medicationAccent, ACCENTS.map((a) => a.id), DEFAULT_SETTINGS.medicationAccent),
     potColour: pick(record.potColour, POT_COLOURS.map((p) => p.id), DEFAULT_SETTINGS.potColour),
     outline: pick(record.outline, OUTLINES.map((o) => o.id), DEFAULT_SETTINGS.outline),
     showExplanation: typeof record.showExplanation === "boolean" ? record.showExplanation : DEFAULT_SETTINGS.showExplanation,
@@ -221,6 +228,7 @@ export function toSavedSettings(settings: Settings): { format: number } & Settin
     format: 1,
     appearance: settings.appearance,
     accent: settings.accent,
+    medicationAccent: settings.medicationAccent,
     potColour: settings.potColour,
     outline: settings.outline,
     showExplanation: settings.showExplanation,
@@ -265,7 +273,9 @@ export function applySettings(settings: Settings): void {
   set("data-black", "", settings.appearance !== "black");
   set("data-outline", settings.outline, settings.outline === DEFAULT_SETTINGS.outline);
   rememberAppearance(settings.appearance);
-  set("data-accent", settings.accent, settings.accent === DEFAULT_SETTINGS.accent);
+  // Each part has its own colour (v1.3.0): the one showing is the part that's open.
+  const accent = settings.part === "medication" ? settings.medicationAccent : settings.accent;
+  set("data-accent", accent, accent === DEFAULT_SETTINGS.accent);
   set("data-pot", settings.potColour, settings.potColour === DEFAULT_SETTINGS.potColour);
   set("data-text", settings.textSize, settings.textSize === DEFAULT_SETTINGS.textSize);
   set("data-contrast", settings.contrast, settings.contrast === DEFAULT_SETTINGS.contrast);

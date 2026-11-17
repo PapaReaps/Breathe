@@ -83,6 +83,7 @@ describe("look and colour settings", () => {
     expect(readSettings(saved)).toEqual({
       appearance: "dark",
       accent: "plum",
+      medicationAccent: "medication",
       potColour: "lilac",
       showExplanation: false,
       showPayday: false,
@@ -141,6 +142,7 @@ describe("look and colour settings", () => {
     const settings = {
       appearance: "light" as const,
       accent: "rose" as const,
+      medicationAccent: "sky" as const,
       potColour: "green" as const,
       showExplanation: false,
       showPayday: true,

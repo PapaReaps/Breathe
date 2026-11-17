@@ -6,8 +6,11 @@ import { formatMoney } from "../logic/money";
 import type { BuildResult } from "../logic/form";
 import type { NeedsAnswer, Outcome, PanelId } from "./screenTypes";
 import { openUpdatesNext } from "../useUpdates";
+import { AppPicker, type PickerControl } from "./AppPicker";
 
 interface HomeViewProps {
+  /** The name at the top left, which slides open to pick a part of Breathe. */
+  picker: PickerControl;
   built: BuildResult;
   outcome: Outcome | null;
   fresh: boolean;
@@ -45,31 +48,13 @@ export function HomeView({
   askUpdates,
   onUpdatesAnswer,
   onOpen,
+  picker,
 }: HomeViewProps) {
   return (
     <div className={askUpdates && !loading ? "home home-asking" : "home"}>
       <header className="topbar">
-        <button type="button" className="app-switch" aria-label={`${home.appName}. ${words.menu.appsOpen}`} onClick={() => onOpen("apps")}>
-          <img className="app-logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
-          <span className="app-name">{home.appName}</span>
-          <span className="app-caret" aria-hidden="true">
-            ▾
-          </span>
-        </button>
+        <AppPicker part="money" name={home.appName} label={words.menu.appsOpen} picker={picker} />
         <div className="topbar-buttons">
-        <button
-          type="button"
-          className="settings-button"
-          aria-label={home.settingsButton}
-          onClick={() => onOpen("settings")}
-          aria-haspopup="dialog"
-          disabled={loading}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-        </button>
         <button
           type="button"
           className="menu-button"
@@ -81,6 +66,19 @@ export function HomeView({
             <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
           <span>{home.menuButton}</span>
+        </button>
+        <button
+          type="button"
+          className="settings-button"
+          aria-label={home.settingsButton}
+          onClick={() => onOpen("settings")}
+          aria-haspopup="dialog"
+          disabled={loading}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
         </button>
         </div>
       </header>

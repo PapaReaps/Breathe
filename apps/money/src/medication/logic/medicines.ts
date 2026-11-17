@@ -234,6 +234,20 @@ function wholeNumber(text: string, min: number, max: number): number | null {
 }
 
 /** Checks the Add a medicine form. Returns the tidy medicine, or what needs a look. */
+/**
+ * "2 tablets" means 2 come off the count each time. Only for things you can count one by one
+ * (tablets, capsules, puffs and so on), and only a plain whole number at the start: "5ml" or
+ * "half a tablet" give null, and the person fills it in themselves.
+ */
+const COUNTABLE = /^(tablet|tab|pill|capsule|cap|puff|spray|drop|sachet|patch|lozenge|pastille|injection|pen|dose)s?$/i;
+export function countFromAmount(amount: string): number | null {
+  const match = /^\s*(\d{1,2})\s*([a-z]+)/i.exec(amount);
+  if (!match) return null;
+  const n = Number(match[1]);
+  if (!COUNTABLE.test(match[2]!) || n < 1 || n > LIMITS.perDose) return null;
+  return n;
+}
+
 export function checkDraft(draft: MedicineDraft, id: string, kept: Kept): { ok: true; medicine: Medicine } | { ok: false; problems: DraftProblem[] } {
   const problems: DraftProblem[] = [];
   const name = draft.name.trim().replace(/\s+/g, " ");

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  countFromAmount,
   EMPTY,
   daysLeft,
   markOrdered,
@@ -202,5 +203,23 @@ describe("running low (Stage 3)", () => {
     const saved = { ...withCount, medicines: [{ ...counted, stock: { left: 6, perDose: 1, ordered: true } }] };
     expect(readSaved(JSON.parse(JSON.stringify(saved))).medicines[0]!.stock).toEqual({ left: 6, perDose: 1, ordered: true });
     expect(readSaved({ medicines: [{ id: "med-a", name: "A", times: ["08:00"], stock: { left: -3 } }] }, "2026-11-16").medicines[0]).toMatchObject({ stock: null, added: "2026-11-16" });
+  });
+});
+
+describe("countFromAmount: how many come off the count each time", () => {
+  it("reads a whole number of things you can count", () => {
+    expect(countFromAmount("2 tablets")).toBe(2);
+    expect(countFromAmount("1 tablet")).toBe(1);
+    expect(countFromAmount(" 3 Puffs")).toBe(3);
+    expect(countFromAmount("2 capsules in the morning")).toBe(2);
+  });
+  it("leaves anything else for the person to fill in", () => {
+    expect(countFromAmount("5ml")).toBeNull();
+    expect(countFromAmount("5 ml")).toBeNull();
+    expect(countFromAmount("half a tablet")).toBeNull();
+    expect(countFromAmount("0.5 tablet")).toBeNull();
+    expect(countFromAmount("0 tablets")).toBeNull();
+    expect(countFromAmount("50 tablets")).toBeNull();
+    expect(countFromAmount("")).toBeNull();
   });
 });

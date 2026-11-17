@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { words } from "../content/words";
-import { checkDraft, dayKey, LIMITS, type DraftProblem, type Medicine } from "../logic/medicines";
+import { checkDraft, countFromAmount, dayKey, LIMITS, type DraftProblem, type Medicine } from "../logic/medicines";
 import Sheet from "./Sheet";
 
 const form = words.form;
@@ -23,6 +23,9 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
   const [times, setTimes] = useState<string[]>(medicine?.times.length ? [...medicine.times] : ["08:00"]);
   const [left, setLeft] = useState(medicine?.stock ? String(medicine.stock.left) : "");
   const [perDose, setPerDose] = useState(medicine?.stock ? String(medicine.stock.perDose) : "1");
+  // Until the person changes it themselves, "How many come off each time?" follows "How much"
+  // ("2 tablets" fills in 2). A saved count is theirs already, so it's left alone.
+  const [perDoseTouched, setPerDoseTouched] = useState(medicine?.stock != null);
   const [problems, setProblems] = useState<DraftProblem[]>([]);
   const [askRemove, setAskRemove] = useState(false);
 
@@ -94,7 +97,10 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
             autoComplete="off"
             aria-describedby="med-amount-hint"
             aria-invalid={has("amount-long") ? true : undefined}
-            onChange={(event) => setAmount(event.target.value)}
+            onChange={(event) => {
+              setAmount(event.target.value);
+              if (!perDoseTouched) setPerDose(String(countFromAmount(event.target.value) ?? 1));
+            }}
           />
           {has("amount-long") ? <p className="problem">{form.problems["amount-long"]}</p> : null}
         </div>
@@ -152,7 +158,10 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
                 value={perDose}
                 autoComplete="off"
                 aria-invalid={has("per-dose-odd") ? true : undefined}
-                onChange={(event) => setPerDose(event.target.value)}
+                onChange={(event) => {
+                  setPerDose(event.target.value);
+                  setPerDoseTouched(true);
+                }}
               />
             </div>
           </div>
