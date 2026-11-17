@@ -203,34 +203,41 @@ h3 {
 }
 .settings-button:hover { background: var(--gentle); }
 
-/* v1.3.0: the app picker. The name opens a small panel that slides down slowly underneath it. */
+/* v1.4.0: the app picker. The screen fades out, and a small box comes up in the middle. */
 .app-picker { position: relative; min-width: 0; }
-.app-caret { display: inline-block; transition: transform 1.2s ease; }
-.app-caret-open { transform: rotate(180deg); }
-.app-picker-panel {
+.picker { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+.picker.open { pointer-events: auto; }
+.picker-dim {
   position: absolute;
-  top: calc(100% + 0.4rem);
-  left: 0;
-  z-index: 20;
-  width: min(17rem, calc(100vw - 2rem));
-  max-height: 0;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.picker.open .picker-dim { opacity: 1; }
+.picker-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(16rem, calc(100vw - 3rem));
+  transform: translate(-50%, -46%) scale(0.94);
   opacity: 0;
   overflow: hidden;
   background: var(--surface);
-  border-radius: 14px;
-  box-shadow: 0 0 0 1px var(--border), 0 10px 30px rgba(0, 0, 0, 0.12);
-  transition: max-height 1.25s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s ease;
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px var(--border), 0 16px 40px rgba(0, 0, 0, 0.25);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-.app-picker-panel.open { max-height: 20rem; opacity: 1; }
-.app-picker-panel ul { list-style: none; margin: 0; padding: 0; }
-.app-picker-panel li + li { border-top: 1px solid var(--border); }
-.app-picker-row {
+.picker.open .picker-box { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.picker-box ul { list-style: none; margin: 0; padding: 0; }
+.picker-box li + li { border-top: 1px solid var(--border); }
+.picker-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.95rem 1.2rem;
   background: none;
   border: none;
   border-radius: 0;
@@ -240,9 +247,8 @@ h3 {
   font-weight: 600;
   text-align: left;
 }
-.app-picker-row.later { color: var(--muted); font-weight: 500; }
-.app-picker-sub { color: var(--muted); font-weight: 500; font-size: 0.9rem; }
-.app-picker-row.here .app-picker-sub { color: var(--accent); font-weight: 600; }
+.picker-row.later { color: var(--muted); font-weight: 500; }
+.picker-sub { color: var(--muted); font-weight: 500; font-size: 0.9rem; }
 
 .menu-button {
   display: inline-flex;
@@ -2352,7 +2358,7 @@ button:active:not(:disabled),
 .part-medication .history-detail {
   background: var(--gentle);
   border-radius: 14px;
-  padding: 0.8rem 1rem;
+  padding: 0.95rem 1.2rem;
   margin-bottom: 1rem;
 }
 .part-medication .history-detail h3 {

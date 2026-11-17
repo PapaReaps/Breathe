@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { PickerControl } from "./AppPicker";
+import { AppPickerOverlay, type PickerControl } from "./AppPicker";
 import { InvalidInputError } from "../logic/errors";
 import { buildInput, newBillRow, newIncomeRow, withBalance } from "../logic/form";
 import { savingsNow } from "../logic/savings";
@@ -54,16 +54,16 @@ export default function CalculatorScreen() {
     setPanel(null);
   };
 
-  // v1.3.0: the name at the top left slides open to pick a part. It stays open a moment after a pick,
-  // so the new part's colours show, then slides closed. The state lives here, so it survives the switch.
+  // v1.4.0: the name at the top left opens a picker in the middle of a faded screen. After a pick it fades
+  // away, and the new part appears halfway through, under the fade. The state lives here, so it survives the switch.
   const [pickerOpen, setPickerOpen] = useState(false);
   const picker: PickerControl = {
     open: pickerOpen,
     setOpen: setPickerOpen,
     medicationAdded: medicationOn,
     onPick: (next) => {
-      if (next !== part) switchTo(next);
-      window.setTimeout(() => setPickerOpen(false), next !== part ? 500 : 0);
+      setPickerOpen(false);
+      if (next !== part) window.setTimeout(() => switchTo(next), 500);
     },
   };
 
@@ -265,6 +265,7 @@ export default function CalculatorScreen() {
           }}
         />
       ) : null}
+      <AppPickerOverlay part={part} picker={picker} />
       <MenuSheet
         panel={panel}
         onPanel={setPanel}

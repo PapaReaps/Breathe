@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { words } from "../content/words";
 import type { BreathePart } from "../storage/settings";
 
-/** What both home screens need to show the picker. The open state lives above them, so it survives a switch. */
+/** What the name button and the picker share. The open state lives above both home screens, so it survives a switch. */
 export interface PickerControl {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -10,21 +10,44 @@ export interface PickerControl {
   onPick: (part: BreathePart) => void;
 }
 
+/** The name at the top left. Tapping it opens the picker (v1.4.0: a box in the middle of the screen). */
+export function AppPicker({ name, label, picker }: { part: BreathePart; name: string; label: string; picker: PickerControl }) {
+  return (
+    <div className="app-picker">
+      <button
+        type="button"
+        className="app-switch"
+        aria-label={`${name}. ${label}`}
+        aria-haspopup="dialog"
+        aria-expanded={picker.open}
+        onClick={() => picker.setOpen(true)}
+      >
+        <img className="app-logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
+        <span className="app-name">{name}</span>
+        <span className="app-caret" aria-hidden="true">
+          ▾
+        </span>
+      </button>
+    </div>
+  );
+}
+
 /**
- * The name at the top left (v1.3.0). Tap it and a small panel slides down underneath, slowly,
- * to pick Breathe Money or Breathe Medication. Tap outside, press Escape or the phone's Back to close it.
- * People who ask their phone for less motion get it without the slide (see styles.css).
+ * v1.4.0: the picker. The screen fades out behind it, and a small box comes up in the middle with the
+ * other parts of Breathe (the one you're in is left out). Picking one, tapping outside, Escape or the
+ * phone's Back fades it all away again. People who ask their phone for less motion get it without fading.
  */
-export function AppPicker({ part, name, label, picker }: { part: BreathePart; name: string; label: string; picker: PickerControl }) {
+export function AppPickerOverlay({ part, picker }: { part: BreathePart; picker: PickerControl }) {
   const { open, setOpen, medicationAdded, onPick } = picker;
-  const box = useRef<HTMLDivElement>(null);
   const m = words.menu;
+  const first = useRef<HTMLButtonElement>(null);
+  // The list is fixed while it's open (and fading away), so it doesn't change under the person's finger.
+  const [shownFor, setShownFor] = useState<BreathePart>(part);
 
   useEffect(() => {
     if (!open) return;
-    const outside = (event: PointerEvent) => {
-      if (box.current && !box.current.contains(event.target as Node)) setOpen(false);
-    };
+    setShownFor(part);
+    requestAnimationFrame(() => first.current?.focus());
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
@@ -33,57 +56,40 @@ export function AppPicker({ part, name, label, picker }: { part: BreathePart; na
       event.preventDefault();
       setOpen(false);
     };
-    document.addEventListener("pointerdown", outside);
     document.addEventListener("keydown", escape);
     window.addEventListener("breathe:back", back);
     return () => {
-      document.removeEventListener("pointerdown", outside);
       document.removeEventListener("keydown", escape);
       window.removeEventListener("breathe:back", back);
     };
-  }, [open, setOpen]);
+    // Only when it opens: the part changes while it fades away after a pick.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
-  const rows: Array<{ id: BreathePart; name: string; sub: string }> = [
-    { id: "money", name: m.appsMoney, sub: part === "money" ? m.appsHere : m.appsOpenRow },
-    { id: "medication", name: m.appsMedication, sub: part === "medication" ? m.appsHere : medicationAdded ? m.appsOpenRow : m.appsAdd },
+  const parts: Array<{ id: BreathePart; name: string; sub: string }> = [
+    { id: "money", name: m.pickerNames.money, sub: "" },
+    { id: "medication", name: m.pickerNames.medication, sub: medicationAdded ? "" : m.appsAdd },
   ];
+  const rows = parts.filter((row) => row.id !== shownFor);
 
   return (
-    <div className="app-picker" ref={box}>
-      <button
-        type="button"
-        className="app-switch"
-        aria-label={`${name}. ${label}`}
-        aria-expanded={open}
-        aria-controls="app-picker-list"
-        onClick={() => setOpen(!open)}
-      >
-        <img className="app-logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
-        <span className="app-name">{name}</span>
-        <span className={open ? "app-caret app-caret-open" : "app-caret"} aria-hidden="true">
-          ▾
-        </span>
-      </button>
-      <div id="app-picker-list" className={open ? "app-picker-panel open" : "app-picker-panel"} inert={!open}>
+    <div className={open ? "picker open" : "picker"} inert={!open}>
+      <div className="picker-dim" onClick={() => setOpen(false)} />
+      <div className="picker-box" role="dialog" aria-modal="true" aria-label={m.pickerTitle}>
         <ul>
-          {rows.map((row) => (
+          {rows.map((row, i) => (
             <li key={row.id}>
-              <button
-                type="button"
-                className={row.id === part ? "app-picker-row here" : "app-picker-row"}
-                aria-current={row.id === part ? "page" : undefined}
-                onClick={() => onPick(row.id)}
-              >
+              <button type="button" className="picker-row" ref={i === 0 ? first : undefined} onClick={() => onPick(row.id)}>
                 <span>{row.name}</span>
-                <span className="app-picker-sub">{row.sub}</span>
+                {row.sub ? <span className="picker-sub">{row.sub}</span> : null}
               </button>
             </li>
           ))}
-          {m.appsComing.map((later) => (
+          {m.pickerComing.map((later) => (
             <li key={later}>
-              <div className="app-picker-row later">
+              <div className="picker-row later">
                 <span>{later}</span>
-                <span className="app-picker-sub">{m.appsLater}</span>
+                <span className="picker-sub">{m.pickerLater}</span>
               </div>
             </li>
           ))}
