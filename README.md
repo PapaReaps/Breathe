@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-gh-dark.gif">
-    <img src="docs/images/breathe-gh-light.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath: it fills out and rises a little while tiny dots drift up around it like air bubbles, then settles, with a soft shadow beneath it" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-ripple-dark.gif">
+    <img src="docs/images/breathe-ripple-light.gif" alt="The word breathe, in soft rounded teal letters, taking one slow, calm breath: it brightens, rises a little and spreads its letters as three rings in lavender, sky blue and mint ripple gently outwards behind it, then it settles, with a soft shadow beneath" width="100%">
   </picture>
 </p>
 
