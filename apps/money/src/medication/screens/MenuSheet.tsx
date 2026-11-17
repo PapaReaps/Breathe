@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { words } from "../content/words";
-import { timeLabel, type Medicine } from "../logic/medicines";
+import { daysLeft, timeLabel, type MedicationData, type Medicine } from "../logic/medicines";
+import HistoryView from "./HistoryView";
 import Sheet from "./Sheet";
 import { ReminderSettings } from "./ReminderNotes";
 import type { Reminders } from "../storage/useReminders";
@@ -9,18 +10,32 @@ const menu = words.menu;
 
 interface Props {
   medicines: Medicine[];
+  data: MedicationData;
   reminders: Reminders;
   onAdd: () => void;
   onEdit: (id: string) => void;
   onSettings: () => void;
+  onData: () => void;
   onClose: () => void;
 }
 
 /** The menu: your medicines (tap one to change it), add another, and about. */
-export default function MenuSheet({ medicines, reminders, onAdd, onEdit, onSettings, onClose }: Props) {
+export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onSettings, onData, onClose }: Props) {
   const [about, setAbout] = useState(false);
   const [remindersPage, setRemindersPage] = useState(false);
+  const [historyPage, setHistoryPage] = useState(false);
   const rem = words.reminders;
+
+  if (historyPage) {
+    return (
+      <Sheet title={words.history.title} onClose={onClose} key="history">
+        <HistoryView data={data} today={new Date()} />
+        <button type="button" className="link" onClick={() => setHistoryPage(false)}>
+          {menu.back}
+        </button>
+      </Sheet>
+    );
+  }
 
   if (remindersPage) {
     return (
@@ -55,7 +70,10 @@ export default function MenuSheet({ medicines, reminders, onAdd, onEdit, onSetti
           <li key={m.id}>
             <button type="button" className="menu-item" onClick={() => onEdit(m.id)}>
               <span className="menu-title">{m.name}</span>
-              <span className="menu-sub">{menu.timesSummary(m.times.map(timeLabel))}</span>
+              <span className="menu-sub">
+                {menu.timesSummary(m.times.map(timeLabel))}
+                {m.stock ? <span className="menu-sub-line">{words.leftSummary(m.stock.left, daysLeft(m))}</span> : null}
+              </span>
             </button>
           </li>
         ))}
@@ -70,6 +88,12 @@ export default function MenuSheet({ medicines, reminders, onAdd, onEdit, onSetti
       </ul>
       <ul className="menu-list">
         <li>
+          <button type="button" className="menu-item" onClick={() => setHistoryPage(true)}>
+            <span className="menu-title">{words.history.menuRow}</span>
+            <span className="menu-sub">{words.history.menuSub}</span>
+          </button>
+        </li>
+        <li>
           <button type="button" className="menu-item" onClick={() => setRemindersPage(true)}>
             <span className="menu-title">{rem.menuRow}</span>
             <span className="menu-sub">{!reminders.possible ? rem.menuWeb : reminders.settings.on ? rem.menuOn : rem.menuOff}</span>
@@ -79,6 +103,12 @@ export default function MenuSheet({ medicines, reminders, onAdd, onEdit, onSetti
           <button type="button" className="menu-item" onClick={onSettings}>
             <span className="menu-title">{menu.settings}</span>
             <span className="menu-sub">{menu.settingsSub}</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" className="menu-item" onClick={onData}>
+            <span className="menu-title">{menu.data}</span>
+            <span className="menu-sub">{menu.dataSub}</span>
           </button>
         </li>
         <li>

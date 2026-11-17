@@ -2155,3 +2155,150 @@ button:active:not(:disabled),
 .switch-row .hint {
   margin: 0.1rem 0 0;
 }
+
+/* Running low (Stage 3): a soft note, never red. */
+.part-medication .low-note {
+  width: 100%;
+  text-align: left;
+  background: var(--gentle);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  margin: 0 0 1rem;
+}
+.part-medication .low-note h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.25rem;
+}
+.part-medication .low-note p {
+  margin: 0;
+}
+.part-medication .low-note .sheet-buttons {
+  margin-top: 0.75rem;
+  align-items: center;
+}
+.part-medication .count-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+.part-medication .count-row > div {
+  flex: 1 1 9rem;
+}
+.part-medication .count-row input {
+  max-width: 9rem;
+}
+.part-medication .menu-sub-line {
+  display: block;
+  font-size: 0.9rem;
+}
+
+/* History (Stage 4): a month of quiet dots. Never red, no scores. */
+.part-medication .history-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.part-medication .history-nav h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  text-align: center;
+}
+.part-medication .history-nav button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+}
+.part-medication .history-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.3rem;
+  text-align: center;
+}
+.part-medication .history-weekday {
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding-bottom: 0.2rem;
+}
+.part-medication .history-day {
+  min-height: 3rem;
+  padding: 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text);
+  font-weight: 400;
+}
+.part-medication .history-day.is-today span {
+  font-weight: 700;
+}
+.part-medication .history-day.is-picked {
+  border-color: var(--accent);
+}
+.part-medication .history-day:disabled {
+  opacity: 0.45;
+}
+.part-medication .history-day i,
+.part-medication .history-legend i {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.part-medication .mark-all i,
+.part-medication .history-legend .mark-all {
+  background: var(--accent);
+}
+.part-medication .mark-some i,
+.part-medication .history-legend .mark-some {
+  background: color-mix(in srgb, var(--accent) 45%, var(--surface));
+}
+.part-medication .mark-none i,
+.part-medication .history-legend .mark-none {
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, var(--surface));
+}
+.part-medication .history-legend {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.2rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.part-medication .history-detail {
+  background: var(--gentle);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+.part-medication .history-detail h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+}
+.part-medication .history-detail ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.part-medication .history-detail li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+.part-medication .detail-taken {
+  color: var(--accent);
+  font-weight: 600;
+}
+.part-medication .detail-not {
+  color: var(--muted);
+}

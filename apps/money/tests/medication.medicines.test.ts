@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   EMPTY,
+  daysLeft,
+  markOrdered,
+  runningLow,
   checkDraft,
   dayKey,
   dosesFor,
@@ -17,9 +20,9 @@ import {
   type Medicine,
 } from "../src/medication/logic/medicines";
 
-const blue: Medicine = { id: "med-blue01", name: "Blue tablet", amount: "1 tablet", times: ["08:00"] };
-const vitd: Medicine = { id: "med-vitd01", name: "Vitamin D", amount: "1 capsule", times: ["08:00"] };
-const eve: Medicine = { id: "med-eve001", name: "Evening tablet", amount: "", times: ["20:00"] };
+const blue: Medicine = { id: "med-blue01", name: "Blue tablet", amount: "1 tablet", times: ["08:00"], stock: null, added: "2026-11-01" };
+const vitd: Medicine = { id: "med-vitd01", name: "Vitamin D", amount: "1 capsule", times: ["08:00"], stock: null, added: "2026-11-01" };
+const eve: Medicine = { id: "med-eve001", name: "Evening tablet", amount: "", times: ["20:00"], stock: null, added: "2026-11-01" };
 const data: MedicationData = { version: 1, medicines: [blue, vitd, eve], taken: {} };
 const monday = new Date(2026, 10, 16, 9, 30);
 
@@ -40,7 +43,7 @@ describe("times", () => {
 
 describe("today's list", () => {
   it("puts doses in time order, grouped into morning, afternoon and evening", () => {
-    const withLunch = putMedicine(data, { id: "med-lunch1", name: "Lunch", amount: "", times: ["13:00"] });
+    const withLunch = putMedicine(data, { id: "med-lunch1", name: "Lunch", amount: "", times: ["13:00"], stock: null, added: "2026-11-01" });
     const doses = dosesFor(withLunch, monday);
     expect(doses.map((d) => d.medicine.name)).toEqual(["Blue tablet", "Vitamin D", "Lunch", "Evening tablet"]);
     expect(groupByPart(doses).map((g) => [g.part, g.doses.length])).toEqual([
@@ -92,14 +95,14 @@ describe("the one calm line at the top", () => {
 
 describe("adding a medicine", () => {
   it("tidies the words and sorts the times", () => {
-    const result = checkDraft({ name: "  Blue   tablet ", amount: " 1 tablet ", times: ["20:00", "08:00", "", "08:00"] }, "med-x");
-    expect(result).toEqual({ ok: true, medicine: { id: "med-x", name: "Blue tablet", amount: "1 tablet", times: ["08:00", "20:00"] } });
+    const result = checkDraft({ name: "  Blue   tablet ", amount: " 1 tablet ", times: ["20:00", "08:00", "", "08:00"], left: "", perDose: "" }, "med-x", { added: "2026-11-16", stock: null });
+    expect(result).toEqual({ ok: true, medicine: { id: "med-x", name: "Blue tablet", amount: "1 tablet", times: ["08:00", "20:00"], stock: null, added: "2026-11-16" } });
   });
 
   it("asks gently for what's missing", () => {
-    expect(checkDraft({ name: " ", amount: "", times: [""] }, "med-x")).toEqual({ ok: false, problems: ["name-missing", "time-missing"] });
-    expect(checkDraft({ name: "A", amount: "", times: ["25:00"] }, "med-x")).toEqual({ ok: false, problems: ["time-odd"] });
-    expect(checkDraft({ name: "x".repeat(61), amount: "y".repeat(41), times: ["08:00"] }, "med-x")).toEqual({
+    expect(checkDraft({ name: " ", amount: "", times: [""], left: "", perDose: "" }, "med-x", { added: "2026-11-16", stock: null })).toEqual({ ok: false, problems: ["name-missing", "time-missing"] });
+    expect(checkDraft({ name: "A", amount: "", times: ["25:00"], left: "", perDose: "" }, "med-x", { added: "2026-11-16", stock: null })).toEqual({ ok: false, problems: ["time-odd"] });
+    expect(checkDraft({ name: "x".repeat(61), amount: "y".repeat(41), times: ["08:00"], left: "", perDose: "" }, "med-x", { added: "2026-11-16", stock: null })).toEqual({
       ok: false,
       problems: ["name-long", "amount-long"],
     });
@@ -142,5 +145,62 @@ describe("reading saved data", () => {
     });
     expect(odd.medicines.map((m) => m.id)).toEqual(["med-blue01"]);
     expect(odd.taken).toEqual({ "2026-11-16": { "med-blue01@08:00": "2026-11-16T08:01:00.000Z" } });
+  });
+});
+
+describe("running low (Stage 3)", () => {
+  const counted = { ...blue, stock: { left: 10, perDose: 1, ordered: false } };
+  const withCount: MedicationData = { version: 1, medicines: [counted, eve], taken: {} };
+
+  it("counts down with each Taken, and back up if it's unticked", () => {
+    const ticked = setTaken(withCount, monday, "med-blue01@08:00", true, monday);
+    expect(ticked.medicines[0]!.stock!.left).toBe(9);
+    expect(setTaken(ticked, monday, "med-blue01@08:00", true, monday)).toBe(ticked);
+    const unticked = setTaken(ticked, monday, "med-blue01@08:00", false, monday);
+    expect(unticked.medicines[0]!.stock!.left).toBe(10);
+  });
+
+  it("never goes below nothing", () => {
+    const one = { ...withCount, medicines: [{ ...counted, stock: { left: 0, perDose: 2, ordered: false } }] };
+    expect(setTaken(one, monday, "med-blue01@08:00", true, monday).medicines[0]!.stock!.left).toBe(0);
+  });
+
+  it("works out days left from the times and how many each time", () => {
+    expect(daysLeft({ ...counted, times: ["08:00", "20:00"], stock: { left: 30, perDose: 2, ordered: false } })).toBe(7);
+    expect(daysLeft(eve)).toBeNull();
+  });
+
+  it("gives a gentle note at about a week left, until it's ordered", () => {
+    expect(runningLow(withCount).map((m) => m.id)).toEqual([]);
+    const low = { ...withCount, medicines: [{ ...counted, stock: { left: 6, perDose: 1, ordered: false } }] };
+    expect(runningLow(low).map((m) => m.id)).toEqual(["med-blue01"]);
+    expect(runningLow(markOrdered(low, "med-blue01"))).toEqual([]);
+  });
+
+  it("a higher count means a new supply, so the note can come back next time", () => {
+    const ordered = { ...counted, stock: { left: 6, perDose: 1, ordered: true } };
+    const fewer = checkDraft({ name: "Blue tablet", amount: "", times: ["08:00"], left: "5", perDose: "1" }, ordered.id, ordered);
+    expect(fewer.ok && fewer.medicine.stock).toEqual({ left: 5, perDose: 1, ordered: true });
+    const more = checkDraft({ name: "Blue tablet", amount: "", times: ["08:00"], left: "28", perDose: "1" }, ordered.id, ordered);
+    expect(more.ok && more.medicine.stock).toEqual({ left: 28, perDose: 1, ordered: false });
+  });
+
+  it("asks gently about odd counts", () => {
+    const base = { name: "A", amount: "", times: ["08:00"] };
+    expect(checkDraft({ ...base, left: "lots", perDose: "" }, "med-x", { added: "2026-11-16", stock: null })).toEqual({ ok: false, problems: ["left-odd"] });
+    expect(checkDraft({ ...base, left: "20", perDose: "0" }, "med-x", { added: "2026-11-16", stock: null })).toEqual({ ok: false, problems: ["per-dose-odd"] });
+    expect(checkDraft({ ...base, left: "", perDose: "x" }, "med-x", { added: "2026-11-16", stock: null })).toMatchObject({ ok: true, medicine: { stock: null } });
+  });
+
+  it("keeps old ticks for about a year, then tidies them away", () => {
+    const old = { ...withCount, taken: { "2025-01-01": { "med-blue01@08:00": "x" }, "2026-11-01": { "med-blue01@08:00": "y" } } };
+    const next = setTaken(old, monday, "med-eve001@20:00", true, monday);
+    expect(Object.keys(next.taken).sort()).toEqual(["2026-11-01", "2026-11-16"]);
+  });
+
+  it("reads saved counts back, including 'ordered'", () => {
+    const saved = { ...withCount, medicines: [{ ...counted, stock: { left: 6, perDose: 1, ordered: true } }] };
+    expect(readSaved(JSON.parse(JSON.stringify(saved))).medicines[0]!.stock).toEqual({ left: 6, perDose: 1, ordered: true });
+    expect(readSaved({ medicines: [{ id: "med-a", name: "A", times: ["08:00"], stock: { left: -3 } }] }, "2026-11-16").medicines[0]).toMatchObject({ stock: null, added: "2026-11-16" });
   });
 });

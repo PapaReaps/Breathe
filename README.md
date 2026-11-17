@@ -165,6 +165,18 @@ Share, Leave a tip and Report a problem are in **Menu → Settings → Help and 
 - An optional **privacy screen**: a PIN when the app opens, and again after a minute away.
 - **Backup files protected with a passphrase**, encrypted with your browser's own built-in tools.
 
+## New: Breathe Medication
+
+Breathe Medication now lives inside Breathe, next to Breathe Money. Tap **Breathe Money ▾** at the top, then **Add** next to Breathe Medication. Nothing changes in Breathe Money unless you add it.
+
+- **A calm list for today**, grouped into morning, afternoon and evening. Tap **Taken** when it's done. Nothing is ever red or "missed": it just says **Not taken yet**.
+- **Gentle reminders** in the Android app, even when Breathe is closed: one note per time (a few medicines at 8am share one), with **Taken** and **Later** buttons, and one nudge 30 minutes later if it isn't ticked. Then it stays quiet. Reminders never show medicine names, so your lock screen stays private. Off until you say yes.
+- **Running low:** count what's left, and get a soft note about a week before it runs out, with **I've ordered it**.
+- **History:** a month of quiet dots: all taken, some, or none logged. No streaks, no scores.
+- Your medicines stay on your device like your numbers, and **backup files include them**.
+
+> Breathe Medication is a reminder tool, **not** medical advice. It never checks doses. Questions about your medicines? Check with your pharmacist or GP.
+
 ## Your numbers stay yours
 
 - **No accounts, no sign-up, no tracking, no adverts.** There is no Breathe server. Nothing you type is sent anywhere.
@@ -187,14 +199,14 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 
 ## Status
 
-**Version 1.0: ready for anyone to rely on.** Breathe Money was built one small stage at a time, tested on real phones by family and friends (including with TalkBack, the Android screen reader), and checked for safety. It will keep getting small, calm improvements. What's next is in the [Roadmap](docs/ROADMAP.md), and each release has short notes in [`docs/releases/`](docs/releases/).
+**Version 1.1: Breathe Medication joins Breathe Money.** Version 1.0 was **ready for anyone to rely on**: Breathe Money was built one small stage at a time, tested on real phones by family and friends (including with TalkBack, the Android screen reader), and checked for safety. It will keep getting small, calm improvements. What's next is in the [Roadmap](docs/ROADMAP.md), and each release has short notes in [`docs/releases/`](docs/releases/).
 
 ## The Breathe family
 
 | App | What it will help with | Status |
 |---|---|---|
 | **Breathe Money** | Knowing how much you have to spend until your money comes in | **Version 1.0** |
-| Breathe Medication | Medication reminders and tracking | Later |
+| **Breathe Medication** | Calm medicine reminders, a daily list, running-low notes and a simple history | **New in 1.1**, inside Breathe |
 | Breathe Travel | Making independent travel easier | Later |
 | Breathe Reminders | Routines and reminders | Later |
 

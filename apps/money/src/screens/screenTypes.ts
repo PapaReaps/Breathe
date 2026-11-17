@@ -1,3 +1,4 @@
+import type { MedicationData } from "../medication/logic/medicines";
 import type { BillRow, FormState, IncomeRow } from "../logic/form";
 import type { CalculatorResult, Warning } from "../logic/types";
 import type { Settings } from "../storage/settings";
@@ -63,8 +64,12 @@ export interface DataApi {
   downloadBackup: () => Promise<void>;
   /** Encrypts with the passphrase, then hands the file to the browser. Rejects if encryption isn't possible here. */
   downloadProtectedBackup: (passphrase: string) => Promise<void>;
-  replaceAll: (form: FormState) => void;
+  /** Puts a backup back. Medicines come back too when the backup has them (v1.1.0). */
+  replaceAll: (form: FormState, medication?: MedicationData | null) => void;
+  /** Clears the money numbers, and Breathe Medication's list and ticks too. */
   clearAll: () => Promise<boolean>;
+  /** Breathe Medication is in use, so backups include the medicines. */
+  hasMedication: boolean;
 }
 
 /** What the Settings page can do. */

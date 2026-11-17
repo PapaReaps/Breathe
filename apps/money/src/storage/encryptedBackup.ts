@@ -1,3 +1,4 @@
+import type { MedicationData } from "../medication/logic/medicines";
 import type { FormState } from "../logic/form";
 import { fromBase64, toBase64 } from "./bytes";
 import { BACKUP_APP, makeBackupText, parseBackupText } from "./savedData";
@@ -92,13 +93,14 @@ export async function makeEncryptedBackupText(
   today: string,
   passphrase: string,
   iterations: number = PBKDF2_ITERATIONS,
+  medication: MedicationData | null = null,
 ): Promise<string> {
   const salt = crypto.getRandomValues(new Uint8Array(SALT_BYTES));
   const iv = crypto.getRandomValues(new Uint8Array(IV_BYTES));
   const saltText = toBase64(salt);
   const ivText = toBase64(iv);
   const key = await deriveKey(passphrase, salt, iterations, "encrypt");
-  const plain = new TextEncoder().encode(makeBackupText(form, today));
+  const plain = new TextEncoder().encode(makeBackupText(form, today, medication));
   const sealed = new Uint8Array(
     await crypto.subtle.encrypt({ name: "AES-GCM", iv, additionalData: headerBytes(iterations, saltText, ivText) }, key, plain),
   );

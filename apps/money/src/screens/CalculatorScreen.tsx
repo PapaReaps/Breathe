@@ -118,13 +118,26 @@ export default function CalculatorScreen() {
   const data: DataApi = {
     saveState: saved.saveState,
     persisted: saved.persisted,
-    downloadBackup: () => downloadTextFile(backupFileName(today), makeBackupText(form, today)),
+    downloadBackup: () => downloadTextFile(backupFileName(today), makeBackupText(form, today, medicationOn ? medications.data : null)),
     downloadProtectedBackup: async (passphrase) => {
-      const content = await makeEncryptedBackupText(form, today, passphrase);
+      const content = await makeEncryptedBackupText(form, today, passphrase, undefined, medicationOn ? medications.data : null);
       await downloadTextFile(encryptedBackupFileName(today), content);
     },
-    replaceAll: saved.replaceAll,
-    clearAll: saved.clearAll,
+    replaceAll: (next, medication) => {
+      saved.replaceAll(next);
+      // A backup with medicines brings Breathe Medication back too.
+      if (medication) {
+        if (!appearance.settings.medicationAdded) appearance.change({ medicationAdded: true });
+        medications.update(() => medication);
+      }
+    },
+    // Clearing (or a forgotten PIN) removes the medicines too, so nothing private is left behind.
+    clearAll: async () => {
+      const money = await saved.clearAll();
+      const meds = await medications.clearAll();
+      return money && meds;
+    },
+    hasMedication: medicationOn,
   };
 
   const updates = useUpdates(appearance.settings.checkForUpdates);
@@ -176,7 +189,7 @@ export default function CalculatorScreen() {
       <LockScreen
         lock={lock}
         onForgot={async () => {
-          const cleared = await saved.clearAll();
+          const cleared = await data.clearAll();
           if (!cleared) return false;
           return lock.turnOff();
         }}
@@ -200,6 +213,7 @@ export default function CalculatorScreen() {
           reminders={reminders}
           onSwitch={() => setPanel("apps")}
           onSettings={() => setPanel("settings")}
+          onData={() => setPanel("data")}
         />
       ) : (
       <HomeView

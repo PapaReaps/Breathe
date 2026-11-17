@@ -13,9 +13,9 @@ import {
 const data: MedicationData = {
   version: 1,
   medicines: [
-    { id: "med-blue01", name: "Blue tablet", amount: "1 tablet", times: ["08:00"] },
-    { id: "med-vitd01", name: "Vitamin D", amount: "", times: ["08:00"] },
-    { id: "med-eve001", name: "Evening tablet", amount: "", times: ["20:00"] },
+    { id: "med-blue01", name: "Blue tablet", amount: "1 tablet", times: ["08:00"], stock: null, added: "2026-11-01" },
+    { id: "med-vitd01", name: "Vitamin D", amount: "", times: ["08:00"], stock: null, added: "2026-11-01" },
+    { id: "med-eve001", name: "Evening tablet", amount: "", times: ["20:00"], stock: null, added: "2026-11-01" },
   ],
   taken: {},
 };

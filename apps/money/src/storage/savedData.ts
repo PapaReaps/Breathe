@@ -1,3 +1,4 @@
+import { readSaved, type MedicationData } from "../medication/logic/medicines";
 import { isHolidayRegion } from "../data/bankHolidays";
 import type { HolidayRegion } from "../data/bankHolidays";
 import { isRepeat } from "../logic/repeat";
@@ -212,7 +213,7 @@ export function fromSaved(raw: unknown): FormState | null {
 export type BackupProblem = "too-big" | "not-json" | "not-ours" | "newer" | "unreadable";
 
 export type BackupParse =
-  | { ok: true; form: FormState; savedOn: string | null }
+  | { ok: true; form: FormState; savedOn: string | null; medication: MedicationData | null }
   | { ok: false; reason: BackupProblem };
 
 export function backupFileName(today: string): string {
@@ -220,7 +221,7 @@ export function backupFileName(today: string): string {
 }
 
 /** The text of a backup file. It is NOT encrypted, and says so inside the file too. */
-export function makeBackupText(form: FormState, today: string): string {
+export function makeBackupText(form: FormState, today: string, medication: MedicationData | null = null): string {
   return JSON.stringify(
     {
       app: BACKUP_APP,
@@ -228,6 +229,8 @@ export function makeBackupText(form: FormState, today: string): string {
       encrypted: false,
       savedOn: today,
       form: formRecord(form),
+      // v1.1.0: Breathe Medication's list and ticks, when it's been added. Older versions ignore this.
+      ...(medication ? { medication } : {}),
     },
     null,
     2,
@@ -254,5 +257,6 @@ export function parseBackupText(content: string): BackupParse {
   if (form === null) return { ok: false, reason: "unreadable" };
 
   const savedOn = typeof raw.savedOn === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw.savedOn) ? raw.savedOn : null;
-  return { ok: true, form, savedOn };
+  const medication = isRecord(raw.medication) ? readSaved(raw.medication) : null;
+  return { ok: true, form, savedOn, medication };
 }

@@ -10,6 +10,7 @@ import { parseBackupText } from "../storage/savedData";
 import type { BackupProblem } from "../storage/savedData";
 import { isNativeApp } from "../platform";
 import type { DataApi } from "./screenTypes";
+import type { MedicationData } from "../medication/logic/medicines";
 
 const text = words.data;
 const MAX_FILE_BYTES = 2_000_000;
@@ -18,7 +19,7 @@ type Restore =
   | { step: "none" }
   | { step: "problem"; reason: BackupProblem }
   | { step: "passphrase"; content: string }
-  | { step: "preview"; form: FormState; savedOn: string | null }
+  | { step: "preview"; form: FormState; savedOn: string | null; medication: MedicationData | null }
   | { step: "done" };
 
 interface DataViewProps {
@@ -63,7 +64,7 @@ export function DataView({ data, hasNumbers, onResetSettings }: DataViewProps) {
       setRestore({ step: "problem", reason: parsed.reason });
       return;
     }
-    setRestore({ step: "preview", form: parsed.form, savedOn: parsed.savedOn });
+    setRestore({ step: "preview", form: parsed.form, savedOn: parsed.savedOn, medication: parsed.medication });
   }
 
   const stateLine =
@@ -138,6 +139,7 @@ export function DataView({ data, hasNumbers, onResetSettings }: DataViewProps) {
       <div className="gentle">
         <h3>{text.limitsTitle}</h3>
         <p>{text.intro}</p>
+        {data.hasMedication ? <p>{text.medicationLine}</p> : null}
         <ul className="plain-list">
           {text.limits.map((line) => (
             <li key={line}>{line}</li>
@@ -148,6 +150,7 @@ export function DataView({ data, hasNumbers, onResetSettings }: DataViewProps) {
       <section aria-labelledby="clear-title">
         <h3 id="clear-title">{text.clearTitle}</h3>
         <p>{text.clearIntro}</p>
+        {data.hasMedication ? <p>{text.medicationClear}</p> : null}
         {confirmingClear ? (
           <div className="gentle" role="group" aria-label={text.clearSure}>
             <p>{text.clearSure}</p>
@@ -315,7 +318,7 @@ function UnlockBackup({ content, onDone }: UnlockBackupProps) {
     const opened = await openEncryptedBackupText(content, passphrase);
     if (opened.ok) {
       setPassphrase("");
-      onDone({ step: "preview", form: opened.form, savedOn: opened.savedOn });
+      onDone({ step: "preview", form: opened.form, savedOn: opened.savedOn, medication: opened.medication });
       return;
     }
     if (opened.reason === "wrong-passphrase") setState("wrong");
@@ -381,12 +384,13 @@ function RestorePreview({ restore, data, onDone }: RestorePreviewProps) {
         <li>{words.menu.names.essentials}: {summary.essentials}</li>
         <li>{words.menu.names.pot}: {summary.pot}</li>
         <li>{words.menu.names.holidays}: {summary.holidays}</li>
+        {restore.medication ? <li>{text.restoreMedicines(restore.medication.medicines.length)}</li> : null}
       </ul>
       <div className="buttons">
         <button
           type="button"
           onClick={() => {
-            data.replaceAll(restore.form);
+            data.replaceAll(restore.form, restore.medication);
             onDone({ step: "done" });
           }}
         >

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { words } from "../content/words";
-import { checkDraft, LIMITS, type DraftProblem, type Medicine } from "../logic/medicines";
+import { checkDraft, dayKey, LIMITS, type DraftProblem, type Medicine } from "../logic/medicines";
 import Sheet from "./Sheet";
 
 const form = words.form;
@@ -19,6 +19,8 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
   const [name, setName] = useState(medicine?.name ?? "");
   const [amount, setAmount] = useState(medicine?.amount ?? "");
   const [times, setTimes] = useState<string[]>(medicine?.times.length ? [...medicine.times] : ["08:00"]);
+  const [left, setLeft] = useState(medicine?.stock ? String(medicine.stock.left) : "");
+  const [perDose, setPerDose] = useState(medicine?.stock ? String(medicine.stock.perDose) : "1");
   const [problems, setProblems] = useState<DraftProblem[]>([]);
   const [askRemove, setAskRemove] = useState(false);
 
@@ -27,12 +29,21 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
   const timeProblem = has("time-missing") ? "time-missing" : has("time-odd") ? "time-odd" : has("too-many-times") ? "too-many-times" : null;
 
   function save() {
-    const result = checkDraft({ name, amount, times }, medicine?.id ?? newId());
+    const kept = medicine ? { added: medicine.added, stock: medicine.stock } : { added: dayKey(new Date()), stock: null };
+    const result = checkDraft({ name, amount, times, left, perDose }, medicine?.id ?? newId(), kept);
     if (!result.ok) {
       setProblems(result.problems);
       // Take the person straight to the first thing that needs a look.
       const first = result.problems[0]!;
-      const id = first.startsWith("name") ? "med-name" : first === "amount-long" ? "med-amount" : "med-time-0";
+      const id = first.startsWith("name")
+        ? "med-name"
+        : first === "amount-long"
+          ? "med-amount"
+          : first === "left-odd"
+            ? "med-left"
+            : first === "per-dose-odd"
+              ? "med-per-dose"
+              : "med-time-0";
       requestAnimationFrame(() => document.getElementById(id)?.focus());
       return;
     }
@@ -114,6 +125,37 @@ export default function MedicineSheet({ medicine, newId, onSave, onRemove, onClo
               {form.addTime}
             </button>
           ) : null}
+        </fieldset>
+
+        <fieldset className="field" style={{ border: "none", padding: 0, margin: "0 0 1rem" }}>
+          <legend style={{ fontWeight: 600, padding: 0 }}>{form.countTitle}</legend>
+          <p className="hint">{form.countHint}</p>
+          <div className="count-row">
+            <div>
+              <label htmlFor="med-left">{form.left}</label>
+              <input
+                id="med-left"
+                inputMode="numeric"
+                value={left}
+                autoComplete="off"
+                aria-invalid={has("left-odd") ? true : undefined}
+                onChange={(event) => setLeft(event.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="med-per-dose">{form.perDose}</label>
+              <input
+                id="med-per-dose"
+                inputMode="numeric"
+                value={perDose}
+                autoComplete="off"
+                aria-invalid={has("per-dose-odd") ? true : undefined}
+                onChange={(event) => setPerDose(event.target.value)}
+              />
+            </div>
+          </div>
+          {has("left-odd") ? <p className="problem">{form.problems["left-odd"]}</p> : null}
+          {has("per-dose-odd") ? <p className="problem">{form.problems["per-dose-odd"]}</p> : null}
         </fieldset>
 
         <div className="sheet-buttons">

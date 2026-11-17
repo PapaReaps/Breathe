@@ -93,7 +93,7 @@ describe("repeating items are saved and read back", () => {
   it("how often comes back exactly, including answers about one date of a repeating item", () => {
     const form = repeating();
     expect(fromSaved(toSaved(form))).toEqual(migrateMainMoney(form));
-    expect(parseBackupText(makeBackupText(form, "2026-11-04"))).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04" });
+    expect(parseBackupText(makeBackupText(form, "2026-11-04"))).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04", medication: null });
   });
 
   it("numbers saved before repeats existed still open, as one date only", () => {
@@ -147,7 +147,7 @@ describe("backup files", () => {
   it("a backup restores exactly what went in", () => {
     const form = sample();
     const parsed = parseBackupText(makeBackupText(form, "2026-11-04"));
-    expect(parsed).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04" });
+    expect(parsed).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04", medication: null });
   });
 
   it("says inside the file that it is not encrypted", () => {
@@ -215,5 +215,26 @@ describe("backup files", () => {
     expect(readForm(form)).toEqual(migrateMainMoney(form));
     expect(readForm({})).toBeNull();
     expect(readForm(undefined)).toBeNull();
+  });
+});
+
+describe("backups with Breathe Medication (v1.1.0)", () => {
+  it("carry the medicines and ticks, and bring them back exactly", async () => {
+    const { emptyForm } = await import("../src/logic/form");
+    const medication = {
+      version: 1 as const,
+      medicines: [{ id: "med-blue01", name: "Blue tablet", amount: "1 tablet", times: ["08:00"], stock: { left: 20, perDose: 1, ordered: false }, added: "2026-11-01" }],
+      taken: { "2026-11-16": { "med-blue01@08:00": "2026-11-16T08:02:00.000Z" } },
+    };
+    const parsed = parseBackupText(makeBackupText(emptyForm(), "2026-11-17", medication));
+    expect(parsed.ok && parsed.medication).toEqual(medication);
+  });
+
+  it("a Money-only backup has no medicines in it", async () => {
+    const { emptyForm } = await import("../src/logic/form");
+    const text = makeBackupText(emptyForm(), "2026-11-17");
+    expect(text).not.toContain("medication");
+    const parsed = parseBackupText(text);
+    expect(parsed.ok && parsed.medication).toBeNull();
   });
 });

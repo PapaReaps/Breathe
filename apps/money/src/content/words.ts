@@ -124,6 +124,7 @@ export const words = {
     appsMedication: "Breathe Medication",
     appsComing: ["Breathe Travel", "Breathe Reminders"],
     appsOpen: "Switch Breathe app",
+    backToMedication: "Back to Medication",
     aboutTitle: "About Breathe Money",
     shareTitle: "Share Breathe Money",
     reportTitle: "Report a problem",
@@ -192,6 +193,9 @@ export const words = {
     restorePreview: (savedOn: string | null) =>
       savedOn === null ? "This backup contains:" : `This backup was saved on ${savedOn} and contains:`,
     restoreReplace: "Replace my numbers",
+    restoreMedicines: (count: number) => (count === 1 ? "Breathe Medication: 1 medicine" : `Breathe Medication: ${count} medicines`),
+    medicationLine: "Breathe Medication is here too. Its medicines, ticks and counts are kept on this device the same way, and backup files include them.",
+    medicationClear: "This also removes your medicines and ticks from Breathe Medication.",
     restoreKeep: "Keep what I have",
     restoredDone: "Done. Your numbers have been replaced with the ones in the backup.",
     restoreProblem: {

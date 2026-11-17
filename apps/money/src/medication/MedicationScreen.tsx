@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { todayLabel, words } from "./content/words";
 import {
+  daysLeft,
   dosesFor,
+  markOrdered,
+  runningLow,
   groupByPart,
   newId,
   nextLine,
@@ -41,13 +44,15 @@ interface Props {
   onSwitch: () => void;
   /** Opens Breathe's shared Settings (look, text size, privacy screen). */
   onSettings: () => void;
+  /** Opens Breathe's Your data and backups (which include the medicines). */
+  onData: () => void;
 }
 
 /**
  * Breathe Medication, inside Breathe: today's calm list, in its own sage colour.
  * Breathe's privacy screen, updates and switcher stay in charge around it.
  */
-export default function MedicationScreen({ medications, reminders, onSwitch, onSettings }: Props) {
+export default function MedicationScreen({ medications, reminders, onSwitch, onSettings, onData }: Props) {
   const { data, loading, notSaved, readProblem, update } = medications;
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
@@ -106,6 +111,20 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
                     : ""}
             </p>
             <ReminderNotes reminders={reminders} hasMedicines={data.medicines.length > 0} />
+            {runningLow(data).map((m) => (
+              <section className="low-note" key={m.id} aria-labelledby={`low-${m.id}`}>
+                <h2 id={`low-${m.id}`}>{words.low.title(m.name)}</h2>
+                <p>{words.low.text(daysLeft(m) ?? 0)}</p>
+                <div className="sheet-buttons">
+                  <button type="button" onClick={() => update((d) => markOrdered(d, m.id))}>
+                    {words.low.ordered}
+                  </button>
+                  <button type="button" className="link" onClick={() => setPanel({ kind: "medicine", id: m.id })}>
+                    {words.low.update}
+                  </button>
+                </div>
+              </section>
+            ))}
             <div className="dose-groups">
               {groupByPart(doses).map((group) => (
                 <section className="dose-group" key={group.part} aria-labelledby={`part-${group.part}`}>
@@ -147,12 +166,17 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
       {panel?.kind === "menu" ? (
         <MenuSheet
           medicines={data.medicines}
+          data={data}
           reminders={reminders}
           onAdd={() => setPanel({ kind: "medicine", id: null })}
           onEdit={(id) => setPanel({ kind: "medicine", id })}
           onSettings={() => {
             setPanel(null);
             onSettings();
+          }}
+          onData={() => {
+            setPanel(null);
+            onData();
           }}
           onClose={() => setPanel(null)}
         />

@@ -203,7 +203,7 @@ describe("saving the region", () => {
   it("is saved and comes back, in saves and in backup files", () => {
     const form = filled({ bankHolidayRegion: "northern-ireland", bankHolidays: "2026-11-12" });
     expect(fromSaved(toSaved(form))).toEqual(migrateMainMoney(form));
-    expect(parseBackupText(makeBackupText(form, TODAY))).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: TODAY });
+    expect(parseBackupText(makeBackupText(form, TODAY))).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: TODAY, medication: null });
   });
 
   it("an older save without a region opens as 'my own'", () => {

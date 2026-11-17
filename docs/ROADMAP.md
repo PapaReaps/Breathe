@@ -31,9 +31,13 @@ Version 1.0 means "ready for anyone to rely on". Everything on the list was done
 
 Version 1.0.0 came with a short "Breathe Money is ready" note, shown once to everyone already using it.
 
-## After 1.0
+## Version 1.1 (November 2026): done
 
-Small, calm improvements, each shown as a preview first: optional phone reminders, a savings goal, sending your numbers to another device, and a listing on Google Play.
+Breathe Medication joined Breathe as one app (decided 17 November 2026), rather than a separate app: a calm daily list with a Taken tick, gentle Android reminders with one nudge, running-low notes, a history calendar, and shared settings, privacy screen and backups. Breathe opens on the part you used last, and Medication only appears once you add it.
+
+## After 1.1
+
+Small, calm improvements, each shown as a preview first: Breathe Money phone reminders (sharing Medication's reminder parts), a savings goal, sending your numbers to another device, and a listing on Google Play.
 
 ## Running alongside the stages: branding
 
@@ -45,4 +49,4 @@ At the end of each stage we ask: did anything in this stage move away from "alwa
 
 ## Later
 
-Breathe Medication, Breathe Travel, Breathe Reminders, and an optional Breathe Home dashboard. Each is a separate project, started only after Breathe Money is in good shape.
+Breathe Travel, Breathe Reminders, and an optional Breathe Home dashboard, each joining Breathe the same way Medication did.

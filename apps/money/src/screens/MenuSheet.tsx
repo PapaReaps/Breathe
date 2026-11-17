@@ -90,6 +90,16 @@ const BACK_LABEL: Partial<Record<PanelId, string>> = {
   help: words.menu.backToHelp,
   settings: words.menu.backToOptions,
 };
+/**
+ * From Breathe Medication (v1.1.0), Settings and Your data open on their own, so Back from them
+ * goes straight back to Medication, and Back from an option page goes to Settings.
+ */
+function medicationParentOf(panel: PanelId): PanelId | null {
+  if (panel.startsWith("opt-")) return "settings";
+  if (panel === "settings" || panel === "data") return null;
+  return parentOf(panel);
+}
+
 const groupOf = (panel: PanelId): OptionGroup | null =>
   panel.startsWith("opt-") ? (panel.slice(4) as OptionGroup) : null;
 
@@ -146,13 +156,14 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "menu" || panel === "apps" ? (
               <span />
             ) : (
-              <button
-                type="button"
-                className="secondary"
-                onClick={() => onPanel(parentOf(panel))}
-              >
-                {`← ${BACK_LABEL[parentOf(panel)] ?? words.menu.back}`}
-              </button>
+              (() => {
+                const back = part === "medication" ? medicationParentOf(panel) : parentOf(panel);
+                return (
+                  <button type="button" className="secondary" onClick={() => onPanel(back)}>
+                    {back === null ? `← ${words.menu.backToMedication}` : `← ${BACK_LABEL[back] ?? words.menu.back}`}
+                  </button>
+                );
+              })()
             )}
             <button type="button" onClick={() => onPanel(null)}>
               {words.menu.done}

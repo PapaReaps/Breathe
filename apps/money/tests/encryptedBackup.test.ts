@@ -33,7 +33,7 @@ describe("passphrase-protected backups", () => {
     const form = sample();
     const content = await makeEncryptedBackupText(form, "2026-11-04", PASSPHRASE, FAST);
     const opened = await openEncryptedBackupText(content, PASSPHRASE);
-    expect(opened).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04" });
+    expect(opened).toEqual({ ok: true, form: migrateMainMoney(form), savedOn: "2026-11-04", medication: null });
   });
 
   it("uses the full recommended strength by default", async () => {

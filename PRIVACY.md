@@ -13,6 +13,8 @@
 - The optional **privacy screen** (a PIN) stops someone glancing at your numbers. It is not encryption: the numbers on the device are still not encrypted. Only a one-way fingerprint of the PIN is kept, never the PIN itself.
 - "Clear my numbers" in the app removes them from the device.
 - **Optional update check (Android app only, off unless you switch it on):** the app asks GitHub whether a newer version is out. Only that question is sent: never your numbers, and no account or cookies. GitHub can see that a phone asked (its internet address), as with any website. If you then tap **Download and install**, the new app file is downloaded from Breathe Money's own GitHub release page in the same way. The app checks the file is Breathe Money, and Android's own installer asks you before anything changes.
+- **Breathe Medication (inside Breathe, from v1.1, only once you add it):** your medicines, the times you take them, your ticks and counts are kept on your device in the same way as your numbers, and are never sent anywhere. Backup files include them, and clearing your data (or a forgotten PIN) removes them too. Ticks older than about a year are tidied away by themselves.
+- **Medicine reminders (Android app only, off until you say yes):** Breathe sets reminders on the phone itself, using Android's own notifications. There is no server and nothing is sent. Android asks your permission first. Reminders say only "Time for your 8pm medicine", never the medicine's name, so nothing private shows on your lock screen. They're set two weeks ahead and topped up each time you open Breathe, and set again after the phone restarts (that's why the app may "run at startup"). On the website, reminders can't pop up.
 - **Optional sounds and vibration when you tap (off unless you choose them):** the sounds are made inside the app, so nothing is downloaded. Vibration uses your phone's own vibration. In the Android app this needs the "vibrate" permission, which can do nothing else.
 - **Optional tips (Leave a tip):** tapping an amount opens **Stripe's own payment page** (stripe.com), in a new tab or over the Android app. Breathe sends nothing to it except opening the page. Your card or wallet details go to Stripe, never to Breathe, and nothing about your numbers is shared. Stripe's own privacy policy covers that page. Tips are entirely optional and unlock nothing.
 - **The Android app** keeps your numbers inside the app on your phone. Android's Google Drive backup and phone-to-phone transfer are **switched off** for it, so nothing is copied off the phone. Saving a backup opens Android's share sheet, and you choose where the file goes. See [docs/ANDROID-APP.md](docs/ANDROID-APP.md).
@@ -26,6 +28,8 @@
 5. **Honest about the limits.** Information saved in a browser is **not automatically encrypted**. We explain exactly what that means in [docs/STORAGE-AND-BACKUPS.md](docs/STORAGE-AND-BACKUPS.md), and the app will say it in plain words too.
 6. **Fictional data only** in demonstrations, screenshots, tests and documentation.
 
-## Not financial advice
+## Not financial or medical advice
 
 Breathe is an organisation tool. It helps you see your own numbers more clearly. It does not give financial advice.
+
+Breathe Medication is a reminder and record tool. It never checks doses or gives medical advice. Questions about your medicines? Check with your pharmacist or GP.

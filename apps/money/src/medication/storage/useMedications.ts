@@ -10,6 +10,8 @@ export interface Medications {
   /** What was saved earlier couldn't be read, so it started fresh. */
   readProblem: boolean;
   update: (change: (data: MedicationData) => MedicationData) => void;
+  /** Removes every medicine and tick from this device. True if it worked. */
+  clearAll: () => Promise<boolean>;
 }
 
 /** Loads the medicines once, then saves every change straight away. Nothing leaves the device. */
@@ -57,5 +59,16 @@ export function useMedications(enabled = true, store: DeviceStore = indexedDbSto
     [store],
   );
 
-  return { data, loading, notSaved, readProblem, update };
+  const clearAll = useCallback(async () => {
+    latest.current = EMPTY;
+    setData(EMPTY);
+    try {
+      await store.clear();
+      return true;
+    } catch {
+      return false;
+    }
+  }, [store]);
+
+  return { data, loading, notSaved, readProblem, update, clearAll };
 }
