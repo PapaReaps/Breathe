@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="docs/images/breathe-black.gif" alt="The word breathe in soft rounded teal letters on black. Every letter breathes at the same time: each one swells, fills out and softly glows for two seconds, then settles back for two seconds, with a gentle shadow beneath." width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-gh-dark.gif">
+    <img src="docs/images/breathe-gh-light.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath: it fills out and rises a little while tiny dots drift up around it like air bubbles, then settles, with a soft shadow beneath it" width="100%">
+  </picture>
 </p>
 
 <h1 align="center">Breathe</h1>
