@@ -182,9 +182,15 @@
             { duration: FLOAT, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
           );
           var loopStart = performance.now();
+          // The same curve as .breath-mark in styles.css: CSS eases each half of the breath on its own,
+          // so each keyframe here eases on its own too. Otherwise the two differ when it lands, and it flicks.
           var breathing = still ? null : word.animate(
-            [{ fontWeight: 200, letterSpacing: "0em" }, { fontWeight: 600, letterSpacing: "0.02em", offset: 0.5 }, { fontWeight: 200, letterSpacing: "0em" }],
-            { duration: BREATH, iterations: Infinity, easing: "ease-in-out" }
+            [
+              { fontWeight: 200, letterSpacing: "0em", easing: "ease-in-out" },
+              { fontWeight: 600, letterSpacing: "0.02em", offset: 0.5, easing: "ease-in-out" },
+              { fontWeight: 200, letterSpacing: "0em" }
+            ],
+            { duration: BREATH, iterations: Infinity }
           );
           if (shadow) shadow.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 900, fill: "forwards" });
           var landed = false;
@@ -192,7 +198,14 @@
             if (landed) return;
             landed = true;
             window.removeEventListener("pointerdown", skip, true);
-            if (breathing) target.style.animationDelay = -Math.round(performance.now() - loopStart) + "ms";
+            // Carry on the breath exactly where the floating word was. The word above the number has
+            // been breathing since the page opened, so set its place in the breath directly.
+            if (breathing) {
+              var into = (performance.now() - loopStart) % BREATH;
+              var loop = target.getAnimations ? target.getAnimations()[0] : null;
+              if (loop) loop.currentTime = into;
+              else target.style.animationDelay = -Math.round(into) + "ms";
+            }
             root.classList.remove("breath-arriving");
             splash.remove();
           }
