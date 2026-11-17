@@ -460,14 +460,9 @@ function AboutView() {
  */
 function AppsList({ part, medicationAdded, onSwitch }: { part: BreathePart; medicationAdded: boolean; onSwitch: (part: BreathePart) => void }) {
   const m = words.menu;
-  const rows: Array<{ id: BreathePart; name: string; icon: string; sub: string }> = [
-    { id: "money", name: m.appsMoney, icon: "favicon.svg", sub: part === "money" ? m.appsHere : m.appsOpenRow },
-    {
-      id: "medication",
-      name: m.appsMedication,
-      icon: "favicon.svg",
-      sub: part === "medication" ? m.appsHere : medicationAdded ? m.appsOpenRow : m.appsAdd,
-    },
+  const rows: Array<{ id: BreathePart; name: string; sub: string }> = [
+    { id: "money", name: m.appsMoney, sub: part === "money" ? m.appsHere : m.appsOpenRow },
+    { id: "medication", name: m.appsMedication, sub: part === "medication" ? m.appsHere : medicationAdded ? m.appsOpenRow : m.appsAdd },
   ];
   return (
     <>
@@ -481,22 +476,16 @@ function AppsList({ part, medicationAdded, onSwitch }: { part: BreathePart; medi
               aria-current={row.id === part ? "page" : undefined}
               onClick={() => onSwitch(row.id)}
             >
-              <span className="menu-title app-row-title">
-                <img className="app-logo" src={`${import.meta.env.BASE_URL}${row.icon}`} alt="" width="22" height="22" />
-                {row.name}
-              </span>
+              <span className="menu-title">{row.name}</span>
               <span className="menu-sub">{row.sub}</span>
             </button>
           </li>
         ))}
-      </ul>
-      {!medicationAdded ? <p className="hint">{m.appsAddHint}</p> : null}
-      <h3>{m.appsLater}</h3>
-      <ul className="menu-list">
         {m.appsComing.map((name) => (
           <li key={name}>
             <div className="menu-item app-row app-later">
               <span className="menu-title">{name}</span>
+              <span className="menu-sub">{m.appsLater}</span>
             </div>
           </li>
         ))}

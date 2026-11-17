@@ -99,7 +99,6 @@ export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, o
         <li>
           <button type="button" className="menu-item" onClick={onData}>
             <span className="menu-title">{menu.data}</span>
-            <span className="menu-sub">{menu.dataSub}</span>
           </button>
         </li>
         <li>

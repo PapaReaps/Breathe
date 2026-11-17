@@ -118,7 +118,6 @@ export const words = {
     appsHere: "You're here",
     appsOpenRow: "Open",
     appsAdd: "Add",
-    appsAddHint: "Breathe Medication gives you a calm list of your medicines each day, with gentle reminders on Android. Adding it changes nothing in Breathe Money.",
     appsLater: "Coming later",
     appsMoney: "Breathe Money",
     appsMedication: "Breathe Medication",
