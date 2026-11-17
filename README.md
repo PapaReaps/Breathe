@@ -1,237 +1,120 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/breathe-dark-v2.gif">
-    <img src="docs/images/breathe-light-v2.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath: it fills out and rises a little while tiny dots drift up around it like air bubbles, then settles, with a soft shadow beneath it" width="600">
+    <img src="docs/images/breathe-light-v2.gif" alt="The word breathe, in soft rounded teal letters, taking one slow deep breath, then settling" width="420">
   </picture>
 </p>
 
-# Breathe
-
-> **Breathe will never be about making money. It will always be about helping people.**
+<h1 align="center">Breathe</h1>
 
 <p align="center">
-  <img src="docs/images/hero-v2.png" alt="Breathe: calm, simple apps for ADHD brains. Breathe Money shows how much you can spend until your money comes in; Breathe Medication gives a calm list with gentle reminders. Free forever, no accounts, works offline, stays on your device. Shown on three phones: Breathe Money, and Breathe Medication in light and dark" width="100%">
+  <b>Calm, simple apps for ADHD brains.</b><br>
+  Free forever · No accounts · Works offline · Stays on your device
 </p>
 
 <p align="center">
-  <a href="https://papareaps.github.io/Breathe/"><b>Open Breathe →</b></a>
-  &nbsp;·&nbsp; Free &nbsp;·&nbsp; No sign-up &nbsp;·&nbsp; Works offline &nbsp;·&nbsp; Add it to your phone's home screen
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/clip-v4-dark.gif">
+    <img src="docs/images/clip-v4.gif" alt="A short clip on a phone. Breathe Money shows £653.30, safe to spend until your money comes in. Tapping the name at the top fades the screen away and a small box appears in the middle with Medication, Travel and Reminders. Medication is picked, and the screen fades back in on today's calm list of medicines. Taken is tapped for the 8pm inhaler, and it ticks off." width="340">
+  </picture>
 </p>
 
-## Get it in 3 taps
+## Get it
 
-Free, with no sign-up. Point your phone camera at a code, or tap the link on your phone.
+<p align="center">
+  <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><b>Android app →</b></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://papareaps.github.io/Breathe/"><b>iPhone or computer →</b></a>
+</p>
+
+<details>
+<summary><b>QR codes, computers and Obtainium</b></summary>
+
+<br>
+
+Point your phone camera at a code.
 
 <div align="center">
 <table>
   <tr>
     <td align="center" valign="top">
-      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="180" alt="QR code that downloads the Breathe Money Android app"></a><br>
+      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk"><img src="docs/images/qr-android.png" width="160" alt="QR code that downloads the Breathe Android app"></a><br>
       <b>Android</b><br>
-      <a href="https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk">Download →</a><br>
       <sub>Tap Open, then Install.</sub>
     </td>
     <td align="center" valign="top">
-      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="180" alt="QR code that opens Breathe Money in your web browser"></a><br>
+      <a href="https://papareaps.github.io/Breathe/"><img src="docs/images/qr-web.png" width="160" alt="QR code that opens Breathe in your web browser"></a><br>
       <b>iPhone</b><br>
-      <a href="https://papareaps.github.io/Breathe/">Open →</a><br>
-      <sub>Or any computer.</sub>
+      <sub>Tap Share, then Add to Home Screen.</sub>
     </td>
   </tr>
 </table>
 </div>
 
-**On a computer?** Open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) in Chrome or Edge and click **Install** at the right of the address bar. It opens in its own window, works offline and updates itself.
+- **On a computer:** open [papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/) in Chrome or Edge and click **Install** at the right of the address bar. It opens in its own window, works offline and updates itself.
+- **Updates on Android:** inside the app, tap the **gear → Updates**. [How to install it, and what's different](docs/ANDROID-APP.md).
+- **Obtainium:** on your phone, tap **[Add to Obtainium →](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.papareaps.breathe.money%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FPapaReaps%2FBreathe%22%2C%22author%22%3A%22PapaReaps%22%2C%22name%22%3A%22Breathe%20Money%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22%5Ebreathe-money%5C%5C%5C%5C.apk%24%5C%22%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%7D%22%7D)**. It installs Breathe straight from these releases and keeps it up to date. If you add it by pasting `https://github.com/PapaReaps/Breathe` instead, set **Filter APKs by regular expression** to `^breathe-money\.apk$`.
+- **Already have it?** Show a friend the code on your own phone: **gear → Help and sharing → Share Breathe**.
+- **Build it yourself:** [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md), in plain English.
 
-**Use Obtainium?** On your phone, tap **[Add to Obtainium →](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.papareaps.breathe.money%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FPapaReaps%2FBreathe%22%2C%22author%22%3A%22PapaReaps%22%2C%22name%22%3A%22Breathe%20Money%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22%5Ebreathe-money%5C%5C%5C%5C.apk%24%5C%22%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%7D%22%7D)**. Or in [Obtainium](https://github.com/ImranR98/Obtainium), tap **Add app** and paste `https://github.com/PapaReaps/Breathe`. It installs Breathe Money straight from these releases and keeps it up to date. Each release has two copies of the same app: either is fine, or pick `breathe-money.apk`. If you added it by pasting the address, open Breathe Money in Obtainium, tap the settings cog and set **Filter APKs by regular expression** to `^breathe-money\.apk$`, so it only ever picks Breathe Money.
+</details>
 
-Already have it? Show a friend the code on your own phone: **Settings (the gear) → Help and sharing → Share Breathe**.
-
-Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
-
-It is a personal project, built by someone who struggles with these things too, with help from Claude, an AI assistant. Every change is planned together, tested, tried on real phones, and published openly here on GitHub. There is enough stress in the world already. Breathe apps should reduce stress, never add to it.
-
-## Breathe Money in 15 seconds
-
-<p align="center">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/demo-clip-v3-dark.gif"><img width="80%" src="docs/images/demo-clip-v3.gif" alt="A short clip: the home screen shows £493.74. The Menu opens, the account balance is changed to £1,450.00, and the number at the bottom updates while typing. Back on the home screen it now says £659.14, then the app switches to dark mode. Beside it: One question, one calm answer. "How much can I spend until my money comes in?" Type what's in your account. Your bills, food and travel are set aside. What's left is one big number."></picture>
-</p>
-
-<p align="center"><a href="https://papareaps.github.io/Breathe/"><b>Try it now →</b></a> No account, no download.</p>
-
-*All numbers in these pictures are made up.*
-
-## What it does
-
-### Your number, and where it comes from
+## Two parts, one calm app
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-number-v3-dark.png">
-    <img src="docs/images/row-number-v3.png" alt="Three screens: just the number (Safe to spend until your money comes in, £493.74); the Menu, where everything else lives; and Your money, with money coming in, bills, food and travel, and savings all on one page" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/phones-v1-dark.png">
+    <img src="docs/images/phones-v1.png" alt="Two phones. Breathe Money shows £493.74, safe to spend until your money comes in, with Money comes in Fri 27 Nov and £150.00 savings. Breathe Medication shows today's list: the morning tablet, Vitamin D and inhaler ticked as taken, and the evening inhaler and tablet still to take." width="640">
   </picture>
 </p>
 
-- Shows how much is **safe to spend until your money comes in** (wages, benefits or a pension), after your bills, food and travel.
-- Counts every penny **once**. Bills already taken from your balance aren't taken off twice.
-- Never counts money that isn't here yet. Each payment only counts from the day it arrives, and a small badge says when (like **+£140.00 on Mon 9 Nov**).
-- **Your money is all on one page**: money coming in, bills, food and travel, and savings, each with its own **in** or **out**.
-- Handles real life: money that comes in on a weekend or bank holiday, bills due on that day, and a balance that's a few days old.
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <b>Money</b><br>
+      How much can I spend until my money comes in? Type what's in your account. Your bills, food and travel are set aside, and what's left is one calm number.
+    </td>
+    <td width="50%" valign="top">
+      <b>Medication</b><br>
+      A calm list of today's medicines. Tap Taken when it's done. Gentle reminders on Android, and a quiet note about a week before something runs out.
+    </td>
+  </tr>
+</table>
 
-### Gentle setup, tidy lists
+Tap the name at the top to switch. The gear holds your settings, and each part keeps its own colour.
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-setup-v2-dark.png">
-    <img src="docs/images/row-setup-v2.png" alt="Three screens: a calm hello (Take a breath. You've got this.); the first setup question, Which money do you use?, with Pound, Euro and US dollar and more currencies; and the next question, What money comes in?, with Universal Credit, £850.00, and your number plans until it" width="100%">
-  </picture>
-</p>
+## Your data stays yours
 
-- **Step-by-step setup**: one question per screen, and every question can be skipped.
-- **Just add all your money coming in**: wages, Universal Credit, PIP, Child Benefit, a pension. There's no "main" one to pick: your number plans until your biggest regular payment by itself, and you can change it in the Menu.
-- **Money and bills that repeat**: weekly, every 2 or 4 weeks, or monthly. The date your money comes in rolls forward by itself.
-- **Works in 20 currencies**: pound, euro, US, Canadian, Australian and New Zealand dollars, and more. Setup guesses yours from your phone, amounts are written your country's way (like 1.234,56 € in Germany), and you can change it any time in Settings. Only the symbol changes: nothing is converted or looked up.
-- **UK bank holidays built in** (England and Wales, Scotland or Northern Ireland). Anywhere else, weekends are already handled and you can add your own public holidays. Nothing is looked up online.
-- A kind note when your money has come in since you last updated your balance, and **reminders as often as you like**, or never.
-
-> [!TIP]
-> **You only really need to set it up once.** Depending on how things change for you, that might be all. After that it's just your balance now and then.
->
-> And you never have to do it alone. Ask someone you trust, like a friend, family member or support worker, to sit with you while you set it up.
-
-### Your calendar
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-calendar-v4-dark.png">
-    <img src="docs/images/row-calendar-v4.png" alt="Three screens of the Calendar: a simple list of bills and the day your money comes in; the same as a month, with a small rose dot under each bill day, a teal dot for money coming in, a gold dot for your main money, and today in a filled circle; and further down the month, every amount listed with in or out, and the total of the bills" width="100%">
-  </picture>
-</p>
-
-- **Calendar** shows your bills and the day your money comes in, from today until then. Each amount says **in** or **out**. Switch between **List** and **Month**, and the app remembers which you like. In the month, small dots show each day's money (teal in, rose out, gold for your main money), today is circled, and every amount is listed underneath.
-
-### Make it yours
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-yours-v4-dark.png">
-    <img src="docs/images/row-yours-v4.png" alt="Three screens: the home screen in dark mode; Look and colours, with the 22 app colours shown as colour circles, each named underneath; and Settings, all on one page, including Currency" width="100%">
-  </picture>
-</p>
-
-- **Settings is one calm page**: Look and colours, Text and contrast, Home screen, Sounds and vibration, Balance reminder, Privacy screen and Updates, plus your currency, setup, bank holidays and backups. Each opens its own small page.
-- **Light, dark or jet black**, or follow your device.
-- Pick from **22 app colours** (soft or deep) and **21 savings colours**, shown as colour circles so you can see exactly what you're choosing, because what feels calm is different for everyone. You can even choose the colour of the **box outlines**.
-- **Sounds and vibration when you tap**, if you'd like them: twelve soft sounds and three strengths of buzz, each with a button to try it first. All off until you choose.
-- **A calm opening:** "breathe" takes one deep breath while tiny dots drift up around it, then slowly floats up, and keeps breathing gently above your number. Prefer it still? Switch off **Let "breathe" breathe**. It's always still if your phone is set to reduce motion.
-- **Keep track of your savings** separately: type what you've saved, then add to it or take some out with one tap. Savings never change your number.
-- **Hide the extras** under your number once you know your way around (the short sentence, the date, and your savings), so the home screen can be as quiet as you like. What your money is called (like "Universal Credit") stays off the home screen unless you choose to show it.
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/simple-fade-saying-dark.gif">
-    <img src="docs/images/simple-fade-saying.gif" alt="A short clip that fades between two home screens, Everything explained and Or just your number, beside the words: Take a breath. You've got this." width="100%">
-  </picture>
-</p>
-
-<p align="center">Like it simpler? Switch off the extras in <b>Menu → Money options → Home screen</b>.</p>
-
-### Share it, tell us, keep it up to date
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-share-dark.png">
-    <img src="docs/images/row-share.png" alt="Three screens: Share Breathe Money, with a QR code a friend can scan, a switch for Android or iPhone, and the link to copy or share; Help and sharing, with Share, Leave a tip, Report a problem and About; and Report a problem" width="100%">
-  </picture>
-</p>
-
-- **Share Breathe**: show a friend a QR code to scan, or copy or share the link (the Android app, or the web version for iPhones and computers).
-- **Leave a tip**: Breathe Money is free, always. If it's helped, you can say thanks with £3, £5 or £10, on Stripe's secure page. Only if you can spare it: tips don't unlock anything, and Breathe never sees your card details.
-- **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
-- **Updates in the Android app**: the first time, the app asks once whether to check for new versions. Say yes, and an **Update ready** pop-up shows whenever there is one: tap **Update now** to download and install it, or **Later** to leave it until the next version (a small button stays under your number). Or tap **Check now** yourself, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
-
-Share, Leave a tip and Report a problem are in **Settings (the gear) → Help and sharing**. Updates are in **Settings (the gear) → Updates**.
-
-### Easy to read, private by design
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-private-v2-dark.png">
-    <img src="docs/images/row-private-v2.png" alt="Three screens: text size and contrast choices; the optional PIN privacy screen; and saving a backup protected with a passphrase" width="100%">
-  </picture>
-</p>
-
-- **Text size** and **higher contrast** settings, on top of your device's own. It works with the keyboard alone and is built for screen readers ([accessibility checklist](docs/STAGE-9.md#accessibility-checklist)).
-- An optional **privacy screen**: a PIN when the app opens, and again after a minute away.
-- **Backup files protected with a passphrase**, encrypted with your browser's own built-in tools.
-
-## New: Breathe Medication
-
-Breathe Medication now lives inside Breathe, next to Breathe Money. Tap **Breathe Money ▾** at the top, then **Add** next to Breathe Medication. Nothing changes in Breathe Money unless you add it.
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-medication-dark.png">
-    <img src="docs/images/row-medication.png" alt="Three screens of Breathe Medication with made-up medicines: today's calm list, with morning doses ticked as taken and the evening ones not taken yet; a gentle note that Vitamin D is running low, with I've ordered it; and the history, a month of quiet dots" width="100%">
-  </picture>
-</p>
-
-- **A calm list for today**, grouped into morning, afternoon and evening. Tap **Taken** when it's done. Nothing is ever red or "missed": it just says **Not taken yet**.
-- **Gentle reminders** in the Android app, even when Breathe is closed: one note per time (a few medicines at 8am share one), with **Taken** and **Later** buttons, and one nudge 30 minutes later if it isn't ticked. Then it stays quiet. Reminders never show medicine names, so your lock screen stays private. Off until you say yes.
-- **Running low:** count what's left, and get a soft note about a week before it runs out, with **I've ordered it**.
-- **History:** a month of quiet dots: all taken, some, or none logged. No streaks, no scores.
-- Your medicines stay on your device like your numbers, and **backup files include them**.
-
-> Breathe Medication is a reminder tool, **not** medical advice. It never checks doses. Questions about your medicines? Check with your pharmacist or GP.
-
-## Your numbers stay yours
-
-- **No accounts, no sign-up, no tracking, no adverts.** There is no Breathe server. Nothing you type is sent anywhere.
-- Your numbers are kept **on your own device, inside your web browser**.
-- **Honest about the limits:**
-  - Numbers saved in the browser are **not encrypted**. The PIN privacy screen stops someone glancing at them, but it isn't encryption, and the app says so.
-  - Your browser can remove them, for example if you clear your browsing data. A **backup file** is the safety net. Choose **protected with a passphrase** (recommended) or plain. If you forget the passphrase, nobody, including us, can open the file.
+- **No accounts, no tracking, no adverts.** There is no Breathe server, and nothing you type is sent anywhere.
+- Everything is kept **on your own device**. It isn't encrypted, so a **backup file** (with a passphrase, if you like) is your safety net.
 - You can clear everything from the app at any time.
 
 More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND-BACKUPS.md).
 
-> Breathe Money is an organisation tool. It is **not** financial advice.
+> Breathe Money is an organisation tool, **not** financial advice. Breathe Medication is a reminder tool, **not** medical advice.
 
-## Try it
+<details>
+<summary><b>Coming later</b></summary>
 
-- **On any phone or computer:** open **[papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/)**. To keep it on your phone: on Android, use the menu and choose **Install app**; on iPhone, tap **Share → Add to Home Screen**. It works offline after the first visit. More in [Stage 10](docs/STAGE-10.md).
-- **On your computer, as an app:** open the web link in **Chrome** or **Edge** and click the **Install** icon at the right-hand end of the address bar (or open the **⋮** menu and choose **Install Breathe**; in Edge it's **Apps → Install this site as an app**). It gets its own window and a Start menu or Dock icon, works offline, and updates itself each time you open it with internet. Your numbers are never touched by updates.
-- **Android app:** on your Android phone, **[tap here to download it](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)**, then open it. (Or pick the `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).) A friend who has it can also show you a QR code: **Settings (the gear) → Help and sharing → Share Breathe**. After that, new versions download and install from inside the app: **Settings (the gear) → Updates**. [How to install it, and what's different](docs/ANDROID-APP.md).
-- **Build it yourself (for developers):** the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
+<br>
 
-## Status
-
-**Version 1.1: Breathe Medication joins Breathe Money.** Version 1.0 was **ready for anyone to rely on**: Breathe Money was built one small stage at a time, tested on real phones by family and friends (including with TalkBack, the Android screen reader), and checked for safety. It will keep getting small, calm improvements. What's next is in the [Roadmap](docs/ROADMAP.md), and each release has short notes in [`docs/releases/`](docs/releases/).
-
-## The Breathe family
-
-| App | What it will help with | Status |
+| App | What it helps with | Status |
 |---|---|---|
-| **Breathe Money** | Knowing how much you have to spend until your money comes in | **Version 1.0** |
-| **Breathe Medication** | Calm medicine reminders, a daily list, running-low notes and a simple history | **New in 1.1**, inside Breathe |
-| Breathe Travel | Making independent travel easier | Later |
-| Breathe Reminders | Routines and reminders | Later |
+| **Money** | Knowing how much you can spend until your money comes in | Ready |
+| **Medication** | A calm daily list, gentle reminders and running-low notes | Ready |
+| Travel | Making independent travel easier | Later |
+| Reminders | Routines and reminders | Later |
 
-Breathe Money is the home for the whole family: tap the little logo at the top of the app to see the Breathe apps. As each new one is ready, it will open from there.
+What's next is in the [Roadmap](docs/ROADMAP.md), and each release has short notes in [`docs/releases/`](docs/releases/).
 
-## Follow Breathe
+</details>
 
-News, new apps and calm tips, in the same gentle style as the app.
+<details>
+<summary><b>Support Breathe, and follow along</b></summary>
 
-<p align="center">
-  <a href="https://x.com/breatheapps"><b>X: @breatheapps</b></a>
-  &nbsp;·&nbsp;
-  <a href="https://www.instagram.com/breatheapps/"><b>Instagram: @breatheapps</b></a>
-</p>
+<br>
 
-## Support Breathe
-
-Breathe Money will always be free, with no adverts and nothing to unlock. If it's helped you and you'd like to say thanks, you can leave a tip. Only if you can spare it.
+Breathe will always be free, with no adverts and nothing to unlock. If it's helped and you'd like to say thanks, you can leave a tip. Only if you can spare it.
 
 <p align="center">
   <a href="https://buy.stripe.com/bJe8wRefe6om4abfrC3cc00"><b>Tip £3</b></a>
@@ -241,47 +124,44 @@ Breathe Money will always be free, with no adverts and nothing to unlock. If it'
   <a href="https://buy.stripe.com/28E5kF6MM142bCD6V63cc02"><b>Tip £10</b></a>
 </p>
 
-Each opens Stripe's secure payment page (card, Google Pay or Apple Pay). Tips go towards keeping Breathe going, and the Breathe apps still to come. You'll also find **Leave a tip** in the app: **Settings (the gear) → Help and sharing**.
+Each opens Stripe's secure payment page (card, Google Pay or Apple Pay). In the app, it's under **gear → Help and sharing**.
 
-## Our principles
+News, new apps and calm tips: [X @breatheapps](https://x.com/breatheapps) · [Instagram @breatheapps](https://www.instagram.com/breatheapps/)
+
+</details>
+
+<details>
+<summary><b>About this project, and our principles</b></summary>
+
+<br>
+
+> **Breathe will never be about making money. It will always be about helping people.**
+
+Breathe is a personal project, built by someone who finds everyday organisation hard too, with help from Claude, an AI assistant. Every change is planned together, tested, tried on real phones, and published openly here.
 
 - No accounts, no sign-up, no personal details.
 - Your data stays on your device.
 - No adverts, no tracking, no analytics.
 - Calm, kind wording. No shame, guilt, streaks or pressure.
 - Essential features are always free.
-- Breathe is an organisation tool, **not** a financial adviser.
 - Only made-up data in pictures, tests and examples. Never real people's details.
-
-<details>
-<summary><b>What's in this folder</b></summary>
-
-| Folder or file | Purpose |
-|---|---|
-| `apps/money/` | Breathe Money |
-| `packages/design/` | Shared look and feel (empty until branding is agreed) |
-| `docs/` | Plans and design notes, written in plain English |
-| `PRIVACY.md` | Exactly where your information lives |
-| `CONTRIBUTING.md` | How others can help, and the rules we all follow |
 
 </details>
 
-## Read next
+<details>
+<summary><b>Read next</b></summary>
 
-- [Founding promise](docs/FOUNDING-PROMISE.md)
-- [Roadmap](docs/ROADMAP.md)
+<br>
+
+- [Founding promise](docs/FOUNDING-PROMISE.md) and [Roadmap](docs/ROADMAP.md)
 - [How safe-to-spend is calculated](docs/CALCULATION-DESIGN.md)
 - [Storage and backups](docs/STORAGE-AND-BACKUPS.md)
-- [Branding (the opening breath and the app icon are chosen)](docs/BRANDING.md)
-- [Open decisions](docs/DECISIONS.md)
-- [Contributing](CONTRIBUTING.md) and our [Code of conduct](CODE_OF_CONDUCT.md)
+- [Branding](docs/BRANDING.md) and [Open decisions](docs/DECISIONS.md)
 - [Accessibility](ACCESSIBILITY.md): what Breathe does, and its known limits
-- [Security policy](SECURITY.md): how to tell us about a safety problem privately
+- [Contributing](CONTRIBUTING.md), [Code of conduct](CODE_OF_CONDUCT.md) and [Security policy](SECURITY.md)
+
+</details>
 
 ## Licence
 
-Breathe is free software, licensed under the **GNU General Public License, version 3 or later** (GPL-3.0-or-later). The full text is in [LICENSE](LICENSE).
-
-In plain English: anyone can use, study, share and change Breathe for free. If they share a changed version, they must share their changes too, under the same licence. That keeps Breathe free for everyone, in the spirit of its founding promise.
-
-This is a plain-English summary, not legal advice.
+Breathe is free software under the **GNU General Public License, version 3 or later** ([LICENSE](LICENSE)). In plain English: anyone can use, study, share and change it for free, and if they share a changed version, they share their changes too. This is a plain-English summary, not legal advice.
