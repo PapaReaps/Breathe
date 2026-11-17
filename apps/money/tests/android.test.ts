@@ -66,12 +66,13 @@ describe("the Android build recipe", () => {
 describe("the opening breath", () => {
   const html = read("index.html");
 
-  it("is there, about three seconds at most, and still for people who ask for less motion", () => {
+  // v1.5.0: one slower, calmer breath (4 seconds), at the person's request. Still never longer than that.
+  it("is there, about four seconds at most, and still for people who ask for less motion", () => {
     expect(html).toContain('id="splash"');
     expect(html).toContain("prefers-reduced-motion: reduce");
     const breath = Number(html.match(/var breath = calm \? 0 : (\d+);/)?.[1]);
     expect(breath).toBeGreaterThan(0);
-    expect(breath).toBeLessThanOrEqual(3000);
+    expect(breath).toBeLessThanOrEqual(4000);
   });
 
   it("can never get stuck", () => {

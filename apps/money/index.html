@@ -94,22 +94,25 @@
         background: radial-gradient(closest-side, var(--splash-shadow), transparent);
         opacity: 0;
       }
-      /* Tiny dots drift gently upward around the word while it breathes, like air bubbles (v0.32.0). */
-      .splash-dots { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: -1; }
-      .splash-dot { position: absolute; border-radius: 50%; background: var(--splash-ink); opacity: 0; }
-      #splash.splash-go .splash-word { animation: splash-breathe 2600ms both; }
-      #splash.splash-go .splash-shadow { animation: splash-chest 2600ms both; }
-      /* In (1.3s), hold (0.26s), out (1.04s). Each step eases on its own, like a real breath. */
+      /* v1.5.0: the three logo rings ripple gently out from the word once while it breathes (no more bubbles). */
+      .splash-rings { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; z-index: -1; }
+      .splash-ring { position: absolute; border-radius: 50%; border: 0.03em solid; opacity: 0; }
+      #splash { --splash-ring: 0.95; }
+      @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #splash { --splash-ring: 0.7; } }
+      :root[data-theme="dark"] #splash { --splash-ring: 0.7; }
+      #splash.splash-go .splash-word { animation: splash-breathe 4000ms both; }
+      #splash.splash-go .splash-shadow { animation: splash-chest 4000ms both; }
+      /* v1.5.0: slower, with a gentle start. The word comes in softly, then in (2s), hold (0.4s), out (1.6s). */
       @keyframes splash-breathe {
-        0% { opacity: 0; font-weight: 200; letter-spacing: 0; transform: translateY(0.04em) scale(0.97, 0.95); animation-timing-function: ease-out; }
-        8% { opacity: 1; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+        0% { opacity: 0; font-weight: 200; letter-spacing: 0; transform: translateY(0.04em) scale(0.97, 0.95); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+        12% { opacity: 1; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
         50% { opacity: 1; font-weight: 900; letter-spacing: 0.03em; transform: translateY(-0.06em) scale(1.02, 1.05); animation-timing-function: linear; }
         60% { opacity: 1; font-weight: 900; letter-spacing: 0.03em; transform: translateY(-0.06em) scale(1.02, 1.05); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
         100% { opacity: 1; font-weight: 200; letter-spacing: 0; transform: translateY(0.04em) scale(0.97, 0.95); }
       }
       @keyframes splash-chest {
-        0% { opacity: 0; transform: scale(1); animation-timing-function: ease-out; }
-        8% { opacity: 1; animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
+        0% { opacity: 0; transform: scale(1); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+        12% { opacity: 1; animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
         50% { opacity: 0.55; transform: scale(0.82); animation-timing-function: linear; }
         60% { opacity: 0.55; transform: scale(0.82); animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1); }
         100% { opacity: 1; transform: scale(1); }
@@ -134,7 +137,7 @@
       (function () {
         var splash = document.getElementById("splash");
         var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var breath = calm ? 0 : 2600;
+        var breath = calm ? 0 : 4000;
         var started = null;
         var appReady = false;
         var gone = false;
@@ -210,39 +213,40 @@
           if (!appReady || started === null) return;
           setTimeout(remove, Math.max(0, breath - (Date.now() - started)));
         }
-        // A few tiny dots drift up around the word while it breathes. They never add time: they start
-        // during the breath and fade out during the float. Off with reduce motion or a still "breathe".
-        function drift() {
+        // The three logo rings ripple gently out from the word, once, while it breathes in. They never
+        // add time: they're gone before the word floats up. Off with reduce motion or a still "breathe".
+        function ripple() {
           if (calm || still || typeof Element.prototype.animate !== "function") return;
           var mark = splash.querySelector(".splash-mark");
           if (!mark) return;
           var box = document.createElement("div");
-          box.className = "splash-dots";
-          for (var i = 0; i < 14; i++) {
-            var dot = document.createElement("div");
-            dot.className = "splash-dot";
-            var size = 0.05 + Math.random() * 0.04;
-            dot.style.width = size + "em";
-            dot.style.height = size + "em";
-            dot.style.left = (Math.random() * 3.4 - 1.7) + "em";
-            dot.style.top = (0.25 + Math.random() * 0.45) + "em";
-            box.appendChild(dot);
-            dot.animate(
+          box.className = "splash-rings";
+          var peak = parseFloat(getComputedStyle(splash).getPropertyValue("--splash-ring")) || 0.8;
+          [["#b9a7e0", 4.6], ["#8cc4e6", 3.65], ["#8fd3c3", 2.7]].forEach(function (r, i) {
+            var ring = document.createElement("div");
+            ring.className = "splash-ring";
+            ring.style.borderColor = r[0];
+            ring.style.width = r[1] + "em";
+            ring.style.height = r[1] * 0.55 + "em";
+            ring.style.left = -r[1] / 2 + "em";
+            ring.style.top = -r[1] * 0.275 + "em";
+            box.appendChild(ring);
+            ring.animate(
               [
-                { transform: "translateY(0)", opacity: 0 },
-                { opacity: 0.6, offset: 0.3 },
-                { transform: "translateY(-" + (1.4 + Math.random() * 0.9) + "em)", opacity: 0 }
+                { transform: "scale(0.7)", opacity: 0 },
+                { opacity: peak, offset: 0.4 },
+                { transform: "scale(1.15)", opacity: 0 }
               ],
-              { duration: 2600 + Math.random() * 1400, delay: Math.random() * 2400, easing: "ease-out", fill: "both" }
+              { duration: 2400, delay: 300 + i * 350, easing: "cubic-bezier(0.45, 0, 0.55, 1)", fill: "both" }
             );
-          }
+          });
           mark.appendChild(box);
         }
         function go() {
           if (started !== null) return;
           started = Date.now();
           splash.classList.add("splash-go");
-          try { drift(); } catch (e) { /* the breath carries on without dots */ }
+          try { ripple(); } catch (e) { /* the breath carries on without rings */ }
           maybeRemove();
         }
         try {
