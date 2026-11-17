@@ -10,7 +10,7 @@
 > **Breathe will never be about making money. It will always be about helping people.**
 
 <p align="center">
-  <img src="docs/images/hero.png" alt="Breathe Money: How much can I spend until my money comes in? One calm number, after your bills, food and travel. Shown on three phones in light, dark and plum colours" width="100%">
+  <img src="docs/images/hero-v2.png" alt="Breathe: calm, simple apps for ADHD brains. Breathe Money shows how much you can spend until your money comes in; Breathe Medication gives a calm list with gentle reminders. Free forever, no accounts, works offline, stays on your device. Shown on three phones: Breathe Money, and Breathe Medication in light and dark" width="100%">
 </p>
 
 <p align="center">
@@ -168,6 +168,13 @@ Share, Leave a tip and Report a problem are in **Menu → Settings → Help and 
 ## New: Breathe Medication
 
 Breathe Medication now lives inside Breathe, next to Breathe Money. Tap **Breathe Money ▾** at the top, then **Add** next to Breathe Medication. Nothing changes in Breathe Money unless you add it.
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/row-medication-dark.png">
+    <img src="docs/images/row-medication.png" alt="Three screens of Breathe Medication with made-up medicines: today's calm list, with morning doses ticked as taken and the evening ones not taken yet; a gentle note that Vitamin D is running low, with I've ordered it; and the history, a month of quiet dots" width="100%">
+  </picture>
+</p>
 
 - **A calm list for today**, grouped into morning, afternoon and evening. Tap **Taken** when it's done. Nothing is ever red or "missed": it just says **Not taken yet**.
 - **Gentle reminders** in the Android app, even when Breathe is closed: one note per time (a few medicines at 8am share one), with **Taken** and **Later** buttons, and one nudge 30 minutes later if it isn't ticked. Then it stays quiet. Reminders never show medicine names, so your lock screen stays private. Off until you say yes.
