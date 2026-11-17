@@ -63,7 +63,6 @@ export const words = {
     settings: "Settings",
     settingsSub: "Look, text and privacy",
     data: "Your data and backups",
-    help: "Help and sharing",
     about: "About Breathe Medication",
     aboutText: [
       "Breathe Medication helps you remember your medicines, calmly. Your list stays on this device, and nothing is sent anywhere.",

@@ -46,15 +46,13 @@ interface Props {
   onSettings: () => void;
   /** Opens Breathe's Your data and backups (which include the medicines). */
   onData: () => void;
-  /** Opens Breathe's Help and sharing (Share, Leave a tip, Report a problem). */
-  onHelp: () => void;
 }
 
 /**
  * Breathe Medication, inside Breathe: today's calm list, in its own sage colour.
  * Breathe's privacy screen, updates and switcher stay in charge around it.
  */
-export default function MedicationScreen({ medications, reminders, onSwitch, onSettings, onData, onHelp }: Props) {
+export default function MedicationScreen({ medications, reminders, onSwitch, onSettings, onData }: Props) {
   const { data, loading, notSaved, readProblem, update } = medications;
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
@@ -179,10 +177,6 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
           onData={() => {
             setPanel(null);
             onData();
-          }}
-          onHelp={() => {
-            setPanel(null);
-            onHelp();
           }}
           onClose={() => setPanel(null)}
         />

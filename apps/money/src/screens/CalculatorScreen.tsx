@@ -214,7 +214,6 @@ export default function CalculatorScreen() {
           onSwitch={() => setPanel("apps")}
           onSettings={() => setPanel("settings")}
           onData={() => setPanel("data")}
-          onHelp={() => setPanel("help")}
         />
       ) : (
       <HomeView

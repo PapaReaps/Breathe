@@ -96,7 +96,8 @@ const BACK_LABEL: Partial<Record<PanelId, string>> = {
  */
 function medicationParentOf(panel: PanelId): PanelId | null {
   if (panel.startsWith("opt-")) return "settings";
-  if (panel === "settings" || panel === "data" || panel === "help") return null;
+  if (panel === "settings" || panel === "data") return null;
+  if (panel === "help") return "settings";
   return parentOf(panel);
 }
 
@@ -443,6 +444,16 @@ function OptionsList({ settings, onPanel, part }: { settings: SettingsApi; onPan
             ))}
         </ul>
       ))}
+      {/* In Breathe Medication, Help and sharing sits at the bottom of Settings, like in Breathe Money. */}
+      {part === "medication" ? (
+        <ul className="menu-list settings-list">
+          <li>
+            <button type="button" className="menu-item" onClick={() => onPanel("help")}>
+              <span className="menu-title">{m.helpTitle}</span>
+            </button>
+          </li>
+        </ul>
+      ) : null}
     </>
   );
 }
