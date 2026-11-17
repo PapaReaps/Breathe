@@ -465,7 +465,7 @@ function AppsList({ part, medicationAdded, onSwitch }: { part: BreathePart; medi
     {
       id: "medication",
       name: m.appsMedication,
-      icon: "medication-icon.svg",
+      icon: "favicon.svg",
       sub: part === "medication" ? m.appsHere : medicationAdded ? m.appsOpenRow : m.appsAdd,
     },
   ];

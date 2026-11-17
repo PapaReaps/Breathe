@@ -34,14 +34,14 @@ export const words = {
     welcomeMessage: "We'll find out how much is safe to spend until your money comes in. No rush, and you can skip anything.",
     welcomeButton: "Add your numbers",
     privacyLink: "Your numbers stay on this device",
-    updateReady: (version: string) => `Version ${version} of Breathe Money is ready.`,
+    updateReady: (version: string) => `Version ${version} of Breathe is ready.`,
     updateLink: "Get it",
     updateButton: "Update ready · Get it",
     readyTitle: "Breathe Money is ready",
     readyText: "This is version 1.0. Thank you for trying it early and sharing your ideas. Your numbers are just as you left them.",
     readyButton: "Lovely, thanks",
     updatePopTitle: "Update ready",
-    updatePopText: (version: string) => `Version ${version} of Breathe Money is ready. Your numbers stay.`,
+    updatePopText: (version: string) => `Version ${version} of Breathe is ready. Your numbers and medicines stay.`,
     updatePopNow: "Update now",
     updatePopLater: "Later",
     updatesAskTitle: "Hear about new versions?",
@@ -126,7 +126,7 @@ export const words = {
     appsOpen: "Switch Breathe app",
     backToMedication: "Back to Medication",
     aboutTitle: "About Breathe Money",
-    shareTitle: "Share Breathe Money",
+    shareTitle: "Share Breathe",
     reportTitle: "Report a problem",
     tipTitle: "Leave a tip",
     liveLine: (amount: string) => `Safe to spend now: ${amount}`,
@@ -154,7 +154,7 @@ export const words = {
       "Your numbers can't be saved on this device right now. You can keep using the app, but they'll be gone when you close this page. A backup file can help.",
     backupTitle: "Save a backup file",
     backupIntro:
-      "A backup file is yours to keep wherever you like. Breathe Money never uploads it and has no copy.",
+      "A backup file is yours to keep wherever you like. Breathe never uploads it and has no copy.",
     protectedTitle: "Protected with a passphrase (recommended)",
     protectedIntro: "The file is encrypted. Without your passphrase, nobody can read what's in it.",
     protectedForget: "If you forget this passphrase, nobody, including us, can open this backup.",
@@ -199,10 +199,10 @@ export const words = {
     restoreKeep: "Keep what I have",
     restoredDone: "Done. Your numbers have been replaced with the ones in the backup.",
     restoreProblem: {
-      "too-big": "That file is much bigger than a Breathe Money backup, so it was left alone.",
-      "not-json": "That doesn't look like a Breathe Money backup file, so it was left alone.",
-      "not-ours": "That file isn't a Breathe Money backup, so it was left alone.",
-      newer: "That backup was made by a newer version of Breathe Money. Update the app, then try again.",
+      "too-big": "That file is much bigger than a Breathe backup, so it was left alone.",
+      "not-json": "That doesn't look like a Breathe backup file, so it was left alone.",
+      "not-ours": "That file isn't a Breathe backup, so it was left alone.",
+      newer: "That backup was made by a newer version of Breathe. Update the app, then try again.",
       unreadable: "Something in that backup doesn't look right, so it was left alone. Nothing has changed.",
     },
     clearTitle: "Clear my numbers",
@@ -268,7 +268,7 @@ export const words = {
     moreThanSaved: (saved: string) => `You have ${saved} saved, so you can take out up to that.`,
   },
   tip: {
-    intro: "Breathe Money is free, always. If it's helped and you'd like to say thanks, you can leave a tip.",
+    intro: "Breathe is free, always. If it's helped and you'd like to say thanks, you can leave a tip.",
     gentle: "Only if you can spare it. Tips don't unlock anything.",
     buttonLabel: (amount: string) => `Leave a ${amount} tip`,
     opens: "Tapping one opens Stripe's secure payment page. You can pay by card, Google Pay or Apple Pay.",
@@ -276,10 +276,10 @@ export const words = {
     thanks: "Thank you. Stripe's page is open now. When you're finished, close it to come back here.",
   },
   share: {
-    intro: "Know someone who might like Breathe Money? Show them this code, or send them the link. It's free.",
+    intro: "Know someone who might like Breathe? Show them this code, or send them the link. It's free.",
     switchLabel: "Which phone does your friend have?",
     kinds: { android: "Android", web: "iPhone or computer" },
-    titles: { android: "Breathe Money for Android", web: "Breathe Money in the browser" },
+    titles: { android: "Breathe for Android", web: "Breathe in the browser" },
     hints: {
       android:
         "Your friend points their phone camera at the code, and the download starts straight away. Android asks them once to allow the install. That's normal.",
@@ -292,8 +292,8 @@ export const words = {
     notCopied: "That link couldn't be copied here. You can press and hold it to copy it instead.",
   },
   report: {
-    intro: "Something not working as you expected, or an idea to make Breathe Money better? We'd love to hear it.",
-    how: "This opens a page on GitHub, where Breathe Money is made. You'll need a free GitHub account to send it.",
+    intro: "Something not working as you expected, or an idea to make Breathe better? We'd love to hear it.",
+    how: "This opens a page on GitHub, where Breathe is made. You'll need a free GitHub account to send it.",
     privacy:
       "Nothing is sent from the app itself. Please don't include your real numbers: a rough description is plenty.",
     button: "Open the report page",
@@ -326,7 +326,7 @@ export const words = {
   settings: {
     title: "Settings",
     appearanceTitle: "Light or dark",
-    appearanceIntro: "Choose how Breathe Money looks. Your choices here are saved on this device only, and clearing your numbers doesn't change them.",
+    appearanceIntro: "Choose how Breathe looks. Your choices here are saved on this device only, and clearing your numbers doesn't change them.",
     options: {
       system: "Match my device",
       light: "Light",
@@ -463,7 +463,7 @@ export const words = {
       return formatMoney(10000);
     },
     textSizeTitle: "Text size",
-    textSizeIntro: "Makes all the writing in Breathe Money bigger. Your phone or browser's own text size works too, and adds to this.",
+    textSizeIntro: "Makes all the writing in Breathe bigger. Your phone or browser's own text size works too, and adds to this.",
     textSizes: {
       standard: "Standard",
       large: "Larger",
@@ -478,7 +478,7 @@ export const words = {
     contrastSystemHint: "Uses higher contrast if your phone or computer asks for it.",
     lockTitle: "Privacy screen",
     lockIntro:
-      "Ask for a PIN when Breathe Money opens, and when you come back to it after a minute away. This stops someone glancing at your numbers.",
+      "Ask for a PIN when Breathe opens, and when you come back to it after a minute away. This stops someone glancing at your numbers and medicines.",
     lockHonest:
       "It's a privacy screen, not encryption. Your numbers on this device are still not encrypted, so someone determined, with your device, could still find them.",
     lockOff: "The privacy screen is off.",
@@ -493,14 +493,14 @@ export const words = {
       different: "The two PINs aren't the same yet. Have another look at both.",
     },
     lockTurnOn: "Turn on the privacy screen",
-    lockTurnedOn: "Done. Breathe Money will ask for your PIN next time it opens.",
+    lockTurnedOn: "Done. Breathe will ask for your PIN next time it opens.",
     lockCouldNotSave: "The PIN couldn't be kept on this device just now, so the privacy screen is still off.",
     lockNow: "Lock now",
     lockTurnOff: "Turn off the privacy screen",
     lockTurnedOff: "The privacy screen is off.",
     updatesTitle: "Updates",
     updatesIntro:
-      "This app can check whether a newer version of Breathe Money is out, then download and install it for you when you say so.",
+      "This app can check whether a newer version of Breathe is out, then download and install it for you when you say so.",
     updatesHonest:
       "Checking asks GitHub one question: what's the newest version? Downloading fetches the new app from GitHub too. Your numbers are never sent. GitHub can see that a phone asked, as with visiting any website.",
     updatesToggle: "Check once a day when I open the app",
@@ -523,14 +523,14 @@ export const words = {
   },
   lock: {
     title: "Welcome back",
-    intro: "Type your PIN to open Breathe Money.",
+    intro: "Type your PIN to open Breathe.",
     pinLabel: "Your PIN",
     open: "Open",
     checking: "Checking…",
     wrong: "That PIN doesn't match. Have another go.",
     pause: (seconds: number) =>
       `Let's pause for a moment. You can try again in ${seconds === 1 ? "1 second" : `${seconds} seconds`}.`,
-    opening: "Opening Breathe Money…",
+    opening: "Opening Breathe…",
     forgotButton: "Forgotten your PIN?",
     forgotTitle: "Forgotten your PIN?",
     forgotIntro:

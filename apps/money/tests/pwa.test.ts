@@ -24,7 +24,7 @@ describe("the app manifest (what lets it be added to a home screen)", () => {
   const manifest = JSON.parse(read("public/manifest.webmanifest"));
 
   it("has a name, opens full screen, and starts from wherever it is published", () => {
-    expect(manifest.name).toBe("Breathe Money");
+    expect(manifest.name).toBe("Breathe");
     expect(manifest.short_name.length).toBeLessThanOrEqual(12);
     expect(manifest.display).toBe("standalone");
     expect(manifest.start_url).toBe("./");

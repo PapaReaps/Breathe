@@ -6,7 +6,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
  */
 const config: CapacitorConfig = {
   appId: "io.github.papareaps.breathe.money",
-  appName: "Breathe Money",
+  appName: "Breathe",
   webDir: "dist",
   android: {
     // No pull-to-refresh, no address bar, no text zoom surprises: it should feel like an app.

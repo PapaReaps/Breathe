@@ -51,9 +51,9 @@ function ShareLink({ title, hint, url }: { title: string; hint: string; url: str
     try {
       if (isNativeApp()) {
         const { Share } = await import("@capacitor/share");
-        await Share.share({ title: "Breathe Money", url, dialogTitle: title });
+        await Share.share({ title: "Breathe", url, dialogTitle: title });
       } else {
-        await navigator.share({ title: "Breathe Money", url });
+        await navigator.share({ title: "Breathe", url });
       }
     } catch {
       /* Closing the share sheet is fine: nothing to say. */

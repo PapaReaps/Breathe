@@ -1,7 +1,7 @@
 {
-  "name": "Breathe Money",
+  "name": "Breathe",
   "short_name": "Breathe",
-  "description": "A calm, private way to see how much you can spend until your money comes in.",
+  "description": "Calm, simple apps for ADHD brains: Breathe Money and Breathe Medication.",
   "lang": "en-GB",
   "start_url": "./",
   "scope": "./",

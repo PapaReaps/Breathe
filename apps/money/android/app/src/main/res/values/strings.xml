@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Breathe Money</string>
+    <string name="app_name">Breathe</string>
     <!-- The name under the icon on the home screen. Short, so Android doesn't cut it off. -->
     <string name="title_activity_main">Breathe</string>
     <string name="package_name">io.github.papareaps.breathe.money</string>

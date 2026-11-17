@@ -66,7 +66,7 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
     <div className="home part-medication">
       <header className="topbar">
         <button type="button" className="app-switch" aria-label={`${words.appName}. ${words.switchApp}`} onClick={onSwitch}>
-          <img className="app-logo" src={`${import.meta.env.BASE_URL}medication-icon.svg`} alt="" width="22" height="22" />
+          <img className="app-logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="22" height="22" />
           <span className="app-name">{words.appName}</span>
           <span className="app-caret" aria-hidden="true">
             ▾

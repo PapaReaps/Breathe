@@ -10,7 +10,7 @@ describe("the Android app", () => {
   it("packs the same built web app inside it", () => {
     const config = read("capacitor.config.ts");
     expect(config).toContain('webDir: "dist"');
-    expect(config).toContain('appName: "Breathe Money"');
+    expect(config).toContain('appName: "Breathe"');
   });
 
   it("has a short name under the home-screen icon, so it isn't cut off", () => {
@@ -18,7 +18,7 @@ describe("the Android app", () => {
     const label = /name="title_activity_main">([^<]+)</.exec(strings)![1]!;
     expect(label).toBe("Breathe");
     expect(label.length).toBeLessThanOrEqual(10);
-    expect(strings).toContain('name="app_name">Breathe Money<');
+    expect(strings).toContain('name="app_name">Breathe<');
   });
 
   it("never copies your numbers to Google Drive or a new phone", () => {
