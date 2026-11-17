@@ -54,16 +54,18 @@ export default function CalculatorScreen() {
     setPanel(null);
   };
 
-  // v1.4.0: the name at the top left opens a picker in the middle of a faded screen. After a pick it fades
-  // away, and the new part appears halfway through, under the fade. The state lives here, so it survives the switch.
+  // v1.4.0: the name at the top left opens a picker in the middle of a faded screen. After a pick, the new part
+  // is put in place while the screen is still fully faded, then it all fades back in. The state lives here,
+  // so it survives the switch.
   const [pickerOpen, setPickerOpen] = useState(false);
   const picker: PickerControl = {
     open: pickerOpen,
     setOpen: setPickerOpen,
     medicationAdded: medicationOn,
     onPick: (next) => {
-      setPickerOpen(false);
-      if (next !== part) window.setTimeout(() => switchTo(next), 500);
+      if (next === part) return setPickerOpen(false);
+      switchTo(next);
+      window.setTimeout(() => setPickerOpen(false), 150);
     },
   };
 
