@@ -363,6 +363,7 @@ function UpdatesSettings({ updates, on, onChange }: { updates: UpdatesApi; on: b
         {updates.checking ? <p className="small">{text.updatesChecking}</p> : null}
         {!updates.checking && result?.state === "up-to-date" ? <p className="small">{text.updatesUpToDate(result.version)}</p> : null}
         {!updates.checking && result?.state === "unknown" ? <p className="small">{text.updatesUnknown}</p> : null}
+        {!updates.checking && result?.state === "busy" ? <p className="small">{text.updatesBusy}</p> : null}
         {!updates.checking && result?.state === "newer" ? (
           <div className="gentle">
             <p>{text.updatesNewer(result.version)}</p>

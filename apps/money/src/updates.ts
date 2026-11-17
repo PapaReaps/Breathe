@@ -67,7 +67,9 @@ export function versionText(version: Version): string {
 export type UpdateResult =
   | { state: "newer"; version: string; page: string; apk: string }
   | { state: "up-to-date"; version: string }
-  | { state: "unknown" };
+  | { state: "unknown" }
+  /** GitHub said "too many checks from this connection" (it allows about 60 an hour). */
+  | { state: "busy" };
 
 /** Reads GitHub's answer. Only the tag name is used. */
 export function readLatestRelease(raw: unknown, current: Version | null): UpdateResult {
@@ -133,6 +135,7 @@ export async function checkForUpdate(fetcher: typeof fetch = fetch, current?: Ve
       signal: controller.signal,
     });
     clearTimeout(timer);
+    if (response.status === 403 || response.status === 429) return { state: "busy" };
     if (!response.ok) return { state: "unknown" };
     return readNewestMoneyRelease(await response.json(), mine);
   } catch {

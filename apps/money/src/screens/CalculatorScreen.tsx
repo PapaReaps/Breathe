@@ -35,6 +35,8 @@ import type { BreathePart } from "../storage/settings";
 export default function CalculatorScreen() {
   const [today, setToday] = useState(localToday);
   const [panel, setPanel] = useState<PanelId | null>(null);
+  // Counts each "Back to the menu" from Settings, so Medication opens its menu again.
+  const [medicationMenu, setMedicationMenu] = useState(0);
   const saved = useSavedForm();
   const { form, update } = saved;
   const appearance = useSettings();
@@ -213,6 +215,7 @@ export default function CalculatorScreen() {
           reminders={reminders}
           onSwitch={() => setPanel("apps")}
           onSettings={() => setPanel("settings")}
+          openMenu={medicationMenu}
         />
       ) : (
       <HomeView
@@ -251,6 +254,10 @@ export default function CalculatorScreen() {
         />
       ) : null}
       <MenuSheet
+        onMedicationMenu={() => {
+          setPanel(null);
+          setMedicationMenu((n) => n + 1);
+        }}
         panel={panel}
         onPanel={setPanel}
         form={form}

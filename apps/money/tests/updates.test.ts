@@ -112,6 +112,13 @@ describe("asking GitHub", () => {
     expect(await checkForUpdate(notFound, [0, 11, 0])).toEqual({ state: "unknown" });
   });
 
+  it("says GitHub is busy when it has had too many checks from this connection", async () => {
+    for (const status of [403, 429]) {
+      const limited = (async () => new Response("{}", { status })) as unknown as typeof fetch;
+      expect(await checkForUpdate(limited, [0, 11, 0])).toEqual({ state: "busy" });
+    }
+  });
+
   it("does nothing on the web version, which updates by itself", async () => {
     let asked = false;
     const fake = (async () => {

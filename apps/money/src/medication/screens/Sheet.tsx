@@ -1,7 +1,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { words } from "../content/words";
 
-/** A full-screen panel (a <dialog>), the same as Breathe Money's menu. Back or Escape closes it. */
+/** A full-screen panel (a <dialog>), the same as Breathe Money's menu. The phone's Back (or Escape) steps back a page. */
 export default function Sheet({
   title,
   onClose,
@@ -34,7 +34,7 @@ export default function Sheet({
       aria-labelledby="sheet-title"
       onCancel={(event) => {
         event.preventDefault();
-        onClose();
+        (onBack ?? onClose)();
       }}
     >
       <div className="sheet-inner">

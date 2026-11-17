@@ -44,16 +44,22 @@ interface Props {
   onSwitch: () => void;
   /** Opens Breathe's shared Settings (look, text size, privacy screen). */
   onSettings: () => void;
+  /** Goes up by one each time Breathe's Settings says "Back to the menu". */
+  openMenu?: number;
 }
 
 /**
  * Breathe Medication, inside Breathe: today's calm list, in its own sage colour.
  * Breathe's privacy screen, updates and switcher stay in charge around it.
  */
-export default function MedicationScreen({ medications, reminders, onSwitch, onSettings }: Props) {
+export default function MedicationScreen({ medications, reminders, onSwitch, onSettings, openMenu = 0 }: Props) {
   const { data, loading, notSaved, readProblem, update } = medications;
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
+
+  useEffect(() => {
+    if (openMenu > 0) setPanel({ kind: "menu" });
+  }, [openMenu]);
 
   const doses = dosesFor(data, now);
   const line = nextLine(doses, now);

@@ -509,6 +509,7 @@ export const words = {
     updatesUpToDate: (version: string) => `You have the newest version (${version}).`,
     updatesNewer: (version: string) => `Version ${version} is ready.`,
     updatesUnknown: "Couldn't check just now. You may be offline. Nothing has changed.",
+    updatesBusy: "GitHub is busy just now, so Breathe couldn't check. Try again in an hour. Nothing has changed.",
     updatesHowTo: "It installs over this one, and your numbers stay.",
     updatesInstall: "Download and install",
     updatesDownloading: (percent: number | null) => (percent === null ? "Downloading…" : `Downloading… ${percent}%`),

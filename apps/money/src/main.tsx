@@ -2,12 +2,15 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./styles.css";
+import { listenForPhoneBack } from "./phoneBack";
 
 const root = document.getElementById("root");
 
 if (!root) {
   throw new Error("Could not find the place on the page to start Breathe Money.");
 }
+
+void listenForPhoneBack();
 
 createRoot(root).render(
   <StrictMode>

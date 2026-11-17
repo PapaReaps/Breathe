@@ -57,7 +57,7 @@ export function useUpdates(enabled: boolean): UpdatesApi {
     if (!available) return;
     setChecking(true);
     const answer = await checkForUpdate();
-    if (answer.state !== "unknown") noteChecked();
+    if (answer.state !== "unknown" && answer.state !== "busy") noteChecked();
     setResult(answer);
     setChecking(false);
   }, [available]);
@@ -67,7 +67,7 @@ export function useUpdates(enabled: boolean): UpdatesApi {
     let cancelled = false;
     checkForUpdate().then((answer) => {
       if (cancelled) return;
-      if (answer.state !== "unknown") noteChecked();
+      if (answer.state !== "unknown" && answer.state !== "busy") noteChecked();
       setResult(answer);
     });
     return () => {

@@ -41,6 +41,8 @@ interface MenuSheetProps {
   part: BreathePart;
   medicationAdded: boolean;
   onSwitch: (part: BreathePart) => void;
+  /** Medication: closes Settings and opens Medication's own menu again. */
+  onMedicationMenu: () => void;
 }
 
 const ui = words.ui;
@@ -113,10 +115,22 @@ const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "mone
  * It uses the browser's own <dialog>, which already handles the Escape key,
  * keeps keyboard focus inside, and hands focus back to the Menu button on close.
  */
-export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings, part, medicationAdded, onSwitch }: MenuSheetProps) {
+export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings, part, medicationAdded, onSwitch, onMedicationMenu }: MenuSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const panelNow = useRef(panel);
+  panelNow.current = panel;
+  const steppingBack = useRef(false);
+
+  /** One page back: the folder this page lives in, or Medication's menu, or closed from the top. */
+  const goBack = () => {
+    if (panel === null) return;
+    if (panel === "menu" || panel === "apps") return onPanel(null);
+    const back = part === "medication" ? medicationParentOf(panel) : parentOf(panel);
+    if (back === null) onMedicationMenu();
+    else onPanel(back);
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -147,7 +161,20 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
       ref={dialogRef}
       className="sheet"
       aria-labelledby="sheet-title"
-      onClose={() => onPanel(null)}
+      onCancel={(event) => {
+        event.preventDefault();
+        steppingBack.current = true;
+        goBack();
+      }}
+      onClose={() => {
+        if (steppingBack.current) {
+          steppingBack.current = false;
+          const dialog = dialogRef.current;
+          if (panelNow.current !== null && dialog && !dialog.open) dialog.showModal();
+          return;
+        }
+        onPanel(null);
+      }}
       onClick={(event) => {
         // A click on the dimmed area outside the panel closes it.
         if (event.target === event.currentTarget) onPanel(null);
@@ -162,8 +189,8 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               (() => {
                 const back = part === "medication" ? medicationParentOf(panel) : parentOf(panel);
                 return (
-                  <button type="button" className="secondary" onClick={() => onPanel(back)}>
-                    {back === null ? `← ${words.menu.backToMedication}` : `← ${BACK_LABEL[back] ?? words.menu.back}`}
+                  <button type="button" className="secondary" onClick={goBack}>
+                    {back === null ? `← ${words.menu.back}` : `← ${BACK_LABEL[back] ?? words.menu.back}`}
                   </button>
                 );
               })()
