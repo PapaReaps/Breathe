@@ -15,13 +15,11 @@ interface Props {
   onAdd: () => void;
   onEdit: (id: string) => void;
   onSettings: () => void;
-  onData: () => void;
   onClose: () => void;
 }
 
 /** The menu: your medicines (tap one to change it), add another, and about. */
-export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onSettings, onData, onClose }: Props) {
-  const [about, setAbout] = useState(false);
+export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onSettings, onClose }: Props) {
   const [remindersPage, setRemindersPage] = useState(false);
   const [historyPage, setHistoryPage] = useState(false);
   const rem = words.reminders;
@@ -38,16 +36,6 @@ export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, o
     return (
       <Sheet title={rem.panelTitle} onClose={onClose} onBack={() => setRemindersPage(false)} key="reminders">
         <ReminderSettings reminders={reminders} />
-      </Sheet>
-    );
-  }
-
-  if (about) {
-    return (
-      <Sheet title={menu.about} onClose={onClose} onBack={() => setAbout(false)} key="about">
-        {menu.aboutText.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
       </Sheet>
     );
   }
@@ -93,17 +81,6 @@ export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, o
         <li>
           <button type="button" className="menu-item" onClick={onSettings}>
             <span className="menu-title">{menu.settings}</span>
-            <span className="menu-sub">{menu.settingsSub}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={onData}>
-            <span className="menu-title">{menu.data}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={() => setAbout(true)}>
-            <span className="menu-title">{menu.about}</span>
           </button>
         </li>
       </ul>

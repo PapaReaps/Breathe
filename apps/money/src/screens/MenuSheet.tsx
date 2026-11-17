@@ -24,6 +24,7 @@ import { DEFAULT_SETTINGS } from "../storage/settings";
 import type { BreathePart } from "../storage/settings";
 import { ReportView, ShareView } from "./ShareView";
 import { TipView } from "./TipView";
+import { words as medicationWords } from "../medication/content/words";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 interface MenuSheetProps {
@@ -96,8 +97,9 @@ const BACK_LABEL: Partial<Record<PanelId, string>> = {
  */
 function medicationParentOf(panel: PanelId): PanelId | null {
   if (panel.startsWith("opt-")) return "settings";
-  if (panel === "settings" || panel === "data") return null;
-  if (panel === "help") return "settings";
+  if (panel === "settings") return null;
+  // Your data, Help and sharing, and About all sit inside Settings.
+  if (panel === "data" || panel === "help" || panel === "about") return "settings";
   return parentOf(panel);
 }
 
@@ -173,7 +175,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
 
           <div className="sheet-body" ref={bodyRef}>
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
-              {TITLES[panel]}
+              {part === "medication" && panel === "about" ? medicationWords.menu.about : TITLES[panel]}
             </h2>
             {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
@@ -223,7 +225,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
             {panel === "share" ? <ShareView /> : null}
             {panel === "tip" ? <TipView /> : null}
             {panel === "report" ? <ReportView /> : null}
-            {panel === "about" ? <AboutView /> : null}
+            {panel === "about" ? part === "medication" ? <MedicationAbout /> : <AboutView /> : null}
           </div>
 
           {isSection ? (
@@ -444,16 +446,34 @@ function OptionsList({ settings, onPanel, part }: { settings: SettingsApi; onPan
             ))}
         </ul>
       ))}
-      {/* In Breathe Medication, Help and sharing sits at the bottom of Settings, like in Breathe Money. */}
+      {/* In Breathe Medication, these sit at the bottom of Settings. */}
       {part === "medication" ? (
         <ul className="menu-list settings-list">
-          <li>
-            <button type="button" className="menu-item" onClick={() => onPanel("help")}>
-              <span className="menu-title">{m.helpTitle}</span>
-            </button>
-          </li>
+          {(
+            [
+              ["data", m.names.data],
+              ["help", m.helpTitle],
+              ["about", medicationWords.menu.about],
+            ] as Array<[PanelId, string]>
+          ).map(([id, title]) => (
+            <li key={id}>
+              <button type="button" className="menu-item" onClick={() => onPanel(id)}>
+                <span className="menu-title">{title}</span>
+              </button>
+            </li>
+          ))}
         </ul>
       ) : null}
+    </>
+  );
+}
+
+function MedicationAbout() {
+  return (
+    <>
+      {medicationWords.menu.aboutText.map((line) => (
+        <p key={line}>{line}</p>
+      ))}
     </>
   );
 }

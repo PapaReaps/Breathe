@@ -44,15 +44,13 @@ interface Props {
   onSwitch: () => void;
   /** Opens Breathe's shared Settings (look, text size, privacy screen). */
   onSettings: () => void;
-  /** Opens Breathe's Your data and backups (which include the medicines). */
-  onData: () => void;
 }
 
 /**
  * Breathe Medication, inside Breathe: today's calm list, in its own sage colour.
  * Breathe's privacy screen, updates and switcher stay in charge around it.
  */
-export default function MedicationScreen({ medications, reminders, onSwitch, onSettings, onData }: Props) {
+export default function MedicationScreen({ medications, reminders, onSwitch, onSettings }: Props) {
   const { data, loading, notSaved, readProblem, update } = medications;
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
@@ -173,10 +171,6 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
           onSettings={() => {
             setPanel(null);
             onSettings();
-          }}
-          onData={() => {
-            setPanel(null);
-            onData();
           }}
           onClose={() => setPanel(null)}
         />

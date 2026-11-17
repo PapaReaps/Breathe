@@ -213,7 +213,6 @@ export default function CalculatorScreen() {
           reminders={reminders}
           onSwitch={() => setPanel("apps")}
           onSettings={() => setPanel("settings")}
-          onData={() => setPanel("data")}
         />
       ) : (
       <HomeView

@@ -61,7 +61,6 @@ export const words = {
     none: "None yet",
     timesSummary: (times: string[]) => (times.length === 1 ? `Every day, ${times[0]}` : `Every day, ${times.join(", ")}`),
     settings: "Settings",
-    settingsSub: "Look, text and privacy",
     data: "Your data and backups",
     about: "About Breathe Medication",
     aboutText: [
