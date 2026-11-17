@@ -14,12 +14,11 @@ interface Props {
   reminders: Reminders;
   onAdd: () => void;
   onEdit: (id: string) => void;
-  onSettings: () => void;
   onClose: () => void;
 }
 
 /** The menu: your medicines (tap one to change it), add another, and about. */
-export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onSettings, onClose }: Props) {
+export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, onClose }: Props) {
   const [remindersPage, setRemindersPage] = useState(false);
   const [historyPage, setHistoryPage] = useState(false);
   const rem = words.reminders;
@@ -76,11 +75,6 @@ export default function MenuSheet({ medicines, data, reminders, onAdd, onEdit, o
           <button type="button" className="menu-item" onClick={() => setRemindersPage(true)}>
             <span className="menu-title">{rem.menuRow}</span>
             <span className="menu-sub">{!reminders.possible ? rem.menuWeb : reminders.settings.on ? rem.menuOn : rem.menuOff}</span>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="menu-item" onClick={onSettings}>
-            <span className="menu-title">{menu.settings}</span>
           </button>
         </li>
       </ul>

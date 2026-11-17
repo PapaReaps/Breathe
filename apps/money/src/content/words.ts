@@ -29,6 +29,7 @@ export const words = {
     moneyOnTheWayLabel: (amount: string, day: string) => `${amount} more comes in on ${day}. It isn't in your number until then.`,
     appName: "Breathe Money",
     menuButton: "Menu",
+    settingsButton: "Settings",
     welcomeTitle: "Take a breath.",
     welcomeTitleTwo: "You've got this.",
     welcomeMessage: "We'll find out how much is safe to spend until your money comes in. No rush, and you can skip anything.",
@@ -68,7 +69,7 @@ export const words = {
     title: "Menu",
     done: "Done",
     back: "Back to the menu",
-    backToMore: "Back to Settings",
+    backToMore: "Back to Money options",
     backToOptions: "Back to Settings",
     backToHelp: "Back to Help and sharing",
     helpTitle: "Help and sharing",
@@ -98,7 +99,7 @@ export const words = {
     homeSome: "Some hidden",
     on: "On",
     off: "Off",
-    moreTitle: "Settings",
+    moreTitle: "Money options",
     toGetYourNumber: "To see your number:",
     names: {
       account: "Your account",
@@ -109,7 +110,7 @@ export const words = {
       pot: "Savings",
       holidays: "Bank holidays",
       data: "Your data and backups",
-      settings: "App options",
+      settings: "Settings",
       money: "Your money",
     },
     moneySub: "In, out, food, savings",
@@ -124,7 +125,7 @@ export const words = {
     appsComing: ["Breathe Travel", "Breathe Reminders"],
     appsOpen: "Switch Breathe app",
     backToMedication: "Back to Medication",
-    aboutTitle: "About Breathe Money",
+    aboutTitle: "About Breathe",
     shareTitle: "Share Breathe",
     reportTitle: "Report a problem",
     tipTitle: "Leave a tip",
@@ -300,8 +301,10 @@ export const words = {
   about: {
     promise: "Breathe will never be about making money. It will always be about helping people.",
     privacy:
-      "There are no accounts, no tracking and no adverts. Your numbers are kept on your own device, inside your browser, and are never sent anywhere. They are not encrypted, so see Your data and backups for what that means.",
+      "There are no accounts, no tracking and no adverts. Your numbers and medicines are kept on your own device and are never sent anywhere. They are not encrypted, so see Your data and backups for what that means.",
     advice: "Breathe Money is an organisation tool, not financial advice.",
+    medicalAdvice:
+      "Breathe Medication is a reminder tool, not medical advice. It never checks doses. Questions about your medicines? Check with your pharmacist or GP.",
   },
 
   rows: {

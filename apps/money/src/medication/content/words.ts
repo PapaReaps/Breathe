@@ -6,6 +6,7 @@ import type { DraftProblem, PartOfDay } from "../logic/medicines";
 export const words = {
   appName: "Breathe Medication",
   menuButton: "Menu",
+  settingsButton: "Settings",
   switchApp: "Switch Breathe app",
   loading: "Opening your medicines…",
 

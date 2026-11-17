@@ -24,7 +24,6 @@ import { DEFAULT_SETTINGS } from "../storage/settings";
 import type { BreathePart } from "../storage/settings";
 import { ReportView, ShareView } from "./ShareView";
 import { TipView } from "./TipView";
-import { words as medicationWords } from "../medication/content/words";
 import type { DataApi, FormApi, Outcome, PanelId, SettingsApi } from "./screenTypes";
 
 interface MenuSheetProps {
@@ -41,8 +40,6 @@ interface MenuSheetProps {
   part: BreathePart;
   medicationAdded: boolean;
   onSwitch: (part: BreathePart) => void;
-  /** Medication: closes Settings and opens Medication's own menu again. */
-  onMedicationMenu: () => void;
 }
 
 const ui = words.ui;
@@ -79,12 +76,17 @@ const TITLES: Record<PanelId, string> = {
   about: words.menu.aboutTitle,
 };
 
-/** Where each page's Back button goes: the folder it lives in. */
-function parentOf(panel: PanelId): PanelId {
-  if (panel === "setup" || panel === "settings" || panel === "data" || panel === "help" || panel === "holidays") return "more";
-  if (panel === "share" || panel === "tip" || panel === "report" || panel === "about") return "help";
-  // v0.31.0: the option pages open straight from Settings (no separate App options page).
-  if (panel.startsWith("opt-")) return "more";
+/**
+ * Where each page's Back button goes: the folder it lives in, or null for the top of a folder
+ * (the Menu, Settings and Breathe apps), which only closes.
+ * v1.2.0: Settings (the gear) is one folder for all of Breathe; Money options sits in Money's menu.
+ */
+function parentOf(panel: PanelId): PanelId | null {
+  if (panel === "menu" || panel === "apps" || panel === "settings") return null;
+  if (panel === "share" || panel === "tip" || panel === "report") return "help";
+  if (panel === "data" || panel === "help" || panel === "about") return "settings";
+  if (panel === "setup" || panel === "holidays" || panel === "opt-currency" || panel === "opt-home" || panel === "opt-reminder") return "more";
+  if (panel.startsWith("opt-")) return "settings";
   return "menu";
 }
 const BACK_LABEL: Partial<Record<PanelId, string>> = {
@@ -93,17 +95,6 @@ const BACK_LABEL: Partial<Record<PanelId, string>> = {
   help: words.menu.backToHelp,
   settings: words.menu.backToOptions,
 };
-/**
- * From Breathe Medication (v1.1.0), Settings and Your data open on their own, so Back from them
- * goes straight back to Medication, and Back from an option page goes to Settings.
- */
-function medicationParentOf(panel: PanelId): PanelId | null {
-  if (panel.startsWith("opt-")) return "settings";
-  if (panel === "settings") return null;
-  // Your data, Help and sharing, and About all sit inside Settings.
-  if (panel === "data" || panel === "help" || panel === "about") return "settings";
-  return parentOf(panel);
-}
 
 const groupOf = (panel: PanelId): OptionGroup | null =>
   panel.startsWith("opt-") ? (panel.slice(4) as OptionGroup) : null;
@@ -115,7 +106,7 @@ const SECTION_PANELS: PanelId[] = ["account", "payday", "bills", "income", "mone
  * It uses the browser's own <dialog>, which already handles the Escape key,
  * keeps keyboard focus inside, and hands focus back to the Menu button on close.
  */
-export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings, part, medicationAdded, onSwitch, onMedicationMenu }: MenuSheetProps) {
+export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, data, settings, part, medicationAdded, onSwitch }: MenuSheetProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -123,13 +114,10 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
   panelNow.current = panel;
   const steppingBack = useRef(false);
 
-  /** One page back: the folder this page lives in, or Medication's menu, or closed from the top. */
+  /** One page back: the folder this page lives in, or closed from the top. */
   const goBack = () => {
     if (panel === null) return;
-    if (panel === "menu" || panel === "apps") return onPanel(null);
-    const back = part === "medication" ? medicationParentOf(panel) : parentOf(panel);
-    if (back === null) onMedicationMenu();
-    else onPanel(back);
+    onPanel(parentOf(panel));
   };
 
   useEffect(() => {
@@ -183,18 +171,16 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
       {panel !== null ? (
         <div className="sheet-inner">
           <div className="sheet-header">
-            {panel === "menu" || panel === "apps" ? (
-              <span />
-            ) : (
-              (() => {
-                const back = part === "medication" ? medicationParentOf(panel) : parentOf(panel);
-                return (
-                  <button type="button" className="secondary" onClick={goBack}>
-                    {back === null ? `← ${words.menu.back}` : `← ${BACK_LABEL[back] ?? words.menu.back}`}
-                  </button>
-                );
-              })()
-            )}
+            {(() => {
+              const back = parentOf(panel);
+              return back === null ? (
+                <span />
+              ) : (
+                <button type="button" className="secondary" onClick={goBack}>
+                  {`← ${BACK_LABEL[back] ?? words.menu.back}`}
+                </button>
+              );
+            })()}
             <button type="button" onClick={() => onPanel(null)}>
               {words.menu.done}
             </button>
@@ -202,7 +188,7 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
 
           <div className="sheet-body" ref={bodyRef}>
             <h2 id="sheet-title" tabIndex={-1} ref={headingRef}>
-              {part === "medication" && panel === "about" ? medicationWords.menu.about : TITLES[panel]}
+              {TITLES[panel]}
             </h2>
             {panel === "menu" ? <MenuList form={form} today={today} built={built} outcome={outcome} onPanel={onPanel} /> : null}
             {panel === "account" ? <AccountSection form={form} today={today} api={api} /> : null}
@@ -242,17 +228,17 @@ export function MenuSheet({ panel, onPanel, form, today, built, outcome, api, da
               <SetupView form={form} today={today} built={built} api={api} settings={settings} onClose={() => onPanel(null)} />
             ) : null}
             {panel === "coming-up" ? <ComingUpView built={built} outcome={outcome} settings={settings} /> : null}
-            {panel === "more" ? <MoreList onPanel={onPanel} holidays={describeForm(form, today).holidays} settings={settings} /> : null}
-            {panel === "settings" ? <OptionsList settings={settings} onPanel={onPanel} part={part} /> : null}
+            {panel === "more" ? <MoneyOptionsList onPanel={onPanel} holidays={describeForm(form, today).holidays} settings={settings} /> : null}
+            {panel === "settings" ? <SettingsList settings={settings} onPanel={onPanel} /> : null}
             {groupOf(panel) !== null ? <SettingsView settings={settings} group={groupOf(panel)!} /> : null}
-            {panel === "help" ? <HelpList onPanel={onPanel} part={part} /> : null}
+            {panel === "help" ? <HelpList onPanel={onPanel} /> : null}
             {panel === "data" ? (
               <DataView data={data} hasNumbers={hasNumbers(form)} onResetSettings={() => settings.change(DEFAULT_SETTINGS)} />
             ) : null}
             {panel === "share" ? <ShareView /> : null}
             {panel === "tip" ? <TipView /> : null}
             {panel === "report" ? <ReportView /> : null}
-            {panel === "about" ? part === "medication" ? <MedicationAbout /> : <AboutView /> : null}
+            {panel === "about" ? <AboutView /> : null}
           </div>
 
           {isSection ? (
@@ -333,15 +319,15 @@ function MenuList({ form, today, built, onPanel }: MenuListProps) {
   );
 }
 
-/** The Settings folder: the less-used pages, kept together so the menu stays short. */
-function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) => void; holidays: string; settings: SettingsApi }) {
+/** What each option row shows on the right: the choice made now. */
+function optionNow(settings: SettingsApi): Record<OptionGroup, string> {
   const s = settings.settings;
   const t = words.settings;
   const m = words.menu;
   const shown = [s.showExplanation, s.showPayday, s.showSavings].filter(Boolean).length;
   const sound = s.clickSound === "off" ? null : t.sounds[s.clickSound];
   const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
-  const now: Record<OptionGroup, string> = {
+  return {
     currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
     look: `${t.optionsShort[s.appearance]} · ${t.accents[s.accent]}`,
     text: t.textSizes[s.textSize],
@@ -351,63 +337,70 @@ function MoreList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) =
     privacy: settings.lock.isOn ? m.on : m.off,
     updates: settings.updates.installed ?? "",
   };
-  const option = (g: OptionGroup) => (
-    <li key={g}>
-      <button type="button" className="menu-item" onClick={() => onPanel(`opt-${g}` as PanelId)}>
-        <span className="menu-title">{m.optionGroups[g]}</span>
-        <span className="menu-sub">{now[g]}</span>
-      </button>
-    </li>
-  );
-  const page = (id: PanelId, title: string, sub?: string) => (
-    <li key={id}>
-      <button type="button" className="menu-item" onClick={() => onPanel(id)}>
+}
+
+/** One row that opens a page. The words on the right, if any, say what's chosen now. */
+function Row({ title, sub, onClick }: { title: string; sub?: string; onClick: () => void }) {
+  return (
+    <li>
+      <button type="button" className="menu-item" onClick={onClick}>
         <span className="menu-title">{title}</span>
-        {sub === undefined ? null : <span className="menu-sub">{sub}</span>}
+        {sub === undefined || sub === "" ? null : <span className="menu-sub">{sub}</span>}
       </button>
     </li>
   );
-  // v0.31.0: everything on one page, in three small groups (no separate App options page).
+}
+
+/** Money options (in Breathe Money's menu): the choices that are only about money. */
+function MoneyOptionsList({ onPanel, holidays, settings }: { onPanel: (panel: PanelId) => void; holidays: string; settings: SettingsApi }) {
+  const now = optionNow(settings);
+  const m = words.menu;
+  const option = (g: OptionGroup) => <Row key={g} title={m.optionGroups[g]} sub={now[g]} onClick={() => onPanel(`opt-${g}` as PanelId)} />;
   return (
     <>
-      <h3 className="settings-heading">{m.settingsGroups.feel}</h3>
-      <ul className="menu-list settings-list">{(["look", "text", "home", "sounds"] as const).map(option)}</ul>
-      <h3 className="settings-heading">{m.settingsGroups.reminders}</h3>
+      <ul className="menu-list settings-list">{(["currency", "home", "reminder"] as const).map(option)}</ul>
       <ul className="menu-list settings-list">
-        {(["reminder", "privacy", "updates"] as const).filter((g) => g !== "updates" || settings.updates.available).map(option)}
+        <Row title={words.setup.menuItem} onClick={() => onPanel("setup")} />
+        <Row title={m.names.holidays} sub={holidays} onClick={() => onPanel("holidays")} />
       </ul>
-      <h3 className="settings-heading">{m.settingsGroups.numbers}</h3>
-      <ul className="menu-list settings-list">
-        {option("currency")}
-        {page("setup", words.setup.menuItem)}
-        {page("holidays", m.names.holidays, holidays)}
-        {page("data", m.names.data)}
-      </ul>
-      <ul className="menu-list settings-list">{page("help", m.helpTitle)}</ul>
     </>
   );
 }
 
-/** Help and sharing: Share, Report a problem and About, kept together. */
-function HelpList({ onPanel, part }: { onPanel: (panel: PanelId) => void; part: BreathePart }) {
+/** Settings (the gear in the top bar): everything about Breathe itself, the same in every part. */
+function SettingsList({ settings, onPanel }: { settings: SettingsApi; onPanel: (panel: PanelId) => void }) {
+  const now = optionNow(settings);
+  const m = words.menu;
+  const option = (g: OptionGroup) => <Row key={g} title={m.optionGroups[g]} sub={now[g]} onClick={() => onPanel(`opt-${g}` as PanelId)} />;
+  return (
+    <>
+      <ul className="menu-list settings-list">{(["look", "text", "sounds"] as const).map(option)}</ul>
+      <ul className="menu-list settings-list">
+        {option("privacy")}
+        {settings.updates.available ? option("updates") : null}
+        <Row title={m.names.data} onClick={() => onPanel("data")} />
+      </ul>
+      <ul className="menu-list settings-list">
+        <Row title={m.helpTitle} onClick={() => onPanel("help")} />
+        <Row title={m.aboutTitle} onClick={() => onPanel("about")} />
+      </ul>
+    </>
+  );
+}
+
+/** Help and sharing: Share, Leave a tip and Report a problem, with quiet follow links underneath. */
+function HelpList({ onPanel }: { onPanel: (panel: PanelId) => void }) {
   const items: Array<[PanelId, string]> = [
     ["share", words.menu.shareTitle],
     ["tip", words.menu.tipTitle],
     ["report", words.menu.reportTitle],
-    ["about", words.menu.aboutTitle],
   ];
-  // Breathe Medication has its own About in its menu.
-  if (part === "medication") items.pop();
   const follow = words.menu.follow;
   return (
     <>
       <ul className="menu-list">
         {items.map(([id, title]) => (
-          <li key={id}>
-            <button type="button" className="menu-item" onClick={() => onPanel(id)}>
-              <span className="menu-title">{title}</span>
-            </button>
-          </li>
+          <Row key={id} title={title} onClick={() => onPanel(id)} />
         ))}
       </ul>
       {/* v1.0.1: quiet follow links underneath. Only the two checked addresses can open. */}
@@ -434,83 +427,14 @@ function HelpList({ onPanel, part }: { onPanel: (panel: PanelId) => void; part: 
   );
 }
 
-/** App options: a short list of groups. Each shows the current choice, and opens its own small page. */
-function OptionsList({ settings, onPanel, part }: { settings: SettingsApi; onPanel: (panel: PanelId) => void; part: BreathePart }) {
-  const s = settings.settings;
-  const t = words.settings;
-  const m = words.menu;
-  const shown = [s.showExplanation, s.showPayday, s.showSavings].filter(Boolean).length;
-  const sound = s.clickSound === "off" ? null : t.sounds[s.clickSound];
-  const buzz = s.vibration === "off" ? null : t.vibrations[s.vibration];
-  const now: Record<OptionGroup, string> = {
-    currency: `${moneySymbol()} ${words.currency.names[s.currency ?? "GBP"]}`,
-    look: `${t.optionsShort[s.appearance]} · ${t.accents[s.accent]}`,
-    text: t.textSizes[s.textSize],
-    home: shown === 3 ? m.homeAll : shown === 0 ? m.homeNone : m.homeSome,
-    reminder: t.reminderShort[s.balanceReminder],
-    sounds: sound === null && buzz === null ? m.off : [sound, buzz].filter(Boolean).join(" · "),
-    privacy: settings.lock.isOn ? m.on : m.off,
-    updates: settings.updates.installed ?? "",
-  };
-  // Three small groups, like the Menu: how it looks, what it does, and keeping it safe.
-  const sets: OptionGroup[][] = [["look", "text", "home"], ["reminder", "sounds"], ["privacy", "updates"]];
-  return (
-    <>
-      <p className="hint">{m.optionsIntro}</p>
-      {sets.map((set) => (
-        <ul key={set.join()} className="menu-list settings-list">
-          {set
-            .filter((g) => g !== "updates" || settings.updates.available)
-            // Home screen and Balance reminder are about Breathe Money only.
-            .filter((g) => part !== "medication" || (g !== "home" && g !== "reminder"))
-            .map((g) => (
-              <li key={g}>
-                <button type="button" className="menu-item" onClick={() => onPanel(`opt-${g}` as PanelId)}>
-                  <span className="menu-title">{m.optionGroups[g]}</span>
-                  <span className="menu-sub">{now[g]}</span>
-                </button>
-              </li>
-            ))}
-        </ul>
-      ))}
-      {/* In Breathe Medication, these sit at the bottom of Settings. */}
-      {part === "medication" ? (
-        <ul className="menu-list settings-list">
-          {(
-            [
-              ["data", m.names.data],
-              ["help", m.helpTitle],
-              ["about", medicationWords.menu.about],
-            ] as Array<[PanelId, string]>
-          ).map(([id, title]) => (
-            <li key={id}>
-              <button type="button" className="menu-item" onClick={() => onPanel(id)}>
-                <span className="menu-title">{title}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </>
-  );
-}
-
-function MedicationAbout() {
-  return (
-    <>
-      {medicationWords.menu.aboutText.map((line) => (
-        <p key={line}>{line}</p>
-      ))}
-    </>
-  );
-}
-
+/** About Breathe: one page for the whole app. */
 function AboutView() {
   return (
     <>
       <p className="about-promise">{words.about.promise}</p>
       <p>{words.about.privacy}</p>
       <p>{words.about.advice}</p>
+      <p>{words.about.medicalAdvice}</p>
     </>
   );
 }

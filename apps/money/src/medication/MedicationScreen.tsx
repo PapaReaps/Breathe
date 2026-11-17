@@ -42,24 +42,18 @@ interface Props {
   reminders: Reminders;
   /** Opens Breathe's switcher ("Your Breathe apps"). */
   onSwitch: () => void;
-  /** Opens Breathe's shared Settings (look, text size, privacy screen). */
+  /** Opens Breathe's shared Settings (the gear in the top bar). */
   onSettings: () => void;
-  /** Goes up by one each time Breathe's Settings says "Back to the menu". */
-  openMenu?: number;
 }
 
 /**
  * Breathe Medication, inside Breathe: today's calm list, in its own sage colour.
  * Breathe's privacy screen, updates and switcher stay in charge around it.
  */
-export default function MedicationScreen({ medications, reminders, onSwitch, onSettings, openMenu = 0 }: Props) {
+export default function MedicationScreen({ medications, reminders, onSwitch, onSettings }: Props) {
   const { data, loading, notSaved, readProblem, update } = medications;
   const [panel, setPanel] = useState<Panel>(null);
   const now = useNow();
-
-  useEffect(() => {
-    if (openMenu > 0) setPanel({ kind: "menu" });
-  }, [openMenu]);
 
   const doses = dosesFor(data, now);
   const line = nextLine(doses, now);
@@ -76,12 +70,20 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
             ▾
           </span>
         </button>
+        <div className="topbar-buttons">
+        <button type="button" className="settings-button" aria-label={words.settingsButton} onClick={onSettings} aria-haspopup="dialog" disabled={loading}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </button>
         <button type="button" className="menu-button" onClick={() => setPanel({ kind: "menu" })} aria-haspopup="dialog" disabled={loading}>
           <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
             <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
           <span>{words.menuButton}</span>
         </button>
+        </div>
       </header>
 
       <main className={welcome || loading ? "home-main" : "home-main today"} data-screen={welcome ? "welcome" : "home"}>
@@ -174,10 +176,6 @@ export default function MedicationScreen({ medications, reminders, onSwitch, onS
           reminders={reminders}
           onAdd={() => setPanel({ kind: "medicine", id: null, fromMenu: true })}
           onEdit={(id) => setPanel({ kind: "medicine", id, fromMenu: true })}
-          onSettings={() => {
-            setPanel(null);
-            onSettings();
-          }}
           onClose={() => setPanel(null)}
         />
       ) : null}

@@ -14,11 +14,11 @@ iPhones can't install an app from a file. On an iPhone, open the web link and us
 
 ## Installing the APK
 
-1. On your Android phone, tap **[this download link](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)** (or point the camera at the QR code on a friend's phone: **Menu → Settings → Help and sharing → Share Breathe Money**). The download starts straight away, then tap **Open**. You can also pick the file ending in `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).
+1. On your Android phone, tap **[this download link](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)** (or point the camera at the QR code on a friend's phone: **Settings (the gear) → Help and sharing → Share Breathe**). The download starts straight away, then tap **Open**. You can also pick the file ending in `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).
 2. Android asks whether your browser may "install unknown apps". That's Android's standard check for anything that doesn't come from the Play Store. Allow it for this one install (you can switch it off again afterwards).
 3. Tap **Install**, then **Open**.
 
-**Updating:** in the app, go to **Menu → Settings → Updates**. Tap **Check now**, or switch on **Check once a day when I open the app**. When a new version is out, the app says so (in Settings, and as a small note on the home screen). In **Menu → Settings → App options → Updates**, tap **Download and install**. The first time, Android asks you to allow Breathe Money to install apps ("Allow from this source"): switch it on, come back and tap **Install now**. Android then asks "Do you want to update this app?": tap **Update**. Your numbers stay. There's also a link to get it from GitHub by hand.
+**Updating:** in the app, go to **Settings (the gear) → Updates**. Tap **Check now**, or switch on **Check once a day when I open the app**. When a new version is out, the app says so (in Settings, and as a small note on the home screen). In **Settings (the gear) → Updates**, tap **Download and install**. The first time, Android asks you to allow Breathe to install apps ("Allow from this source"): switch it on, come back and tap **Install now**. Android then asks "Do you want to update this app?": tap **Update**. Your numbers stay. There's also a link to get it from GitHub by hand.
 
 How it's kept safe: the app only downloads from Breathe Money's own GitHub releases (any other address is refused), checks the file really is Breathe Money, and Android refuses any update not signed with the same key as the installed app. The `REQUEST_INSTALL_PACKAGES` permission is used for this alone. If the app ever goes on the Play Store, this would be removed, since Play does updates itself.
 
@@ -34,7 +34,7 @@ Versions before v0.12.0 don't have the check, so update to v0.12.0 by hand once 
 - **Google Drive backup is switched off.** Android normally copies app data to your Google account, and to a new phone. Breathe turns both off, so your numbers never leave the phone. A backup file you save yourself is the way to move them.
 - **No offline helper is needed.** The app's files are already on the phone.
 - **It asks for no permissions** except the one Android needs to show web pages inside an app.
-- **Leave a tip** (Menu → Settings → Help and sharing) opens Stripe's secure payment page **over the app**, in a Chrome Custom Tab. Close it to come straight back to Breathe. The app only ever opens Stripe's own payment links, sends nothing to them, and never sees card details. Tips are optional and unlock nothing.
+- **Leave a tip** (the gear → Help and sharing) opens Stripe's secure payment page **over the app**, in a Chrome Custom Tab. Close it to come straight back to Breathe. The app only ever opens Stripe's own payment links, sends nothing to them, and never sees card details. Tips are optional and unlock nothing.
 - **It contacts nothing, unless you ask it to check for updates** (or tap a tip amount, which opens Stripe's page). The check is off until you switch it on (or tap **Check now**). It asks GitHub one question, "what's the newest Breathe Money version?", at most once a day. It sends no numbers, no account, no cookies and nothing about you, though GitHub can see that a phone asked, from its internet address, as with visiting any website. The link it opens, and the file it downloads, are built by the app, never taken from the answer.
 
 ## The opening breath

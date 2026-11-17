@@ -45,7 +45,7 @@ Free, with no sign-up. Point your phone camera at a code, or tap the link on you
 
 **Use Obtainium?** On your phone, tap **[Add to Obtainium →](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22io.github.papareaps.breathe.money%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FPapaReaps%2FBreathe%22%2C%22author%22%3A%22PapaReaps%22%2C%22name%22%3A%22Breathe%20Money%22%2C%22additionalSettings%22%3A%22%7B%5C%22apkFilterRegEx%5C%22%3A%5C%22%5Ebreathe-money%5C%5C%5C%5C.apk%24%5C%22%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%7D%22%7D)**. Or in [Obtainium](https://github.com/ImranR98/Obtainium), tap **Add app** and paste `https://github.com/PapaReaps/Breathe`. It installs Breathe Money straight from these releases and keeps it up to date. Each release has two copies of the same app: either is fine, or pick `breathe-money.apk`. If you added it by pasting the address, open Breathe Money in Obtainium, tap the settings cog and set **Filter APKs by regular expression** to `^breathe-money\.apk$`, so it only ever picks Breathe Money.
 
-Already have it? Show a friend the code on your own phone: **Menu → Settings → Help and sharing → Share Breathe Money**.
+Already have it? Show a friend the code on your own phone: **Settings (the gear) → Help and sharing → Share Breathe**.
 
 Breathe is a family of free, open-source apps that make everyday life easier for people with ADHD, and for anyone who finds everyday organisation hard.
 
@@ -134,7 +134,7 @@ It is a personal project, built by someone who struggles with these things too, 
   </picture>
 </p>
 
-<p align="center">Like it simpler? Switch off the extras in <b>Menu → Settings → Home screen</b>.</p>
+<p align="center">Like it simpler? Switch off the extras in <b>Menu → Money options → Home screen</b>.</p>
 
 ### Share it, tell us, keep it up to date
 
@@ -145,12 +145,12 @@ It is a personal project, built by someone who struggles with these things too, 
   </picture>
 </p>
 
-- **Share Breathe Money**: show a friend a QR code to scan, or copy or share the link (the Android app, or the web version for iPhones and computers).
+- **Share Breathe**: show a friend a QR code to scan, or copy or share the link (the Android app, or the web version for iPhones and computers).
 - **Leave a tip**: Breathe Money is free, always. If it's helped, you can say thanks with £3, £5 or £10, on Stripe's secure page. Only if you can spare it: tips don't unlock anything, and Breathe never sees your card details.
 - **Report a problem**: opens a GitHub page to tell us what happened, or share an idea. Nothing is sent from the app itself.
 - **Updates in the Android app**: the first time, the app asks once whether to check for new versions. Say yes, and an **Update ready** pop-up shows whenever there is one: tap **Update now** to download and install it, or **Later** to leave it until the next version (a small button stays under your number). Or tap **Check now** yourself, then **Download and install**. The app only downloads Breathe Money's own releases, and Android checks every update is really from us.
 
-Share, Leave a tip and Report a problem are in **Menu → Settings → Help and sharing**. Updates are in **Menu → Settings → Updates**.
+Share, Leave a tip and Report a problem are in **Settings (the gear) → Help and sharing**. Updates are in **Settings (the gear) → Updates**.
 
 ### Easy to read, private by design
 
@@ -201,7 +201,7 @@ More detail: [PRIVACY.md](PRIVACY.md) and [Storage and backups](docs/STORAGE-AND
 
 - **On any phone or computer:** open **[papareaps.github.io/Breathe](https://papareaps.github.io/Breathe/)**. To keep it on your phone: on Android, use the menu and choose **Install app**; on iPhone, tap **Share → Add to Home Screen**. It works offline after the first visit. More in [Stage 10](docs/STAGE-10.md).
 - **On your computer, as an app:** open the web link in **Chrome** or **Edge** and click the **Install** icon at the right-hand end of the address bar (or open the **⋮** menu and choose **Install Breathe**; in Edge it's **Apps → Install this site as an app**). It gets its own window and a Start menu or Dock icon, works offline, and updates itself each time you open it with internet. Your numbers are never touched by updates.
-- **Android app:** on your Android phone, **[tap here to download it](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)**, then open it. (Or pick the `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).) A friend who has it can also show you a QR code: **Menu → Settings → Help and sharing → Share Breathe Money**. After that, new versions download and install from inside the app: **Menu → Settings → Updates**. [How to install it, and what's different](docs/ANDROID-APP.md).
+- **Android app:** on your Android phone, **[tap here to download it](https://github.com/PapaReaps/Breathe/releases/latest/download/breathe-money.apk)**, then open it. (Or pick the `.apk` from the [latest release](https://github.com/PapaReaps/Breathe/releases/latest).) A friend who has it can also show you a QR code: **Settings (the gear) → Help and sharing → Share Breathe**. After that, new versions download and install from inside the app: **Settings (the gear) → Updates**. [How to install it, and what's different](docs/ANDROID-APP.md).
 - **Build it yourself (for developers):** the steps are written in plain English for Windows: [Setting up your Windows computer](docs/RUNNING-ON-WINDOWS.md).
 
 ## Status
@@ -241,7 +241,7 @@ Breathe Money will always be free, with no adverts and nothing to unlock. If it'
   <a href="https://buy.stripe.com/28E5kF6MM142bCD6V63cc02"><b>Tip £10</b></a>
 </p>
 
-Each opens Stripe's secure payment page (card, Google Pay or Apple Pay). Tips go towards keeping Breathe going, and the Breathe apps still to come. You'll also find **Leave a tip** in the app: **Menu → Settings → Help and sharing**.
+Each opens Stripe's secure payment page (card, Google Pay or Apple Pay). Tips go towards keeping Breathe going, and the Breathe apps still to come. You'll also find **Leave a tip** in the app: **Settings (the gear) → Help and sharing**.
 
 ## Our principles
 
